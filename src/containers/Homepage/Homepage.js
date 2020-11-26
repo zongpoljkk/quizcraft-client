@@ -1,7 +1,11 @@
 import React from "react";
 
 const Homepage = () => {
-  return <div></div>;
+  return (
+    <div>
+      <h1>This is a homepage</h1>
+    </div>
+  );
 };
 
 /* const useStyles = makeStyles({
