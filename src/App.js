@@ -14,23 +14,23 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <header className="App-header">
+        <div className="header">
           <Navbar />
+        </div>
 
-          <div className="content">
-            <Switch>
-              <Route exact path="/">
-                <Homepage />
-              </Route>
-              <Route path="/browse">
-                <Homepage />
-              </Route>
-              <Route path="*">
-                <ErrorPage />
-              </Route>
-            </Switch>
-          </div>
-        </header>
+        <div className="content">
+          <Switch>
+            <Route exact path="/">
+              <Homepage />
+            </Route>
+            <Route path="/browse">
+              <Homepage />
+            </Route>
+            <Route path="*">
+              <ErrorPage />
+            </Route>
+          </Switch>
+        </div>
       </Router>
     </div>
   );
