@@ -1,12 +1,8 @@
-import React from 'react';
+import React from "react";
 
 const Homepage = () => {
-    return (
-        <div>
-
-        </div>
-    )
-}
+  return <div></div>;
+};
 
 /* const useStyles = makeStyles({
     container: {
