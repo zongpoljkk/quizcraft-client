@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-// Resources
-import main_logo from "../../resources/Homepage/logo.png";
+// Media
+import main_logo from "../../resources/Navbar/logo.png";
 import bronze_medal from "../../resources/Navbar/bronze.png";
 
 const Navbar = () => {
