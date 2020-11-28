@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 // Containers
 import Homepage from "./containers/Homepage/Homepage";
 import ErrorPage from "./containers/Error_Page/Error_Page";
+import PracticeAnswer  from "./containers/Practice_Answer/Practice_Answer";
 
 // Component
 import Navbar from "./components/Navbar/Navbar";
@@ -23,8 +24,8 @@ function App() {
             <Route exact path="/">
               <Homepage />
             </Route>
-            <Route path="/browse">
-              <Homepage />
+            <Route path="/practice-answer">
+              <PracticeAnswer />
             </Route>
             <Route path="*">
               <ErrorPage />

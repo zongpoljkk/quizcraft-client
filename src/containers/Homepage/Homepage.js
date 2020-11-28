@@ -11,18 +11,36 @@ import eng_logo from "../../resources/Homepage/english_logo.png";
 const Homepage = () => {
   const Layout = styled.div``;
 
-  const GroupButton = styled.button`
+  const CreateGroupButton = styled.button`
     background-color: white;
     text-align: center;
     font-size: 3vw;
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
     border-radius: 10px;
-    width: 40%;
-    height: 50px;
+    width: 35vw;
+    height: 5vh;
     padding: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 10vw;
+    margin-right: 10vw;
+
+    &:hover {
+      background-color: ${MANDARIN};
+      color: white;
+    }
+  `;
+
+  const JoinGroupButton = styled.button`
+    background-color: white;
+    text-align: center;
+    font-size: 3vw;
+    color: ${MANDARIN};
+    border: 1px solid ${MANDARIN};
+    border-radius: 10px;
+    width: 35vw;
+    height: 5vh;
+    padding: 10px;
+    margin-right: 10vw;
 
     &:hover {
       background-color: ${MANDARIN};
@@ -31,13 +49,14 @@ const Homepage = () => {
   `;
 
   const GroupDiv = styled.div`
-    margin-top: 30px;
+    margin-top: 3vh;
     display: flex;
     justify-content: center;
+    width: 100%;
   `;
 
   const SubjectDiv = styled.div`
-    margin-top: 30px;
+    margin-top: 3vh;
     display: block;
     justify-content: center;
   `;
@@ -45,19 +64,19 @@ const Homepage = () => {
   const SubjectBox = styled.div`
     background-color: ${ISLAND_SPICE};
     width: 80%;
-    height: 60px;
+    height: 10vh;
     border-radius: 10px;
     padding: 10px;
-    margin: 10px auto;
+    margin: 5vw auto;
     display: flex;
     justify-content: left;
   `;
 
   const MathSubjectImg = styled.img`
     alt: "Math Subject Image";
-    height: 50px;
+    height: 8vh;
     padding: 10px;
-    margin-left: 30px;
+    margin-left: 5vw;
   `;
 
   const SubjectTitle = styled.p`
@@ -65,22 +84,21 @@ const Homepage = () => {
     font-weight: 600;
     font-size: 6vw;
     color: #4a4a4a;
-    margin-left: 30px;
-
+    margin-left: 3vw;
   `;
 
   const EngSubjectImg = styled.img`
     alt: "English Subject Image";
-    height: 50px;
+    height: 8vh;
     padding: 10px;
-    margin-left: 30px;
+    margin-left: 5vw;
   `;
 
   return (
     <Layout>
       <GroupDiv>
-        <GroupButton>สร้างกลุ่ม</GroupButton>
-        <GroupButton>เข้าร่วมกลุ่ม</GroupButton>
+        <CreateGroupButton>สร้างกลุ่ม</CreateGroupButton>
+        <JoinGroupButton>เข้าร่วมกลุ่ม</JoinGroupButton>
       </GroupDiv>
       <SubjectDiv>
         <SubjectBox>
