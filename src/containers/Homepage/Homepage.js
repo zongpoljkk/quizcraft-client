@@ -8,45 +8,36 @@ import { MANDARIN, ISLAND_SPICE, WHITE, CHARCOAL } from "../../global/const";
 import math_logo from "../../assets/math_logo.png";
 import eng_logo from "../../assets/english_logo.png";
 
+// Components
+import { Button } from "../../components/Button/Button";
+
 const Homepage = () => {
   const Layout = styled.div``;
 
-  const CreateGroupButton = styled.button`
+  const CreateGroupButton = styled(Button)`
     background-color: ${WHITE};
-    text-align: center;
-    font-family: Prompt;
-    font-size: 3vw;
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
-    border-radius: 10px;
-    width: 35vw;
-    height: 5vh;
-    padding: 10px;
-    margin-left: 10vw;
     margin-right: 10vw;
 
     &:hover {
       background-color: ${MANDARIN};
       color: ${WHITE};
+      width: 40vw;
+      height: 6vh;
     }
   `;
 
-  const JoinGroupButton = styled.button`
+  const JoinGroupButton = styled(Button)`
     background-color: ${WHITE};
-    text-align: center;
-    font-family: Prompt;
-    font-size: 3vw;
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
-    border-radius: 10px;
-    width: 35vw;
-    height: 5vh;
-    padding: 10px;
-    margin-right: 10vw;
 
     &:hover {
       background-color: ${MANDARIN};
       color: ${WHITE};
+      width: 40vw;
+      height: 6vh;
     }
   `;
 

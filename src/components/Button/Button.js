@@ -1,31 +1,24 @@
-import React from "react";
 import styled from "styled-components";
+import { MANDARIN, WHITE } from "../../global/const";
 
 // Color
-import { MANDARIN } from "../../global/const";
+// import { MANDARIN } from "../../global/const";
 
-const Button = () => {
-  const Button = styled.button`
-    background-color: ${(props) => props.background_color};
+export const Button = styled.button`
+    background-color: ${WHITE};
     text-align: center;
     font-family: Prompt;
     font-size: 3vw;
-    color: ${(props) => props.text_color};
-    /* border: 1px solid ${MANDARIN}; */
+    color: ${MANDARIN};
+    border: 1px solid ${MANDARIN};
     border-radius: 10px;
     width: 35vw;
     height: 5vh;
     padding: 10px;
-    margin-left: 10vw;
-    margin-right: 10vw;
 
     &:hover {
-      background-color: ${(props) => props.hover_background_color};
-      color: ${(props) => props.text_color};
+      background-color: ${MANDARIN};
+      color: ${WHITE};
     }
   `;
 
-  return <Button />;
-};
-
-export default Button;
