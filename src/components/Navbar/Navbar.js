@@ -5,10 +5,13 @@ import styled from "styled-components";
 import main_logo from "../../resources/Navbar/logo.png";
 import bronze_medal from "../../resources/Navbar/bronze.png";
 
+// Color
+import { MANDARIN } from "../../global/const";
+
 const Navbar = () => {
   const Navbar = styled.div`
-    display: inline-block;
-    background-color: #ef8354;
+    /* display: inline-block; */
+    background-color: ${MANDARIN};
     width: 100%;
     height: 65px;
     padding: 0;

@@ -5,13 +5,14 @@ const PracticeAnswer = () => {
   const [correct, setCorrect] = useState(false);
 
   const Container = styled.div`
-    background-color: ${props => props.answer ? 'green' : 'red'};
+    background-color: ${props => props.answer ? 'green' : '#D24C2B'};
     height: 100vh;
+    margin-top: 0vh;
   `;
 
   return (
     <Container answer={correct}>
-      <h1>Practice Answer</h1>
+
     </Container>
   );
 };
