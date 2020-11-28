@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 // Color
-import { MANDARIN, ISLAND_SPICE } from "../../global/const";
+import { MANDARIN, ISLAND_SPICE, WHITE, CHARCOAL } from "../../global/const";
 
 // Media
 import math_logo from "../../resources/Homepage/math_logo.png";
@@ -12,8 +12,9 @@ const Homepage = () => {
   const Layout = styled.div``;
 
   const CreateGroupButton = styled.button`
-    background-color: white;
+    background-color: ${WHITE};
     text-align: center;
+    font-family: Prompt;
     font-size: 3vw;
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
@@ -26,13 +27,14 @@ const Homepage = () => {
 
     &:hover {
       background-color: ${MANDARIN};
-      color: white;
+      color: ${WHITE};
     }
   `;
 
   const JoinGroupButton = styled.button`
-    background-color: white;
+    background-color: ${WHITE};
     text-align: center;
+    font-family: Prompt;
     font-size: 3vw;
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
@@ -44,7 +46,7 @@ const Homepage = () => {
 
     &:hover {
       background-color: ${MANDARIN};
-      color: white;
+      color: ${WHITE};
     }
   `;
 
@@ -83,7 +85,7 @@ const Homepage = () => {
     font-family: Prompt;
     font-weight: 600;
     font-size: 6vw;
-    color: #4a4a4a;
+    color: ${CHARCOAL};
     margin-left: 3vw;
   `;
 
