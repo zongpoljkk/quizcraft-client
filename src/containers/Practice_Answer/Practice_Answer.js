@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Media
-import Correct from "../../resources/Practice_Answer/Correct.png";
-import Incorrect from "../../resources/Practice_Answer/Incorrect.png";
-import Correct_Flag from "../../resources/Practice_Answer/Correct_Flag.png";
-import Incorrect_Flag from "../../resources/Practice_Answer/Incorrect_Flag.png";
-import Correct_Backward from "../../resources/Practice_Answer/Correct_Backward.png";
-import Correct_Forward from "../../resources/Practice_Answer/Correct_Forward.png";
-import Incorrect_Backward from "../../resources/Practice_Answer/Incorrect_Backward.png";
-import Incorrect_Forward from "../../resources/Practice_Answer/Incorrect_Forward.png";
+import Correct from "../../assets/Correct.png";
+import Incorrect from "../../assets/Incorrect.png";
+import Correct_Flag from "../../assets/Correct_Flag.png";
+import Incorrect_Flag from "../../assets/Incorrect_Flag.png";
+import Correct_Backward from "../../assets/Correct_Backward.png";
+import Correct_Forward from "../../assets/Correct_Forward.png";
+import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
+import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 
 // Color
 import { CELERY, TRINIDAD, WHITE } from "../../global/const";
@@ -109,10 +109,26 @@ const PracticeAnswer = () => {
     border-radius: 10px;
     font-family: Prompt;
     color: ${WHITE};
-    width: 30vw;
+    width: 40vw;
     height: 5vh;
     margin-top: 5vh;
   `;
+
+  const CorrectFlag = styled.img`
+    alt: "Correct Flag";
+    height: 3vh;
+    margin-left: 10vw;
+    margin-top: 5vh;
+    display: inline-block;
+  `;
+
+  const CorrectReport = styled.p`
+    font-family: Prompt;
+    color: ${CELERY};
+    display: inline-block;
+    margin-left: 3vw;
+
+  `
 
   return (
     <Container answer={correct}>
@@ -155,6 +171,10 @@ const PracticeAnswer = () => {
       <CenterDiv>
         <NextButton answer={correct}>ทำต่อ</NextButton>
       </CenterDiv>
+      <div>
+        <CorrectFlag src={Correct_Flag} />
+        <CorrectReport>รายงาน</CorrectReport>
+      </div>
     </Container>
   );
 };

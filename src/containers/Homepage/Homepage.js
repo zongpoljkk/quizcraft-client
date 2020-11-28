@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { MANDARIN, ISLAND_SPICE, WHITE, CHARCOAL } from "../../global/const";
 
 // Media
-import math_logo from "../../resources/Homepage/math_logo.png";
-import eng_logo from "../../resources/Homepage/english_logo.png";
+import math_logo from "../../assets/math_logo.png";
+import eng_logo from "../../assets/english_logo.png";
 
 const Homepage = () => {
   const Layout = styled.div``;

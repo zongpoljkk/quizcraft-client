@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 // Media
-import main_logo from "../../resources/Navbar/logo.png";
-import bronze_medal from "../../resources/Navbar/bronze.png";
+import main_logo from "../../assets/logo.png";
+import bronze_medal from "../../assets/bronze.png";
 
 // Color
 import { MANDARIN } from "../../global/const";
