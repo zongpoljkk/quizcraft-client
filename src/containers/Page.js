@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Page = ({
-  children
-}) => {
+import Homepage from "./Homepage/Homepage";
+
+const Page = () => {
 
   const Container = styled.div`
     display: flex;
@@ -13,7 +13,7 @@ const Page = ({
 
   return ( 
     <Container>
-      {children}
+      <Homepage />
     </Container>
   );
 };
