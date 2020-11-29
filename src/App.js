@@ -1,11 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-// Containers
-import Homepage from "./containers/Homepage/Homepage";
+import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 
-// Component
 import Navbar from "./components/Navbar";
 
 const App = () => {
@@ -14,10 +12,10 @@ const App = () => {
       <Navbar />
       <Switch>
         <Route exact path="/">
-          <Homepage />
+          <Page />
         </Route>
         <Route path="/browse">
-          <Homepage />
+          <Page />
         </Route>
         <Route path="*">
           <ErrorPage />
