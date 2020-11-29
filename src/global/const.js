@@ -17,6 +17,7 @@ export const SEMI_BOLD = "600";
 
 // ----------------- //
 export const LINE_HEIGHT = "1.2em";
-
-
 export const BUTTON_RADIUS = "10px";
+
+
+export const EMPTY_STRING = "";

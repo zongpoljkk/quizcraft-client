@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 // Containers
 import Homepage from "./containers/Homepage/Homepage";
 import ErrorPage from "./containers/Error_Page/Error_Page";
-import PracticeAnswer  from "./containers/Practice_Answer/Practice_Answer";
+import PracticeAnswer  from "./containers/PracticeAnswer/PracticeAnswer";
 
 // Component
 import Navbar from "./components/Navbar/Navbar";
