@@ -39,7 +39,7 @@ const PracticeAnswer = () => {
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState(["2 x 6 = 2 x 2 x 3", "= 4 x 3 "]);
+  const [solution, set_solution] = useState(["2 x 6 = 2 x 2 x 3", "= 4 x 3 ","= 12",]);
 
   useEffect(() => {
     // TODO: Get the solution and store each line in staticSolution
