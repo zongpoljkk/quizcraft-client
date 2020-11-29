@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Containers
+import Page from "./containers/Page";
 import Homepage from "./containers/Homepage/Homepage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 
@@ -12,6 +13,7 @@ const App = () => {
   return (
     <Router>
       <Navbar />
+      <Page>
       <Switch>
         <Route exact path="/">
           <Homepage />
@@ -23,6 +25,7 @@ const App = () => {
           <ErrorPage />
         </Route>
       </Switch>
+      </Page>
     </Router>
   );
 }
