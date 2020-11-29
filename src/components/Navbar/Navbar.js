@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import mainLogo from "../../assets/thumbnail/logo.png";
 
 // Colors
-import { MANDARIN } from "../../global/const";
+import { COLOR } from "../../global/const";
 
 const Navbar = () => {
   const Navbar = styled.div`
     /* display: inline-block; */
-    background-color: ${MANDARIN};
+    background-color: ${COLOR.MANDARIN};
     width: 100%;
     height: 65px;
     padding: 0;

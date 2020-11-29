@@ -4,15 +4,15 @@ import styled from "styled-components";
 import { Button } from "../../../components/Button/Button";
 
 // Colors
-import { WHITE, MANDARIN } from "../../../global/const";
+import { COLOR } from "../../../global/const";
 
 export const JoinGroupButton = styled(Button)`
-  background-color: ${WHITE};
-  color: ${MANDARIN};
-  border: 1px solid ${MANDARIN};
+  background-color: ${COLOR.WHITE};
+  color: ${COLOR.MANDARIN};
+  border: 1px solid ${COLOR.MANDARIN};
 
   &:hover {
-    background-color: ${MANDARIN};
-    color: ${WHITE};
+    background-color: ${COLOR.MANDARIN};
+    color: ${COLOR.WHITE};
   }
 `;

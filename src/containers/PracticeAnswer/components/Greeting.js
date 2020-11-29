@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CenterDiv from "../../../components/CenterDiv/CenterDiv";
 
 // Global
-import { CHARCOAL, LINE_HEIGHT } from "../../../global/const";
+import { COLOR, LINE_HEIGHT } from "../../../global/const";
 
 export const GreetingDiv = styled(CenterDiv)`
   margin-top: 104px;
@@ -15,7 +15,7 @@ export const GreetingDiv = styled(CenterDiv)`
 export const Greeting = styled.p`
   font-family: Prompt;
   font-size: 16px;
-  color: ${CHARCOAL};
+  color: ${COLOR.CHARCOAL};
   line-height: ${LINE_HEIGHT};
   display: inline-block;
   text-align: center;

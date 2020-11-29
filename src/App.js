@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, } from "react-router-dom";
 
-// Containers
-import Homepage from "./containers/Homepage/Homepage";
+import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import PracticeAnswer  from "./containers/PracticeAnswer/PracticeAnswer";
 
@@ -11,7 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   return (
-    <div className="App" style={{padding: "0px", margin: "0px"}}>
+    <div className="App">
       <Router>
         <div className="header">
           <Navbar />
@@ -20,7 +19,7 @@ function App() {
         <div className="content">
           <Switch>
             <Route exact path="/">
-              <Homepage />
+              <Page />
             </Route>
             <Route path="/practice-answer">
               <PracticeAnswer />

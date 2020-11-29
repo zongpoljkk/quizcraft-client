@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CenterDiv from '../../../components/CenterDiv/CenterDiv';
 
 // Global
-import {MEDIUM, LINE_HEIGHT, CELERY, TRINIDAD} from '../../../global/const';
+import {MEDIUM, LINE_HEIGHT, COLOR} from '../../../global/const';
 
 export const SolutionDiv = styled(CenterDiv)`
 margin: 64px auto 104px auto;
@@ -17,5 +17,5 @@ font-family: Prompt;
 font-weight: ${MEDIUM};
 font-size: 20px;
 line-height: ${LINE_HEIGHT};
-color: ${(props) => (props.answer ? `${CELERY}` : `${TRINIDAD}`)};
+color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
 `;

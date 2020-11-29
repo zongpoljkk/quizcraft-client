@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // Colors
-import { CELERY, TRINIDAD } from "../../../global/const";
+import { COLOR} from "../../../global/const";
 
 export const ReportFlag = styled.img`
   alt: "Report Flag";
@@ -12,7 +12,7 @@ export const ReportFlag = styled.img`
 
 export const ReportText = styled.p`
   font-family: Prompt;
-  color: ${(props) => (props.answer ? `${CELERY}` : `${TRINIDAD}`)};
+  color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
   text-decoration: underline;
   display: inline-block;
 `;
