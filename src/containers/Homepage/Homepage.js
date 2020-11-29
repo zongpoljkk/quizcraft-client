@@ -1,14 +1,4 @@
 import React from "react";
-import styled from "styled-components";
-
-// Color
-import {
-  MANDARIN,
-  ISLAND_SPICE,
-  WHITE,
-  CHARCOAL,
-  BLACK,
-} from "../../global/const";
 
 // Media
 import math_logo from "../../assets/math_logo.png";

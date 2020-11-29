@@ -1,11 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import styled from 'styled-components';
+import mainLogo from "../../assets/thumbnail/logo.png";
 
-// Media
-import main_logo from "../../assets/logo.png";
-import bronze_medal from "../../assets/bronze.png";
-
-// Color
+// Colors
 import { MANDARIN } from "../../global/const";
 
 const Navbar = () => {

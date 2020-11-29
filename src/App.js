@@ -1,19 +1,17 @@
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, } from "react-router-dom";
 
 // Containers
 import Homepage from "./containers/Homepage/Homepage";
-import ErrorPage from "./containers/Error_Page/Error_Page";
+import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import PracticeAnswer  from "./containers/PracticeAnswer/PracticeAnswer";
 
 // Component
 import Navbar from "./components/Navbar/Navbar";
 
-// Styling
-import "./App.css";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{padding: "0px", margin: "0px"}}>
       <Router>
         <div className="header">
           <Navbar />
