@@ -1,11 +1,10 @@
 import React from "react";
-import mainLogo from "../../resources/Homepage/logo.png";
 
 const Navbar = () => {
   return (
-    <div class="topnav">
-      <img src={mainLogo} alt="Quizcraft Logo" height="100" />
-      <a class="active" href="#home">
+    <div className="topnav">
+      <img src={require('../assets/thumbnail/logo.png')} alt="Quizcraft Logo" height="100" />
+      <a className="active" href="#home">
         Home
       </a>
       <a href="#news">News</a>

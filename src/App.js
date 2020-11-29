@@ -1,38 +1,29 @@
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Containers
 import Homepage from "./containers/Homepage/Homepage";
-import ErrorPage from "./containers/Error_Page/Error_Page";
+import ErrorPage from "./containers/ErrorPage/ErrorPage";
 
 // Component
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar";
 
-// Styling
-import "./App.css";
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Router>
-        <header className="App-header">
-          <Navbar />
-
-          <div className="content">
-            <Switch>
-              <Route exact path="/">
-                <Homepage />
-              </Route>
-              <Route path="/browse">
-                <Homepage />
-              </Route>
-              <Route path="*">
-                <ErrorPage />
-              </Route>
-            </Switch>
-          </div>
-        </header>
-      </Router>
-    </div>
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route exact path="/">
+          <Homepage />
+        </Route>
+        <Route path="/browse">
+          <Homepage />
+        </Route>
+        <Route path="*">
+          <ErrorPage />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
