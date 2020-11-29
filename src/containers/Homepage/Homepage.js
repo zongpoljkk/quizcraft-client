@@ -2,7 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 // Color
-import { MANDARIN, ISLAND_SPICE, WHITE, CHARCOAL } from "../../global/const";
+import {
+  MANDARIN,
+  ISLAND_SPICE,
+  WHITE,
+  CHARCOAL,
+  BLACK,
+} from "../../global/const";
 
 // Media
 import math_logo from "../../assets/math_logo.png";
@@ -11,14 +17,24 @@ import eng_logo from "../../assets/english_logo.png";
 // Components
 import { Button } from "../../components/Button/Button";
 
+// Helper
+import { convertHexToRGBA } from "../../global/utils";
+
 const Homepage = () => {
   const Layout = styled.div``;
+
+  const GroupDiv = styled.div`
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  `;
 
   const CreateGroupButton = styled(Button)`
     background-color: ${WHITE};
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
-    margin-right: 10vw;
+    margin-right: 30px;
 
     &:hover {
       background-color: ${MANDARIN};
@@ -41,50 +57,49 @@ const Homepage = () => {
     }
   `;
 
-  const GroupDiv = styled.div`
-    margin-top: 3vh;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  `;
-
   const SubjectDiv = styled.div`
-    margin-top: 3vh;
+    margin-top: 32px;
     display: block;
     justify-content: center;
+    text-align: center;
   `;
+
+  const subject_box_shadow = convertHexToRGBA(`${BLACK}`, 25);
 
   const SubjectBox = styled.div`
     background-color: ${ISLAND_SPICE};
-    width: 80%;
-    height: 10vh;
+    width: 350px;
+    height: 108px;
     border-radius: 10px;
-    padding: 10px;
-    margin: 5vw auto;
+    margin-top: 16px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: left;
+    box-shadow: 0px 1px 3px ${subject_box_shadow};
   `;
 
   const MathSubjectImg = styled.img`
     alt: "Math Subject Image";
-    height: 8vh;
-    padding: 10px;
-    margin-left: 5vw;
+    width: 60px;
+    height: 60px;
+    margin: 24px 32px 24px 32px;
   `;
 
   const SubjectTitle = styled.p`
     font-family: Prompt;
     font-weight: 600;
-    font-size: 6vw;
+    font-size: 24px;
+    line-height: 1.2em;
     color: ${CHARCOAL};
-    margin-left: 3vw;
+    margin: 40px 95px 40px 0px;
   `;
 
   const EngSubjectImg = styled.img`
     alt: "English Subject Image";
-    height: 8vh;
-    padding: 10px;
-    margin-left: 5vw;
+    width: 60px;
+    height: 60px;
+    margin: 24px 32px 24px 32px;
   `;
 
   return (

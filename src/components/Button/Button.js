@@ -5,16 +5,16 @@ import { MANDARIN, WHITE } from "../../global/const";
 // import { MANDARIN } from "../../global/const";
 
 export const Button = styled.button`
+    width: 160px;
+    height: 48px;
     background-color: ${WHITE};
     text-align: center;
     font-family: Prompt;
-    font-size: 3vw;
+    font-size: 16px;
+    font-weight: 400;
     color: ${MANDARIN};
     border: 1px solid ${MANDARIN};
     border-radius: 10px;
-    width: 35vw;
-    height: 5vh;
-    padding: 10px;
 
     &:hover {
       background-color: ${MANDARIN};

@@ -125,9 +125,9 @@ const PracticeAnswer = () => {
   const CorrectReport = styled.p`
     font-family: Prompt;
     color: ${CELERY};
+    text-decoration: underline;
     display: inline-block;
     margin-left: 3vw;
-
   `
 
   return (
