@@ -20,12 +20,13 @@ import Correct_Backward from "../../assets/Correct_Backward.png";
 import Correct_Forward from "../../assets/Correct_Forward.png";
 import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
 import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
+import Coin from "../../components/Coin/Coin.jsx";
 
 // Helper
 import { backward, forward } from "./PracticeAnswerHelper";
 
 const PracticeAnswer = () => {
-  const [correct, set_correct] = useState(false);
+  const [correct, set_correct] = useState(true);
   // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
   const [title, set_title] = useState("ถูกต้อง");
   // Static solution got populated after useEffect and never change
@@ -38,10 +39,7 @@ const PracticeAnswer = () => {
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState([
-    "2 x 6 = 2 x 2 x 3",
-    "= 4 x 3 ",
-  ]);
+  const [solution, set_solution] = useState(["2 x 6 = 2 x 2 x 3", "= 4 x 3 "]);
 
   useEffect(() => {
     // TODO: Get the solution and store each line in staticSolution
@@ -74,6 +72,7 @@ const PracticeAnswer = () => {
       {correct ? (
         <GreetingDiv>
           <Greeting>ยินดีด้วย! คุณได้รับ 1 เหรียญ</Greeting>
+          <Coin />
         </GreetingDiv>
       ) : (
         <GreetingDiv>
