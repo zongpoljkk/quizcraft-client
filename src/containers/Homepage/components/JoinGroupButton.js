@@ -14,7 +14,5 @@ export const JoinGroupButton = styled(Button)`
   &:hover {
     background-color: ${MANDARIN};
     color: ${WHITE};
-    width: 40vw;
-    height: 6vh;
   }
 `;

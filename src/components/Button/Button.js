@@ -19,6 +19,8 @@ export const Button = styled.button`
     &:hover {
       background-color: ${MANDARIN};
       color: ${WHITE};
+      width: 180px;
+      height: 50px;
     }
   `;
 

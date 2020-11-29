@@ -11,4 +11,12 @@ export const BLACK = "#000";
 export const CELERY = "#A8C653";
 export const TRINIDAD = "#D24C2B";
 
+// * FONT WEIGHT * //
+export const MEDIUM = "500";
+export const SEMI_BOLD = "600";
+
+// ----------------- //
+export const LINE_HEIGHT = "1.2em";
+
+
 export const BUTTON_RADIUS = "10px";
