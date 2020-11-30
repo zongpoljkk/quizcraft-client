@@ -4,11 +4,8 @@ import styled from "styled-components";
 import { CloseIcon } from "../../components/Icon"
 import { ItemCard } from "../../components/ItemCard";
 import { TimeCounting } from "../../components/TimeCounting";
-import { Body } from "../../components/Typography";
 import { ProblemBox } from "../../components/ProblemBox";
 import { AnswerInputBox } from "../../components/AnswerInputBox";
-
-import { COLOR } from "../../global/const"
 
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';

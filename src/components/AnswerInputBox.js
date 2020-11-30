@@ -10,6 +10,7 @@ import { COLOR } from "../global/const"
 export const AnswerInputBox = ({
   correct_answer = '',
   set_answer_input = '',
+  ...props
 }) => {
 
   const default_border = COLOR.SILVER;
