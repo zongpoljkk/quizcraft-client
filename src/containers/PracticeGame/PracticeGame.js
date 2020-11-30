@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { CloseIcon } from "../../components/Icon"
 import { ItemCard } from "../../components/ItemCard";
+import { TimeCounting } from "../../components/TimeCounting";
 import { Body } from "../../components/Typography";
 import { ProblemBox } from "../../components/ProblemBox";
 import { AnswerInputBox } from "../../components/AnswerInputBox";
@@ -23,11 +24,11 @@ const PracticeGame = () => {
         <CloseIcon />
         <ItemCard />
         <ItemCard />
-        <Body color={COLOR.MANDARIN}>timer</Body>
+        <TimeCounting />
       </Headline>
       <ProblemBox
-        problem = {PROBLEM}
-        problem_content = {PROBLEM_CONTENT}
+        problem={PROBLEM}
+        problem_content={PROBLEM_CONTENT}
       />
       <div style={{ marginBottom: 32 }} />
       <AnswerInputBox />
