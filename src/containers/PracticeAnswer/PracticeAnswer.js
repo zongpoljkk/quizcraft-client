@@ -39,7 +39,79 @@ const PracticeAnswer = () => {
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState(["2 x 6 = 2 x 2 x 3", "= 4 x 3 ","= 12",]);
+  const [solution, set_solution] = useState([
+    "2 x 6 = 2 x 2 x 3",
+    // "= 4 x 3 ",
+    // "= 12",
+  ]);
+  const [firstClick, setFirstClick] = useState(false);
+
+  const greetingHolder = () => {
+    if (firstClick && correct) {
+      return (
+        <GreetingDiv>
+          <Greeting>ยินดีด้วย! คุณได้รับ 1 เหรียญ</Greeting>
+          <Coin />
+        </GreetingDiv>
+      );
+    } else {
+      return (
+        <GreetingDiv>
+          <Greeting style={{ visibility: "hidden" }}>Wrong</Greeting>
+        </GreetingDiv>
+      );
+    }
+  };
+
+  const arrowHolder = () => {
+    if (firstClick) {
+      if (solution.length === staticSolution.length) {
+        return (
+          <ShiftDiv>
+            <NextButton answer={correct}>ทำต่อ</NextButton>
+          </ShiftDiv>
+        );
+      } else {
+        if (correct) {
+          return (
+            <ShiftDiv>
+              <ShiftLeft
+                src={Correct_Backward}
+                onClick={() => backward(solution)}
+              />
+              <ShiftRight
+                src={Correct_Forward}
+                onClick={() =>
+                  forward(solution, staticSolution)
+                }
+              />
+            </ShiftDiv>
+          );
+        } else {
+          return (
+            <ShiftDiv>
+              <ShiftLeft
+                src={Incorrect_Backward}
+                onClick={() => backward(solution)}
+              />
+              <ShiftRight
+                src={Incorrect_Forward}
+                onClick={() =>
+                  forward(solution, staticSolution)
+                }
+              />
+            </ShiftDiv>
+          );
+        }
+      }
+    } else {
+      return <ShiftDiv></ShiftDiv>;
+    }
+  };
+
+  const handleFirstClick = () => {
+    setFirstClick(true);
+  };
 
   useEffect(() => {
     // TODO: Get the solution and store each line in staticSolution
@@ -49,53 +121,43 @@ const PracticeAnswer = () => {
   });
 
   return (
-    <Container answer={correct}>
+    <Container answer={correct} onClick={handleFirstClick}>
       <CenterDiv>
         {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />}
       </CenterDiv>
       <CenterDiv>
         <Title answer={correct}>{title}</Title>
       </CenterDiv>
-      <SolutionDiv>
-        <ul style={{ listStyle: "none" }}>
-          {solution.map((line) => {
-            // TODO: Replace Math.random() with solution.id after it has one
-            return (
-              <li key={Math.random()}>
-                <Solution answer={correct}>{line}</Solution>
-              </li>
-            );
-          })}
-        </ul>
-      </SolutionDiv>
-      {/* {correct && solution.length === staticSolution.length ? ( */}
-      {correct ? (
+      {firstClick ? (
+        <SolutionDiv>
+          <ul style={{ listStyle: "none" }}>
+            {solution.map((line) => {
+              // TODO: Replace Math.random() with solution.id after it has one
+              return (
+                <li key={Math.random()}>
+                  <Solution answer={correct}>{line}</Solution>
+                </li>
+              );
+            })}
+          </ul>
+        </SolutionDiv>
+      ) : (
+        <SolutionDiv></SolutionDiv>
+      )}
+
+      {/* {correct ? (
         <GreetingDiv>
           <Greeting>ยินดีด้วย! คุณได้รับ 1 เหรียญ</Greeting>
           <Coin />
         </GreetingDiv>
       ) : (
         <GreetingDiv>
-          {/* <Greeting style={{marginBottom: "36px"}}></Greeting> */}
           <Greeting style={{ visibility: "hidden" }}>Wrong</Greeting>
         </GreetingDiv>
-      )}
+      )} */}
+      {greetingHolder()}
 
-      {solution.length === staticSolution.length ? (
-        <ShiftDiv>
-          <NextButton answer={correct}>ทำต่อ</NextButton>
-        </ShiftDiv>
-      ) : correct ? (
-        <ShiftDiv>
-          <ShiftLeft src={Correct_Backward} onClick={backward} />
-          <ShiftRight src={Correct_Forward} onClick={forward} />
-        </ShiftDiv>
-      ) : (
-        <ShiftDiv>
-          <ShiftLeft src={Incorrect_Backward} onClick={backward} />
-          <ShiftRight src={Incorrect_Forward} onClick={forward} />
-        </ShiftDiv>
-      )}
+      {arrowHolder()}
 
       {correct ? (
         <div>

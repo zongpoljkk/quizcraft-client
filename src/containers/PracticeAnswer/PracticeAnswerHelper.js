@@ -6,6 +6,7 @@ export const backward = (solution) => {
   };
 
   export const forward = (solution, static_solution) => {
+    console.log(solution, static_solution)
     if (solution.length !== static_solution.length) {
       // TODO: append next step to solution
       // setSolution([...solution, staticSolution[solution.length]])

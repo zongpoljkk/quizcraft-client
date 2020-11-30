@@ -12,9 +12,9 @@ const Page = () => {
   `;
 
   return ( 
-    // <Container>
+    <Container>
       <Homepage />
-    // </Container>
+    </Container>
   );
 };
 
