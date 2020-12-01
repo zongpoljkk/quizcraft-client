@@ -14,14 +14,22 @@ import { SubjectBox } from "./components/SubjectBox";
 import { MathSubjectImg, EngSubjectImg } from "./components/SubjectImg";
 import { SubjectTitle } from "./components/SubjectTitle";
 
-// Helper
+// Global
 
 const Homepage = () => {
   return (
     <Layout>
       <GroupDiv>
-        <CreateGroupButton>สร้างกลุ่ม</CreateGroupButton>
-        <JoinGroupButton>เข้าร่วมกลุ่ม</JoinGroupButton>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            width: "350px",
+          }}
+        >
+          <CreateGroupButton>สร้างกลุ่ม</CreateGroupButton>
+          <JoinGroupButton>เข้าร่วมกลุ่ม</JoinGroupButton>
+        </div>
       </GroupDiv>
       <SubjectDiv>
         <SubjectBox>

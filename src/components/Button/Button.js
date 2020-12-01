@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { COLOR } from "../../global/const";
 
-// Color
-// import { MANDARIN } from "../../global/const";
+// Global
+import { COLOR } from "../../global/const";
 
 export const Button = styled.button`
   width: 160px;
@@ -19,7 +18,6 @@ export const Button = styled.button`
   &:hover {
     background-color: ${COLOR.MANDARIN};
     color: ${COLOR.WHITE};
-    width: 180px;
-    height: 50px;
+    transform: scale(1.1);
   }
 `;

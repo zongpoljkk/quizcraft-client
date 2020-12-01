@@ -1,13 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../global/const"
+import { COLOR } from "../global/const";
 
-export const Header = ({
-  children,
-  color = COLOR.CHARCOAL
-}) => {
-
+export const Header = ({ className, children, color = COLOR.CHARCOAL }) => {
   const Header = styled.div`
     font-family: Prompt, sans-serif;
     font-weight: 600;
@@ -15,18 +11,10 @@ export const Header = ({
     color: ${color};
   `;
 
-  return (
-    <Header>
-      {children}
-    </Header>
-  );
+  return <Header className={className}>{children}</Header>;
 };
 
-export const Subheader = ({
-  children,
-  color = COLOR.CHARCOAL
-}) => {
-
+export const Subheader = ({ className, children, color = COLOR.CHARCOAL }) => {
   const Subheader = styled.div`
     font-family: Prompt, sans-serif;
     font-weight: 500;
@@ -34,18 +22,10 @@ export const Subheader = ({
     color: ${color};
   `;
 
-  return (
-    <Subheader>
-      {children}
-    </Subheader>
-  );
+  return <Subheader className={className}>{children}</Subheader>;
 };
 
-export const Body = ({
-  children,
-  color = COLOR.CHARCOAL
-}) => {
-
+export const Body = ({ className, children, color = COLOR.CHARCOAL }) => {
   const Body = styled.div`
     font-family: Prompt, sans-serif;
     font-weight: 400;
@@ -53,18 +33,10 @@ export const Body = ({
     color: ${color};
   `;
 
-  return (
-    <Body>
-      {children}
-    </Body>
-  );
+  return <Body className={className}>{children}</Body>;
 };
 
-export const Overline = ({
-  children,
-  color = COLOR.CHARCOAL
-}) => {
-
+export const Overline = ({ className, children, color = COLOR.CHARCOAL }) => {
   const Overline = styled.div`
     font-family: Prompt, sans-serif;
     font-weight: 400;
@@ -72,9 +44,5 @@ export const Overline = ({
     color: ${color};
   `;
 
-  return (
-    <Overline>
-      {children}
-    </Overline>
-  );
+  return <Overline className={className}>{children}</Overline>;
 };

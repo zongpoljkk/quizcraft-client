@@ -15,5 +15,16 @@ export const incorrect_background_color = convertHexToRGBA(
 export const Container = styled.div`
   background-color: ${(props) =>
     props.answer ? correct_background_color : incorrect_background_color};
-  height: 100%;
+
+  min-height: 100vh;
+  /* Full height */
+  /* height: 100%; */
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;

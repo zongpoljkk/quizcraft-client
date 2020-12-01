@@ -1,20 +1,19 @@
-import { BrowserRouter as Router, Switch, Route, } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
-import PracticeAnswer  from "./containers/PracticeAnswer/PracticeAnswer";
+import PracticeAnswer from "./containers/PracticeAnswer/PracticeAnswer";
 
 // Component
 import Navbar from "./components/Navbar/Navbar";
-
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <div className="header">
+        {/* <div className="header"> */}
           <Navbar />
-        </div>
+        {/* </div> */}
 
         <div className="content">
           <Switch>

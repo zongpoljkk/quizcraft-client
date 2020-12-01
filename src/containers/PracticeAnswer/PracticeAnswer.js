@@ -81,9 +81,7 @@ const PracticeAnswer = () => {
               />
               <ShiftRight
                 src={Correct_Forward}
-                onClick={() =>
-                  forward(solution, staticSolution)
-                }
+                onClick={() => forward(solution, staticSolution)}
               />
             </ShiftDiv>
           );
@@ -96,9 +94,7 @@ const PracticeAnswer = () => {
               />
               <ShiftRight
                 src={Incorrect_Forward}
-                onClick={() =>
-                  forward(solution, staticSolution)
-                }
+                onClick={() => forward(solution, staticSolution)}
               />
             </ShiftDiv>
           );
@@ -122,42 +118,33 @@ const PracticeAnswer = () => {
 
   return (
     <Container answer={correct} onClick={handleFirstClick}>
-      <CenterDiv>
-        {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />}
-      </CenterDiv>
-      <CenterDiv>
-        <Title answer={correct}>{title}</Title>
-      </CenterDiv>
-      {firstClick ? (
-        <SolutionDiv>
-          <ul style={{ listStyle: "none" }}>
-            {solution.map((line) => {
-              // TODO: Replace Math.random() with solution.id after it has one
-              return (
-                <li key={Math.random()}>
-                  <Solution answer={correct}>{line}</Solution>
-                </li>
-              );
-            })}
-          </ul>
-        </SolutionDiv>
-      ) : (
-        <SolutionDiv></SolutionDiv>
-      )}
+      <div>
+        <CenterDiv>
+          {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />}
+        </CenterDiv>
+        <CenterDiv>
+          <Title answer={correct}>{title}</Title>
+        </CenterDiv>
+        {firstClick ? (
+          <SolutionDiv>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {solution.map((line) => {
+                // TODO: Replace Math.random() with solution.id after it has one
+                return (
+                  <li key={Math.random()}>
+                    <Solution answer={correct}>{line}</Solution>
+                  </li>
+                );
+              })}
+            </ul>
+          </SolutionDiv>
+        ) : (
+          <SolutionDiv></SolutionDiv>
+        )}
+        {greetingHolder()}
 
-      {/* {correct ? (
-        <GreetingDiv>
-          <Greeting>ยินดีด้วย! คุณได้รับ 1 เหรียญ</Greeting>
-          <Coin />
-        </GreetingDiv>
-      ) : (
-        <GreetingDiv>
-          <Greeting style={{ visibility: "hidden" }}>Wrong</Greeting>
-        </GreetingDiv>
-      )} */}
-      {greetingHolder()}
-
-      {arrowHolder()}
+        {arrowHolder()}
+      </div>
 
       {correct ? (
         <div>
@@ -165,7 +152,7 @@ const PracticeAnswer = () => {
           <ReportText answer={correct}>รายงาน</ReportText>
         </div>
       ) : (
-        <div>
+        <div style={{ margin: "auto" }}>
           <ReportFlag src={Incorrect_Flag} />{" "}
           <ReportText answer={correct}>รายงาน</ReportText>
         </div>

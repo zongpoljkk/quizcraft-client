@@ -1,7 +1,7 @@
 // UncontrolledLottie.jsx
 import React, { Component } from "react";
 import Lottie from "react-lottie";
-import animationData from "../../assets/coin.json";
+import animationData from "../../assets/lottie/coin.json";
 
 class Coin extends Component {
   render() {
