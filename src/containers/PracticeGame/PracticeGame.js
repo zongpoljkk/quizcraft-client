@@ -5,15 +5,15 @@ import { CloseIcon } from "../../components/Icon"
 import { ItemCard } from "../../components/ItemCard";
 import { TimeCounting } from "../../components/TimeCounting";
 import { ProblemBox } from "../../components/ProblemBox";
-import { AnswerInputBox } from "../../components/AnswerInputBox";
+import { AnswerMathInput } from "../../components/Answer/AnswerMathInput";
+import { AnswerSelectOne } from "../../components/Answer/AnswerSelectOne";
 
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
-const ANSWER = '(2^3+4^6)^3-7x';
+const ANSWER = '(2^3+4^6)^3-7x^(x+1)';
+const CONTENT = 'You can only join the football team if you can [stay,to stay] late on Mondays.';
 
 const PracticeGame = () => {
-
-  const [answer_input, set_answer_input] = useState('');
 
   return ( 
     <Container>
@@ -28,7 +28,12 @@ const PracticeGame = () => {
         problem_content={PROBLEM_CONTENT}
       />
       <div style={{ marginBottom: 32 }} />
-      <AnswerInputBox />
+      <AnswerMathInput
+        correct_answer={ANSWER}
+      />
+      <AnswerSelectOne
+        content={CONTENT}
+      />
       <div style={{ marginBottom: 36 }} />
     </Container>
   );
