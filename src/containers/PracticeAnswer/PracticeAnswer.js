@@ -12,8 +12,6 @@ import NextButton from "./components/NextButton";
 import { ReportFlag, ReportText } from "./components/Report";
 
 // Media
-import Correct from "../../assets/Correct.png";
-import Incorrect from "../../assets/Incorrect.png";
 import Correct_Flag from "../../assets/Correct_Flag.png";
 import Incorrect_Flag from "../../assets/Incorrect_Flag.png";
 import Correct_Backward from "../../assets/Correct_Backward.png";
@@ -55,11 +53,13 @@ const PracticeAnswer = () => {
         </GreetingDiv>
       );
     } else {
-      return (
-        <GreetingDiv>
-          <Greeting style={{ visibility: "hidden" }}>Wrong</Greeting>
-        </GreetingDiv>
-      );
+      if (!correct) {
+        return (
+          <GreetingDiv>
+            <Greeting style={{ visibility: "hidden" }}>Wrong</Greeting>
+          </GreetingDiv>
+        );
+      }
     }
   };
 
@@ -120,7 +120,8 @@ const PracticeAnswer = () => {
     <Container answer={correct} onClick={handleFirstClick}>
       <div>
         <CenterDiv>
-          {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />}
+          {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
+           <Sign answer={correct}/>
         </CenterDiv>
         <CenterDiv>
           <Title answer={correct}>{title}</Title>
@@ -152,7 +153,7 @@ const PracticeAnswer = () => {
           <ReportText answer={correct}>รายงาน</ReportText>
         </div>
       ) : (
-        <div style={{ margin: "auto" }}>
+        <div>
           <ReportFlag src={Incorrect_Flag} />{" "}
           <ReportText answer={correct}>รายงาน</ReportText>
         </div>
