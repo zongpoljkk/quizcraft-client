@@ -11,9 +11,13 @@ import { AnswerSelectOne } from "../../components/Answer/AnswerSelectOne";
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
 const ANSWER = '(2^3+4^6)^3-7x^(x+1)';
-const CONTENT = 'You can only join the football team if you can [stay,to stay] late on Mondays.';
+const CONTENT1 = 'You can only join the football team if you can [stay&to stay] late on Mondays.';
+const CONTENT2 = '[You&I] can only join the football team if you can stay late on Mondays.';
+const CONTENT3 = 'You can only join the football team if you can stay late on [Mondays&Fridays].';
 
 const PracticeGame = () => {
+
+  const [answer, set_answer] = useState();
 
   return ( 
     <Container>
@@ -30,9 +34,11 @@ const PracticeGame = () => {
       <div style={{ marginBottom: 32 }} />
       <AnswerMathInput
         correct_answer={ANSWER}
+        set_answer={set_answer}
       />
       <AnswerSelectOne
-        content={CONTENT}
+        content={CONTENT1}
+        set_answer={set_answer}
       />
       <div style={{ marginBottom: 36 }} />
     </Container>

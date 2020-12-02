@@ -1,7 +1,7 @@
 const MIN_BOX_WIDTH = 32;
 const WIDTH_PER_CHAR = 6;
 
-export const makeAnswerBox = (correct_answer) => {
+export const mathAnswerBox = (correct_answer) => {
   var list = [];
   var current_type = "main";
   var last_type = "main";
@@ -65,4 +65,53 @@ export const makeAnswerBox = (correct_answer) => {
     }
   });
   return boxes;
+};
+
+export const formatContent = (content) => {
+  var content_with_type = [];
+  var index_start = 0;
+  var index_end = 1;
+  var type = "content";
+  var content_index = 0;
+  for (let index = 0; index < content.length; index++) {
+    if (content.charAt(index) === "[") {
+      if (index !== 0) {
+        content_with_type[content_index] = {
+          type: type, 
+          content: content.substring(index_start, index_end - 1)
+        };
+        content_index = content_index + 1;
+      }
+      type = "answer";
+      index_start = index + 1;
+    }
+    else if (content.charAt(index) === "]") {
+      content_with_type[content_index] = {
+        type: type, 
+        content: content.substring(index_start, index_end)
+      };
+      content_index = content_index + 1;
+      type = "content";
+      index_start = index + 1;
+      index_end = content.length;
+      content_with_type[content_index] = {
+        type: type, 
+        content: content.substring(index_start, index_end)
+      };
+      content_index = content_index + 1;
+    }
+    else if (content.charAt(index) === "&") {
+      content_with_type[content_index] = {
+        type: type, 
+        content: content.substring(index_start, index_end)
+      };
+      content_index = content_index + 1;
+      index_start = index + 1;
+      index_end = index_end + 1;
+    }
+    else {
+      index_end = index_end + 1;
+    }
+  }
+  return content_with_type;
 };

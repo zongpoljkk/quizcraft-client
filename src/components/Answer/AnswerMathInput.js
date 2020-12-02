@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Header } from "../Typography";
 import { COLOR } from "../../global/const"
 
-import { makeAnswerBox } from "./AnswerMathInputHelper";
+import { mathAnswerBox } from "./AnswertHelper";
 
 export const AnswerMathInput = ({
-  correct_answer = ''
+  correct_answer = '',
+  set_answer
 }) => {
 
   const Container = styled.div`
@@ -101,8 +102,8 @@ export const AnswerMathInput = ({
 
   return ( 
     <Container>
-      {makeAnswerBox(correct_answer).map((box, i) => (
-        <div>
+      {mathAnswerBox(correct_answer).map((box, i) => (
+        <div key={i}>
           {outputBoxes(box)}
         </div>
       ))}
