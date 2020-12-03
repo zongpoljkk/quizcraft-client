@@ -1,8 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
-
-import { Body } from "./Typography";
 
 import { COLOR } from "../global/const"
 
@@ -13,8 +10,6 @@ export const RadioButton = ({
   direction = "column"
 }) => {
 
-  const { register, watch } = useForm();
-
   const Container = styled.div`
     display: flex;
     flex: 1;
@@ -23,31 +18,77 @@ export const RadioButton = ({
     align-items: flex-start;
   `;
 
-  const Radio = styled.input.attrs(props => ({
-    type: "radio"
-  }))`
-    height: 16px;
+  const Mark = styled.span`
+    display: inline-block;
+    position: relative;
+    border: 1px solid ${COLOR.CHARCOAL};
     width: 16px;
+    height: 16px;
+    border-radius: 50%;
     margin-right: 8px;
-    &::before {
-      background: ${COLOR.MANDARIN};
+    vertical-align: middle;
+    &::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background-color: ${COLOR.MANDARIN};
+      opacity: 0;
+      left: 50%;
+      top: 50%;
+      position: absolute;
+      transition: all 200ms;
     }
+  `;
+
+  const Input = styled.input`
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    &:checked + ${Mark} {
+      &::after {
+        width: 12px;
+        height: 12px;
+        opacity: 1;
+        left: 12%;
+        top: 12%;
+      }
+    }
+  `;
+
+  const Label = styled.label.attrs(props => ({
+    weigth: props.selected ? 500 : 400
+  }))`
+    position: relative;
+    font-family: Prompt, sans-serif;
+    font-weight: ${props => props.weigth};
+    font-size: 16px;
+    color: ${COLOR.CHARCOAL};
   `;
 
   return ( 
     <Container>
       {choices?.map((option, i) => (
-        <div key={i} style={{ marginBottom: i !== choices.length-1 ? 8 : 0 }}>
-          <Body>
-            <Radio 
+        <div 
+          key={i} 
+          style={{ 
+            marginBottom: direction === "column" ? (i !== choices.length-1 ? 8 : 0) : 0
+          }}
+        >
+          <Label
+            selected={value === option}
+          >
+            <Input 
               name="answer"
+              type="radio"
               value={option}
-              ref={register}
               checked={value === option}
               onChange={e => selected_value(e.target.value)}
             />
+            <Mark selected={value === option}/>
             {option}
-          </Body>
+          </Label>
         </div>
       ))}
     </Container>

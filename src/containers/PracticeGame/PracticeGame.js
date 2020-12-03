@@ -40,10 +40,10 @@ const PracticeGame = () => {
       <PracticeGameContent 
         type={ANSWER_TYPE.RADIO_CHOICE}
         question={QUESTION2}
-        choices={CHOICES1}
+        choices={CHOICES2}
       />
       <div style={{ marginBottom: 36 }} />
-      <div>button</div>
+      <ButtonContainer>button</ButtonContainer>
     </Container>
   );
 };
@@ -60,6 +60,11 @@ const Headline = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export default PracticeGame;
