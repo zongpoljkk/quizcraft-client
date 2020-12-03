@@ -26,18 +26,23 @@ export const mathAnswerBox = (correct_answer) => {
         current_type = ")";
         list[list_id] = [current_type, 1, last_type];
         list_id += 1;
-        current_type = "main"; // after ")" type must be main
+        current_type = "main";
       }
       else if (correct_answer.charAt(index) === "^") {
         list[list_id] = [last_type, lcount, last_type];
         list_id += 1;
         lcount = 0;
         current_type = "power";
-        if(correct_answer.charAt(index+1) !== "(") {
-          list[list_id] = [current_type, 1, last_type];
-          current_type = "main"; // if there is 1 power type must be back to main
-          list_id += 1;
-          skip = true;
+      }
+      else if (correct_answer.charAt(index) === "]") {
+        list[list_id] = [current_type, lcount, last_type];
+        list_id += 1;
+        lcount = 0;
+        current_type = "main";
+      }
+      else if (current_type === "power") {
+        if (correct_answer.charAt(index) !== "[") {
+          lcount += 1;
         }
       }
       else {
@@ -52,6 +57,8 @@ export const mathAnswerBox = (correct_answer) => {
     }
     last_type = current_type;
   }
+  console.log({correct_answer});
+  console.log(list);
   var boxes = [];
   var index = 0;
   list.map((item) => {
@@ -114,4 +121,44 @@ export const formatContent = (content) => {
     }
   }
   return content_with_type;
+};
+
+export const splitQuestion = (question) => {
+  var splited_question = [];
+  var index_start = 0;
+  var index_end = 1;
+  var type = "content";
+  var question_index = 0;
+  for (let index = 0; index < question.length; index++) {
+    if (question.charAt(index) === "[") {
+      if (index !== 0) {
+        splited_question[question_index] = {
+          type: type, 
+          content: question.substring(index_start, index_end - 1)
+        };
+        question_index = question_index + 1;
+      }
+      type = "question";
+      index_start = index + 1;
+    }
+    else if (question.charAt(index) === "]") {
+      splited_question[question_index] = {
+        type: type, 
+        content: question.substring(index_start, index_end)
+      };
+      question_index = question_index + 1;
+      type = "content";
+      index_start = index + 1;
+      index_end = question.length;
+      splited_question[question_index] = {
+        type: type, 
+        content: question.substring(index_start, index_end)
+      };
+      question_index = question_index + 1;
+    }
+    else {
+      index_end = index_end + 1;
+    }
+  }
+  return splited_question;
 };

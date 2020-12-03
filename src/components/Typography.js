@@ -9,6 +9,7 @@ export const Header = ({
 }) => {
 
   const Header = styled.div`
+    display: flex;
     font-family: Prompt, sans-serif;
     font-weight: 600;
     font-size: 24px;
@@ -28,6 +29,7 @@ export const Subheader = ({
 }) => {
 
   const Subheader = styled.div`
+    display: flex;
     font-family: Prompt, sans-serif;
     font-weight: 500;
     font-size: 20px;
@@ -47,6 +49,7 @@ export const Body = ({
 }) => {
 
   const Body = styled.div`
+    display: flex;
     font-family: Prompt, sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -66,6 +69,7 @@ export const Overline = ({
 }) => {
 
   const Overline = styled.div`
+    display: flex;
     font-family: Prompt, sans-serif;
     font-weight: 400;
     font-size: 12px;

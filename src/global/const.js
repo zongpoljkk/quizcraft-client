@@ -9,3 +9,9 @@ export const COLOR = {
   TRINIDAD: "#D24C2B",
   SILVER: "#BFC0C0"
 };
+
+export const ANSWER_TYPE = {
+  MATH_INPUT: "MATH_INPUT",
+  SELECT_ONE: "SELECT_ONE",
+  RADIO_CHOICE: "RADIO_CHOICE",
+};
