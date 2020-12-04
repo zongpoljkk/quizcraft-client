@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { ExitModal } from "../../components/ExitModal"
@@ -9,6 +9,7 @@ import PracticeGameContent from "./PracticeGameContent";
 
 import { ANSWER_TYPE } from "../../global/const"
 
+// MOCK DATA
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
 const ANSWER = '(2^[3]+4^[2])^[3]-7x^[(x+1)]';
