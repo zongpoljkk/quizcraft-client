@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { CloseIcon } from "../../components/Icon"
+import { ExitModal } from "../../components/ExitModal"
 import { ItemCard } from "../../components/ItemCard";
 import { TimeCounting } from "../../components/TimeCounting";
 import { ProblemBox } from "../../components/ProblemBox";
@@ -27,7 +27,7 @@ const PracticeGame = () => {
   return ( 
     <Container>
       <Headline>
-        <CloseIcon />
+        <ExitModal />
         <ItemCard />
         <ItemCard />
         <TimeCounting />
