@@ -9,8 +9,3 @@ export const COLOR = {
   TRINIDAD: "#D24C2B",
   SILVER: "#BFC0C0"
 };
-
-export const SIZE = {
-  LARGE: "160px",
-  SMALL: "97px",
-};

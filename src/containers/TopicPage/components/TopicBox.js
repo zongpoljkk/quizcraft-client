@@ -1,24 +1,27 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+
 import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
-import { mapImgWithTopic } from "../TopicPageHelper";
+import default_topic from "../../../assets/thumbnail/default_topic.png";
 import TopicImg from "./TopicImage";
 
-const TopicBox = () => {
-  const [topic, setTopic] = useState("แกรมมาร์"); //แกรมมาร์, ยกกำลัง
+const TopicBox = ({ image }) => {
+  const [topic, set_topic] = useState("แกรมมาร์"); //แกรมมาร์, ยกกำลัง
   const history = useHistory();
 
   //TODO link to subtopic of clicked topic
-  const handleClick = () => {
+  const handle_click = () => {
     history.push("/");
   };
 
   return (
-    <Container onClick={handleClick}>
+    <Container onClick={handle_click}>
       <ItemBox>
-        <TopicImg src={mapImgWithTopic(topic)} />
+        <TopicImg 
+          src={image ? image : default_topic}
+        />
         <Header> {topic} </Header>
       </ItemBox>
     </Container>
