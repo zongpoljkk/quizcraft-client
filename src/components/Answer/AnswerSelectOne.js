@@ -16,7 +16,6 @@ export const AnswerSelectOne = ({
   const Container = styled.div`
     display: flex;
     flex-direction: row;
-    max-width: 350px;
     flex-wrap: wrap;
   `;
 
@@ -37,6 +36,7 @@ export const AnswerSelectOne = ({
       return (
         <Container>
           <Body>{item[0].content}</Body>
+          <div style={{ width: 8 }}/>
           <div 
             onClick={() => {
               set_selected_answer(item[1].content)
@@ -66,9 +66,8 @@ export const AnswerSelectOne = ({
               <Body color={COLOR.MANDARIN}>{item[2].content}</Body>
             </AnswerBucket>
           </div>
-          <AnswerBucket>
-            <Body>{item[3].content}</Body>
-          </AnswerBucket>
+          <div style={{ width: 8 }}/>
+          <Body>{item[3].content}</Body>
         </Container>
       );
     }
@@ -77,6 +76,7 @@ export const AnswerSelectOne = ({
         return (
           <Container>
             <Body>{item[0].content}</Body>
+            <div style={{ width: 8 }}/>
             <div 
               onClick={() => {
                 set_selected_answer(item[1].content)
@@ -141,9 +141,8 @@ export const AnswerSelectOne = ({
                 <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket>
-              <Body>{item[2].content}</Body>
-            </AnswerBucket>
+            <div style={{ width: 8 }}/>
+            <Body>{item[2].content}</Body>
           </Container>
         );
       }

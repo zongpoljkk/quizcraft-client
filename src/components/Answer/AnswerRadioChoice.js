@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { Body } from "../Typography";
 import { RadioButton } from "../RadioButton"
 import { COLOR } from "../../global/const"
+import { useWindowDimensions } from "../../global/util"
 
 import { splitQuestion } from "./AnswertHelper";
 
-const MAX_WIDTH = 350;
+const CONTAINER_PADDING = 64;
 const MIN_BLANK_WIDTH = 80;
 
 export const AnswerRadioChoice = ({
@@ -20,14 +21,23 @@ export const AnswerRadioChoice = ({
   const ref = useRef(null);
   const [question_width, set_question_width] = useState();
 
+  const { screen_height, screen_width } = useWindowDimensions();
+
+  const content_width = screen_width-question_width;
+
   useEffect(() => {
     set_question_width(ref.current ? ref.current.offsetWidth : 0);
   }, [ref.current]);
 
   const Container = styled.div`
     display: flex;
+    flex-direction: column;
+    max-width: ${screen_width-CONTAINER_PADDING}px;
+  `;
+
+  const QuestionContainer = styled.div`
+    display: flex;
     flex-direction: row;
-    max-width: 350px;
     flex-wrap: wrap;
   `;
 
@@ -46,14 +56,15 @@ export const AnswerRadioChoice = ({
   const outputQuestion = (item) => {
     if (item.length === 3 || item[0].type === "content") {
       return (
-        <Container>
+        <QuestionContainer>
+          {console.log({screen_width})}
           <div ref={ref}>
             <Body>{item[0].content}</Body>
           </div>
           {item[1].content === ""
             ? <BlankField 
-                width={MAX_WIDTH-question_width-16 > MIN_BLANK_WIDTH 
-                  ? MAX_WIDTH-question_width-32
+                width={content_width-16 > MIN_BLANK_WIDTH 
+                  ? content_width-32
                   : MIN_BLANK_WIDTH
                 }
               />
@@ -62,17 +73,17 @@ export const AnswerRadioChoice = ({
               </div>
           }
           <Body>{item[2]?.content}</Body>
-        </Container>
+        </QuestionContainer>
       );
     }
     else {
       return (
-        <Container>
+        <QuestionContainer>
           {item[0].content === ""
             ? <BlankField 
                 margin_left={1}
-                width={MAX_WIDTH-question_width-16 > MIN_BLANK_WIDTH 
-                  ? MAX_WIDTH-question_width-32
+                width={content_width-16 > MIN_BLANK_WIDTH 
+                  ? content_width-32
                   : MIN_BLANK_WIDTH
                 }
               />
@@ -83,7 +94,7 @@ export const AnswerRadioChoice = ({
           <div ref={ref}>
             <Body>{item[1].content}</Body>
           </div>
-        </Container>
+        </QuestionContainer>
       );
     }
   };
