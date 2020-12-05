@@ -10,13 +10,13 @@ export const ExitModal = () => {
 
   const {isShowing, toggle} = useModal();
 
-  const HeaderCpntainer = styled.div`
+  const HeaderContainer = styled.div`
     display: flex;
     text-align: center;
     margin-bottom: 24px;
   `;
 
-  const ButtonCpntainer = styled.div`
+  const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
   `;
@@ -30,13 +30,13 @@ export const ExitModal = () => {
         isShowing={isShowing}
         hide={toggle}
       >
-        <HeaderCpntainer>
+        <HeaderContainer>
           <Header>คุณยืนยันที่จะออกจากเกมใช่หรือไม่ ?</Header>
-        </HeaderCpntainer>
-        <ButtonCpntainer>
+        </HeaderContainer>
+        <ButtonContainer>
           <div>button</div>
           <div>button</div>
-        </ButtonCpntainer>
+        </ButtonContainer>
       </Modal>
     </div>
   );

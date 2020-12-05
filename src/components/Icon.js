@@ -2,29 +2,29 @@ import React from "react";
 import styled from "styled-components";
 
 import close_icon from "../assets/icon/close.png";
-import hint_icon from "../assets/icon/hint.png";
+import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
 import skip_icon from "../assets/icon/skip.png";
 
-export const CloseIcon = () => {
+import { COLOR } from "../global/const";
+
+export const CloseIcon = ({
+  color = COLOR.SILVER
+}) => {
 
   const CloseIcon = styled.img`
     height: 16px;
     width: 16px;
   `;
 
-  return ( 
-    <CloseIcon src={close_icon}/>
-  );
-};
-
-export const HintIcon = () => {
-
-  const HintIcon = styled.img`
-    height: 22px;
-  `;
-
-  return ( 
-    <HintIcon src={hint_icon}/>
+  return (
+    <div>
+      { color === COLOR.SILVER &&
+        <CloseIcon src={close_icon}/>
+      }
+      { color === COLOR.GOLDEN_TAINOI &&
+        <CloseIcon src={close_gloden_tainoi_icon}/>
+      }
+    </div>
   );
 };
 

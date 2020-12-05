@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { COLOR } from "../global/const"
 
 export const ItemCard = ({
+  onClick = () => {},
   children
 }) => {
 
@@ -18,6 +19,6 @@ export const ItemCard = ({
   `;
 
   return (
-    <ItemCard>{children}</ItemCard>
+    <ItemCard onClick={onClick}>{children}</ItemCard>
   );
 };
