@@ -7,7 +7,8 @@ export const COLOR = {
   CHARCOAL: "#4A4A4A",
   CELERY:"#A8C653",
   TRINIDAD: "#D24C2B",
-  SILVER: "#BFC0C0"
+  SILVER: "#BFC0C0",
+  SILVER_OPACITY_30: "#ECEDED"
 };
 
 export const ANSWER_TYPE = {

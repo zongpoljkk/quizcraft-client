@@ -6,6 +6,9 @@ import { ItemCard } from "../../components/ItemCard";
 import { TimeCounting } from "../../components/TimeCounting";
 import { ProblemBox } from "../../components/ProblemBox";
 import PracticeGameContent from "./PracticeGameContent";
+import { LottieFile } from "../../components/LottieFile";
+
+import hint from "../../assets/lottie/hint.json";
 
 import { ANSWER_TYPE } from "../../global/const"
 
@@ -29,7 +32,9 @@ const PracticeGame = () => {
     <Container>
       <Headline>
         <ExitModal />
-        <ItemCard />
+        <ItemCard>
+          <LottieFile animationData={hint} height={30} width={30}/>
+        </ItemCard>
         <ItemCard />
         <TimeCounting />
       </Headline>
