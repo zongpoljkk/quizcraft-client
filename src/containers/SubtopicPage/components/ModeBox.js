@@ -1,63 +1,79 @@
+import React from "react";
 import styled from "styled-components";
-import practice from "../../../assets/thumbnail/practice.png";
-import quiz from "../../../assets/thumbnail/quiz.png";
-import challenge from "../../../assets/thumbnail/challenge.png";
-import level_easy from "../../../assets/thumbnail/level_easy.png";
-import level_medium from "../../../assets/thumbnail/level_medium.png";
-import level_hard from "../../../assets/thumbnail/level_hard.png";
-import { Subheader } from "../../../components/Typography";
-import { COLOR } from "../../../global/const";
+import { motion } from "framer-motion";
+import { useHistory } from "react-router-dom";
 
-const ModeBox = () => {
+import { Subheader } from "../../../components/Typography";
+import { COLOR, DIFFICULTY } from "../../../global/const";
+
+const ModeBox = ({ icon, type }) => {
+  const history = useHistory();
+  const handleClick = () => {
+    history.push("/topic");
+  };
+
   return (
-    <Container>
-      <Box>
-        <Icon src={practice} />
-        <Subheader props color={COLOR.WHITE}> ฝึกซ้อม </Subheader>
-      </Box>
-      <Box>
-        <Icon src={quiz} />
-        <Subheader props color={COLOR.WHITE}> ทดสอบ </Subheader>
-      </Box>
+    <Background>
+      <motion.div
+        style={{ display: "flex", flex: 1 }}
+        drag="x"
+        dragConstraints={{ left: -168, right: 0 }}
+        dragMomentum={true}
+        size="100%"
+        background={COLOR.MANDARIN}
+      >
+        <Container>
+          <Box>
+            <Icon src={icon} />
+            <Subheader props color={COLOR.WHITE}>
+              {type}
+            </Subheader>
+          </Box>
+        </Container>
+      </motion.div>
       <DifficultyBox>
-        <Icon src={level_easy} />
-        <Icon src={level_medium} />
-        <Icon src={level_hard} />
+        {Object.entries(DIFFICULTY).map((item, index) => (
+          <Icon
+            key={index}
+            style={{ cursor: "pointer" }}
+            onClick={handleClick}
+            src={item[1].icon}
+          />
+        ))}
       </DifficultyBox>
-      <LastModeBox>
-        <Icon src={challenge} />
-        <Subheader props color={COLOR.WHITE}> แข่งขัน </Subheader>
-      </LastModeBox>
-    </Container>
+    </Background>
   );
 };
 
+const Background = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: ${COLOR.GOLDEN_TAINOI};
+  z-index: 3;
+`;
 const Container = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
+  z-index: 2;
 `;
 
 const Box = styled.div`
-display: flex;
-padding: 12px 24px 12px 24px;
-align-items: center;
-background: ${COLOR.MANDARIN};
-`;
-
-const LastModeBox = styled.div`
-display: flex;
-padding: 12px 24px 12px 24px;
-align-items: center;
-background: ${COLOR.MANDARIN};
-border-radius: 0px 0px 10px 10px;
+  display: flex;
+  position: relative;
+  padding: 12px 24px 12px 24px;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1;
+  background: ${COLOR.MANDARIN};
 `;
 
 const DifficultyBox = styled.div`
-display: flex;
-padding: 12px 0px 12px 12px;
-justify-content: flex-end;
-align-items: center;
-background: ${COLOR.GOLDEN_TAINOI};
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: -1;
 `;
 
 const Icon = styled.img`

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { COLOR } from "../../../global/const";
+
 import ModeBox from "./ModeBox";
+
+import { COLOR, MODE } from "../../../global/const";
+
 const SubtopicBox = (props) => {
   const [opened, set_opened] = useState(false);
 
@@ -13,19 +16,17 @@ const SubtopicBox = (props) => {
     }
   };
 
-return (
-  <Container>
-    <Accordion onClick={handle_toggle}> {props.title} </Accordion>
-    <div>
-      {opened === true && (
-          <ModeBox />
-      )}
-    </div>
-  </Container>
-);
+  return (
+    <Container>
+      <Accordion onClick={handle_toggle}> {props.title} </Accordion>
+      {opened === true
+        ? Object.entries(MODE).map((item, index) => (
+            <ModeBox key={index} icon={item[1].icon} type={item[1].type} />
+          ))
+        : null}
+    </Container>
+  );
 };
-
-
 
 const Container = styled.div`
   display: flex;

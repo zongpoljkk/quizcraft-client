@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+
 import { Header } from "../../components/Typography";
 import SubtopicBox from "./components/SubtopicBox";
 
@@ -27,4 +28,5 @@ const Topic_style = styled.div`
   justify-content: center;
   margin-bottom: 32px;
 `;
+
 export default SubtopicPage;
