@@ -5,6 +5,7 @@ import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
 import TopicPage from "./containers/TopicPage/TopicPage";
+import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import Navbar from "./components/Navbar";
 
 const App = () => {
@@ -18,6 +19,9 @@ const App = () => {
           </Route>
           <Route exact path="/topic">
             <TopicPage />
+          </Route>
+          <Route exact path="/subtopic">
+            <SubtopicPage />
           </Route>
           <Route path="*">
             <ErrorPage />
