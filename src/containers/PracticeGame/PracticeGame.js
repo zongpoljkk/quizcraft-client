@@ -5,10 +5,8 @@ import { ExitModal } from "../../components/ExitModal"
 import { ItemCard } from "../../components/ItemCard";
 import { TimeCounting } from "../../components/TimeCounting";
 import { ProblemBox } from "../../components/ProblemBox";
+import { HintIcon, SkipIcon } from "../../components/Icon";
 import PracticeGameContent from "./PracticeGameContent";
-import { LottieFile } from "../../components/LottieFile";
-
-import hint from "../../assets/lottie/hint.json";
 
 import { ANSWER_TYPE } from "../../global/const"
 
@@ -33,9 +31,11 @@ const PracticeGame = () => {
       <Headline>
         <ExitModal />
         <ItemCard>
-          <LottieFile animationData={hint} height={30} width={30}/>
+          <HintIcon />
         </ItemCard>
-        <ItemCard />
+        <ItemCard>
+          <SkipIcon />
+        </ItemCard>
         <TimeCounting />
       </Headline>
       <ProblemBox
