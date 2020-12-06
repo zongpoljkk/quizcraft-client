@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 // Global
-import { COLOR , SEMI_BOLD} from "../../../global/const";
-import { Header } from "../../../components/Typography";
+import { COLOR } from "../../../global/const";
+import { SEMI_BOLD } from "../../../components/Typography";
 
 const Title = styled.p`
   font-family: Prompt;

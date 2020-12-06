@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 // Global
 import {
-  COLOR,
   BUTTON_RADIUS,
-} from "../../../global//const.js";
+} from "../../../components/Button/Button";
+import { COLOR } from '../../../global/const';
 
 const NextButton = styled.button`
   width: 160px;

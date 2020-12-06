@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import CenterDiv from '../../../components/CenterDiv/CenterDiv';
 
 // Global
-import {MEDIUM, LINE_HEIGHT, COLOR} from '../../../global/const';
+import {COLOR} from '../../../global/const';
+import {MEDIUM} from '../../../components/Typography';
+import { LINE_HEIGHT } from '../../../components/Button/Button';
 
 export const SolutionDiv = styled(CenterDiv)`
 margin: 64px auto 104px auto;

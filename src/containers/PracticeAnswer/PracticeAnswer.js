@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 // Components
 import CenterDiv from "../../components/CenterDiv/CenterDiv";
 import { Container } from "./components/Container";
 import Sign from "./components/Sign";
-import Title from "./components/Title";
 import { SolutionDiv, Solution } from "./components/Solution";
-import { GreetingDiv, Greeting } from "./components/Greeting";
-import { ShiftDiv, ShiftLeft, ShiftRight } from "./components/Shift";
-import NextButton from "./components/NextButton";
-import { ReportFlag, ReportText } from "./components/Report";
 
 // Media
 import Correct_Flag from "../../assets/Correct_Flag.png";
@@ -22,6 +18,11 @@ import Coin from "../../components/Coin/Coin.jsx";
 
 // Helper
 import { backward, forward } from "./PracticeAnswerHelper";
+
+// Global
+import { Body, SEMI_BOLD } from "../../components/Typography";
+import { COLOR } from "../../global/const";
+import { BUTTON_RADIUS } from "../../components/Button/Button";
 
 const PracticeAnswer = () => {
   const [correct, set_correct] = useState(true);
@@ -47,17 +48,35 @@ const PracticeAnswer = () => {
   const greetingHolder = () => {
     if (firstClick && correct) {
       return (
-        <GreetingDiv>
-          <Greeting>ยินดีด้วย! คุณได้รับ 1 เหรียญ</Greeting>
+        <div
+          style={{
+            marginTop: "104px",
+            marginBottom: "16px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-end",
+          }}
+        >
+          <Body style={{ lineHeight: "1.2em" }}>
+            ยินดีด้วย! คุณได้รับ 1 เหรียญ
+          </Body>
           <Coin />
-        </GreetingDiv>
+        </div>
       );
     } else {
       if (!correct) {
         return (
-          <GreetingDiv>
-            <Greeting style={{ visibility: "hidden" }}>Wrong</Greeting>
-          </GreetingDiv>
+          <div
+            style={{
+              marginTop: "104px",
+              marginBottom: "16px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-end",
+            }}
+          >
+            <Body style={{ lineHeight: "1.2em", visibility: "hidden" }}></Body>
+          </div>
         );
       }
     }
@@ -121,7 +140,7 @@ const PracticeAnswer = () => {
       <div>
         <CenterDiv>
           {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
-           <Sign answer={correct}/>
+          <Sign answer={correct} />
         </CenterDiv>
         <CenterDiv>
           <Title answer={correct}>{title}</Title>
@@ -161,5 +180,57 @@ const PracticeAnswer = () => {
     </Container>
   );
 };
+
+const NextButton = styled.button`
+  width: 160px;
+  height: 48px;
+  background-color: ${(props) =>
+    props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`};
+  font-family: Prompt;
+  font-weight: 400;
+  font-size: 16px;
+  color: ${COLOR.WHITE};
+  margin-top: 20px;
+  border-radius: ${BUTTON_RADIUS};
+  border: 0px;
+`;
+
+const ReportFlag = styled.img`
+  alt: "Report Flag";
+  height: 24px;
+  margin: 32px 8px 0 32px;
+  display: inline-block;
+`;
+
+// This cannot use the Header because color got overwritten by Header's color props
+const ReportText = styled.p`
+  font-family: Prompt;
+  color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
+  text-decoration: underline;
+  display: inline-block;
+`;
+
+const ShiftDiv = styled(CenterDiv)`
+  min-height: 72px;
+`;
+
+const ShiftLeft = styled.img`
+  alt: "Correct Backward";
+  height: 40px;
+  margin-right: 32px;
+`;
+
+const ShiftRight = styled.img`
+  alt: "Correct Backward";
+  height: 40px;
+  margin-left: 32px;
+`;
+
+const Title = styled.p`
+  font-family: Prompt;
+  font-size: 24px;
+  font-weight: ${SEMI_BOLD};
+  color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
+`;
 
 export default PracticeAnswer;

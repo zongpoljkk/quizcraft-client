@@ -15,12 +15,6 @@ const Sign = ({ isVisible, answer }) => {
     <SignCss
       src={source}
       initial={{ scale: 0 }}
-      // animate={{ rotate: 360, scale: 1 }}
-      // transition={{
-      //   type: "spring",
-      //   stiffness: 260,
-      //   damping: 20,
-      // }}
       animate={{ scale: 1 }}
       transition={{ duration: 0.3 }}
     />

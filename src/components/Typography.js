@@ -46,3 +46,7 @@ export const Overline = ({ className, children, color = COLOR.CHARCOAL }) => {
 
   return <Overline className={className}>{children}</Overline>;
 };
+
+// * FONT WEIGHT * //
+export const MEDIUM = "500";
+export const SEMI_BOLD = "600";
