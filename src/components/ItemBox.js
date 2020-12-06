@@ -12,17 +12,22 @@ export const ItemBox = ({
   size = "large", 
   color = COLOR.WHITE 
 }) => {
-  const ItemBox = styled.div`
-    width: ${size === "large" ? ITEM_BOX_SIZE.LARGE : ITEM_BOX_SIZE.SMALL};
-    height: ${size === "large" ? ITEM_BOX_SIZE.LARGE : ITEM_BOX_SIZE.SMALL};
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 1px 2px 5px #d9d9d9;
-    background: ${color};
-    }
-  `;
-  return <ItemBox>{children}</ItemBox>;
+
+  return <Box size={size} color={color}>{children}</Box>;
 };
+
+const Box = styled.div.attrs(props => ({
+  size: props.size === "large" ? ITEM_BOX_SIZE.LARGE : ITEM_BOX_SIZE.SMALL,
+  color: props.color
+}))`
+  width: ${props => props.size};
+  height: ${props => props.size};
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 2px 5px #d9d9d9;
+  background: ${props => props.color};
+  }
+`;

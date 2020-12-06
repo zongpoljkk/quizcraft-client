@@ -5,9 +5,8 @@ import styled from "styled-components";
 import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
 import default_topic from "../../../assets/thumbnail/default_topic.png";
-import TopicImg from "./TopicImage";
 
-const TopicBox = ({ image }) => {
+const TopicBox = ({ title, image }) => {
   const [topic, set_topic] = useState("แกรมมาร์"); //แกรมมาร์, ยกกำลัง
   const history = useHistory();
 
@@ -35,7 +34,13 @@ const Container = styled.div`
 
   &:hover {
     position: relative;
-    top: 10px;
+    top: -10px;
 `;
 
+const TopicImg = styled.img`
+  alt: "Topic Image";
+  width: 80px;
+  height: 80px;
+  margin-bottom: 7px;
+`;
 export default TopicBox;
