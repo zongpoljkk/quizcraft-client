@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
@@ -6,18 +6,26 @@ import { useHistory } from "react-router-dom";
 import { Subheader } from "../../../components/Typography";
 import { COLOR, DIFFICULTY } from "../../../global/const";
 
+
 const ModeBox = ({ icon, type }) => {
+  const ref = useRef(null);
+  const [box_width, set_box_width] = useState();
   const history = useHistory();
+
   const handleClick = () => {
     history.push("/topic");
   };
+
+  useEffect(() => {
+    set_box_width(ref.current ? ref.current.offsetWidth : 0);
+  }, [ref.current]);
 
   return (
     <Background>
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
-        dragConstraints={{ left: -168, right: 0 }}
+        dragConstraints={{ left: -(box_width+16), right: 0 }}
         dragMomentum={true}
         size="100%"
         background={COLOR.MANDARIN}
@@ -31,7 +39,7 @@ const ModeBox = ({ icon, type }) => {
           </Box>
         </Container>
       </motion.div>
-      <DifficultyBox>
+      <DifficultyBox ref={ref}>
         {Object.entries(DIFFICULTY).map((item, index) => (
           <Icon
             key={index}
@@ -80,7 +88,7 @@ const Icon = styled.img`
   alt: "Mode icon";
   width: 40px;
   height: 40px;
-  margin-right: 12px;
+  margin-right: 16px;
 `;
 
 export default ModeBox;
