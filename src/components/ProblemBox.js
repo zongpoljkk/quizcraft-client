@@ -10,18 +10,6 @@ export const ProblemBox = ({
   problem_content = '',
 }) => {
 
-  const ProblemContainer = styled.div`
-    background: ${COLOR.ISLAND_SPICE};
-    border-radius: 10px;
-    padding: 24px;
-  `;
-
-  const Problem = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 16px
-  `;
-
   return ( 
     <ProblemContainer>
       <Subheader>{problem}</Subheader>
@@ -31,3 +19,15 @@ export const ProblemBox = ({
     </ProblemContainer>
   );
 };
+
+const ProblemContainer = styled.div`
+  background: ${COLOR.ISLAND_SPICE};
+  border-radius: 10px;
+  padding: 24px;
+`;
+
+const Problem = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 16px
+`;

@@ -11,21 +11,6 @@ export const Modal = ({
   children
 }) => {
 
-  const ModalContainer = styled.div`
-    background-color: ${COLOR.WHITE};
-    border-radius: 10px;
-    width: 247px;
-    padding: 32px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    outline: 0;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    z-index: 1060;
-    transform: translate(-50%, -50%)
-  `;
-
   return(
     isShowing ? ReactDOM.createPortal(
       <React.Fragment>
@@ -47,38 +32,12 @@ export const FooterModal = ({
 
   const { height, width } = useWindowDimensions();
 
-  const FooterModalContainer = styled.div`
-    background-color: ${COLOR.WHITE};
-    border-radius: 10px 10px 0px 0px;
-    width: ${width-32}px;
-    padding: 16px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    outline: 0;
-    position: fixed;
-    top: 100%;
-    left: 0;
-    z-index: 1100;
-    transform: translate(0%, -100%);
-  `;
-
-  const ContainerBackground = styled.div`
-    background-color: ${backgroundColor};
-    opacity:0.2;
-    width: ${width}px;
-    height: 100%;
-    position: fixed;
-    top: 100%;
-    left: 0;
-    transform: translate(0%, -100%);
-  `;
-
   return(
     isShowing ? ReactDOM.createPortal(
       <React.Fragment>
         <Overlay onClick={hide}/>
-        <FooterModalContainer>
-          <ContainerBackground />
+        <FooterModalContainer width={width}>
+          <ContainerBackground width={width} backgroundColor={backgroundColor}/>
           <div style={{ position: "relative" }}>
             {children}
           </div>
@@ -98,4 +57,50 @@ const Overlay = styled.div`
   height: 100%;
   background-color: ${COLOR.CHARCOAL};
   opacity: 0.6;
+`;
+
+const ModalContainer = styled.div`
+  background-color: ${COLOR.WHITE};
+  border-radius: 10px;
+  width: 247px;
+  padding: 32px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 1060;
+  transform: translate(-50%, -50%)
+`;
+
+const FooterModalContainer = styled.div.attrs(props => ({
+  width: props.width
+}))`
+  background-color: ${COLOR.WHITE};
+  border-radius: 10px 10px 0px 0px;
+  width: ${props => props.width-32}px;
+  padding: 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  position: fixed;
+  top: 100%;
+  left: 0;
+  z-index: 1100;
+  transform: translate(0%, -100%);
+`;
+
+const ContainerBackground = styled.div.attrs(props => ({
+  width: props.width,
+  backgroundColor: props.backgroundColor
+}))`
+  background-color: ${props => props.backgroundColor};
+  opacity:0.2;
+  width: ${props => props.width}px;
+  height: 100%;
+  position: fixed;
+  top: 100%;
+  left: 0;
+  transform: translate(0%, -100%);
 `;

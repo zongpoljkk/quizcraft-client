@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
@@ -9,7 +9,8 @@ import { useWindowDimensions } from "../../global/util"
 import { splitQuestion } from "./AnswertHelper";
 
 const CONTAINER_PADDING = 64;
-const MIN_BLANK_WIDTH = 80;
+const MIN_BLANK_WIDTH = 40;
+const MAX_BLANK_WIDTH = 140;
 
 export const AnswerRadioChoice = ({
   question = '',
@@ -18,56 +19,17 @@ export const AnswerRadioChoice = ({
   answer
 }) => {
 
-  const ref = useRef(null);
-  const [question_width, set_question_width] = useState();
-
-  const { screen_height, screen_width } = useWindowDimensions();
-
-  const content_width = screen_width-question_width;
-
-  useEffect(() => {
-    set_question_width(ref.current ? ref.current.offsetWidth : 0);
-  }, [ref.current]);
-
-  const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    max-width: ${screen_width-CONTAINER_PADDING}px;
-  `;
-
-  const QuestionContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  `;
-
-  const BlankField = styled.div.attrs(props => ({
-    width: props.width || MIN_BLANK_WIDTH,
-    margin_left: props.margin_left|| 8
-  }))`
-    border: 1px solid ${COLOR.CHARCOAL};
-    border-radius: 10px;
-    height: 24px;
-    width: ${props => props.width}px;
-    margin-left: ${props => props.margin_left}px;
-    margin-right: 8px;
-  `;
+  const { height, width: screen_width } = useWindowDimensions();
 
   const outputQuestion = (item) => {
     if (item.length === 3 || item[0].type === "content") {
       return (
         <QuestionContainer>
-          {console.log({screen_width})}
-          <div ref={ref}>
+          <div>
             <Body>{item[0].content}</Body>
           </div>
           {item[1].content === ""
-            ? <BlankField 
-                width={content_width-16 > MIN_BLANK_WIDTH 
-                  ? content_width-32
-                  : MIN_BLANK_WIDTH
-                }
-              />
+            ? <BlankField />
             : <div style={{ marginLeft: 8, marginRight: 8 }}>
                 <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
               </div>
@@ -80,18 +42,12 @@ export const AnswerRadioChoice = ({
       return (
         <QuestionContainer>
           {item[0].content === ""
-            ? <BlankField 
-                margin_left={1}
-                width={content_width-16 > MIN_BLANK_WIDTH 
-                  ? content_width-32
-                  : MIN_BLANK_WIDTH
-                }
-              />
+            ? <BlankField margin_left={1}/>
             : <div style={{ marginLeft: 8, marginRight: 8 }}>
                 <Body color={COLOR.MANDARIN}>{item[0].content}</Body>
               </div>
           }
-          <div ref={ref}>
+          <div>
             <Body>{item[1].content}</Body>
           </div>
         </QuestionContainer>
@@ -100,7 +56,7 @@ export const AnswerRadioChoice = ({
   };
 
   return ( 
-    <Container>
+    <Container width={screen_width-CONTAINER_PADDING}>
       <div style={{ marginBottom: 16 }}>
         {outputQuestion(splitQuestion(question))}
       </div>
@@ -114,3 +70,33 @@ export const AnswerRadioChoice = ({
     </Container>
   );
 };
+
+const Container = styled.div.attrs(props => ({
+  width: props.width,
+}))`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: ${props => props.width}px;
+`;
+
+const QuestionContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const BlankField = styled.div.attrs(props => ({
+  margin_left: props.margin_left|| 8
+}))`
+  display: flex;
+  flex: 1;
+  border: 1px solid ${COLOR.CHARCOAL};
+  border-radius: 10px;
+  height: 24px;
+  min-width: ${MIN_BLANK_WIDTH}px;
+  max-width: ${MAX_BLANK_WIDTH}px;
+  margin-left: ${props => props.margin_left}px;
+  margin-right: 8px;
+`;

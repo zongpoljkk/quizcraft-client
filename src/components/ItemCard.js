@@ -8,17 +8,17 @@ export const ItemCard = ({
   children
 }) => {
 
-  const ItemCard = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: ${COLOR.SILVER_OPACITY_30};
-    height: 32px;
-    width: 56px;
-    border-radius: 4px;
-  `;
-
   return (
-    <ItemCard onClick={onClick}>{children}</ItemCard>
+    <CardContainer onClick={onClick}>{children}</CardContainer>
   );
 };
+
+const CardContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${COLOR.SILVER_OPACITY_30};
+  height: 32px;
+  width: 56px;
+  border-radius: 4px;
+`;

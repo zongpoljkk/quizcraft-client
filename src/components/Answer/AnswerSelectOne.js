@@ -13,24 +13,6 @@ export const AnswerSelectOne = ({
 
   const [selected_answer, set_selected_answer] = useState(null);
 
-  const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  `;
-
-  const AnswerBucket = styled.div.attrs(props => ({
-    margin_left: props.margin_left || 8,
-    margin_right: props.margin_right || 8,
-  }))`
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: ${COLOR.MANDARIN};
-    margin-left: ${props => props.margin_left}px;
-    margin-right: ${props => props.margin_right}px;
-  `;
-
   const outputContent = (item) => {
     if(item.length === 4) {
       return (
@@ -155,3 +137,21 @@ export const AnswerSelectOne = ({
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const AnswerBucket = styled.div.attrs(props => ({
+  margin_left: props.margin_left || 8,
+  margin_right: props.margin_right || 8,
+}))`
+  font-family: Prompt, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: ${COLOR.MANDARIN};
+  margin-left: ${props => props.margin_left}px;
+  margin-right: ${props => props.margin_right}px;
+`;

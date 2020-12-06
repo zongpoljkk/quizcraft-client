@@ -5,9 +5,10 @@ import { ExitModal } from "../../components/ExitModal"
 import { ItemCard } from "../../components/ItemCard";
 import { TimeCounting } from "../../components/TimeCounting";
 import { ProblemBox } from "../../components/ProblemBox";
-import { SkipIcon } from "../../components/Icon";
 import { HintItem } from "../../components/HintItem"
 import PracticeGameContent from "./PracticeGameContent";
+
+import skip_icon from "../../assets/icon/skip.png";
 
 import { ANSWER_TYPE } from "../../global/const"
 
@@ -25,7 +26,7 @@ const QUESTION4 = '[] should be more than 200 words.';
 const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
 const CHOICES2 = ["slowlyyyyyyyy", "slowleddddddd"];
 const HINT = "สมบัติการคูณเมื่อ a, m และ n เป็นจำนวนเต็ม คือ a  x a  = a";
-const TYPE_ANSWER = "SELECT_ONE";
+const TYPE_ANSWER = "RADIO_CHOICE";
 
 const PracticeGame = () => {
 
@@ -40,7 +41,7 @@ const PracticeGame = () => {
         <ExitModal />
         <HintItem content={HINT}/>
         <ItemCard onClick={onSkip}>
-          <SkipIcon />
+          <img src={skip_icon} height={20}/>
         </ItemCard>
         <TimeCounting />
       </Headline>
@@ -54,7 +55,7 @@ const PracticeGame = () => {
         <PracticeGameContent 
           type={TYPE_ANSWER}
           correct_answer={ANSWER}
-          question={QUESTION2}
+          question={QUESTION4}
           choices={CHOICES2}
           content={CONTENT3}
         />

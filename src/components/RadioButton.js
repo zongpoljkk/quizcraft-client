@@ -7,68 +7,11 @@ export const RadioButton = ({
   value='',
   selected_value = () => {},
   choices = {},
-  direction = "column"
+  direction
 }) => {
 
-  const Container = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: ${direction};
-    justify-content: space-between;
-    align-items: flex-start;
-  `;
-
-  const Mark = styled.span`
-    display: inline-block;
-    position: relative;
-    border: 1px solid ${COLOR.CHARCOAL};
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    margin-right: 8px;
-    vertical-align: middle;
-    &::after {
-      content: "";
-      display: block;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background-color: ${COLOR.MANDARIN};
-      opacity: 0;
-      left: 50%;
-      top: 50%;
-      position: absolute;
-      transition: all 200ms;
-    }
-  `;
-
-  const Input = styled.input`
-    position: absolute;
-    visibility: hidden;
-    display: none;
-    &:checked + ${Mark} {
-      &::after {
-        width: 12px;
-        height: 12px;
-        opacity: 1;
-        left: 12%;
-        top: 12%;
-      }
-    }
-  `;
-
-  const Label = styled.label.attrs(props => ({
-    weigth: props.selected ? 500 : 400
-  }))`
-    position: relative;
-    font-family: Prompt, sans-serif;
-    font-weight: ${props => props.weigth};
-    font-size: 16px;
-    color: ${COLOR.CHARCOAL};
-  `;
-
   return ( 
-    <Container>
+    <Container direction={direction}>
       {choices?.map((option, i) => (
         <div 
           key={i} 
@@ -94,3 +37,62 @@ export const RadioButton = ({
     </Container>
   );
 };
+
+const Container = styled.div.attrs(props => ({
+  direction: props.direction || "column"
+}))`
+  display: flex;
+  flex: 1;
+  flex-direction: ${props => props.direction};
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const Mark = styled.span`
+  display: inline-block;
+  position: relative;
+  border: 1px solid ${COLOR.CHARCOAL};
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  &::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: ${COLOR.MANDARIN};
+    opacity: 0;
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transition: all 200ms;
+  }
+`;
+
+const Input = styled.input`
+  position: absolute;
+  visibility: hidden;
+  display: none;
+  &:checked + ${Mark} {
+    &::after {
+      width: 12px;
+      height: 12px;
+      opacity: 1;
+      left: 12%;
+      top: 12%;
+    }
+  }
+`;
+
+const Label = styled.label.attrs(props => ({
+  weigth: props.selected ? 500 : 400
+}))`
+  position: relative;
+  font-family: Prompt, sans-serif;
+  font-weight: ${props => props.weigth};
+  font-size: 16px;
+  color: ${COLOR.CHARCOAL};
+`;

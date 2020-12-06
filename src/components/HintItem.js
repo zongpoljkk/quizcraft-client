@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { Header, Body } from "./Typography";
 import { ItemCard } from "./ItemCard";
 import { LottieFile } from "./LottieFile"
-import { CloseIcon } from "./Icon"
 import { FooterModal } from "./Modal";
 import useModal from "./useModal";
 
 import hint_icon from "../assets/icon/hint.png";
 import hintData from "../assets/lottie/hint.json"
+import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
 
 import { COLOR } from "../global/const";
 
@@ -18,25 +18,6 @@ export const HintItem = ({
 }) => {
 
   const {isShowing, toggle} = useModal();
-
-  const Container = styled.div`
-    display: flex;
-  `;
-
-  const IconContainer = styled.div`
-    background: ${COLOR.WHITE};
-    height: 48px; 
-    width: 48px;
-    border-radius: 50%;
-    margin-right: 24px;
-  `;
-
-  const ContentContainer = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-
-  `;
 
   return (
     <div>
@@ -57,10 +38,28 @@ export const HintItem = ({
             <Body color={COLOR.GOLDEN_TAINOI}>{content}</Body>
           </ContentContainer>
           <div onClick={toggle}>
-            <CloseIcon color={COLOR.GOLDEN_TAINOI}/>
+            <img src={close_gloden_tainoi_icon} height={16} width={16}/>
           </div>
         </Container>
       </FooterModal>
     </div>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const IconContainer = styled.div`
+  background: ${COLOR.WHITE};
+  height: 48px; 
+  width: 48px;
+  border-radius: 50%;
+  margin-right: 24px;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+`;

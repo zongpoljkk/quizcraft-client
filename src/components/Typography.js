@@ -8,18 +8,10 @@ export const Header = ({
   color = COLOR.CHARCOAL
 }) => {
 
-  const Header = styled.div`
-    display: flex;
-    font-family: Prompt, sans-serif;
-    font-weight: 600;
-    font-size: 24px;
-    color: ${color};
-  `;
-
   return (
-    <Header>
+    <Typography fontWeight={600} fontSize={24} color={color}>
       {children}
-    </Header>
+    </Typography>
   );
 };
 
@@ -28,18 +20,10 @@ export const Subheader = ({
   color = COLOR.CHARCOAL
 }) => {
 
-  const Subheader = styled.div`
-    display: flex;
-    font-family: Prompt, sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    color: ${color};
-  `;
-
   return (
-    <Subheader>
+    <Typography fontWeight={500} fontSize={20} color={color}>
       {children}
-    </Subheader>
+    </Typography>
   );
 };
 
@@ -48,18 +32,10 @@ export const Body = ({
   color = COLOR.CHARCOAL
 }) => {
 
-  const Body = styled.div`
-    display: flex;
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: ${color};
-  `;
-
   return (
-    <Body>
+    <Typography fontWeight={400} fontSize={16} color={color}>
       {children}
-    </Body>
+    </Typography>
   );
 };
 
@@ -68,17 +44,21 @@ export const Overline = ({
   color = COLOR.CHARCOAL
 }) => {
 
-  const Overline = styled.div`
-    display: flex;
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    color: ${color};
-  `;
-
   return (
-    <Overline>
+    <Typography fontWeight={400} fontSize={12} color={color}>
       {children}
-    </Overline>
+    </Typography>
   );
 };
+
+const Typography = styled.div.attrs(props => ({
+  fontWeight: props.fontWeight,
+  fontSize: props.fontSize,
+  color: props.color
+}))`
+  display: flex;
+  font-family: Prompt, sans-serif;
+  font-weight: ${props => props.fontWeight};
+  font-size: ${props => props.fontSize}px;
+  color: ${props => props.color};
+`;
