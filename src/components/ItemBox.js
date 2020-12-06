@@ -27,7 +27,7 @@ const Box = styled.div.attrs(props => ({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px 2px 5px #d9d9d9;
+  box-shadow: 1px 2px 5px ${COLOR.SHADOW};
   background: ${props => props.color};
   }
 `;
