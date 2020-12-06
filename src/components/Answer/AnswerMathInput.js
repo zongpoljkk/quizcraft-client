@@ -14,14 +14,14 @@ export const AnswerMathInput = ({
   const outputBoxes = (item) => {
     if(item.type === "(" && item.last_type === "main") {
       return (
-        <div style={{ marginTop: 36, marginRight: 4 }}>
+        <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
         </div>
       );
     }
     else if(item.type === "(" && item.last_type === "power") {
       return (
-        <div style={{ marginRight: 4 }}>
+        <div style={{ marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
         </div>
       );
@@ -33,14 +33,14 @@ export const AnswerMathInput = ({
     }
     else if(item.type === ")" && item.last_type === "main") {
       return (
-        <div style={{ marginTop: 36, marginLeft: 4 }}>
+        <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>)</Header>
         </div>
       );
     }
     else if(item.type === ")" && item.last_type === "power") {
       return (
-        <div style={{ marginLeft: 4 }}>
+        <div style={{ marginLeft: 4, marginRight: 4 }}>
           <Header>)</Header>
         </div>
       );
@@ -65,9 +65,9 @@ export const AnswerMathInput = ({
 
 const Container = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: row;
   justify-content: center;
-  max-width: 350px;
   flex-wrap: wrap;
 `;
 

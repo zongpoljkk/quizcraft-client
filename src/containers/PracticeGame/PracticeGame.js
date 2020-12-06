@@ -15,7 +15,7 @@ import { ANSWER_TYPE } from "../../global/const"
 // MOCK DATA
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
-const ANSWER = '(2^[3]+4^[2])^[3]-7x^[(x+1)]';
+const ANSWER = '(22^[3]*22^[-23]*22^[26]*22^[-46]*22^[15])/(22^[5]*22^[2]*22^[3]*22^[33])';
 const CONTENT1 = 'You can only join the football team if you can [stay&to stay] late on Mondays.';
 const CONTENT2 = '[You&I] can only join the football team if you can stay late on Mondays.';
 const CONTENT3 = 'You can only join the football team if you can stay late on [Mondays.&Fridays.]';
@@ -26,7 +26,7 @@ const QUESTION4 = '[] should be more than 200 words.';
 const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
 const CHOICES2 = ["slowlyyyyyyyy", "slowleddddddd"];
 const HINT = "สมบัติการคูณเมื่อ a, m และ n เป็นจำนวนเต็ม คือ a  x a  = a";
-const TYPE_ANSWER = "RADIO_CHOICE";
+const TYPE_ANSWER = "MATH_INPUT";
 
 const PracticeGame = () => {
 
