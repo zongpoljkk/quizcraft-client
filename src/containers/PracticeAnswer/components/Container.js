@@ -16,19 +16,14 @@ export const Container = styled.div`
   background-color: ${(props) =>
     props.answer ? correct_background_color : incorrect_background_color};
 
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   top: 64px;
   left: 0px;
-  /* Full height */
-  /* height: 100%; */
-
-  /* Center and scale the image nicely */
   position: fixed;
-  /* background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  display: flex;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; */
 `;

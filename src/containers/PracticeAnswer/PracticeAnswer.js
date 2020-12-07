@@ -5,7 +5,7 @@ import styled from "styled-components";
 // import CenterDiv from "../../components/CenterDiv/CenterDiv";
 import { Container } from "./components/Container";
 import Sign from "./components/Sign";
-import { SolutionDiv, Solution } from "./components/Solution";
+import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button/Button";
 
 // Media
@@ -21,7 +21,7 @@ import Coin from "../../components/Coin/Coin.jsx";
 import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
-import { Body, SEMI_BOLD } from "../../components/Typography";
+import { Body, Header, SEMI_BOLD } from "../../components/Typography";
 import { COLOR } from "../../global/const";
 
 const TITLE = {
@@ -30,7 +30,7 @@ const TITLE = {
 };
 
 const MOCKDATA = {
-  STATICSOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
+  STATIC_SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
   SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
 };
 
@@ -40,7 +40,7 @@ const PracticeAnswer = () => {
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
   // So you can always refer to this state
-  const [staticSolution, set_static_solution] = useState(MOCKDATA.STATICSOL);
+  const [staticSolution, set_static_solution] = useState(MOCKDATA.STATIC_SOL);
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
@@ -50,35 +50,19 @@ const PracticeAnswer = () => {
   const greetingHolder = () => {
     if (firstClick && correct) {
       return (
-        <div
-          style={{
-            marginTop: "104px",
-            marginBottom: "16px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-          }}
-        >
+        <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
             ยินดีด้วย! คุณได้รับ 1 เหรียญ
           </Body>
           <Coin />
-        </div>
+        </GreetingDiv>
       );
     } else {
       if (!correct) {
         return (
-          <div
-            style={{
-              marginTop: "104px",
-              marginBottom: "16px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "flex-end",
-            }}
-          >
+          <GreetingDiv>
             <Body style={{ lineHeight: "1.2em", visibility: "hidden" }}></Body>
-          </div>
+          </GreetingDiv>
         );
       }
     }
@@ -95,7 +79,7 @@ const PracticeAnswer = () => {
                 border="none"
                 color={COLOR.WHITE}
                 backgroundColor={
-                  correct ? `${COLOR.CELERY}` : `${COLOR.MANDARIN}`
+                  correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
                 }
               >
                 ทำต่อ
@@ -151,12 +135,16 @@ const PracticeAnswer = () => {
   return (
     <Container answer={correct} onClick={handleFirstClick}>
       <div>
-        <CenterDiv>
+        <CenterDiv style={{marginTop: "68px"}}>
           {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
           <Sign answer={correct} />
         </CenterDiv>
         <CenterDiv>
-          <Title answer={correct}>{title}</Title>
+          {correct ? (
+            <Header color={COLOR.CELERY}>{title}</Header>
+          ) : (
+            <Header color={COLOR.TRINIDAD}>{title}Î</Header>
+          )}
         </CenterDiv>
         {firstClick ? (
           <SolutionDiv>
@@ -177,41 +165,47 @@ const PracticeAnswer = () => {
         {greetingHolder()}
 
         {arrowHolder()}
-      </div>
 
-      {correct ? (
-        <div>
-          <ReportFlag src={Correct_Flag} />
-          <ReportText answer={correct}>รายงาน</ReportText>
-        </div>
-      ) : (
-        <div>
-          <ReportFlag src={Incorrect_Flag} />{" "}
-          <ReportText answer={correct}>รายงาน</ReportText>
-        </div>
-      )}
+        {correct ? (
+          <div>
+            <ReportFlag src={Correct_Flag} />
+            <ReportText answer={correct}>รายงาน</ReportText>
+          </div>
+        ) : (
+          <div>
+            <ReportFlag src={Incorrect_Flag} />{" "}
+            <ReportText answer={correct}>รายงาน</ReportText>
+          </div>
+        )}
+      </div>
     </Container>
   );
 };
 
-const ReportFlag = styled.img`
-  alt: "Report Flag";
-  height: 24px;
-  margin: 32px 8px 0 32px;
-  display: inline-block;
-`;
-
-// This cannot use the Header because color got overwritten by Header's color props
-const ReportText = styled.p`
+const Title = styled.p`
   font-family: Prompt;
+  font-size: 24px;
+  font-weight: ${SEMI_BOLD};
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
-  text-decoration: underline;
-  display: inline-block;
 `;
 
 const CenterDiv = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const SolutionDiv = styled(CenterDiv)`
+  margin: 64px auto 104px auto;
+  height: 240px;
+  overflow: scroll;
+`;
+
+const GreetingDiv = styled.div`
+  margin-top: 104px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 const ShiftDiv = styled(CenterDiv)`
@@ -229,12 +223,20 @@ const ShiftRight = styled.img`
   height: 40px;
   margin-left: 32px;
 `;
+const ReportFlag = styled.img`
+  alt: "Report Flag";
+  height: 24px;
+  margin: 32px 8px 0 32px;
+  display: inline-block;
+  z-index: 50;
+`;
 
-const Title = styled.p`
+const ReportText = styled.p`
   font-family: Prompt;
-  font-size: 24px;
-  font-weight: ${SEMI_BOLD};
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
+  text-decoration: underline;
+  display: inline-block;
+  z-index: 50;
 `;
 
 export default PracticeAnswer;

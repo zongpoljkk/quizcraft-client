@@ -24,21 +24,7 @@ const Sign = ({ isVisible, answer }) => {
 const SignCss = styled(motion.img)`
   alt: "Sign";
   height: 72px;
-  margin-top: 68px;
-`;
-
-const SignCorrect = styled(motion.img)`
-  alt: "Correct Sign";
-  /* background: white; */
-  /* width: 150px; */
-  height: 72px;
-  margin-top: 68px;
-`;
-
-const SignIncorrect = styled(motion.img)`
-  alt: "Incorrect Sign";
-  height: 72px;
-  margin-top: 68px;
+  /* margin-top: 68px; */
 `;
 
 export default Sign;
