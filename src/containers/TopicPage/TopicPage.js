@@ -1,20 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import TopicBox from "./components/TopicBox";
 
-const TopicPage = () => {
-  const [topicList, setTopicList] = useState({ list: [] });
-  return (
-    <Container>
-      <TopicBox></TopicBox>
-      <TopicBox></TopicBox>
-      <TopicBox></TopicBox>
+import { useGetTopicName } from "./TopicPageHelper";
 
-      {/* TODO: loop all topic from selected subject from Homepage
-      {topicList.list.map((allTopic, index) =>(
-        <Topic key = {index} data = {allTopic} />
-      ))} */}
-    </Container>
+// TODO: Remove mock after integrate subject
+const MOCK_SUBJECT = "คณิตศาสตร์";
+
+const TopicPage = ({ subject_name = MOCK_SUBJECT }) => {
+  const { getTopicName, loading, topics } = useGetTopicName(subject_name);
+
+  useEffect(() => {
+    getTopicName();
+  }, []);
+
+  return (
+    <React.Fragment>
+      {loading ? (
+        <div>loading</div>
+      ) : (
+        <Container>
+          {topics.map((topic, index) => (
+            <TopicBox key={index} title={topic} />
+          ))}
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
 
