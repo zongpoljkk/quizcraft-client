@@ -14,32 +14,32 @@ import { Header } from "../../../components/Typography";
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
 const SubjectDiv = styled.div`
-  margin-top: 32px;
-  display: block;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   justify-content: center;
+  width: 100%;
+  margin-top: 32px;
   text-align: center;
 `;
 
 const SubjectBox = styled.div.attrs((props) => ({
   type: props.type,
 }))`
-  background-color: ${COLOR.ISLAND_SPICE};
-  width: 350px;
-  height: 108px;
-  border-radius: 10px;
-  margin-top: ${(props) => (props.type === "top" ? "0px" : "16px")};
   display: flex;
   align-items: center;
+  background-color: ${COLOR.ISLAND_SPICE};
+  border-radius: 10px;
   box-shadow: 0px 1px 3px ${subject_box_shadow};
-  /* padding: 32px 24px 32px 24px; */
+  padding: 24px 32px 24px 32px;
+  margin-bottom: 16px;
 `;
 
 const SubjectImg = styled.img`
   alt: "Subject Image";
   width: 60px;
   height: 60px;
-  padding-right: 32px;
-  padding-left: 32px;
+  margin-right: 32px;
 `;
 
 const SubjectCard = () => {
