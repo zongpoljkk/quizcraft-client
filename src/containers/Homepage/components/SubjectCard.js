@@ -20,25 +20,26 @@ const SubjectDiv = styled.div`
   text-align: center;
 `;
 
-const SubjectBox = styled.div`
+const SubjectBox = styled.div.attrs((props) => ({
+  type: props.type,
+}))`
   background-color: ${COLOR.ISLAND_SPICE};
   width: 350px;
   height: 108px;
   border-radius: 10px;
-  margin-top: 16px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: ${(props) => (props.type === "top" ? "0px" : "16px")};
   display: flex;
   align-items: center;
   box-shadow: 0px 1px 3px ${subject_box_shadow};
+  /* padding: 32px 24px 32px 24px; */
 `;
 
 const SubjectImg = styled.img`
   alt: "Subject Image";
   width: 60px;
   height: 60px;
-  padding-left: 32px;
   padding-right: 32px;
+  padding-left: 32px;
 `;
 
 const SubjectCard = () => {

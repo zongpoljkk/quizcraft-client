@@ -205,7 +205,7 @@ const CenterDiv = styled.div`
 
 const SolutionDiv = styled(CenterDiv)`
   margin: 64px auto 104px auto;
-  height: 240px;
+  height: 160px;
   overflow: scroll;
 `;
 
@@ -237,9 +237,9 @@ const ShiftRight = styled.img`
 const ReportDiv = styled.div`
   display: flex;
   justify-content: flex-start;
-  /* align-items: flex-end; */
-  align-self: flex-end; 
-  /* margin-top: auto; */
+  align-items: flex-end;
+  /* align-self: flex-end;  */
+  margin-top: auto;
 `;
 
 const ReportFlag = styled.img`
@@ -254,6 +254,7 @@ const ReportText = styled.p`
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
   text-decoration: underline;
   display: inline-block;
+  margin-bottom: 0;
 `;
 
 export default PracticeAnswer;
