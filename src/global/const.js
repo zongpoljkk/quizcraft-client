@@ -11,3 +11,5 @@ export const COLOR = {
   SILVER: "#BFC0C0",
   SHADOW: "#D9D9D9",
 };
+
+export const API_HOST = ``;

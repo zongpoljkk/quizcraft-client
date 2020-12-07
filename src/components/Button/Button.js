@@ -71,6 +71,3 @@ export const Button = styled.button.attrs((props) => ({
     transform: scale(1.1);
   }
 `;
-
-export const LINE_HEIGHT = "1.2em";
-export const BUTTON_RADIUS = "10px";

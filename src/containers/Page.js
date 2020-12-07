@@ -9,7 +9,7 @@ const Page = ({ children }) => {
 const Container = styled.div`
   display: flex;
   flex: 1;
-  /* padding: 32px; */
+  padding: 32px;
 `;
 
 export default Page;
