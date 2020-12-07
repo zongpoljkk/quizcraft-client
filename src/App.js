@@ -3,26 +3,29 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
-
+import Homepage from "./containers/Homepage/Homepage";
+import TopicPage from "./containers/TopicPage/TopicPage";
 import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
     <Router>
       <Navbar />
-      <Switch>
-        <Route exact path="/">
-          <Page />
-        </Route>
-        <Route path="/browse">
-          <Page />
-        </Route>
-        <Route path="*">
-          <ErrorPage />
-        </Route>
-      </Switch>
+      <Page>
+        <Switch>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
+          <Route exact path="/topic">
+            <TopicPage />
+          </Route>
+          <Route path="*">
+            <ErrorPage />
+          </Route>
+        </Switch>
+      </Page>
     </Router>
   );
-}
+};
 
 export default App;

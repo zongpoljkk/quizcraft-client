@@ -7,5 +7,6 @@ export const COLOR = {
   CHARCOAL: "#4A4A4A",
   CELERY:"#A8C653",
   TRINIDAD: "#D24C2B",
-  SILVER: "#BFC0C0"
+  SILVER: "#BFC0C0",
+  SHADOW: "#D9D9D9",
 };
