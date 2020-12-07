@@ -138,53 +138,51 @@ const PracticeAnswer = () => {
 
   return (
     <Container answer={correct} onClick={handleFirstClick}>
-      <Background answer={correct}>
-        {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
-        <CenterDiv style={{ marginTop: "68px" }}>
-          {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
-          <Sign answer={correct} />
-        </CenterDiv>
-        <CenterDiv>
-          {correct ? (
-            <Header color={COLOR.CELERY}>{title}</Header>
-          ) : (
-            <Header color={COLOR.TRINIDAD}>{title}Î</Header>
-          )}
-        </CenterDiv>
-        {firstClick ? (
-          <SolutionDiv>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {solution.map((line) => {
-                // TODO: Replace Math.random() with solution.id after it has one
-                return (
-                  <li key={Math.random()}>
-                    <Solution answer={correct}>{line}</Solution>
-                  </li>
-                );
-              })}
-            </ul>
-          </SolutionDiv>
-        ) : (
-          <SolutionDiv></SolutionDiv>
-        )}
-
-        {greetingHolder()}
-
-        {arrowHolder()}
-
+      <Background answer={correct} />
+      {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
+      <CenterDiv style={{ marginTop: "68px" }}>
+        {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
+        <Sign answer={correct} />
+      </CenterDiv>
+      <CenterDiv>
         {correct ? (
-          <ReportDiv>
-            <ReportFlag src={Correct_Flag} />
-            <ReportText answer={correct}>รายงาน</ReportText>
-          </ReportDiv>
+          <Header color={COLOR.CELERY}>{title}</Header>
         ) : (
-          <ReportDiv>
-            <ReportFlag src={Incorrect_Flag} />{" "}
-            <ReportText answer={correct}>รายงาน</ReportText>
-          </ReportDiv>
+          <Header color={COLOR.TRINIDAD}>{title}Î</Header>
         )}
-        {/* </div> */}
-      </Background>
+      </CenterDiv>
+      {firstClick ? (
+        <SolutionDiv>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {solution.map((line) => {
+              // TODO: Replace Math.random() with solution.id after it has one
+              return (
+                <li key={Math.random()}>
+                  <Solution answer={correct}>{line}</Solution>
+                </li>
+              );
+            })}
+          </ul>
+        </SolutionDiv>
+      ) : (
+        <SolutionDiv></SolutionDiv>
+      )}
+
+      {greetingHolder()}
+
+      {arrowHolder()}
+
+      {correct ? (
+        <ReportDiv>
+          <ReportFlag src={Correct_Flag} />
+          <ReportText answer={correct}>รายงาน</ReportText>
+        </ReportDiv>
+      ) : (
+        <ReportDiv>
+          <ReportFlag src={Incorrect_Flag} />{" "}
+          <ReportText answer={correct}>รายงาน</ReportText>
+        </ReportDiv>
+      )}
     </Container>
   );
 };
@@ -239,9 +237,9 @@ const ShiftRight = styled.img`
 const ReportDiv = styled.div`
   display: flex;
   justify-content: flex-start;
-  /* align-items: flex-end;
-  align-self: flex-end; */
-  margin-top: auto;
+  /* align-items: flex-end; */
+  align-self: flex-end; 
+  /* margin-top: auto; */
 `;
 
 const ReportFlag = styled.img`
