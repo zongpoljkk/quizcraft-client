@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 // Components
 // import CenterDiv from "../../components/CenterDiv/CenterDiv";
-import { Container } from "./components/Container";
+import {
+  Container,
+  correct_background_color,
+  incorrect_background_color,
+} from "./components/Container";
 import Sign from "./components/Sign";
 import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button/Button";
@@ -134,8 +138,9 @@ const PracticeAnswer = () => {
 
   return (
     <Container answer={correct} onClick={handleFirstClick}>
-      <div>
-        <CenterDiv style={{marginTop: "68px"}}>
+      <Background answer={correct}>
+        {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
+        <CenterDiv style={{ marginTop: "68px" }}>
           {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
           <Sign answer={correct} />
         </CenterDiv>
@@ -162,31 +167,37 @@ const PracticeAnswer = () => {
         ) : (
           <SolutionDiv></SolutionDiv>
         )}
+
         {greetingHolder()}
 
         {arrowHolder()}
 
         {correct ? (
-          <div>
+          <ReportDiv>
             <ReportFlag src={Correct_Flag} />
             <ReportText answer={correct}>รายงาน</ReportText>
-          </div>
+          </ReportDiv>
         ) : (
-          <div>
+          <ReportDiv>
             <ReportFlag src={Incorrect_Flag} />{" "}
             <ReportText answer={correct}>รายงาน</ReportText>
-          </div>
+          </ReportDiv>
         )}
-      </div>
+        {/* </div> */}
+      </Background>
     </Container>
   );
 };
 
-const Title = styled.p`
-  font-family: Prompt;
-  font-size: 24px;
-  font-weight: ${SEMI_BOLD};
-  color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
+const Background = styled.div`
+  background-color: ${(props) =>
+    props.answer ? correct_background_color : incorrect_background_color};
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  overflow-y: scroll;
 `;
 
 const CenterDiv = styled.div`
@@ -209,6 +220,7 @@ const GreetingDiv = styled.div`
 `;
 
 const ShiftDiv = styled(CenterDiv)`
+  margin-bottom: auto;
   min-height: 72px;
 `;
 
@@ -223,12 +235,20 @@ const ShiftRight = styled.img`
   height: 40px;
   margin-left: 32px;
 `;
+
+const ReportDiv = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  /* align-items: flex-end;
+  align-self: flex-end; */
+  margin-top: auto;
+`;
+
 const ReportFlag = styled.img`
   alt: "Report Flag";
   height: 24px;
   margin: 32px 8px 0 32px;
   display: inline-block;
-  z-index: 50;
 `;
 
 const ReportText = styled.p`
@@ -236,7 +256,6 @@ const ReportText = styled.p`
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
   text-decoration: underline;
   display: inline-block;
-  z-index: 50;
 `;
 
 export default PracticeAnswer;
