@@ -57,8 +57,7 @@ export const mathAnswerBox = (correct_answer) => {
     }
     last_type = current_type;
   }
-  console.log({correct_answer});
-  console.log(list);
+
   var boxes = [];
   var index = 0;
   list.map((item) => {

@@ -39,7 +39,6 @@ const PracticeGameContent = ({
           answer={answer}
         />
       }
-      {console.log("practice",{answer})}
     </Container>
   );
 };
