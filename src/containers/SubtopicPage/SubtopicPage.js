@@ -1,19 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { Header } from "../../components/Typography";
 import SubtopicBox from "./components/SubtopicBox";
+import { useGetsubTopicName } from "./SubtopicPageHelper";
 
-const SubtopicPage = () => {
-  const [topic, setTopic] = useState("แกรมมาร์"); //แกรมมาร์, ยกกำลัง
+const SubtopicPage = ({ }) => {
+  const location = useLocation();
+  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(location.state.topic_name);
+
+  useEffect(() => {
+    getSubtopicName();
+  }, []);
+
   return (
-    <Container>
-      <Topic_style>
-        <Header> {topic} </Header>
-      </Topic_style>
-      <SubtopicBox title="แนวโจทย์แบบเติมคำตอบที่ถูกต้อง" />
-      <SubtopicBox title="แนวโจทย์แบบมีตัวเลือกที่ถูกต้อง" />
-    </Container>
+    <React.Fragment>
+      {loading ? (
+        <div>loading</div>
+      ) : (
+        <Container>
+          <TopicStyle>
+            <Header> {location.state.topic_name} </Header>
+          </TopicStyle>
+          {subtopics?.map((subtopic, index) => (
+            <SubtopicBox 
+              key={index}
+              id={subtopic.subtopic_id}
+              title={subtopic.subtopic_name}
+            />
+          ))}
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
 
@@ -23,7 +42,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Topic_style = styled.div`
+const TopicStyle = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 32px;

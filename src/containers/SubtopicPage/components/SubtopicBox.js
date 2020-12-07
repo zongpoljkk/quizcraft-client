@@ -5,7 +5,10 @@ import ModeBox from "./ModeBox";
 
 import { COLOR, MODE } from "../../../global/const";
 
-const SubtopicBox = (props) => {
+const SubtopicBox = ({
+  id,
+  title,
+}) => {
   const [opened, set_opened] = useState(false);
 
   const handle_toggle = () => {
@@ -18,10 +21,15 @@ const SubtopicBox = (props) => {
 
   return (
     <Container>
-      <Accordion onClick={handle_toggle}> {props.title} </Accordion>
+      <Accordion onClick={handle_toggle}>{title}</Accordion>
       {opened === true
         ? Object.entries(MODE).map((item, index) => (
-            <ModeBox key={index} icon={item[1].icon} type={item[1].type} />
+            <ModeBox 
+              key={index} 
+              icon={item[1].icon} 
+              type={item[1].type}
+              id={id}
+            />
           ))
         : null}
     </Container>

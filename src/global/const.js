@@ -41,15 +41,15 @@ export const MODE = {
 
 export const DIFFICULTY = {
   EASY: {
-    type: "ง่าย",
+    type: "EASY",
     icon: level_easy
   },
   MEDIUM: {
-    type: "ปานกลาง",
+    type: "MEDIUM",
     icon: level_medium
   },
   HARD: {
-    type: "ยาก",
+    type: "HARD",
     icon: level_hard
   }
 };
