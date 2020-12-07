@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 // Utils
 import { convertHexToRGBA } from "../../../global/utils";
+import { getSubjects } from "../HomepageHelper";
 
 // Media
 import math_logo from "../../../assets/math_logo.png";
@@ -12,6 +13,21 @@ import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
+
+const SubjectCard = () => {
+  return (
+    <SubjectDiv>
+      <SubjectBox>
+        <MathSubjectImg src={math_logo} />
+        <SubjectTitle>คณิตศาสตร์</SubjectTitle>
+      </SubjectBox>
+      <SubjectBox>
+        <EngSubjectImg src={eng_logo} />
+        <SubjectTitle>ภาษาอังกฤษ</SubjectTitle>
+      </SubjectBox>
+    </SubjectDiv>
+  );
+};
 
 const SubjectDiv = styled.div`
   margin-top: 32px;
@@ -52,20 +68,5 @@ const SubjectTitle = styled(Header)`
   line-height: 1.2em;
   /* margin: 35px 95px 40px 0px; */
 `;
-
-const SubjectCard = () => {
-  return (
-    <SubjectDiv>
-      <SubjectBox>
-        <MathSubjectImg src={math_logo} />
-        <SubjectTitle>คณิตศาสตร์</SubjectTitle>
-      </SubjectBox>
-      <SubjectBox>
-        <EngSubjectImg src={eng_logo} />
-        <SubjectTitle>ภาษาอังกฤษ</SubjectTitle>
-      </SubjectBox>
-    </SubjectDiv>
-  );
-};
 
 export default SubjectCard;
