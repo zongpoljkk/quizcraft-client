@@ -25,13 +25,46 @@ export const Button = styled.button.attrs((props) => ({
         return "200px";
     }
   }};
-  background-color: ${(props) => props.backgroundColor || `${COLOR.WHITE}`};
+  background-color: ${(props) => {
+    switch (props.type) {
+      case "normal":
+        return `${COLOR.MANDARIN}`;
+      case "outline":
+        return `${COLOR.WHITE}`;
+      case "disabled":
+        return `${COLOR.SHADOW}`;
+      default:
+        return `${props.backgroundColor}`;
+    }
+  }};
   text-align: ${(props) => props.textAlign || "center"};
   font-family: Prompt, sans-serif;
   font-size: ${(props) => props.fontSize || "16px"};
   font-weight: ${(props) => props.fontWeight || "400"};
-  color: ${(props) => props.textColor || `${COLOR.MANDARIN}`};
-  border: ${(props) => props.border || `1px solid ${COLOR.MANDARIN}`};
+  color: ${(props) => {
+     switch (props.type) {
+      case "normal":
+        return `${COLOR.WHITE}`;
+      case "outline":
+        return `${COLOR.MANDARIN}`;
+      case "disabled":
+        return `${COLOR.WHITE}`;
+      default:
+        return `${props.color}`;
+    }
+  }};
+  border: ${(props) => {
+     switch (props.type) {
+      case "normal":
+        return `1px solid ${COLOR.WHITE}`;
+      case "outline":
+        return `1px solid ${COLOR.MANDARIN}`;
+      case "disabled":
+        return `1px solid ${COLOR.SHADOW}`;
+      default:
+        return `${props.border}`;
+    }
+  }};
   border-radius: ${(props) => props.borderRadius || "10px"};
 
   &:hover {

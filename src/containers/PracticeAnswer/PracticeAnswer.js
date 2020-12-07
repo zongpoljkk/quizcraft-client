@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Container } from "./components/Container";
 import Sign from "./components/Sign";
 import { SolutionDiv, Solution } from "./components/Solution";
+import { Button } from "../../components/Button/Button";
 
 // Media
 import Correct_Flag from "../../assets/Correct_Flag.png";
@@ -22,27 +23,28 @@ import { backward, forward } from "./PracticeAnswerHelper";
 // Global
 import { Body, SEMI_BOLD } from "../../components/Typography";
 import { COLOR } from "../../global/const";
-import { BUTTON_RADIUS } from "../../components/Button/Button";
+
+const TITLE = {
+  CORRECT: "ถูกต้อง",
+  INCORRECT: "คำตอบที่ถูกต้องคือ",
+};
+
+const MOCKDATA = {
+  STATICSOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
+  SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
+};
 
 const PracticeAnswer = () => {
   const [correct, set_correct] = useState(true);
   // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
-  const [title, set_title] = useState("ถูกต้อง");
+  const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
   // So you can always refer to this state
-  const [staticSolution, set_static_solution] = useState([
-    "2 x 6 = 2 x 2 x 3",
-    "= 4 x 3 ",
-    "= 12",
-  ]);
+  const [staticSolution, set_static_solution] = useState(MOCKDATA.STATICSOL);
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState([
-    "2 x 6 = 2 x 2 x 3",
-    // "= 4 x 3 ",
-    // "= 12",
-  ]);
+  const [solution, set_solution] = useState(MOCKDATA.SOL);
   const [firstClick, setFirstClick] = useState(false);
 
   const greetingHolder = () => {
@@ -87,7 +89,12 @@ const PracticeAnswer = () => {
       if (solution.length === staticSolution.length) {
         return (
           <ShiftDiv>
-            <NextButton answer={correct}>ทำต่อ</NextButton>
+            {/* <div style={{marginTop: "20px"}}>
+              <NextButton answer={correct}>ทำต่อ</NextButton>
+            </div> */}
+            <div style={{ marginTop: "20px" }}>
+              <Button type="yo" backgroundColor={correct ? `${COLOR.CELERY}` : `${COLOR.MANDARIN}`}>ทำต่อ</Button>
+            </div>
           </ShiftDiv>
         );
       } else {
@@ -181,18 +188,9 @@ const PracticeAnswer = () => {
   );
 };
 
-const NextButton = styled.button`
-  width: 160px;
-  height: 48px;
+const NextButton = styled(Button)`
   background-color: ${(props) =>
     props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`};
-  font-family: Prompt;
-  font-weight: 400;
-  font-size: 16px;
-  color: ${COLOR.WHITE};
-  margin-top: 20px;
-  border-radius: ${BUTTON_RADIUS};
-  border: 0px;
 `;
 
 const ReportFlag = styled.img`
