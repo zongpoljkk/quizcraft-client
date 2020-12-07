@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import Navbar from "./components/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
 import TopicPage from "./containers/TopicPage/TopicPage";
-import Navbar from "./components/Navbar";
+import PracticeGame from "./containers/PracticeGame/PracticeGame";
 
 const App = () => {
   return (
@@ -18,6 +19,9 @@ const App = () => {
           </Route>
           <Route exact path="/topic">
             <TopicPage />
+          </Route>
+          <Route exact path="/practice-game">
+            <PracticeGame />
           </Route>
           <Route path="*">
             <ErrorPage />
