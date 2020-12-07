@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import TopicBox from "./components/TopicBox";
 
@@ -7,8 +8,21 @@ import { useGetTopicName } from "./TopicPageHelper";
 // TODO: Remove mock after integrate subject
 const MOCK_SUBJECT = "คณิตศาสตร์";
 
-const TopicPage = ({ subject_name = MOCK_SUBJECT }) => {
-  const { getTopicName, loading, topics } = useGetTopicName(subject_name);
+const TopicPage = ({ history }) => {
+
+  const location = useLocation();
+  // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
+  const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT);
+
+  const handleClick = (topic) => {
+    history.push({
+      pathname: "/"+subject_name+"/"+topic, 
+      state: {
+        subject_name: subject_name,
+        topic: topic
+      }
+    });
+  };
 
   useEffect(() => {
     getTopicName();
@@ -21,7 +35,11 @@ const TopicPage = ({ subject_name = MOCK_SUBJECT }) => {
       ) : (
         <Container>
           {topics.map((topic, index) => (
-            <TopicBox key={index} title={topic} />
+            <TopicBox 
+              key={index}  
+              title={topic} 
+              onClick={() => handleClick(topic)}
+            />
           ))}
         </Container>
       )}
@@ -41,4 +59,4 @@ const Container = styled.div`
   }
 `;
 
-export default TopicPage;
+export default withRouter(TopicPage);

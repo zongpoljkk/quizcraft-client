@@ -6,16 +6,14 @@ import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
 import default_topic from "../../../assets/thumbnail/default_topic.png";
 
-const TopicBox = ({ title, image }) => {
-  const history = useHistory();
-
-  //TODO link to subtopic of clicked topic
-  const handle_click = () => {
-    history.push("/");
-  };
+const TopicBox = ({ 
+  title,
+  image,
+  onClick 
+}) => {
 
   return (
-    <Container onClick={handle_click}>
+    <Container onClick={onClick}>
       <ItemBox>
         <TopicImg 
           src={image ? image : default_topic}
