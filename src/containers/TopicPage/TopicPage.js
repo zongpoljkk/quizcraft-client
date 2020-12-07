@@ -34,10 +34,11 @@ const TopicPage = ({ history }) => {
         <div>loading</div>
       ) : (
         <Container>
-          {topics.map((topic, index) => (
+          {topics?.map((topic, index) => (
             <TopicBox 
               key={index}  
-              title={topic} 
+              title={topic.topic_name} 
+              image={topic.topic_image} 
               onClick={() => handleClick(topic)}
             />
           ))}

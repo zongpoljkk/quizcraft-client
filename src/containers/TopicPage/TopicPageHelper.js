@@ -5,7 +5,7 @@ import backend from "../../ip";
 
 export const useGetTopicName = (subject_name) => {
   const [loading, set_loading] = useState(true);
-  const [topics, set_topics] = useState([]);
+  const [topics, set_topics] = useState();
 
   const getTopicName = async () => {
     try {
@@ -16,8 +16,15 @@ export const useGetTopicName = (subject_name) => {
       });
       const { success, data } = response.data;
       if (success) {
+        var topic_lists = [];
         set_loading(false);
-        set_topics(data);
+        data.map((topic, index) => (
+          topic_lists[index] = {
+            topic_name: topic._id,
+            topic_image: topic.topicImg
+          }
+        ))
+        set_topics(topic_lists);
       } else {
         console.log("getTopicName Error");
       } 
