@@ -14,12 +14,12 @@ const TopicPage = ({ history }) => {
   // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
   const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT);
 
-  const handleClick = (topic) => {
+  const handleClick = (topic_name) => {
     history.push({
-      pathname: "/"+MOCK_SUBJECT+"/"+topic, 
+      pathname: "/" + MOCK_SUBJECT + "/" + topic_name, 
       state: {
         subject_name: MOCK_SUBJECT,
-        topic: topic
+        topic: topic_name
       }
     });
   };
@@ -39,7 +39,7 @@ const TopicPage = ({ history }) => {
               key={index}  
               title={topic.topic_name} 
               image={topic.topic_image} 
-              onClick={() => handleClick(topic)}
+              onClick={() => handleClick(topic.topic_name)}
             />
           ))}
         </Container>
