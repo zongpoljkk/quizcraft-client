@@ -8,7 +8,8 @@ export const COLOR = {
   CELERY:"#A8C653",
   TRINIDAD: "#D24C2B",
   SILVER: "#BFC0C0",
-  SILVER_OPACITY_30: "#ECEDED"
+  SILVER_OPACITY_30: "#ECEDED",
+  SHADOW: "#D9D9D9"
 };
 
 export const ANSWER_TYPE = {
