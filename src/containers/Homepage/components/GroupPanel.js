@@ -24,8 +24,8 @@ const GroupPanel = () => {
           width: "350px",
         }}
       >
-        <Button size="normal" type="outline">สร้างกลุ่ม</Button>
-        <Button size="normal" textColor={COLOR.WHITE} backgroundColor={COLOR.MANDARIN}>
+        <Button type="outline">สร้างกลุ่ม</Button>
+        <Button >
           เข้าร่วมกลุ่ม
         </Button>
       </div>

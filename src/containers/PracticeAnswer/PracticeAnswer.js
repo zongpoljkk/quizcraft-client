@@ -89,11 +89,17 @@ const PracticeAnswer = () => {
       if (solution.length === staticSolution.length) {
         return (
           <ShiftDiv>
-            {/* <div style={{marginTop: "20px"}}>
-              <NextButton answer={correct}>ทำต่อ</NextButton>
-            </div> */}
             <div style={{ marginTop: "20px" }}>
-              <Button type="yo" backgroundColor={correct ? `${COLOR.CELERY}` : `${COLOR.MANDARIN}`}>ทำต่อ</Button>
+              <Button
+                type="custom"
+                border="none"
+                color={COLOR.WHITE}
+                backgroundColor={
+                  correct ? `${COLOR.CELERY}` : `${COLOR.MANDARIN}`
+                }
+              >
+                ทำต่อ
+              </Button>
             </div>
           </ShiftDiv>
         );
@@ -187,11 +193,6 @@ const PracticeAnswer = () => {
     </Container>
   );
 };
-
-const NextButton = styled(Button)`
-  background-color: ${(props) =>
-    props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`};
-`;
 
 const ReportFlag = styled.img`
   alt: "Report Flag";

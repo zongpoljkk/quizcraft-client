@@ -11,61 +11,61 @@ export const Button = styled.button.attrs((props) => ({
 }))`
   width: ${(props) => {
     switch (props.size) {
-      case "normal":
-        return "160px";
+      case "small":
+        return "100px";
       default:
-        return "200px";
+        return "160px";
     }
   }};
   height: ${(props) => {
     switch (props.size) {
-      case "normal":
-        return "48px";
+      case "small":
+        return "36px";
       default:
-        return "200px";
+        return "48px";
     }
   }};
   background-color: ${(props) => {
     switch (props.type) {
-      case "normal":
-        return `${COLOR.MANDARIN}`;
+      case "custom":
+        return `${props.backgroundColor}`;
       case "outline":
         return `${COLOR.WHITE}`;
       case "disabled":
         return `${COLOR.SHADOW}`;
       default:
-        return `${props.backgroundColor}`;
+        return `${COLOR.MANDARIN}`;
     }
   }};
   text-align: ${(props) => props.textAlign || "center"};
   font-family: Prompt, sans-serif;
-  font-size: ${(props) => props.fontSize || "16px"};
-  font-weight: ${(props) => props.fontWeight || "400"};
+  font-size: 16px;
+  font-weight: 400;
   color: ${(props) => {
-     switch (props.type) {
-      case "normal":
-        return `${COLOR.WHITE}`;
+    switch (props.type) {
+      case "custom":
+        return `${props.color}`;
       case "outline":
         return `${COLOR.MANDARIN}`;
       case "disabled":
         return `${COLOR.WHITE}`;
       default:
-        return `${props.color}`;
+        return `${COLOR.WHITE}`;
     }
   }};
   border: ${(props) => {
-     switch (props.type) {
-      case "normal":
-        return `1px solid ${COLOR.WHITE}`;
+    switch (props.type) {
+      case "custom":
+        return `${props.border}`;
       case "outline":
         return `1px solid ${COLOR.MANDARIN}`;
       case "disabled":
         return `1px solid ${COLOR.SHADOW}`;
       default:
-        return `${props.border}`;
+        return `1px solid ${COLOR.WHITE}`;
     }
   }};
-  border-radius: ${(props) => props.borderRadius || "10px"};
+  border-radius: 10px;
 
   &:hover {
     transform: scale(1.1);
