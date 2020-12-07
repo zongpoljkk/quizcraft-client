@@ -5,9 +5,9 @@ import { COLOR } from "../../global/const";
 
 export const Button = styled.button.attrs((props) => ({
   // static props
-  type: props.type || "default",
+  type: props.type,
   // dynamic props
-  size: props.size || "normal",
+  size: props.size,
 }))`
   width: ${(props) => {
     switch (props.size) {
@@ -32,7 +32,7 @@ export const Button = styled.button.attrs((props) => ({
       case "outline":
         return `${COLOR.WHITE}`;
       case "disabled":
-        return `${COLOR.SHADOW}`;
+        return `${COLOR.SILVER}`;
       default:
         return `${COLOR.MANDARIN}`;
     }
@@ -60,7 +60,7 @@ export const Button = styled.button.attrs((props) => ({
       case "outline":
         return `1px solid ${COLOR.MANDARIN}`;
       case "disabled":
-        return `1px solid ${COLOR.SHADOW}`;
+        return `none`;
       default:
         return `none`;
     }
