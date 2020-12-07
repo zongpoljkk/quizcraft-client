@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import Navbar from "./components/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
 import TopicPage from "./containers/TopicPage/TopicPage";
-import Navbar from "./components/Navbar";
+import PracticeGame from "./containers/PracticeGame/PracticeGame";
 
 const App = () => {
   return (
@@ -22,6 +23,9 @@ const App = () => {
           <Route exact path="/:subject/:topic">
             {/* TODO: add subtopic page */}
             <div>hihi</div>
+          </Route>
+          <Route exact path="/practice-game">
+            <PracticeGame />
           </Route>
           <Route path="*">
             <ErrorPage />
