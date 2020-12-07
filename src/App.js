@@ -20,6 +20,10 @@ const App = () => {
           <Route exact path="/topic">
             <TopicPage />
           </Route>
+          <Route exact path="/:subject/:topic">
+            {/* TODO: add subtopic page */}
+            <div>hihi</div>
+          </Route>
           <Route exact path="/practice-game">
             <PracticeGame />
           </Route>
