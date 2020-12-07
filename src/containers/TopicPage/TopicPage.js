@@ -19,7 +19,7 @@ const TopicPage = ({ history }) => {
       pathname: "/" + MOCK_SUBJECT + "/" + topic_name, 
       state: {
         subject_name: MOCK_SUBJECT,
-        topic: topic_name
+        topic_name: topic_name
       }
     });
   };
