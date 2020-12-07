@@ -68,7 +68,7 @@ const Mark = styled.span`
     left: 50%;
     top: 50%;
     position: absolute;
-    transition: all 200ms;
+    transition: all 220ms;
   }
 `;
 

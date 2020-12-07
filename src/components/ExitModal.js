@@ -2,12 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 import { Header } from "./Typography";
+import { Button } from "./Button";
 import { Modal } from "./Modal";
 import useModal from "./useModal";
 
 import close_icon from "../assets/icon/close.png";
 
-export const ExitModal = () => {
+export const ExitModal = ({
+  onExit = () => {},
+}) => {
 
   const {isShowing, toggle} = useModal();
 
@@ -24,8 +27,22 @@ export const ExitModal = () => {
           <Header>คุณยืนยันที่จะออกจากเกมใช่หรือไม่ ?</Header>
         </HeaderContainer>
         <ButtonContainer>
-          <div>button</div>
-          <div>button</div>
+          <Button 
+            type="outline"
+            size="small"
+            onClick={toggle}
+          >
+            ยกเลิก
+          </Button>
+          <Button
+            size="small"
+            onClick={() => {
+              toggle();
+              onExit();
+            }}
+          >
+            ยืนยัน
+          </Button>
         </ButtonContainer>
       </Modal>
     </div>

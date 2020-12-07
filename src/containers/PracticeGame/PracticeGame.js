@@ -7,6 +7,7 @@ import { ExitModal } from "../../components/ExitModal"
 import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem"
+import { Button } from "../../components/Button"
 import PracticeGameContent from "./PracticeGameContent";
 
 import skip_icon from "../../assets/icon/skip.png";
@@ -27,7 +28,7 @@ const QUESTION4 = '[] should be more than 200 words.';
 const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
 const CHOICES2 = ["slowlyyyyyyyy", "slowleddddddd"];
 const HINT = "สมบัติการคูณเมื่อ a, m และ n เป็นจำนวนเต็ม คือ a  x a  = a";
-const TYPE_ANSWER = "MATH_INPUT";
+const TYPE_ANSWER = "RADIO_CHOICE";
 
 const PracticeGame = () => {
 
@@ -37,6 +38,11 @@ const PracticeGame = () => {
   const onSkip = () => {
     // TODO: connect API get new question
     console.log("skip ja");
+  }
+
+  const onExit = () => {
+    // TODO: connect API get new question
+    console.log("exit ja");
   }
 
   return ( 
@@ -49,7 +55,7 @@ const PracticeGame = () => {
         {({ getTime }) => (
           <React.Fragment>
             <Headline>
-              <ExitModal />
+              <ExitModal onExit={onExit}/>
               <HintItem content={HINT}/>
               <ItemCard onClick={onSkip}>
                 <img src={skip_icon} height={20}/>
@@ -77,7 +83,14 @@ const PracticeGame = () => {
                 set_answer={set_answer}
               />
             </ContentContainer>
-            <ButtonContainer onClick={() => set_used_time(getTime()/1000)}>button</ButtonContainer>
+            <ButtonContainer>
+              <Button
+                type={answer ? "default" : "disabled"}
+                onClick={() => set_used_time(getTime()/1000)}
+              >
+                ตรวจ
+              </Button>
+            </ButtonContainer>
           </React.Fragment>
         )}
       </Timer>
