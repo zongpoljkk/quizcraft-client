@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Utils
@@ -15,16 +16,35 @@ import { Header } from "../../../components/Typography";
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
 const SubjectCard = () => {
+  const [subjects, setSubjects] = useState([]);
+
+  const returnImg = (subject) => {
+    switch (subject) {
+      case "คณิตศาสตร์":
+        return math_logo;
+      case "ภาษาอังกฤษ":
+        return eng_logo;
+      default:
+        return math_logo;
+    }
+  };
+
+  useEffect(() => {
+    getSubjects().then((subjects) => {
+      setSubjects(subjects.data);
+      console.log(subjects.data);
+    });
+  }, []);
   return (
     <SubjectDiv>
-      <SubjectBox>
-        <SubjectImg src={math_logo} />
-        <Header>คณิตศาสตร์</Header>
-      </SubjectBox>
-      <SubjectBox>
-        <SubjectImg src={eng_logo} />
-        <Header>ภาษาอังกฤษ</Header>
-      </SubjectBox>
+      {subjects.map((subject) => {
+        return (
+          <SubjectBox>
+            <SubjectImg src={returnImg(subject)} />
+            <Header>{subject}</Header>
+          </SubjectBox>
+        );
+      })}
     </SubjectDiv>
   );
 };
