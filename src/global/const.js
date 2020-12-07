@@ -15,6 +15,7 @@ export const COLOR = {
   CELERY: "#A8C653",
   TRINIDAD: "#D24C2B",
   SILVER: "#BFC0C0",
+  SILVER_OPACITY_30: "#ECEDED",
   SHADOW: "#D9D9D9"
 };
 
@@ -51,4 +52,10 @@ export const DIFFICULTY = {
     type: "ยาก",
     icon: level_hard
   }
+};
+
+export const ANSWER_TYPE = {
+  MATH_INPUT: "MATH_INPUT",
+  SELECT_ONE: "SELECT_ONE",
+  RADIO_CHOICE: "RADIO_CHOICE",
 };

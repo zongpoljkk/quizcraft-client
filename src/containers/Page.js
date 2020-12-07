@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import Homepage from "./Homepage/Homepage";
-
 const Page = ({ children }) => {
   return <Container>{children}</Container>;
 };

@@ -1,20 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import TopicBox from "./components/TopicBox";
 
-const TopicPage = () => {
-  const [topicList, setTopicList] = useState({ list: [] });
-  return (
-    <Container>
-      <TopicBox></TopicBox>
-      <TopicBox></TopicBox>
-      <TopicBox></TopicBox>
+import { useGetTopicName } from "./TopicPageHelper";
 
-      {/* TODO: loop all topic from selected subject from Homepage
-      {topicList.list.map((allTopic, index) =>(
-        <Topic key = {index} data = {allTopic} />
-      ))} */}
-    </Container>
+// TODO: Remove mock after integrate subject
+const MOCK_SUBJECT = "คณิตศาสตร์";
+
+const TopicPage = ({ history }) => {
+
+  const location = useLocation();
+  // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
+  const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT);
+
+  const handleClick = (topic_name) => {
+    history.push({
+      pathname: "/" + MOCK_SUBJECT + "/" + topic_name, 
+      state: {
+        subject_name: MOCK_SUBJECT,
+        topic_name: topic_name
+      }
+    });
+  };
+
+  useEffect(() => {
+    getTopicName();
+  }, []);
+
+  return (
+    <React.Fragment>
+      {loading ? (
+        <div>loading</div>
+      ) : (
+        <Container>
+          {topics?.map((topic, index) => (
+            <TopicBox 
+              key={index}  
+              title={topic.topic_name} 
+              image={topic.topic_image} 
+              onClick={() => handleClick(topic.topic_name)}
+            />
+          ))}
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
 
@@ -30,4 +60,4 @@ const Container = styled.div`
   }
 `;
 
-export default TopicPage;
+export default withRouter(TopicPage);
