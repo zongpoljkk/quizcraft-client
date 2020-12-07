@@ -12,4 +12,4 @@ export const COLOR = {
   SHADOW: "#D9D9D9",
 };
 
-export const API_HOST = ``;
+export const API_HOST = `http://localhost:5000`;
