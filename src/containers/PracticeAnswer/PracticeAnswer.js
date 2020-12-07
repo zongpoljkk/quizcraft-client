@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Components
-import CenterDiv from "../../components/CenterDiv/CenterDiv";
+// import CenterDiv from "../../components/CenterDiv/CenterDiv";
 import { Container } from "./components/Container";
 import Sign from "./components/Sign";
 import { SolutionDiv, Solution } from "./components/Solution";
@@ -208,6 +208,11 @@ const ReportText = styled.p`
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
   text-decoration: underline;
   display: inline-block;
+`;
+
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const ShiftDiv = styled(CenterDiv)`

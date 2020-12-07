@@ -17,6 +17,7 @@ export const Container = styled.div`
     props.answer ? correct_background_color : incorrect_background_color};
 
   min-height: 100vh;
+  width: 100%;
   /* Full height */
   /* height: 100%; */
 

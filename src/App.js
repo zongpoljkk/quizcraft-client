@@ -6,30 +6,30 @@ import PracticeAnswer from "./containers/PracticeAnswer/PracticeAnswer";
 
 // Component
 import Navbar from "./components/Navbar/Navbar";
+import Homepage from "./containers/Homepage/Homepage";
+import TopicPage from "./containers/TopicPage/TopicPage";
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        {/* <div className="header"> */}
-          <Navbar />
-        {/* </div> */}
-
-        <div className="content">
-          <Switch>
-            <Route exact path="/">
-              <Page />
-            </Route>
-            <Route path="/practice-answer">
-              <PracticeAnswer />
-            </Route>
-            <Route path="*">
-              <ErrorPage />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </div>
+    <Router>
+      <Navbar />
+      <Page>
+        <Switch>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
+          <Route exact path="/topic">
+            <TopicPage />
+          </Route>
+          <Route path="/practice-answer">
+            <PracticeAnswer />
+          </Route>
+          <Route path="*">
+            <ErrorPage />
+          </Route>
+        </Switch>
+      </Page>
+    </Router>
   );
 }
 
