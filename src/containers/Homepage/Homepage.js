@@ -19,6 +19,7 @@ const Layout = styled.div`
   flex: 1;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 export default Homepage;

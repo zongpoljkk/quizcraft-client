@@ -62,7 +62,7 @@ export const Button = styled.button.attrs((props) => ({
       case "disabled":
         return `1px solid ${COLOR.SHADOW}`;
       default:
-        return `1px solid ${COLOR.WHITE}`;
+        return `none`;
     }
   }};
   border-radius: 10px;

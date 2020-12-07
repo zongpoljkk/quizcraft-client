@@ -21,7 +21,7 @@ import Coin from "../../components/Coin/Coin.jsx";
 import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
-import { Body, SEMI_BOLD } from "../../components/Typography";
+import { Body, Header, SEMI_BOLD } from "../../components/Typography";
 import { COLOR } from "../../global/const";
 
 const TITLE = {
@@ -135,12 +135,16 @@ const PracticeAnswer = () => {
   return (
     <Container answer={correct} onClick={handleFirstClick}>
       <div>
-        <CenterDiv>
+        <CenterDiv style={{marginTop: "68px"}}>
           {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
           <Sign answer={correct} />
         </CenterDiv>
         <CenterDiv>
-          <Title answer={correct}>{title}</Title>
+          {correct ? (
+            <Header color={COLOR.CELERY}>{title}</Header>
+          ) : (
+            <Header color={COLOR.TRINIDAD}>{title}Î</Header>
+          )}
         </CenterDiv>
         {firstClick ? (
           <SolutionDiv>
