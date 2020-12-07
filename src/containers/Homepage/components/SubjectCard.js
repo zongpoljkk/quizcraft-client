@@ -29,40 +29,28 @@ const SubjectBox = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  justify-content: left;
   align-items: center;
   box-shadow: 0px 1px 3px ${subject_box_shadow};
 `;
 
-const MathSubjectImg = styled.img`
-  alt: "Math Subject Image";
+const SubjectImg = styled.img`
+  alt: "Subject Image";
   width: 60px;
   height: 60px;
-  margin: 24px 32px 24px 32px;
-`;
-
-const EngSubjectImg = styled.img`
-  alt: "English Subject Image";
-  width: 60px;
-  height: 60px;
-  margin: 24px 32px 24px 32px;
-`;
-
-const SubjectTitle = styled(Header)`
-  line-height: 1.2em;
-  /* margin: 35px 95px 40px 0px; */
+  padding-left: 32px;
+  padding-right: 32px;
 `;
 
 const SubjectCard = () => {
   return (
     <SubjectDiv>
       <SubjectBox>
-        <MathSubjectImg src={math_logo} />
-        <SubjectTitle>คณิตศาสตร์</SubjectTitle>
+        <SubjectImg src={math_logo} />
+        <Header>คณิตศาสตร์</Header>
       </SubjectBox>
       <SubjectBox>
-        <EngSubjectImg src={eng_logo} />
-        <SubjectTitle>ภาษาอังกฤษ</SubjectTitle>
+        <SubjectImg src={eng_logo} />
+        <Header>ภาษาอังกฤษ</Header>
       </SubjectBox>
     </SubjectDiv>
   );

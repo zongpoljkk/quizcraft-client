@@ -20,14 +20,12 @@ export const Container = styled.div`
   width: 100%;
   top: 64px;
   left: 0px;
-  /* Full height */
-  /* height: 100%; */
 
   /* Center and scale the image nicely */
-  position: fixed;
   /* background-position: center;
   background-repeat: no-repeat;
   background-size: cover; */
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

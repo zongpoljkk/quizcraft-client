@@ -7,7 +7,6 @@ import { Button } from "../../../components/Button/Button";
 import { COLOR } from "../../../global/const";
 
 const GroupDiv = styled.div`
-  margin-top: 32px;
   display: flex;
   justify-content: center;
   width: 100%;
