@@ -16,9 +16,9 @@ const TopicPage = ({ history }) => {
 
   const handleClick = (topic) => {
     history.push({
-      pathname: "/"+subject_name+"/"+topic, 
+      pathname: "/"+MOCK_SUBJECT+"/"+topic, 
       state: {
-        subject_name: subject_name,
+        subject_name: MOCK_SUBJECT,
         topic: topic
       }
     });
