@@ -4,13 +4,13 @@ import styled from "styled-components";
 import Homepage from "./Homepage/Homepage";
 
 const Page = ({ children }) => {
-  const Container = styled.div`
-    display: flex;
-    flex: 1;
-    padding: 32px;
-  `;
-
   return <Container>{children}</Container>;
 };
+
+const Container = styled.div`
+  display: flex;
+  flex: 1;
+  padding: 32px;
+`;
 
 export default Page;

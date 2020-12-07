@@ -12,9 +12,10 @@ export const COLOR = {
   WHITE: "#FFFFFF",
   BLACK: "#000000",
   CHARCOAL: "#4A4A4A",
-  CELERY:"#A8C653",
+  CELERY: "#A8C653",
   TRINIDAD: "#D24C2B",
-  SILVER: "#BFC0C0"
+  SILVER: "#BFC0C0",
+  SHADOW: "#D9D9D9"
 };
 
 export const SIZE = {
