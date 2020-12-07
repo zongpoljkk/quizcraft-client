@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
 // Global
-import { COLOR } from "../../global/const";
+import { COLOR } from "../global/const";
 
 export const Button = styled.button.attrs((props) => ({
-  // static props
   type: props.type,
-  // dynamic props
   size: props.size,
 }))`
   width: ${(props) => {
@@ -66,6 +64,7 @@ export const Button = styled.button.attrs((props) => ({
     }
   }};
   border-radius: 10px;
+  outline: none;
   &:hover {
     transform: scale(1.1);
   }

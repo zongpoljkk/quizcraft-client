@@ -4,81 +4,65 @@ import styled from "styled-components";
 import { COLOR } from "../global/const"
 
 export const Header = ({
+  className,
   children,
   color = COLOR.CHARCOAL
 }) => {
 
-  const Header = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 600;
-    font-size: 24px;
-    color: ${color};
-  `;
-
   return (
-    <Header>
+    <Typography className={className} fontWeight={600} fontSize={24} color={color}>
       {children}
-    </Header>
+    </Typography>
   );
 };
 
 export const Subheader = ({
+  className,
   children,
   color = COLOR.CHARCOAL
 }) => {
 
-  const Subheader = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    color: ${color};
-  `;
-
   return (
-    <Subheader>
+    <Typography className={className} fontWeight={500} fontSize={20} color={color}>
       {children}
-    </Subheader>
+    </Typography>
   );
 };
 
 export const Body = ({
+  className,
   children,
   color = COLOR.CHARCOAL
 }) => {
 
-  const Body = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: ${color};
-  `;
-
   return (
-    <Body>
+    <Typography className={className} fontWeight={400} fontSize={16} color={color}>
       {children}
-    </Body>
+    </Typography>
   );
 };
 
 export const Overline = ({
+  className,
   children,
   color = COLOR.CHARCOAL
 }) => {
 
-  const Overline = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    color: ${color};
-  `;
-
   return (
-    <Overline>
+    <Typography className={className} fontWeight={400} fontSize={12} color={color}>
       {children}
-    </Overline>
+    </Typography>
   );
 };
 
-// * FONT WEIGHT * //
-export const MEDIUM = "500";
-export const SEMI_BOLD = "600";
+const Typography = styled.div.attrs(props => ({
+  fontWeight: props.fontWeight,
+  fontSize: props.fontSize,
+  color: props.color
+}))`
+  display: flex;
+  font-family: Prompt, sans-serif;
+  font-weight: ${props => props.fontWeight};
+  font-size: ${props => props.fontSize}px;
+  color: ${props => props.color};
+`;
