@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
@@ -31,6 +31,9 @@ const TYPE_ANSWER = "MATH_INPUT";
 
 const PracticeGame = () => {
 
+  const [used_time, set_used_time] = useState();
+  const [answer, set_answer] = useState();
+
   const onSkip = () => {
     // TODO: connect API get new question
     console.log("skip ja");
@@ -43,34 +46,40 @@ const PracticeGame = () => {
         startImmediately={true}
         lastUnit="h"
       >
-        <Headline>
-          <ExitModal />
-          <HintItem content={HINT}/>
-          <ItemCard onClick={onSkip}>
-            <img src={skip_icon} height={20}/>
-          </ItemCard>
-          <TimeContainer>
-            <Body color={COLOR.MANDARIN}>
-              <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-            </Body>
-          </TimeContainer>
-        </Headline>
-        <ProblemBox
-          problem={PROBLEM}
-          problem_content={PROBLEM_CONTENT}
-        />
-        <ContentContainer 
-          style={{ alignSelf: TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
-        >
-          <PracticeGameContent 
-            type={TYPE_ANSWER}
-            correct_answer={ANSWER}
-            question={QUESTION4}
-            choices={CHOICES2}
-            content={CONTENT3}
-          />
-        </ContentContainer>
-        <ButtonContainer>button</ButtonContainer>
+        {({ getTime }) => (
+          <React.Fragment>
+            <Headline>
+              <ExitModal />
+              <HintItem content={HINT}/>
+              <ItemCard onClick={onSkip}>
+                <img src={skip_icon} height={20}/>
+              </ItemCard>
+              <TimeContainer>
+                <Body color={COLOR.MANDARIN}>
+                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+                </Body>
+              </TimeContainer>
+            </Headline>
+            <ProblemBox
+              problem={PROBLEM}
+              problem_content={PROBLEM_CONTENT}
+            />
+            <ContentContainer 
+              style={{ alignSelf: TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+            >
+              <PracticeGameContent 
+                type={TYPE_ANSWER}
+                correct_answer={ANSWER}
+                question={QUESTION4}
+                choices={CHOICES2}
+                content={CONTENT3}
+                answer={answer}
+                set_answer={set_answer}
+              />
+            </ContentContainer>
+            <ButtonContainer onClick={() => set_used_time(getTime()/1000)}>button</ButtonContainer>
+          </React.Fragment>
+        )}
       </Timer>
     </Container>
   );

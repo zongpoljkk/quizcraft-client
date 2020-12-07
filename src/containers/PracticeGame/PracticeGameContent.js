@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { AnswerMathInput } from "../../components/Answer/AnswerMathInput";
@@ -12,10 +12,10 @@ const PracticeGameContent = ({
   correct_answer='',
   content='',
   question='',
-  choices={}
+  choices={},
+  answer,
+  set_answer
 }) => {
-
-  const [answer, set_answer] = useState();
 
   return ( 
     <Container>
