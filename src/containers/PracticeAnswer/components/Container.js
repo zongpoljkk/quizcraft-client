@@ -13,17 +13,12 @@ export const incorrect_background_color = convertHexToRGBA(
 );
 
 export const Container = styled.div`
-  background-color: ${(props) =>
-    props.answer ? correct_background_color : incorrect_background_color};
-
   height: 100%;
   width: 100%;
-  top: 64px;
-  left: 0px;
-  position: fixed;
   overflow-y: scroll;
   overflow-x: hidden;
-  /* display: flex;
+  flex: 1;
+  display: flex;
   flex-direction: column;
   justify-content: space-between; */
 `;

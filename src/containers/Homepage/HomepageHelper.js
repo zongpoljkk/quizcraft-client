@@ -12,3 +12,4 @@ export const getSubjects = async () => {
   }
   return Promise.reject(new Error("getSubjects"));
 };
+

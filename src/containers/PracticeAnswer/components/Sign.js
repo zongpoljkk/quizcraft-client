@@ -24,7 +24,6 @@ const Sign = ({ isVisible, answer }) => {
 const SignCss = styled(motion.img)`
   alt: "Sign";
   height: 72px;
-  /* margin-top: 68px; */
 `;
 
 export default Sign;

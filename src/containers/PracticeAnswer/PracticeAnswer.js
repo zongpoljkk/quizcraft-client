@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 // Components
 // import CenterDiv from "../../components/CenterDiv/CenterDiv";
-import { Container } from "./components/Container";
+import {
+  Container,
+  correct_background_color,
+  incorrect_background_color,
+} from "./components/Container";
 import Sign from "./components/Sign";
 import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button/Button";
@@ -134,59 +138,64 @@ const PracticeAnswer = () => {
 
   return (
     <Container answer={correct} onClick={handleFirstClick}>
-      <div>
-        <CenterDiv style={{ marginTop: "68px" }}>
-          {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
-          <Sign answer={correct} />
-        </CenterDiv>
-        <CenterDiv>
-          {correct ? (
-            <Header color={COLOR.CELERY}>{title}</Header>
-          ) : (
-            <Header color={COLOR.TRINIDAD}>{title}Î</Header>
-          )}
-        </CenterDiv>
-        {firstClick ? (
-          <SolutionDiv>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {solution.map((line) => {
-                // TODO: Replace Math.random() with solution.id after it has one
-                return (
-                  <li key={Math.random()}>
-                    <Solution answer={correct}>{line}</Solution>
-                  </li>
-                );
-              })}
-            </ul>
-          </SolutionDiv>
-        ) : (
-          <SolutionDiv></SolutionDiv>
-        )}
-        {greetingHolder()}
-
-        {arrowHolder()}
-
+      <Background answer={correct} />
+      {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
+      <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
+        {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
+        <Sign answer={correct} />
+      </CenterDiv>
+      <CenterDiv>
         {correct ? (
-          <div>
-            <ReportFlag src={Correct_Flag} />
-            <ReportText answer={correct}>รายงาน</ReportText>
-          </div>
+          <Header color={COLOR.CELERY}>{title}</Header>
         ) : (
-          <div>
-            <ReportFlag src={Incorrect_Flag} />{" "}
-            <ReportText answer={correct}>รายงาน</ReportText>
-          </div>
+          <Header color={COLOR.TRINIDAD}>{title}Î</Header>
         )}
-      </div>
+      </CenterDiv>
+      {firstClick ? (
+        <SolutionDiv>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {solution.map((line) => {
+              // TODO: Replace Math.random() with solution.id after it has one
+              return (
+                <li key={Math.random()}>
+                  <Solution answer={correct}>{line}</Solution>
+                </li>
+              );
+            })}
+          </ul>
+        </SolutionDiv>
+      ) : (
+        <SolutionDiv></SolutionDiv>
+      )}
+
+      {greetingHolder()}
+
+      {arrowHolder()}
+
+      {correct ? (
+        <ReportDiv>
+          <ReportFlag src={Correct_Flag} />
+          <ReportText answer={correct}>รายงาน</ReportText>
+        </ReportDiv>
+      ) : (
+        <ReportDiv>
+          <ReportFlag src={Incorrect_Flag} />{" "}
+          <ReportText answer={correct}>รายงาน</ReportText>
+        </ReportDiv>
+      )}
     </Container>
   );
 };
 
-const Title = styled.p`
-  font-family: Prompt;
-  font-size: 24px;
-  font-weight: 600;
-  color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
+const Background = styled.div`
+  background-color: ${(props) =>
+    props.answer ? correct_background_color : incorrect_background_color};
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  overflow-y: scroll;
 `;
 
 const CenterDiv = styled.div`
@@ -196,7 +205,7 @@ const CenterDiv = styled.div`
 
 const SolutionDiv = styled(CenterDiv)`
   margin: 64px auto 104px auto;
-  height: 240px;
+  height: 160px;
   overflow: scroll;
 `;
 
@@ -209,6 +218,7 @@ const GreetingDiv = styled.div`
 `;
 
 const ShiftDiv = styled(CenterDiv)`
+  margin-bottom: auto;
   min-height: 72px;
 `;
 
@@ -223,12 +233,19 @@ const ShiftRight = styled.img`
   height: 40px;
   margin-left: 32px;
 `;
+
+const ReportDiv = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-top: auto;
+`;
+
 const ReportFlag = styled.img`
   alt: "Report Flag";
   height: 24px;
   margin: 32px 8px 0 32px;
   display: inline-block;
-  z-index: 50;
 `;
 
 const ReportText = styled.p`
@@ -236,7 +253,7 @@ const ReportText = styled.p`
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
   text-decoration: underline;
   display: inline-block;
-  z-index: 50;
+  margin-bottom: 0;
 `;
 
 export default PracticeAnswer;

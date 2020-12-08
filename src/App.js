@@ -20,11 +20,11 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route exact path="/:subject">
-            <TopicPage />
-          </Route>
           <Route path="/practice-answer">
             <PracticeAnswer />
+          </Route>
+          <Route exact path="/:subject">
+            <TopicPage />
           </Route>
           <Route exact path="/:subject/:topic">
             <SubtopicPage />
