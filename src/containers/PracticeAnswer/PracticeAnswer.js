@@ -140,9 +140,9 @@ const PracticeAnswer = () => {
     <Container answer={correct} onClick={handleFirstClick}>
       <Background answer={correct} />
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
-      <CenterDiv style={{ marginTop: "68px" }}>
+      <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
         {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
-        <Sign answer={correct} />
+        <Sign answer={correct}  />
       </CenterDiv>
       <CenterDiv>
         {correct ? (
@@ -238,7 +238,6 @@ const ReportDiv = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  /* align-self: flex-end;  */
   margin-top: auto;
 `;
 
