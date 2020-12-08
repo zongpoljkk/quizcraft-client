@@ -26,3 +26,40 @@ export const useGetHintByProblemId = (problemId) => {
 
   return { getHintByProblemId, hint };
 };
+
+export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty) => {
+  const [loading, set_loading] = useState(true);
+  const [problem_id, set_problem_id] = useState();
+  const [body, set_body] = useState();
+  const [answer_type, set_answer_type] = useState();
+  const [title, set_title] = useState();
+  const [correct_answer, set_correct_answer] = useState();
+  const [choices, set_choices] = useState();
+
+  const getProblemForUser = async () => {
+    try {
+      const response = await axios.post(backend+"problem/get-problem-for-user", {
+        userId : user_id,
+        subject: subject,
+        subtopicName : subtopic_name,
+        difficulty : difficulty
+      });
+      const { success, data } = response.data;
+      if (success) {
+        set_problem_id(data.problem._id);
+        set_body(data.problem.body);
+        set_answer_type(data.problem.answerType);
+        set_title(data.problem.title);
+        set_choices(data.problem.choices);
+        set_correct_answer(data.correctAnswer);
+        set_loading(false);
+      } else {
+        console.log("getProblemForUser Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about get problem :(");
+    }
+  };
+
+  return { getProblemForUser, loading, problem_id, body, answer_type, title, correct_answer, choices };
+};
