@@ -28,6 +28,7 @@ const SubtopicPage = ({ }) => {
               key={index}
               id={subtopic.subtopic_id}
               title={subtopic.subtopic_name}
+              subject={location.state.subject_name}
             />
           ))}
         </Container>
