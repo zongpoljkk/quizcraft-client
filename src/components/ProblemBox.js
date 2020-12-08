@@ -13,9 +13,12 @@ export const ProblemBox = ({
   return ( 
     <ProblemContainer>
       <Subheader>{problem}</Subheader>
-      <Problem>
-        <Subheader>{problem_content}</Subheader>
-      </Problem>
+      {problem_content
+        ? <Problem>
+            <Subheader>{problem_content}</Subheader>
+          </Problem>
+        : null
+      }
     </ProblemContainer>
   );
 };
