@@ -17,7 +17,6 @@ export const useGetTopicName = (subject_name) => {
       const { success, data } = response.data;
       if (success) {
         var topic_lists = [];
-        set_loading(false);
         data.map((topic, index) => (
           topic_lists[index] = {
             topic_name: topic._id,
@@ -25,6 +24,7 @@ export const useGetTopicName = (subject_name) => {
           }
         ))
         set_topics(topic_lists);
+        set_loading(false);
       } else {
         console.log("getTopicName Error");
       } 

@@ -10,6 +10,8 @@ import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
 import PracticeGameContent from "./PracticeGameContent";
 
+import { useGetHintByProblemId } from "./PracticeGameHelper";
+
 import skip_icon from "../../assets/icon/skip.png";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
@@ -27,13 +29,16 @@ const QUESTION3 = 'You have to write an essay []';
 const QUESTION4 = '[] should be more than 200 words.';
 const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
 const CHOICES2 = ["slowlyyyyyyyy", "slowleddddddd"];
-const HINT = "สมบัติการคูณเมื่อ a, m และ n เป็นจำนวนเต็ม คือ a  x a  = a";
 const TYPE_ANSWER = "RADIO_CHOICE";
+
+const PROBLEM_ID = "5fce5cd6a775562b4c48d92b";
 
 const PracticeGame = () => {
 
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
+
+  const { getHintByProblemId, hint } = useGetHintByProblemId(PROBLEM_ID);
 
   const onSkip = () => {
     // TODO: connect API get new question
@@ -56,7 +61,7 @@ const PracticeGame = () => {
           <React.Fragment>
             <Headline>
               <ExitModal onExit={onExit}/>
-              <HintItem content={HINT}/>
+              <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
               <ItemCard onClick={onSkip}>
                 <img src={skip_icon} height={20}/>
               </ItemCard>
