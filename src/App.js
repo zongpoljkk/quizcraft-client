@@ -6,6 +6,7 @@ import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
 import TopicPage from "./containers/TopicPage/TopicPage";
+import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 
 const App = () => {
@@ -21,8 +22,7 @@ const App = () => {
             <TopicPage />
           </Route>
           <Route exact path="/:subject/:topic">
-            {/* TODO: add subtopic page */}
-            <div>hihi</div>
+            <SubtopicPage />
           </Route>
           <Route exact path="/practice-game">
             <PracticeGame />
