@@ -2,26 +2,29 @@ import styled from "styled-components";
 
 import { COLOR } from "../global/const";
 
-const ITEM_BOX_SIZE = {
-  LARGE: "160px",
-  SMALL: "97px",
-};
-
 export const ItemBox = ({ 
   children, 
-  size = "large", 
-  color = COLOR.WHITE 
+  color = COLOR.WHITE,
+  type = "large" 
 }) => {
 
-  return <Box size={size} color={color}>{children}</Box>;
+  return <Box type={type} color={color} >{children}</Box>;
 };
 
 const Box = styled.div.attrs(props => ({
-  size: props.size === "large" ? ITEM_BOX_SIZE.LARGE : ITEM_BOX_SIZE.SMALL,
-  color: props.color
+  color: props.color,
+  type: props.type,
 }))`
-  width: ${props => props.size};
-  height: ${props => props.size};
+  padding: ${(props) => {
+    switch (props.type) {
+      case "large":
+        return `22px 17px 22px 17px`;
+      case "small":
+        return `8px 5px 8px 5px`;
+      default:
+        return `none`;
+    }
+  }};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -29,5 +32,10 @@ const Box = styled.div.attrs(props => ({
   align-items: center;
   box-shadow: 1px 2px 5px ${COLOR.SHADOW};
   background: ${props => props.color};
+  top: 0px;
+
+  &:hover {
+    position: relative;
+    top: -10px;
   }
 `;
