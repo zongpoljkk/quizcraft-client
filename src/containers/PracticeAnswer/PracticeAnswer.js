@@ -21,7 +21,7 @@ import Coin from "../../components/Coin/Coin.jsx";
 import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
-import { Body, Header, SEMI_BOLD } from "../../components/Typography";
+import { Body, Header } from "../../components/Typography";
 import { COLOR } from "../../global/const";
 
 const TITLE = {
@@ -135,7 +135,7 @@ const PracticeAnswer = () => {
   return (
     <Container answer={correct} onClick={handleFirstClick}>
       <div>
-        <CenterDiv style={{marginTop: "68px"}}>
+        <CenterDiv style={{ marginTop: "68px" }}>
           {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
           <Sign answer={correct} />
         </CenterDiv>
@@ -185,7 +185,7 @@ const PracticeAnswer = () => {
 const Title = styled.p`
   font-family: Prompt;
   font-size: 24px;
-  font-weight: ${SEMI_BOLD};
+  font-weight: 600;
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
 `;
 

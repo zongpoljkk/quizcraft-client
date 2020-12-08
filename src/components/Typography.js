@@ -1,52 +1,68 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../global/const";
+import { COLOR } from "../global/const"
 
-export const Header = ({ className, children, color = COLOR.CHARCOAL }) => {
-  const Header = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 600;
-    font-size: 24px;
-    color: ${color};
-  `;
+export const Header = ({
+  className,
+  children,
+  color = COLOR.CHARCOAL
+}) => {
 
-  return <Header className={className}>{children}</Header>;
+  return (
+    <Typography className={className} fontWeight={600} fontSize={24} color={color}>
+      {children}
+    </Typography>
+  );
 };
 
-export const Subheader = ({ className, children, color = COLOR.CHARCOAL }) => {
-  const Subheader = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    color: ${color};
-  `;
+export const Subheader = ({
+  className,
+  children,
+  color = COLOR.CHARCOAL
+}) => {
 
-  return <Subheader className={className}>{children}</Subheader>;
+  return (
+    <Typography className={className} fontWeight={500} fontSize={20} color={color}>
+      {children}
+    </Typography>
+  );
 };
 
-export const Body = ({ className, children, color = COLOR.CHARCOAL }) => {
-  const Body = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: ${color};
-  `;
+export const Body = ({
+  className,
+  children,
+  color = COLOR.CHARCOAL
+}) => {
 
-  return <Body className={className}>{children}</Body>;
+  return (
+    <Typography className={className} fontWeight={400} fontSize={16} color={color}>
+      {children}
+    </Typography>
+  );
 };
 
-export const Overline = ({ className, children, color = COLOR.CHARCOAL }) => {
-  const Overline = styled.div`
-    font-family: Prompt, sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    color: ${color};
-  `;
+export const Overline = ({
+  className,
+  children,
+  color = COLOR.CHARCOAL
+}) => {
 
-  return <Overline className={className}>{children}</Overline>;
+  return (
+    <Typography className={className} fontWeight={400} fontSize={12} color={color}>
+      {children}
+    </Typography>
+  );
 };
 
-// * FONT WEIGHT * //
-export const MEDIUM = "500";
-export const SEMI_BOLD = "600";
+const Typography = styled.div.attrs(props => ({
+  fontWeight: props.fontWeight,
+  fontSize: props.fontSize,
+  color: props.color
+}))`
+  display: flex;
+  font-family: Prompt, sans-serif;
+  font-weight: ${props => props.fontWeight};
+  font-size: ${props => props.fontSize}px;
+  color: ${props => props.color};
+`;

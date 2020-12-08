@@ -22,7 +22,7 @@ const SubjectCard = () => {
     switch (subject) {
       case "คณิตศาสตร์":
         return math_logo;
-      case "ภาษาอังกฤษ":
+      case "อังกฤษ":
         return eng_logo;
       default:
         return math_logo;
@@ -39,9 +39,9 @@ const SubjectCard = () => {
     <SubjectDiv>
       {subjects.map((subject) => {
         return (
-          <SubjectBox>
-            <SubjectImg src={returnImg(subject)} />
-            <Header>{subject}</Header>
+          <SubjectBox key={subject._id}>
+            <SubjectImg src={subject.subjectImg} />
+            <Header>{subject._id}</Header>
           </SubjectBox>
         );
       })}
