@@ -6,25 +6,26 @@ import TopicBox from "./components/TopicBox";
 import { useGetTopicName } from "./TopicPageHelper";
 
 // TODO: Remove mock after integrate subject
-const MOCK_SUBJECT = "คณิตศาสตร์";
+// const MOCK_SUBJECT = "คณิตศาสตร์";
 
 const TopicPage = ({ history }) => {
-
   const location = useLocation();
-  // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
-  const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT);
+  const { getTopicName, loading, topics } = useGetTopicName(
+    location.state.subject_name
+  );
 
   const handleClick = (topic_name) => {
     history.push({
-      pathname: "/" + MOCK_SUBJECT + "/" + topic_name, 
+      pathname: "/" + location.state.subject_name + "/" + topic_name,
       state: {
-        subject_name: MOCK_SUBJECT,
-        topic_name: topic_name
-      }
+        subject_name: location.state.subject_name,
+        topic_name: topic_name,
+      },
     });
   };
 
   useEffect(() => {
+    console.log(location);
     getTopicName();
   }, []);
 
@@ -35,10 +36,10 @@ const TopicPage = ({ history }) => {
       ) : (
         <Container>
           {topics?.map((topic, index) => (
-            <TopicBox 
-              key={index}  
-              title={topic.topic_name} 
-              image={topic.topic_image} 
+            <TopicBox
+              key={index}
+              title={topic.topic_name}
+              image={topic.topic_image}
               onClick={() => handleClick(topic.topic_name)}
             />
           ))}

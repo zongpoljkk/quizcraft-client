@@ -12,12 +12,13 @@ import eng_logo from "../../../assets/english_logo.png";
 // Global
 import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, withRouter } from "react-router-dom";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
-const SubjectCard = () => {
-  let history = useHistory();
+const SubjectCard = ({ history }) => {
+  // let history = useHistory();
+  let location = useLocation();
 
   const [subjects, setSubjects] = useState([]);
 
@@ -33,7 +34,13 @@ const SubjectCard = () => {
   };
 
   const handleOnSubjectClick = (subject_name) => {
-    history.push(`${subject_name}`)
+    history.push({
+      pathname: "/" + subject_name,
+      state: {
+        subject_name: subject_name,
+      },
+    });
+    // location.pushState()
   };
 
   useEffect(() => {
@@ -89,4 +96,4 @@ const SubjectImg = styled.img`
   padding-right: 32px;
 `;
 
-export default SubjectCard;
+export default withRouter(SubjectCard);

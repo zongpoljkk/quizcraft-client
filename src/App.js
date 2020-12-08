@@ -20,7 +20,7 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route exact path="/topic">
+          <Route exact path="/:subject">
             <TopicPage />
           </Route>
           <Route path="/practice-answer">
