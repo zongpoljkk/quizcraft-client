@@ -10,7 +10,8 @@ const ModeBox = ({
   icon, 
   type, 
   id,
-  history
+  history,
+  style
 }) => {
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
@@ -35,7 +36,7 @@ const ModeBox = ({
   }, [ref.current]);
 
   return (
-    <Background>
+    <Background style={style}>
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
@@ -45,7 +46,7 @@ const ModeBox = ({
         background={COLOR.MANDARIN}
       >
         <Container>
-          <Box>
+          <Box style={style}>
             <Icon src={icon} />
             <Subheader props color={COLOR.WHITE}>
               {type}

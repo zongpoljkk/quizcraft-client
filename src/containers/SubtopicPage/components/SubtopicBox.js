@@ -29,6 +29,9 @@ const SubtopicBox = ({
               icon={item[1].icon} 
               type={item[1].type}
               id={id}
+              style={{
+                borderRadius: index === Object.entries(MODE).length-1 ? "0px 0px 10px 10px" : null
+              }}
             />
           ))
         : null}
@@ -39,7 +42,7 @@ const SubtopicBox = ({
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  box-shadow: 1px 2px 5px #d9d9d9;
+  box-shadow: 1px 2px 5px ${COLOR.SHADOW};
   margin-bottom: 16px;
   border-radius: 10px;
 `;
