@@ -23,14 +23,14 @@ function App() {
           <Route path="/practice-answer">
             <PracticeAnswer />
           </Route>
+          <Route exact path="/practice-game">
+            <PracticeGame />
+          </Route>
           <Route exact path="/:subject">
             <TopicPage />
           </Route>
           <Route exact path="/:subject/:topic">
             <SubtopicPage />
-          </Route>
-          <Route exact path="/practice-game">
-            <PracticeGame />
           </Route>
           <Route path="*">
             <ErrorPage />

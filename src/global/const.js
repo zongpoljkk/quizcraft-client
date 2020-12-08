@@ -20,7 +20,7 @@ export const COLOR = {
   SHADOW: "#D9D9D9",
 };
 
-export const API_HOST = `http://localhost:5000`;
+export const API_HOST = `http://localhost:5000/api`;
 
 export const SIZE = {
   LARGE: "160px",
@@ -44,17 +44,17 @@ export const MODE = {
 
 export const DIFFICULTY = {
   EASY: {
-    type: "ง่าย",
-    icon: level_easy,
+    type: "EASY",
+    icon: level_easy
   },
   MEDIUM: {
-    type: "ปานกลาง",
-    icon: level_medium,
+    type: "MEDIUM",
+    icon: level_medium
   },
   HARD: {
-    type: "ยาก",
-    icon: level_hard,
-  },
+    type: "HARD",
+    icon: level_hard
+  }
 };
 
 export const ANSWER_TYPE = {
