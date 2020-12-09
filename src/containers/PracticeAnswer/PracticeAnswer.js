@@ -27,6 +27,7 @@ import { backward, forward } from "./PracticeAnswerHelper";
 // Global
 import { Body, Header } from "../../components/Typography";
 import { COLOR } from "../../global/const";
+import { useLocation } from "react-router-dom";
 
 const TITLE = {
   CORRECT: "ถูกต้อง",
@@ -50,6 +51,23 @@ const PracticeAnswer = () => {
   // add one more line to the array and remove one line after backward click
   const [solution, set_solution] = useState(MOCKDATA.SOL);
   const [firstClick, setFirstClick] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const location = useLocation();
+
+  const stringToArrayOfString = (v) => [].concat(v).map((name) => name);
+
+  useEffect(() => {
+    setIsLoading(true);
+    console.log(location.state);
+    console.log(location.state.solution.split(`\\n`)[0]);
+    set_correct(location.state.correct);
+    set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
+    set_static_solution(location.state.solution.split("\\n"));
+    set_solution(
+      stringToArrayOfString(location.state.solution.split("\\n")[0])
+    );
+  }, []);
 
   const greetingHolder = () => {
     if (firstClick && correct) {

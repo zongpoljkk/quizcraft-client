@@ -3,7 +3,6 @@ import axios from "axios";
 
 import backend from "../../ip";
 import { API_HOST } from "../../global/const";
-import { useLocation } from "react-router-dom";
 
 export const useGetHintByProblemId = (problemId) => {
   const [hint, set_hint] = useState();
@@ -30,7 +29,6 @@ export const useGetHintByProblemId = (problemId) => {
 };
 
 export const getAndCheckAnswer = async (
-  history,
   problemId,
   userId,
   userAnswer,
@@ -38,24 +36,29 @@ export const getAndCheckAnswer = async (
   topic
 ) => {
   try {
-    const response = await axios.get(`${API_HOST}/put-difficulty-index`, {
-      params: {
-        problemId: problemId,
-        userId: userId,
-        userAnswer: userAnswer,
-        userTime: userTime,
-        topic: topic,
-      },
-    });
+    const url = `${API_HOST}/problem/put-difficulty-index`;
+    const params = {
+      problemId: problemId,
+      userId: userId,
+      userAnswer: userAnswer,
+      userTime: userTime,
+      topic: topic,
+    };
+    const options = {
+      method: "PUT",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+      // headers: { "Access-Control-Allow-Origin": "*" },
+      params: params,
+      url,
+    };
+    const response = await axios(options);
+    // const response = await axios.put(url, {
+    //   params: params
+    // })
     if (response.status === 200) {
-      history.push({
-        pathname: "/" + problemId,
-        state: {
-          problemId: problemId,
-          userId: userId,
-          correct: response.data.correct,
-        },
-      });
+      console.log("kao 200");
+      console.log(response);
+      return response;
     }
   } catch (error) {
     console.error("Unable to get and check answer and update difficulty index");

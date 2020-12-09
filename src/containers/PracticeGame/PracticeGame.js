@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
@@ -71,7 +71,21 @@ const PracticeGame = ({ history }) => {
   ) => {
     set_used_time(getTime / 1000);
     console.log("ya handle");
-    getAndCheckAnswer(history, problemId, userId, userAnswer, getTime, topic);
+    getAndCheckAnswer(problemId, userId, userAnswer, getTime, topic).then(
+      (res) => {
+        console.log(res);
+        history.push({
+          // pathname: "/" + problemId,
+          pathname: "/" + "practice-answer",
+          state: {
+            problemId: problemId,
+            userId: userId,
+            correct: res.data.correct,
+            solution: res.data.solution
+          },
+        });
+      }
+    );
   };
 
   return (
@@ -168,4 +182,4 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
-export default PracticeGame;
+export default withRouter(PracticeGame);
