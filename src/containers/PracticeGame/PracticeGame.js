@@ -71,26 +71,30 @@ const PracticeGame = ({ history }) => {
   ) => {
     set_used_time(getTime / 1000);
     console.log("ya handle");
-    getAndCheckAnswer(problemId, userId, userAnswer, getTime, topic).then(
-      (res) => {
-        console.log(res);
-        history.push({
-          // pathname: "/" + problemId,
-          pathname: "/" + "practice-answer",
-          state: {
-            problemId: problemId,
-            userId: userId,
-            correct: res.data.correct,
-            solution: res.data.solution
-          },
-        });
-      }
-    );
+    getAndCheckAnswer(
+      problemId,
+      userId,
+      userAnswer,
+      getTime / 1000,
+      topic
+    ).then((res) => {
+      console.log(res);
+      history.push({
+        // pathname: "/" + problemId,
+        pathname: "/" + "practice-answer",
+        state: {
+          problemId: problemId,
+          userId: userId,
+          correct: res.data.correct,
+          solution: res.data.solution,
+        },
+      });
+    });
   };
 
   useEffect(() => {
-    console.log(location.state)
-  })
+    console.log(location.state);
+  });
 
   return (
     <Container>

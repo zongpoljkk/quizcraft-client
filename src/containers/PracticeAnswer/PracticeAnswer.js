@@ -144,33 +144,33 @@ const PracticeAnswer = ({ history }) => {
           </ShiftDiv>
         );
       } else {
-        if (correct) {
-          return (
-            <ShiftDiv>
-              <ShiftLeft
-                src={Correct_Backward}
-                onClick={() => backward(solution)}
-              />
-              <ShiftRight
-                src={Correct_Forward}
-                onClick={() => forward(solution, staticSolution)}
-              />
-            </ShiftDiv>
-          );
-        } else {
-          return (
-            <ShiftDiv>
-              <ShiftLeft
-                src={Incorrect_Backward}
-                onClick={() => backward(solution)}
-              />
-              <ShiftRight
-                src={Incorrect_Forward}
-                onClick={() => forward(solution, staticSolution)}
-              />
-            </ShiftDiv>
-          );
-        }
+      //   if (correct) {
+      //     return (
+      //       <ShiftDiv>
+      //         <ShiftLeft
+      //           src={Correct_Backward}
+      //           onClick={() => backward(solution)}
+      //         />
+      //         <ShiftRight
+      //           src={Correct_Forward}
+      //           onClick={() => forward(solution, staticSolution)}
+      //         />
+      //       </ShiftDiv>
+      //     );
+      //   } else {
+      //     return (
+      //       <ShiftDiv>
+      //         <ShiftLeft
+      //           src={Incorrect_Backward}
+      //           onClick={() => backward(solution)}
+      //         />
+      //         <ShiftRight
+      //           src={Incorrect_Forward}
+      //           onClick={() => forward(solution, staticSolution)}
+      //         />
+      //       </ShiftDiv>
+      //     );
+      //   }
       }
     } else {
       return <ShiftDiv></ShiftDiv>;
