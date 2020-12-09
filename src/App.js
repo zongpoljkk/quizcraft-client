@@ -28,9 +28,6 @@ const App = () => {
           <Route exact path="/practice-game">
             <PracticeGame />
           </Route>
-          <Route exact path="/loading">
-            <LoadingPage />
-          </Route>
           <Route path="*">
             <ErrorPage />
           </Route>
