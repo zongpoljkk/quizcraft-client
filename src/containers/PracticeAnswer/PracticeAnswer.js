@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 // Components
@@ -39,7 +40,7 @@ const MOCKDATA = {
   SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
 };
 
-const PracticeAnswer = () => {
+const PracticeAnswer = ({ history }) => {
   const [correct, set_correct] = useState(true);
   // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
   const [title, set_title] = useState(TITLE.CORRECT);
@@ -57,16 +58,48 @@ const PracticeAnswer = () => {
 
   const stringToArrayOfString = (v) => [].concat(v).map((name) => name);
 
+  const handleNextButtonClick = () => {
+    console.log("click button");
+    history.push({
+      pathname: "/" + "practice-game",
+      state: {
+        userId: location.state.userId,
+        problemId: location.state.problemId,
+      },
+    });
+  };
+
+  const handleFirstClick = () => {
+    console.log("click bg");
+    if (solution.length === staticSolution.length) {
+    } else {
+      console.log("click background");
+      if (!firstClick) {
+        setFirstClick(true);
+      } else {
+        console.log("after click");
+        // Get first value that is not already in solution
+        const nextVal = staticSolution.filter((sol) => {
+          return !solution.includes(sol);
+        });
+        console.log(nextVal);
+        console.log(solution);
+        set_solution([...solution, nextVal[0]]);
+      }
+    }
+  };
+
   useEffect(() => {
     setIsLoading(true);
     console.log(location.state);
-    console.log(location.state.solution.split(`\\n`)[0]);
+    console.log(location.state.solution.split(`\\n`));
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
     set_static_solution(location.state.solution.split("\\n"));
     set_solution(
       stringToArrayOfString(location.state.solution.split("\\n")[0])
     );
+    setIsLoading(false);
   }, []);
 
   const greetingHolder = () => {
@@ -94,7 +127,7 @@ const PracticeAnswer = () => {
     if (firstClick) {
       if (solution.length === staticSolution.length) {
         return (
-          <ShiftDiv>
+          <ShiftDiv style={{ zIndex: "1" }}>
             <div style={{ marginTop: "20px" }}>
               <Button
                 type="custom"
@@ -103,6 +136,7 @@ const PracticeAnswer = () => {
                 backgroundColor={
                   correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
                 }
+                onClick={() => handleNextButtonClick()}
               >
                 ทำต่อ
               </Button>
@@ -143,20 +177,9 @@ const PracticeAnswer = () => {
     }
   };
 
-  const handleFirstClick = () => {
-    setFirstClick(true);
-  };
-
-  useEffect(() => {
-    // TODO: Get the solution and store each line in staticSolution
-    //   axios.get().then((res) => {
-    //       setStaticSolution(res)
-    //     })
-  });
-
   return (
-    <Container answer={correct} onClick={handleFirstClick}>
-      <Background answer={correct} />
+    <Container answer={correct}>
+      <Background answer={correct} onClick={(e) => handleFirstClick(e)} />
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
       <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
         {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
@@ -214,6 +237,7 @@ const Background = styled.div`
   left: 0px;
   position: fixed;
   overflow-y: scroll;
+  z-index: 0;
 `;
 
 const CenterDiv = styled.div`
@@ -274,4 +298,4 @@ const ReportText = styled.p`
   margin-bottom: 0;
 `;
 
-export default PracticeAnswer;
+export default withRouter(PracticeAnswer);

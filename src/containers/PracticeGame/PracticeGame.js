@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
@@ -87,6 +87,10 @@ const PracticeGame = ({ history }) => {
       }
     );
   };
+
+  useEffect(() => {
+    console.log(location.state)
+  })
 
   return (
     <Container>
