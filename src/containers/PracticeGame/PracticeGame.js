@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
@@ -23,7 +23,7 @@ import { ANSWER_TYPE, COLOR } from "../../global/const"
 // MOCK DATA
 const USER_ID = "5fcb4ccbc53dd068520072a1";
 
-const PracticeGame = () => {
+const PracticeGame = ({history}) => {
 
   const location = useLocation();
   const [used_time, set_used_time] = useState();
@@ -47,44 +47,48 @@ const PracticeGame = () => {
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
   const onSkip = () => {
-    // TODO: connect API get new question
-    console.log("skip ja");
+    getProblemForUser();
   }
 
-  const onExit = () => {
-    // TODO: connect API get new question
-    console.log("exit ja");
-  }
+  const onExit = (subject_name, topic_name) => {
+    history.push({
+      pathname: "/" + subject_name + "/" + topic_name, 
+      state: {
+        subject_name: subject_name,
+        topic_name: topic_name,
+      }
+    });
+  };
 
   useEffect(() => {
     getProblemForUser();
   }, []);
 
   return ( 
-    <React.Fragment>
-      {loading 
-      ? <div> loading </div>
-      : (
-        <Container>
-          <Timer
-            formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-            startImmediately={true}
-            lastUnit="h"
-          >
-            {({ getTime }) => (
+    <Container>
+      <Timer
+        formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+        startImmediately={true}
+        lastUnit="h"
+      >
+        {({ getTime }) => (
+          <React.Fragment>
+            <Headline>
+              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
+              <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
+              <ItemCard onClick={onSkip}>
+                <img src={skip_icon} height={20}/>
+              </ItemCard>
+              <TimeContainer>
+                <Body color={COLOR.MANDARIN}>
+                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+                </Body>
+              </TimeContainer>
+            </Headline>
+            {loading 
+            ? <div> loading </div>
+            : (
               <React.Fragment>
-                <Headline>
-                  <ExitModal onExit={onExit}/>
-                  <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
-                  <ItemCard onClick={onSkip}>
-                    <img src={skip_icon} height={20}/>
-                  </ItemCard>
-                  <TimeContainer>
-                    <Body color={COLOR.MANDARIN}>
-                      <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-                    </Body>
-                  </TimeContainer>
-                </Headline>
                 <ProblemBox
                   problem={title}
                   problem_content={answer_type === ANSWER_TYPE.MATH_INPUT ? body : null}
@@ -112,10 +116,10 @@ const PracticeGame = () => {
                 </ButtonContainer>
               </React.Fragment>
             )}
-          </Timer>
-        </Container>
-      )}
-    </React.Fragment>
+          </React.Fragment>
+        )}
+      </Timer>
+    </Container>
   );
 };
 
@@ -150,4 +154,4 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
-export default PracticeGame;
+export default withRouter(PracticeGame);

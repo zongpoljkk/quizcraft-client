@@ -31,6 +31,7 @@ const ModeBox = ({
       pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+"/practice-game", 
       state: {
         subject_name: selected_subject,
+        topic_name: selected_topic_name,
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
