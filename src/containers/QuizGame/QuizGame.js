@@ -23,15 +23,9 @@ import { ANSWER_TYPE, COLOR } from "../../global/const"
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
 const ANSWER = '(22^[5]*22^[2])*22^[39]*';
-const CONTENT1 = 'You can only join the football team if you can [stay&to stay] late on Mondays.';
-const CONTENT2 = '[You&I] can only join the football team if you can stay late on Mondays.';
 const CONTENT3 = 'You can only join the football team if you can stay late on [Mondays.&Fridays.]';
-const QUESTION1 = 'He runs quite [slow,] so he can\'t play basketball very well.';
-const QUESTION2 = 'You have to write an essay tonight but it [] be more than 200 words.';
-const QUESTION3 = 'You have to write an essay []';
 const QUESTION4 = '[] should be more than 200 words.';
 const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
-const CHOICES2 = ["slowlyyyyyyyy", "slowleddddddd"];
 const TYPE_ANSWER = "RADIO_CHOICE";
 
 const ITEM_USAGE = {
@@ -149,7 +143,7 @@ const QuizGame = () => {
                 type={TYPE_ANSWER}
                 correct_answer={ANSWER}
                 question={QUESTION4}
-                choices={CHOICES2}
+                choices={CHOICES1}
                 content={CONTENT3}
                 answer={answer}
                 set_answer={set_answer}
