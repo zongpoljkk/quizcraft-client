@@ -10,6 +10,8 @@ import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
 import { ProblemIndex } from "../../components/ProblemIndex"
+import { AnswerModal } from "../../components/AnswerModal"
+import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 
 import skip_icon from "../../assets/icon/skip.png";
@@ -22,11 +24,13 @@ import { ANSWER_TYPE, COLOR } from "../../global/const"
 // MOCK DATA
 const PROBLEM = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
-const ANSWER = '(22^[5]*22^[2])*22^[39]*';
+const ANSWER = '(22^[5]*22^[2])*22^[39]';
 const CONTENT3 = 'You can only join the football team if you can stay late on [Mondays.&Fridays.]';
 const QUESTION4 = '[] should be more than 200 words.';
 const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
 const TYPE_ANSWER = "RADIO_CHOICE";
+const CORRECT = false;
+const FINAL_ANSWER = "(22^[5]*22^[2])*22^[39+4x]";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -37,6 +41,7 @@ const NUMBER_OF_QUIZ = 10;
 
 const QuizGame = () => {
 
+  const {isShowing, toggle} = useModal();
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
@@ -62,7 +67,7 @@ const QuizGame = () => {
 
   const onCheck = () => {
     if(answer) {
-      set_current_index((index) => index+1);
+      toggle();
       // TODO: connect API check answer
     }
   }
@@ -72,7 +77,10 @@ const QuizGame = () => {
       // TODO: push to result page
     }
     else {
+      set_current_index((index) => index+1);
+      set_answer();
       // TODO: connect API get new question
+      // TODO: check amount of item -> set item
     }
   }
 
@@ -83,7 +91,7 @@ const QuizGame = () => {
         startImmediately={true}
         lastUnit="h"
       >
-        {({ getTime }) => (
+        {({ getTime, stop }) => (
           <React.Fragment>
             <Headline>
               <ExitModal onExit={onExit}/>
@@ -156,11 +164,20 @@ const QuizGame = () => {
                 type={answer ? "default" : "disabled"}
                 onClick={() => {
                   set_used_time(getTime()/1000);
+                  stop();
                   onCheck();
                 }}
               >
                 ตรวจ
               </Button>
+              <AnswerModal
+                isShowing={isShowing}
+                toggle={toggle}
+                correct={CORRECT}
+                answer={CORRECT ? null : FINAL_ANSWER}
+                buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
+                onButtonClick={() => onNext()}
+              />
             </CenterContainer>
           </React.Fragment>
         )}
@@ -220,7 +237,7 @@ const CenterContainer = styled.div`
 const DisableItem = styled.div`
   display: flex;
   background-color: ${COLOR.BLACK};
-  opacity: 0.4;
+  opacity: 0.3;
   height: 32px;
   width: 56px;
   border-radius: 4px;
