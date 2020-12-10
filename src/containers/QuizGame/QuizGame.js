@@ -95,19 +95,20 @@ const QuizGame = () => {
               <ItemCard>
                 {skip === ITEM_USAGE.UN_USE && (
                   <CenterContainer onClick={onSkip}>
-                    <img src={skip_icon} height={20}/>
+                    <img src={skip_icon} height={22}/>
                   </CenterContainer>
                 )}
                 {skip === ITEM_USAGE.IN_USE && (
                   <SkipContainer>
                     <ZoomItem>
-                      <LottieFile animationData={skip_data} loop={false} height={126}/>
+                      <LottieFile animationData={skip_data} loop={false} height={64}/>
                     </ZoomItem>
                   </SkipContainer>
                 )}
                 {skip === ITEM_USAGE.USED && (
                   <CenterContainer>
                     <img src={skip_icon} height={22}/>
+                    <DisableItem />
                   </CenterContainer>
                 )}
               </ItemCard>
@@ -123,6 +124,7 @@ const QuizGame = () => {
                 {refresh === ITEM_USAGE.USED && (
                   <CenterContainer>
                     <img src={refresh_icon} height={22}/>
+                    <DisableItem />
                   </CenterContainer>
                 )}
               </ItemCard>
@@ -195,7 +197,7 @@ const SkipContainer = styled.div`
 `;
 
 const ZoomItem = styled.div`
-  transform: scale(1.4);
+  transform: scale(1.7);
 `;
 
 const ContentContainer = styled.div`
@@ -213,6 +215,17 @@ const TimeContainer = styled.div`
 const CenterContainer = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const DisableItem = styled.div`
+  display: flex;
+  background-color: ${COLOR.BLACK};
+  opacity: 0.4;
+  height: 32px;
+  width: 56px;
+  border-radius: 4px;
+  position: absolute;
+  margin-top: -5px;
 `;
 
 export default QuizGame;
