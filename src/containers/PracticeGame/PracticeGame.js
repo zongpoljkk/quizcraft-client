@@ -9,7 +9,7 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
-import PracticeGameContent from "./PracticeGameContent";
+import GameContent from "../../components/GameContent";
 
 import { 
   useGetHintByProblemId,
@@ -96,7 +96,7 @@ const PracticeGame = ({history}) => {
                 <ContentContainer 
                   style={{ alignSelf: answer_type === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
                 >
-                  <PracticeGameContent 
+                  <GameContent 
                     type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
