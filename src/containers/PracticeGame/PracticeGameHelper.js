@@ -33,7 +33,8 @@ export const getAndCheckAnswer = async (
   userId,
   userAnswer,
   userTime,
-  topic
+  topic,
+  subtopic,
 ) => {
   try {
     const url = `${API_HOST}/problem/put-difficulty-index`;
@@ -43,21 +44,16 @@ export const getAndCheckAnswer = async (
       userAnswer: userAnswer,
       userTime: userTime,
       topic: topic,
+      subtopic, subtopic,
     };
     const options = {
       method: "PUT",
       headers: { "content-type": "application/x-www-form-urlencoded" },
-      // headers: { "Access-Control-Allow-Origin": "*" },
       params: params,
       url,
     };
     const response = await axios(options);
-    // const response = await axios.put(url, {
-    //   params: params
-    // })
     if (response.status === 200) {
-      console.log("kao 200");
-      console.log(response);
       return response;
     }
   } catch (error) {

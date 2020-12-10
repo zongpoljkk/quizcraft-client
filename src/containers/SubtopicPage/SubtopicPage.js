@@ -6,12 +6,13 @@ import { Header } from "../../components/Typography";
 import SubtopicBox from "./components/SubtopicBox";
 import { useGetsubTopicName } from "./SubtopicPageHelper";
 
-const SubtopicPage = ({ }) => {
+const SubtopicPage = ({}) => {
   const location = useLocation();
-  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(location.state.topic_name);
+  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(
+    location.state.topic_name
+  );
 
   useEffect(() => {
-    console.log(location.state)
     getSubtopicName();
   }, []);
 
@@ -25,7 +26,7 @@ const SubtopicPage = ({ }) => {
             <Header> {location.state.topic_name} </Header>
           </TopicStyle>
           {subtopics?.map((subtopic, index) => (
-            <SubtopicBox 
+            <SubtopicBox
               key={index}
               id={subtopic.subtopic_id}
               title={subtopic.subtopic_name}

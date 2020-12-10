@@ -59,7 +59,6 @@ const PracticeAnswer = ({ history }) => {
   const stringToArrayOfString = (v) => [].concat(v).map((name) => name);
 
   const handleNextButtonClick = () => {
-    console.log("click button");
     history.push({
       pathname: "/" + "practice-game",
       state: {
@@ -74,20 +73,15 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const handleFirstClick = () => {
-    console.log("click bg");
     if (solution.length === staticSolution.length) {
     } else {
-      console.log("click background");
       if (!firstClick) {
         setFirstClick(true);
       } else {
-        console.log("after click");
         // Get first value that is not already in solution
         const nextVal = staticSolution.filter((sol) => {
           return !solution.includes(sol);
         });
-        console.log(nextVal);
-        console.log(solution);
         set_solution([...solution, nextVal[0]]);
       }
     }
@@ -95,8 +89,6 @@ const PracticeAnswer = ({ history }) => {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log(location.state);
-    console.log(location.state.solution.split(`\\n`));
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
     set_static_solution(location.state.solution.split("\\n"));
@@ -147,34 +139,6 @@ const PracticeAnswer = ({ history }) => {
             </div>
           </ShiftDiv>
         );
-      } else {
-        //   if (correct) {
-        //     return (
-        //       <ShiftDiv>
-        //         <ShiftLeft
-        //           src={Correct_Backward}
-        //           onClick={() => backward(solution)}
-        //         />
-        //         <ShiftRight
-        //           src={Correct_Forward}
-        //           onClick={() => forward(solution, staticSolution)}
-        //         />
-        //       </ShiftDiv>
-        //     );
-        //   } else {
-        //     return (
-        //       <ShiftDiv>
-        //         <ShiftLeft
-        //           src={Incorrect_Backward}
-        //           onClick={() => backward(solution)}
-        //         />
-        //         <ShiftRight
-        //           src={Incorrect_Forward}
-        //           onClick={() => forward(solution, staticSolution)}
-        //         />
-        //       </ShiftDiv>
-        //     );
-        //   }
       }
     } else {
       return <ShiftDiv></ShiftDiv>;

@@ -40,7 +40,7 @@ const TYPE_ANSWER = "RADIO_CHOICE";
 // const PROBLEM_ID = "5fce5cd6a775562b4c48d92b";
 const PROBLEM_ID = "5fce5e62f329e3f7f295d364";
 const USER_ID = "5fcc9debd6d796b6dc472110";
-const USER_ANSWER = "16^2";
+const USER_ANSWER = "16^1";
 const TOPIC = "เลขยกกำลัง";
 
 const PracticeGame = ({ history }) => {
@@ -72,22 +72,16 @@ const PracticeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log(`subject: ${subject}`);
-    console.log(`topic: ${topic}`);
-    console.log(`subtopic: ${subtopic}`);
-    console.log(`difficulty: ${difficulty}`);
     set_used_time(getTime / 1000);
-    console.log("ya handle");
     getAndCheckAnswer(
       problemId,
       userId,
       userAnswer,
       getTime / 1000,
-      topic
+      topic,
+      subtopic
     ).then((res) => {
-      console.log(res);
       history.push({
-        // pathname: "/" + problemId,
         pathname: "/" + "practice-answer",
         state: {
           problemId: problemId,
@@ -103,9 +97,7 @@ const PracticeGame = ({ history }) => {
     });
   };
 
-  useEffect(() => {
-    console.log(location.state);
-  });
+  useEffect(() => {});
 
   return (
     <Container>
