@@ -11,6 +11,7 @@ const SubtopicPage = ({ }) => {
   const { getSubtopicName, loading, subtopics } = useGetsubTopicName(location.state.topic_name);
 
   useEffect(() => {
+    console.log(location.state)
     getSubtopicName();
   }, []);
 
@@ -29,6 +30,7 @@ const SubtopicPage = ({ }) => {
               id={subtopic.subtopic_id}
               title={subtopic.subtopic_name}
               subject={location.state.subject_name}
+              topic={location.state.topic_name}
             />
           ))}
         </Container>

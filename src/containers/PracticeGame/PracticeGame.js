@@ -40,8 +40,8 @@ const TYPE_ANSWER = "RADIO_CHOICE";
 // const PROBLEM_ID = "5fce5cd6a775562b4c48d92b";
 const PROBLEM_ID = "5fce5e62f329e3f7f295d364";
 const USER_ID = "5fcc9debd6d796b6dc472110";
-const USER_ANSWER = "16^1";
-const TOPIC = "การดำเนินการของเลขยกกำลัง";
+const USER_ANSWER = "16^2";
+const TOPIC = "เลขยกกำลัง";
 
 const PracticeGame = ({ history }) => {
   const [used_time, set_used_time] = useState();
@@ -67,8 +67,15 @@ const PracticeGame = ({ history }) => {
     userId,
     userAnswer,
     getTime,
-    topic
+    subject,
+    topic,
+    subtopic,
+    difficulty
   ) => {
+    console.log(`subject: ${subject}`);
+    console.log(`topic: ${topic}`);
+    console.log(`subtopic: ${subtopic}`);
+    console.log(`difficulty: ${difficulty}`);
     set_used_time(getTime / 1000);
     console.log("ya handle");
     getAndCheckAnswer(
@@ -87,6 +94,10 @@ const PracticeGame = ({ history }) => {
           userId: userId,
           correct: res.data.correct,
           solution: res.data.solution,
+          subject: subject,
+          topic: topic,
+          subtopic: subtopic,
+          difficulty: difficulty,
         },
       });
     });
@@ -145,7 +156,10 @@ const PracticeGame = ({ history }) => {
                     USER_ID,
                     USER_ANSWER,
                     getTime(),
-                    TOPIC
+                    location.state.subject_name,
+                    TOPIC,
+                    location.state.subtopic_name,
+                    location.state.difficulty
                   )
                 }
               >

@@ -44,6 +44,7 @@ const SubjectCard = ({ history }) => {
   };
 
   useEffect(() => {
+    console.log(`useEffect: SubjectCard`)
     getSubjects().then((subjects) => {
       setSubjects(subjects.data);
       console.log(subjects.data);

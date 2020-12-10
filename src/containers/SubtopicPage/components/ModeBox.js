@@ -6,34 +6,28 @@ import { motion } from "framer-motion";
 import { Subheader } from "../../../components/Typography";
 import { COLOR, DIFFICULTY } from "../../../global/const";
 
-const ModeBox = ({ 
-  icon, 
-  type, 
-  id,
-  title,
-  subject,
-  history,
-  style
-}) => {
+const ModeBox = ({ icon, type, id, title, subject, topic, history, style }) => {
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
 
   const handleClick = (
-    selected_subject, 
+    selected_subject,
+    selected_topic,
     selected_subtopic_id,
-    selected_subtopic_name, 
-    selected_mode, 
-    selected_difficulty 
+    selected_subtopic_name,
+    selected_mode,
+    selected_difficulty
   ) => {
     history.push({
-      pathname: "/practice-game", 
+      pathname: "/practice-game",
       state: {
         subject_name: selected_subject,
+        topic_name: selected_topic,
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
-        difficulty: selected_difficulty
-      }
+        difficulty: selected_difficulty,
+      },
     });
   };
 
@@ -46,7 +40,7 @@ const ModeBox = ({
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
-        dragConstraints={{ left: -(box_width+16), right: 0 }}
+        dragConstraints={{ left: -(box_width + 16), right: 0 }}
         dragMomentum={true}
         size="100%"
         background={COLOR.MANDARIN}
@@ -66,7 +60,7 @@ const ModeBox = ({
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleClick(subject, id, title, type, item[1].type)
+              handleClick(subject, topic, id, title, type, item[1].type);
             }}
             src={item[1].icon}
           />
