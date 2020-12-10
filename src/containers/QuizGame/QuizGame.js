@@ -4,20 +4,13 @@ import Timer from "react-compound-timer";
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal"
-import { ItemCard } from "../../components/ItemCard";
-import { LottieFile } from "../../components/LottieFile"
 import { ProblemBox } from "../../components/ProblemBox";
-import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
 import { ProblemIndex } from "../../components/ProblemIndex"
 import { AnswerModal } from "../../components/AnswerModal"
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-
-import skip_icon from "../../assets/icon/skip.png";
-import skip_data from "../../assets/lottie/skip.json";
-import refresh_icon from "../../assets/icon/refresh.png";
-import refresh_data from "../../assets/lottie/refresh.json";
+import { HeadlineItem } from "./component/HeadlineItem"
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
 
@@ -98,50 +91,19 @@ const QuizGame = () => {
               <div style={{ marginRight: 8 }}/>
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={current_index}/>
             </Headline>
-            <ItemHeadline>
-              <HintItem onGetHint={() => {}}/>
-              <ItemCard>
-                {skip === ITEM_USAGE.UN_USE && (
-                  <CenterContainer onClick={onSkip}>
-                    <img src={skip_icon} height={22}/>
-                  </CenterContainer>
-                )}
-                {skip === ITEM_USAGE.IN_USE && (
-                  <SkipContainer>
-                    <ZoomItem>
-                      <LottieFile animationData={skip_data} loop={false} height={64}/>
-                    </ZoomItem>
-                  </SkipContainer>
-                )}
-                {skip === ITEM_USAGE.USED && (
-                  <CenterContainer>
-                    <img src={skip_icon} height={22}/>
-                    <DisableItem />
-                  </CenterContainer>
-                )}
-              </ItemCard>
-              <ItemCard>
-                {refresh === ITEM_USAGE.UN_USE && (
-                  <CenterContainer onClick={onRefresh}>
-                    <img src={refresh_icon} height={22}/>
-                  </CenterContainer>
-                )}
-                {refresh === ITEM_USAGE.IN_USE && 
-                  <LottieFile animationData={refresh_data} loop={false} height={48}/>
-                }
-                {refresh === ITEM_USAGE.USED && (
-                  <CenterContainer>
-                    <img src={refresh_icon} height={22}/>
-                    <DisableItem />
-                  </CenterContainer>
-                )}
-              </ItemCard>
-              <TimeContainer>
-                <Body color={COLOR.MANDARIN}>
-                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-                </Body>
-              </TimeContainer>
-            </ItemHeadline>
+            <HeadlineItem 
+              onGetHint={() => {}} 
+              skip={skip} 
+              onSkip={onSkip}
+              refresh={refresh}
+              onRefresh={onRefresh}
+            >
+            <TimeContainer>
+              <Body color={COLOR.MANDARIN}>
+                <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+              </Body>
+            </TimeContainer>
+            </HeadlineItem>
             <ProblemBox
               problem={PROBLEM}
               problem_content={PROBLEM_CONTENT}
@@ -200,23 +162,6 @@ const Headline = styled.div`
   margin-bottom: 8px;
 `;
 
-const ItemHeadline = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-bottom: 32px;
-`;
-
-const SkipContainer = styled.div`
-  margin-left: -18px;
-  transform: rotate(90deg);
-`;
-
-const ZoomItem = styled.div`
-  transform: scale(1.7);
-`;
-
 const ContentContainer = styled.div`
   display: flex;
   flex: 1;
@@ -232,17 +177,6 @@ const TimeContainer = styled.div`
 const CenterContainer = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const DisableItem = styled.div`
-  display: flex;
-  background-color: ${COLOR.BLACK};
-  opacity: 0.3;
-  height: 32px;
-  width: 56px;
-  border-radius: 4px;
-  position: absolute;
-  margin-top: -5px;
 `;
 
 export default QuizGame;
