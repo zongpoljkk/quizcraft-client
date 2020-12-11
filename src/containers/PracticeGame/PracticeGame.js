@@ -30,7 +30,7 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
 }
 
-const PracticeGame = ({history}) => {
+const PracticeGame = ({ history }) => {
 
   const location = useLocation();
   const [used_time, set_used_time] = useState();

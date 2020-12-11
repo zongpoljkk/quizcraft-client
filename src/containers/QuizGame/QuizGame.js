@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
@@ -32,8 +33,9 @@ const ITEM_USAGE = {
 }
 const NUMBER_OF_QUIZ = 10;
 
-const QuizGame = () => {
+const QuizGame = ({ history }) => {
 
+  const location = useLocation();
   const {isShowing, toggle} = useModal();
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
@@ -53,10 +55,15 @@ const QuizGame = () => {
     console.log("refresh ja");
   }
 
-  const onExit = () => {
-    // TODO: exit to subtopic
-    console.log("exit ja");
-  }
+  const onExit = (subject_name, topic_name) => {
+    history.push({
+      pathname: "/" + subject_name + "/" + topic_name, 
+      state: {
+        subject_name: subject_name,
+        topic_name: topic_name,
+      }
+    });
+  };
 
   const onCheck = () => {
     if(answer) {
@@ -87,7 +94,7 @@ const QuizGame = () => {
         {({ getTime, stop }) => (
           <React.Fragment>
             <Headline>
-              <ExitModal onExit={onExit}/>
+              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <div style={{ marginRight: 8 }}/>
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={current_index}/>
             </Headline>
@@ -179,4 +186,4 @@ const CenterContainer = styled.div`
   justify-content: center;
 `;
 
-export default QuizGame;
+export default withRouter(QuizGame);
