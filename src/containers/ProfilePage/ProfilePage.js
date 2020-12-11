@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
+import { ProgressBar } from "../../components/ProgressBar";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
@@ -18,7 +19,7 @@ const SCHOOL = "โรงเรียน";
 const CLASS = "ห้องเรียน";
 const USER_RANK = "BRONZE";
 const LEVEL = 12;
-const XP = 1222;
+const XP = 876;
 const MAX_XP = 2000;
 
 const ProfilePage = () => {
@@ -61,7 +62,7 @@ const ProfilePage = () => {
               <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
             </LevelTitle>
           </LevelTitleContainer>
-          <div style={{ width: "100%", height: 8, backgroundColor: COLOR.SILVER}}/>
+          <ProgressBar percent={(XP/MAX_XP)*100}/>
         </Container>
       </LevelContainer>
     </Container>
