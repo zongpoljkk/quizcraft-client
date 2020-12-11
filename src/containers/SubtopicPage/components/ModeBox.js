@@ -1,19 +1,40 @@
 import React, { useEffect, useState, useRef } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useHistory } from "react-router-dom";
 
 import { Subheader } from "../../../components/Typography";
 import { COLOR, DIFFICULTY } from "../../../global/const";
 
-
-const ModeBox = ({ icon, type }) => {
+const ModeBox = ({ 
+  icon, 
+  type, 
+  id,
+  title,
+  subject,
+  history,
+  style
+}) => {
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
-  const history = useHistory();
 
-  const handleClick = () => {
-    history.push("/topic");
+  const handleClick = (
+    selected_subject, 
+    selected_subtopic_id,
+    selected_subtopic_name, 
+    selected_mode, 
+    selected_difficulty 
+  ) => {
+    history.push({
+      pathname: "/practice-game", 
+      state: {
+        subject_name: selected_subject,
+        subtopic_id: selected_subtopic_id,
+        subtopic_name: selected_subtopic_name,
+        mode: selected_mode,
+        difficulty: selected_difficulty
+      }
+    });
   };
 
   useEffect(() => {
@@ -21,7 +42,7 @@ const ModeBox = ({ icon, type }) => {
   }, [ref.current]);
 
   return (
-    <Background>
+    <Background style={style}>
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
@@ -31,7 +52,7 @@ const ModeBox = ({ icon, type }) => {
         background={COLOR.MANDARIN}
       >
         <Container>
-          <Box>
+          <Box style={style}>
             <Icon src={icon} />
             <Subheader props color={COLOR.WHITE}>
               {type}
@@ -44,7 +65,9 @@ const ModeBox = ({ icon, type }) => {
           <Icon
             key={index}
             style={{ cursor: "pointer" }}
-            onClick={handleClick}
+            onClick={() => {
+              handleClick(subject, id, title, type, item[1].type)
+            }}
             src={item[1].icon}
           />
         ))}
@@ -91,4 +114,4 @@ const Icon = styled.img`
   margin-right: 16px;
 `;
 
-export default ModeBox;
+export default withRouter(ModeBox);

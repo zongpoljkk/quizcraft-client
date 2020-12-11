@@ -14,6 +14,7 @@ import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
 import { COLOR } from "../global/const";
 
 export const HintItem = ({
+  onGetHint,
   content
 }) => {
 
@@ -21,11 +22,16 @@ export const HintItem = ({
 
   return (
     <div>
-      <ItemCard onClick={toggle}>
+      <ItemCard 
+        onClick={() => {
+          onGetHint();
+          toggle();
+        }}
+      >
         <img src={hint_icon}  height={22}/>
       </ItemCard>
       <FooterModal
-        isShowing={isShowing}
+        isShowing={content ? isShowing : null}
         hide={toggle}
         backgroundColor={COLOR.GOLDEN_TAINOI}
       >
@@ -35,7 +41,11 @@ export const HintItem = ({
           </IconContainer>
           <ContentContainer>
             <Header color={COLOR.GOLDEN_TAINOI}>คำใบ้:</Header>
-            <Body color={COLOR.GOLDEN_TAINOI}>{content}</Body>
+            {content?.split('\n').map((item, key) => {
+              return (
+                <Body key={key} color={COLOR.GOLDEN_TAINOI}>{item}</Body>
+              );
+            })}
           </ContentContainer>
           <div onClick={toggle}>
             <img src={close_gloden_tainoi_icon} height={16} width={16}/>
