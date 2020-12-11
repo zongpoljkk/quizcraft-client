@@ -25,7 +25,7 @@ const App = () => {
           <Route exact path="/:subject/:topic">
             <SubtopicPage />
           </Route>
-          <Route exact path="/practice-game">
+          <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
             <PracticeGame />
           </Route>
           <Route exact path="/quiz-game">

@@ -8,7 +8,8 @@ import { COLOR, MODE } from "../../../global/const";
 const SubtopicBox = ({
   id,
   title,
-  subject
+  subject,
+  topic
 }) => {
   const [opened, set_opened] = useState(false);
 
@@ -32,6 +33,7 @@ const SubtopicBox = ({
               title={title}
               id={id}
               subject={subject}
+              topic={topic}
               style={{
                 borderRadius: index === Object.entries(MODE).length-1 ? "0px 0px 10px 10px" : null
               }}
