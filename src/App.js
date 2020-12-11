@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
@@ -17,6 +18,9 @@ const App = () => {
         <Switch>
           <Route exact path="/">
             <Homepage />
+          </Route>
+          <Route exact path="/profile">
+            <ProfilePage />
           </Route>
           <Route exact path="/topic">
             <TopicPage />
