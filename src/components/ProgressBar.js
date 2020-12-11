@@ -9,20 +9,20 @@ export const ProgressBar = ({
 
   return (
     type === "line" ?
-    <Line 
-      percent={percent}
-      strokeWidth="3"
-      strokeColor={COLOR.MANDARIN}
-      trailWidth="3"
-      trailColor={COLOR.SILVER_OPACITY_30}
-    />
+      <Line 
+        percent={percent}
+        strokeWidth="3"
+        strokeColor={COLOR.MANDARIN}
+        trailWidth="3"
+        trailColor={COLOR.SILVER_OPACITY_30}
+      />
     : 
-    <Circle 
-      percent={percent}
-      strokeWidth="3"
-      strokeColor={COLOR.MANDARIN}
-      trailWidth="3"
-      trailColor={COLOR.SILVER_OPACITY_30}
-    />
+      <Circle 
+        percent={percent}
+        strokeWidth="3"
+        strokeColor={COLOR.MANDARIN}
+        trailWidth="3"
+        trailColor={COLOR.SILVER_OPACITY_30}
+      />
   );
 };

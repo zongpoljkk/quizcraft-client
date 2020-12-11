@@ -3,11 +3,13 @@ import styled from "styled-components";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
+import { Item } from "./component/Item";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
+import skip_icon from "../../assets/icon/skip.png";
 
 import { COLOR, RANK } from "../../global/const"
 
@@ -65,6 +67,11 @@ const ProfilePage = () => {
           <ProgressBar percent={(XP/MAX_XP)*100}/>
         </Container>
       </LevelContainer>
+      <ItemContainer>
+        <Item amount={1}/>
+        <Item icon={skip_icon} amount={0}/>
+        <Item amount={4}/>
+      </ItemContainer>
     </Container>
   );
 };
@@ -105,6 +112,7 @@ const LevelContainer = styled.div`
   flex-direction: row;
   align-items: flex-start;
   width: 100%;
+  margin-bottom: 32px;
 `;
 
 const LevelTitleContainer = styled.div`
@@ -123,6 +131,14 @@ const LevelTitle = styled.div.attrs(props => ({
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: ${props => props.marginBottom}px;
+`;
+
+const ItemContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export default ProfilePage;
