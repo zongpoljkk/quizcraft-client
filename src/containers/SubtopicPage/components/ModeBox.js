@@ -12,6 +12,7 @@ const ModeBox = ({
   id,
   title,
   subject,
+  topic,
   history,
   style
 }) => {
@@ -22,13 +23,15 @@ const ModeBox = ({
     selected_subject, 
     selected_subtopic_id,
     selected_subtopic_name, 
+    selected_topic_name,
     selected_mode, 
     selected_difficulty 
   ) => {
     history.push({
-      pathname: "/practice-game", 
+      pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+"/practice-game", 
       state: {
         subject_name: selected_subject,
+        topic_name: selected_topic_name,
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
@@ -66,7 +69,7 @@ const ModeBox = ({
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleClick(subject, id, title, type, item[1].type)
+              handleClick(subject, id, title, topic, type, item[1].type)
             }}
             src={item[1].icon}
           />
