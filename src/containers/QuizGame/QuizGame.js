@@ -91,7 +91,7 @@ const QuizGame = ({ history }) => {
         startImmediately={true}
         lastUnit="h"
       >
-        {({ getTime, stop }) => (
+        {({ getTime, start, stop, reset }) => (
           <React.Fragment>
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
@@ -145,7 +145,11 @@ const QuizGame = ({ history }) => {
                 correct={CORRECT}
                 answer={CORRECT ? null : FINAL_ANSWER}
                 buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
-                onButtonClick={() => onNext()}
+                onButtonClick={() => {
+                  onNext();
+                  reset();
+                  start();
+                }}
               />
             </CenterContainer>
           </React.Fragment>

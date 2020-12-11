@@ -52,7 +52,7 @@ export const AnswerModal = ({
             </AnswerContainer>
           </Container>
           <div style={{ marginBottom: 8 }}/>
-          <Report color={correct ? COLOR.CELERY : COLOR.TRINIDAD}/>
+          <Report correct={correct}/>
         </ContentContainer>
         <Button 
           onClick={() => {
