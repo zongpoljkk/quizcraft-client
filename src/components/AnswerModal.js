@@ -6,6 +6,9 @@ import { FooterModal } from "./Modal";
 import { Button } from "./Button"
 import { Report } from "./Report"
 
+import correct_icon from "../assets/icon/correct.png";
+import incorrect_icon from "../assets/icon/incorrect.png";
+
 import { COLOR } from "../global/const";
 
 export const AnswerModal = ({
@@ -27,7 +30,7 @@ export const AnswerModal = ({
         <ContentContainer>
           <Container>
             <IconContainer>
-              {/* correct / incorrect icon */}
+              <img src={correct ? correct_icon : incorrect_icon} height={48}/>
             </IconContainer>
             <AnswerContainer>
               {correct
@@ -76,10 +79,6 @@ const Container = styled.div`
 `;
 
 const IconContainer = styled.div`
-  background: ${COLOR.WHITE};
-  height: 48px; 
-  width: 48px;
-  border-radius: 50%;
   margin-right: 24px;
 `;
 
