@@ -11,6 +11,7 @@ import {
 import Sign from "./components/Sign";
 import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button/Button";
+import { LottieFile } from "../../components/LottieFile";
 
 // Media
 import Correct_Flag from "../../assets/Correct_Flag.png";
@@ -19,13 +20,13 @@ import Correct_Backward from "../../assets/Correct_Backward.png";
 import Correct_Forward from "../../assets/Correct_Forward.png";
 import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
 import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
-import Coin from "../../components/Coin/Coin.jsx";
+import coin_data from "../../assets/lottie/coin.json";
 
 // Helper
 import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
-import { Body, Header, SEMI_BOLD } from "../../components/Typography";
+import { Body, Header } from "../../components/Typography";
 import { COLOR } from "../../global/const";
 
 const TITLE = {
@@ -58,7 +59,15 @@ const PracticeAnswer = () => {
           <Body style={{ lineHeight: "1.2em" }}>
             ยินดีด้วย! คุณได้รับ 1 เหรียญ
           </Body>
-          <Coin />
+          {/* <Coin /> */}
+          <div style={{ display: "inline-block", marginTop: "8px" }}>
+            <LottieFile
+              animationData={coin_data}
+              loop={false}
+              height={30}
+              width={30}
+            />
+          </div>
         </GreetingDiv>
       );
     } else {
@@ -142,7 +151,7 @@ const PracticeAnswer = () => {
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
       <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
         {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
-        <Sign answer={correct}  />
+        <Sign answer={correct} />
       </CenterDiv>
       <CenterDiv>
         {correct ? (
