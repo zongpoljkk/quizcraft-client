@@ -10,7 +10,7 @@ import {
 } from "./components/Container";
 import Sign from "./components/Sign";
 import { Solution } from "./components/Solution";
-import { Button } from "../../components/Button/Button";
+import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 
 // Media
@@ -253,7 +253,7 @@ const ReportDiv = styled.div`
 const ReportFlag = styled.img`
   alt: "Report Flag";
   height: 24px;
-  margin: 32px 8px 0 32px;
+  margin: 40px 8px 0 32px;
   display: inline-block;
 `;
 

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // Components
-import { Button } from "../../../components/Button/Button";
+import { Button } from "../../../components/Button";
 
 const GroupDiv = styled.div`
   display: flex;
