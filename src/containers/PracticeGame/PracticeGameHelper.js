@@ -36,7 +36,7 @@ export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty
   const [correct_answer, set_correct_answer] = useState();
   const [choices, set_choices] = useState();
 
-  const getProblemForUser = async () => {
+  const getProblemForUser = async (set_skip) => {
     set_loading(true);
     try {
       const response = await axios.post(backend+"problem/get-problem-for-user", {
@@ -54,6 +54,7 @@ export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty
         set_choices(data.problem.choices);
         set_correct_answer(data.correctAnswer);
         set_loading(false);
+        set_skip("UN_USE");
       } else {
         console.log("getProblemForUser Error");
       } 
