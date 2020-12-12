@@ -10,6 +10,7 @@ import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import skip_icon from "../../assets/icon/skip.png";
+import hint_icon from "../../assets/icon/hint.png";
 
 import { COLOR, RANK } from "../../global/const"
 
@@ -68,7 +69,7 @@ const ProfilePage = () => {
         </Container>
       </LevelContainer>
       <ItemContainer>
-        <Item amount={1}/>
+        <Item icon={hint_icon} icon_width={40} amount={1}/>
         <Item icon={skip_icon} amount={0}/>
         <Item amount={4}/>
       </ItemContainer>
