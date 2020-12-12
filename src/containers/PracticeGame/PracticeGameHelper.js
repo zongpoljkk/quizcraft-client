@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 
 import backend from "../../ip";
-import { API_HOST } from "../../global/const";
 
 export const useGetHintByProblemId = (problemId) => {
   const [hint, set_hint] = useState();
@@ -37,7 +36,7 @@ export const getAndCheckAnswer = async (
   subtopic,
 ) => {
   try {
-    const url = `${API_HOST}/problem/put-difficulty-index`;
+    const url = `${backend}/problem/put-difficulty-index`;
     const params = {
       problemId: problemId,
       userId: userId,
