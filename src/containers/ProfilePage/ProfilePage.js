@@ -13,6 +13,7 @@ import skip_icon from "../../assets/icon/skip.png";
 import hint_icon from "../../assets/icon/hint.png";
 
 import { COLOR, RANK } from "../../global/const"
+import { useWindowDimensions } from "../../global/util"
 
 // MOCK DATA
 const USERNAME = "ชื่อผู้ใช้";
@@ -24,8 +25,32 @@ const USER_RANK = "BRONZE";
 const LEVEL = 12;
 const XP = 876;
 const MAX_XP = 2000;
+const ITEMS = [
+  {
+    icon: hint_icon,
+    amount: 1
+  },
+  {
+    icon: skip_icon,
+    amount: 3
+  },
+  {
+    icon: hint_icon,
+    amount: 6
+  },
+  {
+    icon: hint_icon,
+    amount: 1
+  },
+  {
+    icon: skip_icon,
+    amount: 2
+  },
+]
 
 const ProfilePage = () => {
+
+  const { height, width: screen_width } = useWindowDimensions();
 
   return (
     <Container>
@@ -68,10 +93,12 @@ const ProfilePage = () => {
           <ProgressBar percent={(XP/MAX_XP)*100}/>
         </Container>
       </LevelContainer>
-      <ItemContainer>
-        <Item icon={hint_icon} icon_width={40} amount={1}/>
-        <Item icon={skip_icon} amount={0}/>
-        <Item amount={4}/>
+      <ItemContainer maxWidth={screen_width-64}>
+        {ITEMS?.map((item, index) => (
+          <div style={{ marginRight: 16 }}>
+            <Item key={index} icon={item.icon} amount={item.amount}/>
+          </div>
+        ))}
       </ItemContainer>
     </Container>
   );
@@ -134,12 +161,15 @@ const LevelTitle = styled.div.attrs(props => ({
   margin-bottom: ${props => props.marginBottom}px;
 `;
 
-const ItemContainer = styled.div`
+const ItemContainer = styled.div.attrs(props => ({
+  maxWidth: props.maxWidth
+}))`
   display: flex;
   flex: 1;
   flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
+  overflow: scroll;
+  justify-content: flex-start;
+  max-width: ${props => props.maxWidth}px;
 `;
 
 export default ProfilePage;
