@@ -1,5 +1,5 @@
 import axios from "axios";
-import backend from "../../global/const";
+import backend from "../../ip";
 
 export const getSubjects = async () => {
   try {
