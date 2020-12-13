@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -55,7 +55,9 @@ const ProfilePage = ({ history }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
-
+  const inputFile = useRef(null);
+  const [selected_image, set_selected_image] = useState(null);
+  
   const handleMouseEnter = () => {
     set_hover(true);
   };
@@ -64,6 +66,10 @@ const ProfilePage = ({ history }) => {
     set_hover(false);
   };
 
+  const handleUpload = () => {
+    inputFile.current.click();
+  }
+
   return (
     <Container>
       <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
@@ -71,7 +77,18 @@ const ProfilePage = ({ history }) => {
         onMouseLeave={handleMouseLeave}
       >
         {hover 
-          ? <img src={photo} height={100} width={100}/>
+          ? <div
+              style={{ marginTop: 8 }}
+              onClick={handleUpload}
+            >
+              <input 
+                type="file"
+                ref={inputFile}
+                onChange={e => set_selected_image(e.target.files[0])}
+                style={{ display: 'none' }}
+              />
+              <img src={photo} height={100} width={100}/>
+            </div>
           : IMAGE ? <Image src={IMAGE}/> : null
         }
       </ProfileImage>
