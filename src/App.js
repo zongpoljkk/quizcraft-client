@@ -23,7 +23,7 @@ const App = () => {
           <Route exact path="/profile">
             <ProfilePage />
           </Route>
-          <Route exact path="/edit-usernsme">
+          <Route exact path="/edit-username">
             <EditUsernamePage />
           </Route>
           <Route exact path="/topic">

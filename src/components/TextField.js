@@ -8,9 +8,8 @@ export const TextField = styled.input.attrs(props => ({
   border: 1px solid ${COLOR.SILVER};
   border-radius: 10px;
   outline: none;
-  height: 48px;
-  padding-left: 16px;
-  padding-right: 16px;
+  height: 46px;
+  padding: 0px 16px 0px 16px;
   font-family: Prompt, sans-serif;
   font-weight: 400;
   font-size: 16px;

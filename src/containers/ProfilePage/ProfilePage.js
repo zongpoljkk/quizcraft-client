@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
@@ -50,7 +51,7 @@ const ITEMS = [
   },
 ]
 
-const ProfilePage = () => {
+const ProfilePage = ({ history }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
@@ -76,8 +77,12 @@ const ProfilePage = () => {
       </ProfileImage>
       <UsernameContainer>
         <Header>{USERNAME}</Header>
-        <div style={{ marginRight: 16 }}/>
-        <img src={edit_username_icon} height={20}/>
+        <div 
+          style={{ marginLeft: 16 }}
+          onClick={() => history.push("/edit-username")}
+        >
+          <img src={edit_username_icon} height={20}/>
+        </div>
       </UsernameContainer>
       <InfoContainer>
         <Subheader>{NAME} {SURNAME}</Subheader>
@@ -205,4 +210,4 @@ const ItemContainer = styled.div.attrs(props => ({
   max-width: ${props => props.maxWidth}px;
 `;
 
-export default ProfilePage;
+export default withRouter(ProfilePage);
