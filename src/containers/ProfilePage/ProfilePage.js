@@ -16,6 +16,7 @@ import { COLOR, RANK } from "../../global/const"
 import { useWindowDimensions } from "../../global/util"
 
 // MOCK DATA
+const IMAGE = null;
 const USERNAME = "ชื่อผู้ใช้";
 const NAME = "ชื่อ";
 const SURNAME = "นามสกุล";
@@ -54,7 +55,10 @@ const ProfilePage = () => {
 
   return (
     <Container>
-      <DefaultProfileImage />
+      { IMAGE
+        ? <ProfileImage src={IMAGE}/>
+        : <DefaultProfileImage />
+      }
       <UsernameContainer>
         <Header>{USERNAME}</Header>
         <div style={{ marginRight: 16 }}/>
@@ -110,6 +114,12 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const ProfileImage = styled.img`
+  height: 240px;
+  width: 240px;
+  border-radius: 50%;
 `;
 
 const DefaultProfileImage = styled.div`
