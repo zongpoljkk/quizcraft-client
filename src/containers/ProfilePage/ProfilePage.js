@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
@@ -11,6 +11,7 @@ import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import skip_icon from "../../assets/icon/skip.png";
 import hint_icon from "../../assets/icon/hint.png";
+import photo from "../../assets/icon/photo.png";
 
 import { COLOR, RANK } from "../../global/const"
 import { useWindowDimensions } from "../../global/util"
@@ -52,13 +53,27 @@ const ITEMS = [
 const ProfilePage = () => {
 
   const { height, width: screen_width } = useWindowDimensions();
+  const [hover, set_hover] = useState(false);
+
+  const handleMouseEnter = () => {
+    set_hover(true);
+  };
+
+  const handleMouseLeave = () => {
+    set_hover(false);
+  };
 
   return (
     <Container>
-      { IMAGE
-        ? <ProfileImage src={IMAGE}/>
-        : <DefaultProfileImage />
-      }
+      <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {hover 
+          ? <img src={photo} height={100} width={100}/>
+          : IMAGE ? <Image src={IMAGE}/> : null
+        }
+      </ProfileImage>
       <UsernameContainer>
         <Header>{USERNAME}</Header>
         <div style={{ marginRight: 16 }}/>
@@ -99,8 +114,8 @@ const ProfilePage = () => {
       </LevelContainer>
       <ItemContainer maxWidth={screen_width-64}>
         {ITEMS?.map((item, index) => (
-          <div style={{ marginRight: 16 }}>
-            <Item key={index} icon={item.icon} amount={item.amount}/>
+          <div key={index} style={{ marginRight: 16 }}>
+            <Item icon={item.icon} amount={item.amount}/>
           </div>
         ))}
       </ItemContainer>
@@ -116,16 +131,24 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const ProfileImage = styled.img`
-  height: 240px;
-  width: 240px;
+const ProfileImage = styled.div.attrs(props => ({
+  backgroundColor: props.backgroundColor
+}))`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.backgroundColor};
+  height: 210px;
+  width: 210px;
   border-radius: 50%;
 `;
 
-const DefaultProfileImage = styled.div`
-  background-color: ${COLOR.ISLAND_SPICE};
-  height: 240px;
-  width: 240px;
+const Image = styled.img.attrs(props => ({
+  height: props.height || 210,
+  width: props.width || 210
+}))`
+  height: ${props => props.height}px;
+  width: ${props => props.width}px;
   border-radius: 50%;
 `;
 
