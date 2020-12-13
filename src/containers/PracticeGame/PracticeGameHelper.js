@@ -33,23 +33,33 @@ export const getAndCheckAnswer = async (
   userAnswer,
   userTime,
   topic,
-  subtopic,
+  subtopic
 ) => {
   try {
-    const url = `${backend}/problem/put-difficulty-index`;
-    const params = {
+    const url = `${backend}problem/get-and-check-answer`;
+    // const params = {
+    // problemId: problemId,
+    // userId: userId,
+    // userAnswer: userAnswer,
+    // userTime: userTime,
+    // topic: topic,
+    // subtopic, subtopic,
+    // };
+    const data = {
       problemId: problemId,
       userId: userId,
       userAnswer: userAnswer,
       userTime: userTime,
       topic: topic,
-      subtopic, subtopic,
+      subtopic: subtopic,
     };
     const options = {
-      method: "PUT",
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      params: params,
-      url,
+      method: "POST",
+      url: url,
+      headers: { "content-type": "application/json" },
+      data: JSON.stringify(data),
+      // headers: { "content-type": "application/x-www-form-urlencoded" },
+      // params: params,
     };
     const response = await axios(options);
     if (response.status === 200) {

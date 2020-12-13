@@ -3,7 +3,7 @@ import backend from "../../ip";
 
 export const getSubjects = async () => {
   try {
-    const res = await axios.get(`${backend}/subtopic/get-all-subjects`);
+    const res = await axios.get(`${backend}subtopic/get-all-subjects`);
     if (res.status === 200) {
       return res.data;
     }
