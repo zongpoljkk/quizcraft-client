@@ -8,8 +8,8 @@ import { Button } from "../../components/Button"
 import { COLOR } from "../../global/const";
 
 import {client_id} from "./config"
-const redirect_uri = 'http://localhost:5000/api/auth/mcv-callback'
-// const redirect_uri = 'http://localhost:3000'
+// const redirect_uri = 'http://localhost:5000/api/auth/mcv-callback'
+const redirect_uri = 'http://localhost:3000/oauth/mcv-callback'
 const URL = `https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}`;
 
 const LoginPageTest = () => {
