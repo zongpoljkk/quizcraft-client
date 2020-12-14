@@ -59,3 +59,9 @@ export const ANSWER_TYPE = {
   SELECT_ONE: "SELECT_ONE",
   RADIO_CHOICE: "RADIO_CHOICE",
 };
+
+export const LEADERBOARD_FILTER = {
+  GLOBAL: "ทั่วโลก",
+  SCHOOL: "โรงเรียน",
+  CLASS: "ห้องเรียน",
+};
