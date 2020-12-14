@@ -13,7 +13,7 @@ const USERNAME = "ชื่อผู้ใช้";
 
 const EditUsernamePage = () => {
 
-  const [new_username, set_new_username] = useState();
+  const [new_username, set_new_username] = useState('');
 
   const handleClick = () => {
     // TODO: connect API edit username
