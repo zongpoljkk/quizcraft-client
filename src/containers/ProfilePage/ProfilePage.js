@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -69,6 +69,11 @@ const ProfilePage = ({ history }) => {
   const handleUpload = () => {
     inputFile.current.click();
   }
+
+  useEffect(() => {
+    // TODO: integrate API when selected_image have data
+    console.log(selected_image);
+  }, [selected_image]);
 
   return (
     <Container>
