@@ -43,6 +43,7 @@ const Box = styled.div.attrs(props => ({
   }};
   border-radius: 10px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;

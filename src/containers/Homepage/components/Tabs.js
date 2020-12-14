@@ -15,15 +15,12 @@ export const Tabs = ({data}) => {
   const [slider, setSlider] = useState({ left: 0, right: 0 });
   const { bounds, ref } = useMeasure();
 
-  // measure our elements
   useEffect(() => {
     const target = childRefs.current.get(value);
     const container = tabListRef.current;
     if (target) {
       const cRect = container.getBoundingClientRect();
 
-      // when container is `display: none`, width === 0.
-      // ignore this case
       if (cRect.width === 0) {
         return;
       }
