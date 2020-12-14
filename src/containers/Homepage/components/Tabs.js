@@ -71,7 +71,6 @@ export const Tabs = ({data}) => {
       <Pager value={value}>
         {Object.entries(LEADERBOARD_FILTER).map((tab, index) => (
           <div key={tab[1]}>
-            {tab[1]}
             <TabContent data={data[Object.keys(data)[index]]} index={data[Object.keys(data)[index+3]]}/>
           </div>
         ))}

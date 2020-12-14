@@ -94,7 +94,6 @@ const Homepage = () => {
   return (
     <Container ref={ref}>
       <ItemBox type="frame" shadow="frame" width={container_width-32}>
-        {console.log(container_width)}
         <Tabs data={LEADER_BOARD} />
       </ItemBox>
     </Container>
