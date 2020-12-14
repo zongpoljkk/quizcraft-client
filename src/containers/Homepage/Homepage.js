@@ -1,7 +1,7 @@
 import React from "react";
-
+import { LevelUpModal } from "../../components/LevelUpModal"
 const Homepage = () => {
-  return <div></div>;
+  return <div> <LevelUpModal /> </div>;
 };
 
 /* const useStyles = makeStyles({
