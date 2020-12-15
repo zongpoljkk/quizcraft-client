@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 // Lottie
 import { LottieFile } from "../../components/LottieFile";
@@ -27,7 +28,12 @@ const QuizResultPage = () => {
 
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle>
-          <RunningNum />
+          <motion.circle
+            cx={500}
+            animate={{ cx: [null, 100, 200] }}
+            transition={{ duration: 3, times: [0, 0.2, 1] }}
+          />
+          <RunningNum score={8} />
           <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
         </Circle>
       </CenterDiv>

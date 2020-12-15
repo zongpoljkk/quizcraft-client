@@ -3,22 +3,25 @@ import { motion } from "framer-motion";
 
 const RunningNum = ({ isVisible, score }) => {
   return (
-    <RunningNumCss
-      initial={{ scale: 0 }}
-      animate={{
-        x: 0,
-        backgroundColor: "#000",
-        boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)",
-        position: "fixed",
-        transitionEnd: {
-          display: "none",
-        },
-      }}
-      transition={{ duration: 0.3 }}
-    />
+    <div>
+      {/* <motion.div
+        animate={{
+          x: 10,
+          backgroundColor: "#000",
+          boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)",
+          position: "fixed",
+          transitionEnd: {
+            display: "none",
+          },
+        }}
+      /> */}
+      <motion.circle
+        cx={500}
+        animate={{ cx: [null, 100, 200] }}
+        transition={{ duration: 3, times: [0, 0.2, 1] }}
+      />
+    </div>
   );
 };
-
-const RunningNumCss = styled(motion.div)``;
 
 export default RunningNum;
