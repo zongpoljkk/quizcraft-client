@@ -9,6 +9,7 @@ import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 import QuizGame from "./containers/QuizGame/QuizGame";
+import LoginPage from "./containers/LoginPage/LoginPage";
 
 const App = () => {
   return (
@@ -17,6 +18,9 @@ const App = () => {
       <Page>
         <Switch>
           <Route exact path="/">
+            <LoginPage />
+          </Route>
+          <Route exact path="/homepage">
             <Homepage />
           </Route>
           <Route exact path="/topic">
@@ -33,7 +37,7 @@ const App = () => {
           </Route>
           <Route path="*">
             <ErrorPage />
-          </Route>
+            </Route>
         </Switch>
       </Page>
     </Router>
