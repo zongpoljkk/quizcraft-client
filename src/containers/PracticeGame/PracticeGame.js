@@ -9,10 +9,9 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem";
 import { Button } from "../../components/Button";
-import { LottieFile } from "../../components/LottieFile";
+import PracticeGameContent from "./PracticeGameContent";
 import GameContent from "../../components/GameContent";
-
-import {
+import { 
   useGetHintByProblemId,
   useGetProblemForUser,
   getAndCheckAnswer,

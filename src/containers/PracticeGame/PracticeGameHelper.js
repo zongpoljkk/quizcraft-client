@@ -37,14 +37,6 @@ export const getAndCheckAnswer = async (
 ) => {
   try {
     const url = `${backend}problem/get-and-check-answer`;
-    // const params = {
-    // problemId: problemId,
-    // userId: userId,
-    // userAnswer: userAnswer,
-    // userTime: userTime,
-    // topic: topic,
-    // subtopic, subtopic,
-    // };
     const data = {
       problemId: problemId,
       userId: userId,
