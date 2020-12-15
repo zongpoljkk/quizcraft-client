@@ -12,6 +12,7 @@ import { AnswerModal } from "../../components/AnswerModal"
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import { HeadlineItem } from "./component/HeadlineItem"
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
 
@@ -111,47 +112,53 @@ const QuizGame = ({ history }) => {
               </Body>
             </TimeContainer>
             </HeadlineItem>
-            <ProblemBox
-              problem={PROBLEM}
-              problem_content={PROBLEM_CONTENT}
-            />
-            <ContentContainer 
-              style={{ alignSelf: TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
-            >
-              <GameContent 
-                type={TYPE_ANSWER}
-                correct_answer={ANSWER}
-                question={QUESTION4}
-                choices={CHOICES1}
-                content={CONTENT3}
-                answer={answer}
-                set_answer={set_answer}
-              />
-            </ContentContainer>
-            <CenterContainer>
-              <Button
-                type={answer ? "default" : "disabled"}
-                onClick={() => {
-                  set_used_time(getTime()/1000);
-                  stop();
-                  onCheck();
-                }}
-              >
-                ตรวจ
-              </Button>
-              <AnswerModal
-                isShowing={isShowing}
-                toggle={toggle}
-                correct={CORRECT}
-                answer={CORRECT ? null : FINAL_ANSWER}
-                buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
-                onButtonClick={() => {
-                  onNext();
-                  reset();
-                  start();
-                }}
-              />
-            </CenterContainer>
+            {loading 
+            ? <LoadingPage/>
+            : (
+              <React.Fragment>
+                <ProblemBox
+                  problem={PROBLEM}
+                  problem_content={PROBLEM_CONTENT}
+                />
+                <ContentContainer 
+                  style={{ alignSelf: TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+                >
+                  <GameContent 
+                    type={TYPE_ANSWER}
+                    correct_answer={ANSWER}
+                    question={QUESTION4}
+                    choices={CHOICES1}
+                    content={CONTENT3}
+                    answer={answer}
+                    set_answer={set_answer}
+                  />
+                </ContentContainer>
+                <CenterContainer>
+                  <Button
+                    type={answer ? "default" : "disabled"}
+                    onClick={() => {
+                      set_used_time(getTime()/1000);
+                      stop();
+                      onCheck();
+                    }}
+                  >
+                    ตรวจ
+                  </Button>
+                  <AnswerModal
+                    isShowing={isShowing}
+                    toggle={toggle}
+                    correct={CORRECT}
+                    answer={CORRECT ? null : FINAL_ANSWER}
+                    buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
+                    onButtonClick={() => {
+                      onNext();
+                      reset();
+                      start();
+                    }}
+                  />
+                </CenterContainer>
+              </React.Fragment>
+            )}
           </React.Fragment>
         )}
       </Timer>

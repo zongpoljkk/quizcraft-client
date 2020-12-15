@@ -11,6 +11,7 @@ import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
 import { LottieFile } from "../../components/LottieFile";
 import GameContent from "../../components/GameContent";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
   useGetHintByProblemId,
@@ -106,7 +107,7 @@ const PracticeGame = ({ history }) => {
               </TimeContainer>
             </Headline>
             {loading 
-            ? <div> loading </div>
+            ? <LoadingPage/>
             : (
               <React.Fragment>
                 <ProblemBox
