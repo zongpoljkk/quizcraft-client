@@ -30,7 +30,7 @@ const QuizResultPage = () => {
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle>
           {/* <Sign answer={true}/> */}
-          <RunningNum score={8} style={{marginBottom: "0px"}}/>
+          <RunningNum score={8}/>
           <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
         </Circle>
       </CenterDiv>
