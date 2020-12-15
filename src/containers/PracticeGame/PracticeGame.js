@@ -81,14 +81,20 @@ const PracticeGame = ({ history }) => {
         startImmediately={true}
         lastUnit="h"
       >
-        {({ getTime }) => (
+        {({ getTime, start, reset }) => (
           <React.Fragment>
+            {problem_id && start()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
-              <ItemCard onClick={onSkip}>
+              <ItemCard>
                 {skip === ITEM_USAGE.UN_USE && (
-                  <CenterContainer onClick={onSkip}>
+                  <CenterContainer
+                    onClick={() => {
+                      onSkip();
+                      reset();
+                    }}
+                  >
                     <img src={skip_icon} height={22}/>
                   </CenterContainer>
                 )}

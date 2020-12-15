@@ -108,11 +108,12 @@ const QuizGame = ({ history }) => {
     <Container>
       <Timer
         formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-        startImmediately={true}
+        startImmediately={false}
         lastUnit="h"
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
+            {problem_id && start()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <div style={{ marginRight: 8 }}/>
@@ -122,9 +123,15 @@ const QuizGame = ({ history }) => {
               onGetHint={() => getHintByProblemId()}
               hintContent={hint}
               skip={skip} 
-              onSkip={onSkip}
+              onSkip={() => {
+                onSkip();
+                reset();
+              }}
               refresh={refresh}
-              onRefresh={onRefresh}
+              onRefresh={() => {
+                onRefresh();
+                reset();
+              }}
             >
             <TimeContainer>
               <Body color={COLOR.MANDARIN}>
@@ -174,7 +181,6 @@ const QuizGame = ({ history }) => {
                     onButtonClick={() => {
                       onNext();
                       reset();
-                      start();
                     }}
                   />
                 </CenterContainer>
