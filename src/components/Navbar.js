@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 import { Header } from "./Typography";
 
@@ -19,14 +20,26 @@ const USER_STREAK = 4;
 const USER_COIN = 20;
 
 const Navbar = ({
+  history,
   user_profile_image,
   user_rank = USER_RANK,
   user_streak = USER_STREAK,
   user_coin = USER_COIN
 }) => {
+
+  const handleClickLogo = () => {
+    history.push("/homepage")
+  };
+
+  const handleClickShop = () => {
+    history.push("/shop")
+  };
+
   return (
     <Container>
-      <Logo src={white_logo} />
+      <div onClick={handleClickLogo} style={{ display: 'flex' }}>
+        <Logo src={white_logo} />
+      </div>
       <InfoContainer>
         {user_rank === RANK.BRONZE &&
           <Icon src={bronze} marginRight={12}/>
@@ -43,7 +56,9 @@ const Navbar = ({
         <Icon src={coin} marginRight={4}/>
         <Header color={COLOR.WHITE}>{user_coin}</Header>
         <div style={{ marginRight: 12 }}/>
-        <Icon src={shop} marginRight={12}/>
+        <div onClick={handleClickShop} style={{ display: 'flex' }}>
+          <Icon src={shop} marginRight={12}/>
+        </div>
         <ProfileImage backgroundColor={user_profile_image ? null : COLOR.ISLAND_SPICE}>
           {user_profile_image ? <Image src={user_profile_image}/> : null}
         </ProfileImage>
@@ -59,7 +74,6 @@ const Container = styled.div`
   align-items: center;
   background-color: ${COLOR.MANDARIN};
   height: 54px;
-  width: 100%;
   padding: 0px 16px 0px 16px;
 `;
 
@@ -98,4 +112,4 @@ const Icon = styled.img`
   margin-right: ${props => props.marginRight}px;
 `;
 
-export default Navbar;
+export default withRouter(Navbar);
