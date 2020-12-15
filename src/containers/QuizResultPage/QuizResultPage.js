@@ -13,7 +13,6 @@ import { COLOR } from "../../global/const";
 
 // Components
 import { Button } from "../../components/Button";
-import Lottie from "react-lottie";
 
 const QuizResultPage = () => {
   const [exp, setEXP] = useState(0);
@@ -31,16 +30,26 @@ const QuizResultPage = () => {
         </Circle>
       </CenterDiv>
 
-      <CenterDiv style={{ marginBottom: "24px" }}>
-        <LottieFile
-          animationData={rewardData}
-          width={48}
-          height={48}
-        ></LottieFile>
-        <Body color={COLOR.MANDARIN} style={{ alignItems: "flex-end" }}>
-          คุณได้รับ + {exp} XP + {coin} coins
-        </Body>
-      </CenterDiv>
+      <RewardDiv>
+        <div style={{ margin: "0px" }}>
+          <LottieFile
+            animationData={rewardData}
+            width={48}
+            height={48}
+          ></LottieFile>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            marginBottom: "4px",
+          }}
+        >
+          <Body color={COLOR.MANDARIN}>
+            คุณได้รับ + {exp} XP + {coin} coins
+          </Body>
+        </div>
+      </RewardDiv>
 
       <ButtonDiv>
         <Button type="outline">ออก</Button>
@@ -72,6 +81,14 @@ const CenterDiv = styled.div.attrs((props) => ({
   display: flex;
   justify-content: center;
   margin-bottom: ${(props) => props.marginBottom};
+  align-items: center;
+`;
+
+const RewardDiv = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin-bottom: 24px;
 `;
 
 const ButtonDiv = styled.div`
