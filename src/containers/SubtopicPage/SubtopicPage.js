@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Header } from "../../components/Typography";
 import SubtopicBox from "./components/SubtopicBox";
 import { useGetsubTopicName } from "./SubtopicPageHelper";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const SubtopicPage = ({}) => {
   const location = useLocation();
@@ -19,7 +20,7 @@ const SubtopicPage = ({}) => {
   return (
     <React.Fragment>
       {loading ? (
-        <div>loading</div>
+        <LoadingPage/>
       ) : (
         <Container>
           <TopicStyle>

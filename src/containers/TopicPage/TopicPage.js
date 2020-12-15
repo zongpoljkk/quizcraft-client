@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import TopicBox from "./components/TopicBox";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetTopicName } from "./TopicPageHelper";
 
@@ -31,7 +32,7 @@ const TopicPage = ({ history }) => {
   return (
     <React.Fragment>
       {loading ? (
-        <div>loading</div>
+        <LoadingPage/>
       ) : (
         <Container>
           {topics?.map((topic, index) => (

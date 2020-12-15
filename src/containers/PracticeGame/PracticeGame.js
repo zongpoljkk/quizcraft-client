@@ -9,58 +9,70 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem";
 import { Button } from "../../components/Button";
-import PracticeGameContent from "./PracticeGameContent";
+import { LottieFile } from "../../components/LottieFile";
+import GameContent from "../../components/GameContent";
 
-import { useGetHintByProblemId, getAndCheckAnswer } from "./PracticeGameHelper";
+import {
+  useGetHintByProblemId,
+  useGetProblemForUser,
+  getAndCheckAnswer,
+} from "./PracticeGameHelper";
 
 import skip_icon from "../../assets/icon/skip.png";
+import skip_data from "../../assets/lottie/skip.json";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 // MOCK DATA
-const PROBLEM = "แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ";
-const PROBLEM_CONTENT = "โจทย์";
-const ANSWER = "(22^[5]*22^[2])*22^[39]*";
-const CONTENT1 =
-  "You can only join the football team if you can [stay&to stay] late on Mondays.";
-const CONTENT2 =
-  "[You&I] can only join the football team if you can stay late on Mondays.";
-const CONTENT3 =
-  "You can only join the football team if you can stay late on [Mondays.&Fridays.]";
-const QUESTION1 =
-  "He runs quite [slow,] so he can't play basketball very well.";
-const QUESTION2 =
-  "You have to write an essay tonight but it [] be more than 200 words.";
-const QUESTION3 = "You have to write an essay []";
-const QUESTION4 = "[] should be more than 200 words.";
-const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
-const CHOICES2 = ["slowlyyyyyyyy", "slowleddddddd"];
-const TYPE_ANSWER = "RADIO_CHOICE";
+const USER_ID = "5fcb4ccbc53dd068520072a1";
 
-// const PROBLEM_ID = "5fce5cd6a775562b4c48d92b";
+const ITEM_USAGE = {
+  UN_USE: "UN_USE",
+  IN_USE: "IN_USE",
+};
+
 const PROBLEM_ID = "5fce5e62f329e3f7f295d364";
-const USER_ID = "5fd560243de6aaa3c97aa72b";
+// const USER_ID = "5fd560243de6aaa3c97aa72b";
 const USER_ANSWER = "16^1";
 const TOPIC = "เลขยกกำลัง";
 const SUBTOPIC = "การดำเนินการของเลขยกกำลัง";
 
 const PracticeGame = ({ history }) => {
+  const location = useLocation();
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
+  const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
 
-  // ? Location
-  const location = useLocation();
-
-  const { getHintByProblemId, hint } = useGetHintByProblemId(PROBLEM_ID);
+  const {
+    getProblemForUser,
+    loading,
+    problem_id,
+    body,
+    answer_type,
+    title,
+    correct_answer,
+    choices,
+  } = useGetProblemForUser(
+    USER_ID,
+    location.state.subject_name,
+    location.state.subtopic_name,
+    location.state.difficulty
+  );
+  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
   const onSkip = () => {
-    // TODO: connect API get new question
-    console.log("skip ja");
+    set_skip(ITEM_USAGE.IN_USE);
+    getProblemForUser(set_skip);
   };
 
-  const onExit = () => {
-    // TODO: connect API get new question
-    console.log("exit ja");
+  const onExit = (subject_name, topic_name) => {
+    history.push({
+      pathname: "/" + subject_name + "/" + topic_name,
+      state: {
+        subject_name: subject_name,
+        topic_name: topic_name,
+      },
+    });
   };
 
   const handleCheckAnswerClick = (
@@ -98,7 +110,9 @@ const PracticeGame = ({ history }) => {
     });
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    getProblemForUser();
+  }, []);
 
   return (
     <Container>
@@ -110,10 +124,29 @@ const PracticeGame = ({ history }) => {
         {({ getTime }) => (
           <React.Fragment>
             <Headline>
-              <ExitModal onExit={onExit} />
+              <ExitModal
+                onExit={() =>
+                  onExit(location.state.subject_name, location.state.topic_name)
+                }
+              />
               <HintItem onGetHint={() => getHintByProblemId()} content={hint} />
               <ItemCard onClick={onSkip}>
-                <img src={skip_icon} height={20} />
+                {skip === ITEM_USAGE.UN_USE && (
+                  <CenterContainer onClick={onSkip}>
+                    <img src={skip_icon} height={22} />
+                  </CenterContainer>
+                )}
+                {skip === ITEM_USAGE.IN_USE && (
+                  <SkipContainer>
+                    <ZoomItem>
+                      <LottieFile
+                        animationData={skip_data}
+                        loop={false}
+                        height={64}
+                      />
+                    </ZoomItem>
+                  </SkipContainer>
+                )}
               </ItemCard>
               <TimeContainer>
                 <Body color={COLOR.MANDARIN}>
@@ -121,44 +154,55 @@ const PracticeGame = ({ history }) => {
                 </Body>
               </TimeContainer>
             </Headline>
-            <ProblemBox problem={PROBLEM} problem_content={PROBLEM_CONTENT} />
-            <ContentContainer
-              style={{
-                alignSelf:
-                  TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT
-                    ? "center"
-                    : "flex-start",
-              }}
-            >
-              <PracticeGameContent
-                type={TYPE_ANSWER}
-                correct_answer={ANSWER}
-                question={QUESTION4}
-                choices={CHOICES2}
-                content={CONTENT3}
-                answer={answer}
-                set_answer={set_answer}
-              />
-            </ContentContainer>
-            <ButtonContainer>
-              <Button
-                type={answer ? "default" : "disabled"}
-                onClick={() =>
-                  handleCheckAnswerClick(
-                    PROBLEM_ID,
-                    USER_ID,
-                    USER_ANSWER,
-                    getTime(),
-                    location.state.subject_name,
-                    TOPIC,
-                    location.state.subtopic_name,
-                    location.state.difficulty
-                  )
-                }
-              >
-                ตรวจ
-              </Button>
-            </ButtonContainer>
+            {loading ? (
+              <div> loading </div>
+            ) : (
+              <React.Fragment>
+                <ProblemBox
+                  problem={title}
+                  problem_content={
+                    answer_type === ANSWER_TYPE.MATH_INPUT ? body : null
+                  }
+                />
+                <ContentContainer
+                  style={{
+                    alignSelf:
+                      answer_type === ANSWER_TYPE.MATH_INPUT
+                        ? "center"
+                        : "flex-start",
+                  }}
+                >
+                  <GameContent
+                    type={answer_type}
+                    correct_answer={correct_answer}
+                    question={body}
+                    choices={choices}
+                    content={body}
+                    answer={answer}
+                    set_answer={set_answer}
+                  />
+                </ContentContainer>
+                <ButtonContainer>
+                  <Button
+                    type={answer ? "default" : "disabled"}
+                    onClick={() =>
+                      handleCheckAnswerClick(
+                        PROBLEM_ID,
+                        USER_ID,
+                        USER_ANSWER,
+                        getTime(),
+                        location.state.subject_name,
+                        TOPIC,
+                        location.state.subtopic_name,
+                        location.state.difficulty
+                      )
+                    }
+                  >
+                    ตรวจ
+                  </Button>
+                </ButtonContainer>
+              </React.Fragment>
+            )}
           </React.Fragment>
         )}
       </Timer>
@@ -195,6 +239,20 @@ const TimeContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const CenterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const SkipContainer = styled.div`
+  margin-left: -18px;
+  transform: rotate(90deg);
+`;
+
+const ZoomItem = styled.div`
+  transform: scale(1.7);
 `;
 
 export default withRouter(PracticeGame);

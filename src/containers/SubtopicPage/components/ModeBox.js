@@ -4,25 +4,37 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { Subheader } from "../../../components/Typography";
-import { COLOR, DIFFICULTY } from "../../../global/const";
+import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
 
-const ModeBox = ({ icon, type, id, title, subject, topic, history, style }) => {
+const ModeBox = ({ 
+  icon, 
+  type, 
+  id,
+  title,
+  subject,
+  topic,
+  history,
+  style
+}) => {
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
 
   const handleClick = (
     selected_subject,
-    selected_topic,
     selected_subtopic_id,
-    selected_subtopic_name,
-    selected_mode,
-    selected_difficulty
+    selected_subtopic_name, 
+    selected_topic_name,
+    selected_mode, 
+    selected_difficulty 
   ) => {
+    console.log(selected_mode, MODE.PRACTICE.type )
     history.push({
-      pathname: "/practice-game",
+      pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+
+        (selected_mode === MODE.PRACTICE.type ? "/practice-game" 
+        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/challenge-game"), 
       state: {
         subject_name: selected_subject,
-        topic_name: selected_topic,
+        topic_name: selected_topic_name,
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
@@ -60,7 +72,7 @@ const ModeBox = ({ icon, type, id, title, subject, topic, history, style }) => {
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleClick(subject, topic, id, title, type, item[1].type);
+              handleClick(subject, id, title, topic, type, item[1].type)
             }}
             src={item[1].icon}
           />
