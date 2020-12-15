@@ -8,6 +8,7 @@ import Homepage from "./containers/Homepage/Homepage";
 import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
+import QuizResultPage from "./containers/QuizResultPage/QuizResultPage";
 
 const App = () => {
   return (
@@ -26,6 +27,9 @@ const App = () => {
           </Route>
           <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
             <PracticeGame />
+          </Route>
+          <Route exact path="/:subject/:topic/quiz-result/quiz-game">
+            <QuizResultPage />
           </Route>
           <Route path="*">
             <ErrorPage />
