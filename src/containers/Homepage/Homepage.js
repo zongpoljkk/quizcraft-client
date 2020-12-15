@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { Tabs } from "./components/Tabs";
 import { ItemBox } from "../../components/ItemBox";
+import { Header } from "../../components/Typography";
 
 // MOCK DATA
 const LEADER_BOARD = {
@@ -94,6 +95,9 @@ const Homepage = () => {
   return (
     <Container ref={ref}>
       <ItemBox type="frame" shadow="frame" width={container_width-32}>
+        <div style = {{marginBottom: "12px"}}>
+          <Header>กระดานผู้นำ</Header>
+        </div>
         <Tabs data={LEADER_BOARD} />
       </ItemBox>
     </Container>
