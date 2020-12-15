@@ -1,11 +1,19 @@
 import { React, useState } from "react";
 import styled from "styled-components";
 
+// Lottie
+import { LottieFile } from "../../components/LottieFile";
+import rewardData from "../../assets/lottie/reward.json";
+
 // Typography
 import { Header, Subheader, Body } from "../../components/Typography";
 
 // Color
 import { COLOR } from "../../global/const";
+
+// Components
+import { Button } from "../../components/Button";
+import Lottie from "react-lottie";
 
 const QuizResultPage = () => {
   const [exp, setEXP] = useState(0);
@@ -23,11 +31,21 @@ const QuizResultPage = () => {
         </Circle>
       </CenterDiv>
 
-      <CenterDiv>
-        <Body color={COLOR.MANDARIN}>
+      <CenterDiv style={{ marginBottom: "24px" }}>
+        <LottieFile
+          animationData={rewardData}
+          width={48}
+          height={48}
+        ></LottieFile>
+        <Body color={COLOR.MANDARIN} style={{ alignItems: "flex-end" }}>
           คุณได้รับ + {exp} XP + {coin} coins
         </Body>
       </CenterDiv>
+
+      <ButtonDiv>
+        <Button type="outline">ออก</Button>
+        <Button>เล่นอีกครั้ง</Button>
+      </ButtonDiv>
     </Container>
   );
 };
@@ -54,6 +72,13 @@ const CenterDiv = styled.div.attrs((props) => ({
   display: flex;
   justify-content: center;
   margin-bottom: ${(props) => props.marginBottom};
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
 `;
 
 export default QuizResultPage;
