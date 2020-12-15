@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 
-import { Header } from "./Typography";
+import { Header, Body } from "./Typography";
 
 import white_logo from "../assets/thumbnail/logo_white.png";
 import bronze from "../assets/icon/bronze.png";
@@ -16,6 +17,7 @@ import { COLOR, RANK } from "../global/const"
 
 // MOCK DATA
 const USER_RANK = "BRONZE";
+const USER_LEVEL = 25;
 const USER_STREAK = 4;
 const USER_COIN = 20;
 
@@ -23,6 +25,7 @@ const Navbar = ({
   history,
   user_profile_image,
   user_rank = USER_RANK,
+  user_level = USER_LEVEL,
   user_streak = USER_STREAK,
   user_coin = USER_COIN
 }) => {
@@ -41,15 +44,28 @@ const Navbar = ({
         <Logo src={white_logo} />
       </div>
       <InfoContainer>
-        {user_rank === RANK.BRONZE &&
-          <Icon src={bronze} marginRight={12}/>
-        }
-        {user_rank === RANK.SILVER &&
-          <Icon src={silver} marginRight={12}/>
-        }
-        {user_rank === RANK.GOLD &&
-          <Icon src={gold} marginRight={12}/>
-        }
+        <div style={{ display: 'flex' }} data-tip data-for="levelTip">
+          {user_rank === RANK.BRONZE &&
+            <Icon src={bronze}/>
+          }
+          {user_rank === RANK.SILVER &&
+            <Icon src={silver}/>
+          }
+          {user_rank === RANK.GOLD &&
+            <Icon src={gold}/>
+          }
+        </div>
+        <ReactTooltip
+          id="levelTip"
+          place="bottom"
+          effect="solid"
+          type="light"
+          border
+          borderColor={COLOR.ISLAND_SPICE}
+        >
+          <Body color={COLOR.MANDARIN}>Level {user_level}</Body>
+        </ReactTooltip>
+        <div style={{ marginRight: 12 }}/>
         <Icon src={streak} marginRight={4}/>
         <Header color={COLOR.WHITE}>{user_streak}</Header>
         <div style={{ marginRight: 12 }}/>
@@ -86,7 +102,6 @@ const InfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  spacing: 6px
 `;
 
 const ProfileImage = styled.div.attrs(props => ({
