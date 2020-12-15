@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
 // Lottie
 import { LottieFile } from "../../components/LottieFile";
@@ -15,6 +15,7 @@ import { COLOR } from "../../global/const";
 // Components
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
+// import Sign from "./components/runningNum";
 
 const QuizResultPage = () => {
   const [exp, setEXP] = useState(0);
@@ -28,12 +29,8 @@ const QuizResultPage = () => {
 
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle>
-          <motion.circle
-            cx={500}
-            animate={{ cx: [null, 100, 200] }}
-            transition={{ duration: 3, times: [0, 0.2, 1] }}
-          />
-          <RunningNum score={8} />
+          {/* <Sign answer={true}/> */}
+          <RunningNum score={8} style={{marginBottom: "0px"}}/>
           <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
         </Circle>
       </CenterDiv>
@@ -79,6 +76,7 @@ const Circle = styled.span`
   background-color: ${COLOR.ISLAND_SPICE};
   border-radius: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
