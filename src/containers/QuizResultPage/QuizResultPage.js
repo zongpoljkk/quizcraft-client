@@ -13,6 +13,7 @@ import { COLOR } from "../../global/const";
 
 // Components
 import { Button } from "../../components/Button";
+import RunningNum from "./components/runningNum";
 
 const QuizResultPage = () => {
   const [exp, setEXP] = useState(0);
@@ -26,17 +27,7 @@ const QuizResultPage = () => {
 
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle>
-          <motion.div
-            animate={{
-              x: 0,
-              backgroundColor: "#000",
-              boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)",
-              position: "fixed",
-              transitionEnd: {
-                display: "none",
-              },
-            }}
-          />
+          <RunningNum />
           <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
         </Circle>
       </CenterDiv>
