@@ -1,6 +1,6 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-// import { motion } from "framer-motion";
 
 // Lottie
 import { LottieFile } from "../../components/LottieFile";
@@ -15,11 +15,44 @@ import { COLOR } from "../../global/const";
 // Components
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
-// import Sign from "./components/runningNum";
 
-const QuizResultPage = () => {
+const MOCK_SCORE = 8;
+
+const QuizResultPage = ({ history }) => {
   const [exp, setEXP] = useState(0);
   const [coin, setCoin] = useState(0);
+  const [score, setScore] = useState(0);
+
+  const location = useLocation();
+
+  const handleOnPlayAgain = () => {
+    history.push({
+      pathname:
+        location.state.selected_topic_name +
+        "/" +
+        location.state.selected_subtopic_name +
+        "/" +
+        location.state.selected_difficulty +
+        "/quiz-game",
+      state: {
+        topic_name: location.state.selected_topic_name,
+        subtopic_name: location.state.selected_subtopic_name,
+        difficulty: location.state.selected_difficulty,
+      },
+    });
+  };
+
+  const handleExit = () => {
+    // TODO: Return to "Select Mode Page"
+  };
+
+  useEffect(() => {
+    setScore(MOCK_SCORE);
+    // TODO: Uncomment when using real data
+    // setScore(location.state.score);
+    // setEXP(location.state.exp);
+    // setCoin(location.state.coin);
+  }, []);
 
   return (
     <Container>
@@ -29,8 +62,7 @@ const QuizResultPage = () => {
 
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle>
-          {/* <Sign answer={true}/> */}
-          <RunningNum score={8}/>
+          <RunningNum score={score} />
           <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
         </Circle>
       </CenterDiv>
@@ -57,8 +89,10 @@ const QuizResultPage = () => {
       </RewardDiv>
 
       <ButtonDiv>
-        <Button type="outline">ออก</Button>
-        <Button>เล่นอีกครั้ง</Button>
+        <Button type="outline" onClick={handleExit}>
+          ออก
+        </Button>
+        <Button onClick={handleOnPlayAgain}>เล่นอีกครั้ง</Button>
       </ButtonDiv>
     </Container>
   );

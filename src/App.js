@@ -34,7 +34,7 @@ const App = () => {
           </Route>
           <Route
             exact
-            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficultyquiz-result"
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
           >
             <QuizResultPage />
           </Route>
