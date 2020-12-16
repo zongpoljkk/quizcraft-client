@@ -9,6 +9,7 @@ import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 import QuizResultPage from "./containers/QuizResultPage/QuizResultPage";
+import QuizGame from "./containers/QuizGame/QuizGame";
 
 const App = () => {
   return (
@@ -25,11 +26,23 @@ const App = () => {
           <Route exact path="/:subject/:topic">
             <SubtopicPage />
           </Route>
-          <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
+          <Route
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game"
+          >
             <PracticeGame />
           </Route>
-          <Route exact path="/:subject/:topic/quiz-result/quiz-game">
+          <Route
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficultyquiz-result"
+          >
             <QuizResultPage />
+          </Route>
+          <Route
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
+          >
+            <QuizGame />
           </Route>
           <Route path="*">
             <ErrorPage />

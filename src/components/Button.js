@@ -6,6 +6,9 @@ import { COLOR } from "../global/const";
 export const Button = styled.button.attrs((props) => ({
   type: props.type,
   size: props.size,
+  backgroundColor: props.backgroundColor,
+  border: props.border,
+  color: props.color
 }))`
   width: ${(props) => {
     switch (props.size) {
