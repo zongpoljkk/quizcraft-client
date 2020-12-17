@@ -7,10 +7,9 @@ import { useHistory } from 'react-router-dom'
 const OAuthRedirectPage = () => {
   const params = qs.parse(window.location.search)
   const { code } = params;
+  const [token, set_token] = useState("");
 
   const history = useHistory()
-  
-  console.log(code);
 
   const redirectAPI = async () => {
     try {
@@ -18,7 +17,7 @@ const OAuthRedirectPage = () => {
       const response = await axios.post(backend+"auth/login-via-mcv", {
         code : code,
       });
-      console.log(response)
+      
       if (response.data) {
         const { success, token } = response.data
         if (success) {
