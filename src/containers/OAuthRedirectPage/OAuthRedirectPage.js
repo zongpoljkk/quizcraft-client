@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom'
 const OAuthRedirectPage = () => {
   const params = qs.parse(window.location.search)
   const { code } = params;
-  const [token, set_token] = useState("");
 
   const history = useHistory()
   
