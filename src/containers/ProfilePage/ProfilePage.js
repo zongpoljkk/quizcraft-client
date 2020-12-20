@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
@@ -50,11 +51,13 @@ const ITEMS = [
   },
 ]
 
-const ProfilePage = () => {
+const ProfilePage = ({ history }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
-
+  const inputFile = useRef(null);
+  const [selected_image, set_selected_image] = useState(null);
+  
   const handleMouseEnter = () => {
     set_hover(true);
   };
@@ -63,6 +66,15 @@ const ProfilePage = () => {
     set_hover(false);
   };
 
+  const handleUpload = () => {
+    inputFile.current.click();
+  }
+
+  useEffect(() => {
+    // TODO: integrate API when selected_image have data
+    console.log(selected_image);
+  }, [selected_image]);
+
   return (
     <Container>
       <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
@@ -70,14 +82,29 @@ const ProfilePage = () => {
         onMouseLeave={handleMouseLeave}
       >
         {hover 
-          ? <img src={photo} height={100} width={100}/>
+          ? <div
+              style={{ marginTop: 8 }}
+              onClick={handleUpload}
+            >
+              <input 
+                type="file"
+                ref={inputFile}
+                onChange={e => set_selected_image(e.target.files[0])}
+                style={{ display: 'none' }}
+              />
+              <img src={photo} height={100} width={100}/>
+            </div>
           : IMAGE ? <Image src={IMAGE}/> : null
         }
       </ProfileImage>
       <UsernameContainer>
         <Header>{USERNAME}</Header>
-        <div style={{ marginRight: 16 }}/>
-        <img src={edit_username_icon} height={20}/>
+        <div 
+          style={{ marginLeft: 16 }}
+          onClick={() => history.push("/edit-username")}
+        >
+          <img src={edit_username_icon} height={20}/>
+        </div>
       </UsernameContainer>
       <InfoContainer>
         <Subheader>{NAME} {SURNAME}</Subheader>
@@ -205,4 +232,4 @@ const ItemContainer = styled.div.attrs(props => ({
   max-width: ${props => props.maxWidth}px;
 `;
 
-export default ProfilePage;
+export default withRouter(ProfilePage);
