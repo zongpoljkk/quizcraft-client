@@ -1,11 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import qs from 'query-string'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react';
+
 import backend from '../../ip';
-import { useHistory } from 'react-router-dom'
 
 const OAuthRedirectPage = () => {
-  const params = qs.parse(window.location.search)
+  const params = qs.parse(window.location.search);
   const { code } = params;
   const [token, set_token] = useState("");
 
@@ -13,7 +14,6 @@ const OAuthRedirectPage = () => {
 
   const redirectAPI = async () => {
     try {
-      console.log(backend + "auth/login-via-mvc")
       const response = await axios.post(backend+"auth/login-via-mcv", {
         code : code,
       });
@@ -28,7 +28,6 @@ const OAuthRedirectPage = () => {
         } 
       }
     } catch (e) {
-      console.log('hellooooo')
       history.push('/login')
     }
   }
