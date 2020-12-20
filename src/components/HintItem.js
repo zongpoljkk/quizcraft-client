@@ -41,6 +41,7 @@ export const HintItem = ({
           </IconContainer>
           <ContentContainer>
             <Header color={COLOR.GOLDEN_TAINOI}>คำใบ้:</Header>
+            <div style={{ marginBottom: 8 }}/>
             {content?.split('\n').map((item, key) => {
               return (
                 <Body key={key} color={COLOR.GOLDEN_TAINOI}>{item}</Body>

@@ -16,9 +16,9 @@ export const ExitModal = ({
 
   return (
     <div>
-      <div onClick={toggle}>
+      <IconContainer onClick={toggle}>
         <img src={close_icon} height={16} width={16}/>
-      </div>
+      </IconContainer>
       <Modal
         isShowing={isShowing}
         hide={toggle}
@@ -48,6 +48,11 @@ export const ExitModal = ({
     </div>
   );
 };
+
+const IconContainer = styled.div`
+  display: flex;
+  height: 100%;
+`;
 
 const HeaderContainer = styled.div`
   display: flex;
