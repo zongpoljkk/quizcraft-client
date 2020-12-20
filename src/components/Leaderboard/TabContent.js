@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Body } from "../../../components/Typography";
-
-import { COLOR } from "../../../global/const";
+import { Body } from "../Typography";
+import { COLOR } from "../../global/const";
 
 export const TabContent = ({
   data,
@@ -12,11 +11,13 @@ export const TabContent = ({
   return(  
     <Container>
       {Object.entries(data).map((user, i) => (
-        <InfoBox backgroundColor={index === i ? COLOR.ISLAND_SPICE : null}>
+        <InfoBox backgroundColor={index === i ? COLOR.MANDARIN : null}>
           <Body>{i+1}</Body>
-          <UserImg src={user[1].profile_image ? user[1].profile_image : null}/>
+          <UserImg backgroundColor={user[1].profile_image ? null : COLOR.ISLAND_SPICE}>
+            {user[1].profile_image ? <img src={user[1].profile_image}/> : null}
+          </UserImg>
           <Body>{user[1].username}</Body>
-          <LevelText color={index === i ? COLOR.MANDARIN : COLOR.GOLDEN_TAINOI}> Lv.{user[1].levels}</LevelText>
+          <LevelText color={index === i ? COLOR.ISLAND_SPICE : COLOR.GOLDEN_TAINOI}> Lv.{user[1].levels}</LevelText>
         </InfoBox>
       ))}
     </Container>
@@ -48,12 +49,14 @@ const LevelText = styled(Body)`
   color: ${props => props.color};
 `;
 
-const UserImg = styled.img`
+const UserImg = styled.div.attrs(props => ({
+  backgroundColor: props.backgroundColor
+}))`
   alt: "User profile Image";
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   margin-left: 12px;
   margin-right: 12px;
-  background-color: ${COLOR.ISLAND_SPICE};
+  background-color: ${props => props.backgroundColor};
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 `;

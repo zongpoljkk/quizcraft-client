@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import { Pager } from "./Pager";
 import { useMeasure } from "./TabHelper";
-import { COLOR, LEADERBOARD_FILTER } from "../../../global/const";
+import { COLOR, LEADERBOARD_FILTER } from "../../global/const";
 
 import { TabContent } from "./TabContent";
 
