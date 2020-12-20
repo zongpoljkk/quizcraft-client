@@ -12,7 +12,10 @@ export const incorrect_background_color = convertHexToRGBA(
   20
 );
 
-export const Container = styled.div`
+export const Container = styled.div.attrs((props) => ({
+  minHeight: props.minHeight,
+}))`
+  min-height: ${(props) => props.minHeight}px;
   height: 100%;
   width: 100%;
   overflow-y: scroll;

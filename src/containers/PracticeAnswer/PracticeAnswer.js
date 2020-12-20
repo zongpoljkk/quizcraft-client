@@ -28,6 +28,10 @@ import { backward, forward } from "./PracticeAnswerHelper";
 // Global
 import { Body, Header } from "../../components/Typography";
 import { COLOR } from "../../global/const";
+import { useWindowDimensions } from "../../global/util";
+
+const CONTAINER_PADDING = 64;
+const NAVBAR_HEIGHT = 54;
 
 const TITLE = {
   CORRECT: "ถูกต้อง",
@@ -51,6 +55,8 @@ const PracticeAnswer = () => {
   // add one more line to the array and remove one line after backward click
   const [solution, set_solution] = useState(MOCKDATA.SOL);
   const [firstClick, setFirstClick] = useState(false);
+
+  const { height, width: screen_width } = useWindowDimensions();
 
   const greetingHolder = () => {
     if (firstClick && correct) {
@@ -146,7 +152,11 @@ const PracticeAnswer = () => {
   });
 
   return (
-    <Container answer={correct} onClick={handleFirstClick}>
+    <Container
+      answer={correct}
+      onClick={handleFirstClick}
+      minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
+    >
       <Background answer={correct} />
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
       <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
