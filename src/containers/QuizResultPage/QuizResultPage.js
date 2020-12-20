@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 // Lottie
 import { LottieFile } from "../../components/LottieFile";
@@ -17,6 +18,11 @@ import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
 
 const MOCK_SCORE = 8;
+
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
 
 const QuizResultPage = ({ history }) => {
   const [exp, setEXP] = useState(0);
@@ -67,12 +73,18 @@ const QuizResultPage = ({ history }) => {
         </Circle>
       </CenterDiv>
 
-      <RewardDiv>
+      <RewardDiv
+        initial="hidden"
+        animate="visible"
+        variants={variants}
+        transition={{ delay: 1 }}
+      >
         <div style={{ margin: "0px" }}>
           <LottieFile
             animationData={rewardData}
             width={48}
             height={48}
+            loop={false}
           ></LottieFile>
         </div>
         <div
@@ -88,7 +100,12 @@ const QuizResultPage = ({ history }) => {
         </div>
       </RewardDiv>
 
-      <ButtonDiv>
+      <ButtonDiv
+        initial="hidden"
+        animate="visible"
+        variants={variants}
+        transition={{ delay: 2 }}
+      >
         <Button type="outline" onClick={handleExit}>
           ออก
         </Button>
@@ -124,14 +141,14 @@ const CenterDiv = styled.div.attrs((props) => ({
   align-items: center;
 `;
 
-const RewardDiv = styled.div`
+const RewardDiv = styled(motion.div)`
   display: flex;
   flex: 1;
   justify-content: center;
   margin-bottom: 24px;
 `;
 
-const ButtonDiv = styled.div`
+const ButtonDiv = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   flex: 1;
