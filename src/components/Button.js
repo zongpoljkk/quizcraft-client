@@ -9,6 +9,8 @@ export const Button = styled.button.attrs((props) => ({
 }))`
   width: ${(props) => {
     switch (props.size) {
+      case "custom":
+        return `${props.width}`;
       case "small":
         return "100px";
       default:
@@ -17,6 +19,8 @@ export const Button = styled.button.attrs((props) => ({
   }};
   height: ${(props) => {
     switch (props.size) {
+      case "custom":
+        return `${props.height}`;
       case "small":
         return "36px";
       default:
