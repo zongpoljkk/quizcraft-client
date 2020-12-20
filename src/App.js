@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
@@ -15,9 +15,41 @@ import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
 const App = () => {
+  const [user_info, set_user_info] = useState();
+  const token = sessionStorage.getItem("token");
+  const _id = sessionStorage.getItem("userId");
+  const getUserData = async () => {
+    try {
+      const response = await axios.get(backend + "user/get-user/", {
+        params: {
+          _id: _id
+        },
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      const { success, data } = response.data;
+      console.log(data);
+      if (success) {
+        set_user_info(data);
+        console.log({user_info});
+      } else {
+        console.log("getUserInfo Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about get user infomation :(");
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   return (
     <Router>
-      <Navbar />
+      {user_info ? (
+        <Navbar user_info={user_info}/>
+      ): null}
       <Page>
         <Switch>
         <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
@@ -33,7 +65,7 @@ const App = () => {
             <SubtopicPage />
           </Route>
           <Route exact path="/homepage">
-            <Homepage />
+            <Homepage user_info={user_info}/>
           </Route>
           <Route exact path="/topic">
             <TopicPage />

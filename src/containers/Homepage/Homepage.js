@@ -1,6 +1,7 @@
 import React from "react";
 
-const Homepage = () => {
+const Homepage = ({user_info}) => {
+  console.log("hp", user_info)
   return <div></div>;
 };
 

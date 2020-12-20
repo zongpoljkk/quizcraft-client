@@ -2,7 +2,7 @@ import React from "react";
 
 import mainLogo from "../assets/thumbnail/logo.png";
 
-const Navbar = () => {
+const Navbar = ({user_info}) => {
   return (
     <div className="topnav">
       <img src={mainLogo} alt="Quizcraft Logo" height="100" />

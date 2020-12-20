@@ -6,12 +6,16 @@ import backend from "../../ip";
 export const useGetTopicName = (subject_name) => {
   const [loading, set_loading] = useState(true);
   const [topics, set_topics] = useState();
+  const token = sessionStorage.getItem("token");
 
   const getTopicName = async () => {
     try {
       const response = await axios.get(backend+"subtopic/get-topics/", {
         params: {
           subject: subject_name
+        },
+        headers: {
+          'Authorization': `Bearer ${token}`,
         }
       });
       const { success, data } = response.data;

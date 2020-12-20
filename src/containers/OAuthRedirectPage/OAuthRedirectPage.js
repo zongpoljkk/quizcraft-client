@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import { useHistory } from 'react-router-dom'
 import qs from 'query-string'
 import axios from 'axios'
@@ -22,13 +23,18 @@ const OAuthRedirectPage = () => {
         const { success, token } = response.data
         if (success) {
           set_token(token);
-          history.push('/homepage')
+          var decoded = jwt_decode(token);
+          var userId = decoded.userId;
+          sessionStorage.setItem("token", token);
+          sessionStorage.setItem("userId", userId);
+          history.push('/homepage');
+          history.go(0);
         } else {
-          history.push('login')
+          history.push('/')
         } 
       }
     } catch (e) {
-      history.push('/login')
+      history.push('/')
     }
   }
 
