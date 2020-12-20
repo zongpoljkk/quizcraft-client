@@ -8,13 +8,9 @@ import Homepage from "./containers/Homepage/Homepage";
 import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
-<<<<<<< HEAD
-import LoginPageTest from "./containers/LoginPageTest/LoginPageTest";
-=======
 import QuizGame from "./containers/QuizGame/QuizGame";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
->>>>>>> C2-01
 
 const App = () => {
   return (
