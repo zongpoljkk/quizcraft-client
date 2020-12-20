@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 
 import { Header, Body } from "./Typography";
-import { Button } from "./Button";
 
 import white_logo from "../assets/thumbnail/logo_white.png";
 import bronze from "../assets/icon/bronze.png";
@@ -21,11 +20,9 @@ const USER_RANK = "BRONZE";
 const USER_LEVEL = 25;
 const USER_STREAK = 4;
 const USER_COIN = 20;
-const USERNAME = "qc 1006";
 
 const Navbar = ({
   history,
-  username = USERNAME,
   user_profile_image,
   user_rank = USER_RANK,
   user_level = USER_LEVEL,
@@ -34,11 +31,15 @@ const Navbar = ({
 }) => {
 
   const handleClickLogo = () => {
-    history.push("/homepage")
+    history.push("/homepage");
   };
 
   const handleClickShop = () => {
-    history.push("/shop")
+    history.push("/shop");
+  };
+
+  const handleClickProfileImage = () => {
+    history.push("/profile");
   };
 
   return (
@@ -80,27 +81,10 @@ const Navbar = ({
         </div>
         <ProfileImage 
           backgroundColor={user_profile_image ? null : COLOR.ISLAND_SPICE} 
-          data-tip
-          data-for="userTip"
-          data-event="click focus"
+          onClick={handleClickProfileImage}
         >
           {user_profile_image ? <Image src={user_profile_image}/> : null}
         </ProfileImage>
-        <ReactTooltipStyled
-          id="userTip"
-          place="bottom"
-          effect="solid"
-          type="light"
-          border
-          borderColor={COLOR.ISLAND_SPICE}
-          offset={{left: 10}}
-        >
-          <UserTip>
-            <Body color={COLOR.MANDARIN}>{username}</Body>
-            <div style={{ marginBottom: 8 }}/>
-            <Button size="custom" width="120px" height="36px">ออกจากระบบ</Button>
-          </UserTip>
-        </ReactTooltipStyled>
       </InfoContainer>
     </Container>
   );
@@ -148,17 +132,6 @@ const Image = styled.img`
 const Icon = styled.img`
   height: 28px;
   margin-right: ${props => props.marginRight}px;
-`;
-
-const UserTip = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ReactTooltipStyled = styled(ReactTooltip)`
-  max-width: 20vh;
-  white-space: normal;
 `;
 
 export default withRouter(Navbar);

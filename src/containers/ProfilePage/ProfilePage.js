@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
+import { Button } from "../../components/Button";
 import { Item } from "./component/Item";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
@@ -53,7 +54,7 @@ const ITEMS = [
 
 const ProfilePage = ({ history }) => {
 
-  const { height, width: screen_width } = useWindowDimensions();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
@@ -76,76 +77,79 @@ const ProfilePage = ({ history }) => {
   }, [selected_image]);
 
   return (
-    <Container>
-      <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {hover 
-          ? <div
-              style={{ marginTop: 8 }}
-              onClick={handleUpload}
-            >
-              <input 
-                type="file"
-                ref={inputFile}
-                onChange={e => set_selected_image(e.target.files[0])}
-                style={{ display: 'none' }}
-              />
-              <img src={photo} height={100} width={100}/>
-            </div>
-          : IMAGE ? <Image src={IMAGE}/> : null
-        }
-      </ProfileImage>
-      <UsernameContainer>
-        <Header>{USERNAME}</Header>
-        <div 
-          style={{ marginLeft: 16 }}
-          onClick={() => history.push("/edit-username")}
+    <Container height={screen_height-54-64}>
+      <ContentContainer>
+        <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
-          <img src={edit_username_icon} height={20}/>
-        </div>
-      </UsernameContainer>
-      <InfoContainer>
-        <Subheader>{NAME} {SURNAME}</Subheader>
-        <div style={{ marginBottom: 16 }}/>
-        <Subheader>{SCHOOL}</Subheader>
-        <div style={{ marginBottom: 16 }}/>
-        <Subheader>{CLASS}</Subheader>
-      </InfoContainer>
-      <LevelContainer>
-        {USER_RANK === RANK.BRONZE &&
-          <img src={bronze} height={44}/>
-        }
-        {USER_RANK === RANK.SILVER &&
-          <img src={silver} height={44}/>
-        }
-        {USER_RANK === RANK.GOLD &&
-          <img src={gold} height={44}/>
-        }
-        <div style={{ marginRight: 8 }}/>
-        <Container>
-          <LevelTitleContainer>
-            <LevelTitle marginBottom={6}>
-              <Body>เลเวล</Body>
-              <div style={{ marginRight: 8 }}/>
-              <Body color={COLOR.MANDARIN}>{LEVEL}</Body>
-            </LevelTitle>
-            <LevelTitle marginBottom={2}>
-              <Overline color={COLOR.MANDARIN}>{XP}</Overline>
-              <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
-            </LevelTitle>
-          </LevelTitleContainer>
-          <ProgressBar percent={(XP/MAX_XP)*100}/>
-        </Container>
-      </LevelContainer>
-      <ItemContainer maxWidth={screen_width-64}>
-        {ITEMS?.map((item, index) => (
-          <div key={index} style={{ marginRight: 16 }}>
-            <Item icon={item.icon} amount={item.amount}/>
+          {hover 
+            ? <div
+                style={{ marginTop: 8 }}
+                onClick={handleUpload}
+              >
+                <input 
+                  type="file"
+                  ref={inputFile}
+                  onChange={e => set_selected_image(e.target.files[0])}
+                  style={{ display: 'none' }}
+                />
+                <img src={photo} height={100} width={100}/>
+              </div>
+            : IMAGE ? <Image src={IMAGE}/> : null
+          }
+        </ProfileImage>
+        <UsernameContainer>
+          <Header>{USERNAME}</Header>
+          <div 
+            style={{ marginLeft: 16 }}
+            onClick={() => history.push("/edit-username")}
+          >
+            <img src={edit_username_icon} height={20}/>
           </div>
-        ))}
-      </ItemContainer>
+        </UsernameContainer>
+        <InfoContainer>
+          <Subheader>{NAME} {SURNAME}</Subheader>
+          <div style={{ marginBottom: 16 }}/>
+          <Subheader>{SCHOOL}</Subheader>
+          <div style={{ marginBottom: 16 }}/>
+          <Subheader>{CLASS}</Subheader>
+        </InfoContainer>
+        <LevelContainer>
+          {USER_RANK === RANK.BRONZE &&
+            <img src={bronze} height={44}/>
+          }
+          {USER_RANK === RANK.SILVER &&
+            <img src={silver} height={44}/>
+          }
+          {USER_RANK === RANK.GOLD &&
+            <img src={gold} height={44}/>
+          }
+          <div style={{ marginRight: 8 }}/>
+          <ContentContainer>
+            <LevelTitleContainer>
+              <LevelTitle marginBottom={6}>
+                <Body>เลเวล</Body>
+                <div style={{ marginRight: 8 }}/>
+                <Body color={COLOR.MANDARIN}>{LEVEL}</Body>
+              </LevelTitle>
+              <LevelTitle marginBottom={2}>
+                <Overline color={COLOR.MANDARIN}>{XP}</Overline>
+                <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
+              </LevelTitle>
+            </LevelTitleContainer>
+            <ProgressBar percent={(XP/MAX_XP)*100}/>
+          </ContentContainer>
+        </LevelContainer>
+        <ItemContainer maxWidth={screen_width-64}>
+          {ITEMS?.map((item, index) => (
+            <div key={index} style={{ marginRight: 16 }}>
+              <Item icon={item.icon} amount={item.amount}/>
+            </div>
+          ))}
+        </ItemContainer>
+      </ContentContainer>
+      <Button type="outline">ออกจากระบบ</Button>
     </Container>
   );
 };
@@ -154,7 +158,15 @@ const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  min-height: ${props => props.height}px;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   align-items: center;
 `;
 
@@ -196,7 +208,6 @@ const InfoContainer = styled.div`
 
 const LevelContainer = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: row;
   align-items: flex-start;
   width: 100%;
@@ -205,7 +216,6 @@ const LevelContainer = styled.div`
 
 const LevelTitleContainer = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
@@ -225,11 +235,11 @@ const ItemContainer = styled.div.attrs(props => ({
   maxWidth: props.maxWidth
 }))`
   display: flex;
-  flex: 1;
   flex-direction: row;
   overflow: scroll;
   justify-content: flex-start;
   max-width: ${props => props.maxWidth}px;
+  margin-bottom: 32px;
 `;
 
 export default withRouter(ProfilePage);
