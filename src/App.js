@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
+import EditUsernamePage from "./containers/EditUsernamePage/EditUsernamePage";
 import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
@@ -16,7 +18,7 @@ import QuizGame from "./containers/QuizGame/QuizGame";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
-const App = ({history}) => {
+const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
@@ -78,6 +80,12 @@ const App = ({history}) => {
           </PrivateRoute>
           <PrivateRoute exact path="/topic">
             <TopicPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/profile">
+            <ProfilePage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/edit-username">
+            <EditUsernamePage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage">
             <Homepage user_info={user_info} handleLogout={handleLogout}/>
