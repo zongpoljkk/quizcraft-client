@@ -33,7 +33,7 @@ const ITEM_USAGE = {
 }
 const NUMBER_OF_QUIZ = 10;
 
-const QuizGame = ({ history, token }) => {
+const QuizGame = ({ history }) => {
 
   const location = useLocation();
   const {isShowing, toggle} = useModal();

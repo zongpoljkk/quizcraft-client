@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 
+import { PrivateRoute } from "./route/PrivateRoute";
+import { PublicRoute } from "./route/PublicRoute";
 import backend from "./ip";
 import Navbar from "./components/Navbar";
 import Page from "./containers/Page";
@@ -14,22 +16,33 @@ import QuizGame from "./containers/QuizGame/QuizGame";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
-const App = () => {
+const App = ({history}) => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
-  const _id = localStorage.getItem("userId");
+  const user_id = localStorage.getItem("userId");
+
+
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization'];
+  }
+
+  const handleLogout = async() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    console.log(localStorage.getItem("token"));
+  }
 
   const getUserData = async () => {
     try {
       const response = await axios.get(backend + "user/get-user/", {
         params: {
-          _id: _id
-        },
-        headers: {
-          'Authorization': `Bearer ${token}`,
+          _id: user_id
         }
       });
       const { success, data } = response.data;
+      console.log(data);
       if (success) {
         set_user_info(data);
       } else {
@@ -46,35 +59,35 @@ const App = () => {
 
   return (
     <Router>
-      {user_info ? (
+      {localStorage.getItem("userId") && (
         <Navbar user_info={user_info}/>
-      ): null}
+      )}
       <Page>
         <Switch>
-        <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
-            <PracticeGame token={token}/>
-          </Route>
-          <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game">
-            <QuizGame token={token}/>
-          </Route>
-          <Route path="/oauth/mcv-callback">
-            <OAuthRedirectPage/>
-          </Route>
-          <Route exact path="/:subject/:topic">
-            <SubtopicPage token={token}/>
-          </Route>
-          <Route exact path="/topic">
-            <TopicPage token={token}/>
-          </Route>
-          <Route exact path="/homepage">
-            <Homepage user_info={user_info}/>
-          </Route>
-          <Route exact path="/">
-            <LoginPage user_info={user_info}/>
-          </Route>
-          <Route path="*">
+          <PrivateRoute exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
+            <PracticeGame />
+          </PrivateRoute>
+          <PrivateRoute exact path="/:subject/:selected_topiwselected_subtopic_name/:selected_difficulty/quiz-game">
+            <QuizGame />
+          </PrivateRoute>
+          <PublicRoute path="/oauth/mcv-callback">
+            <OAuthRedirectPage />
+          </PublicRoute>
+          <PrivateRoute exact path="/:subject/:topic">
+            <SubtopicPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/topic">
+            <TopicPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/homepage">
+            <Homepage user_info={user_info} handleLogout={handleLogout}/>
+          </PrivateRoute>
+          <PublicRoute exact path="/">
+            <LoginPage />
+          </PublicRoute>
+          <PublicRoute path="*">
             <ErrorPage />
-          </Route>
+          </PublicRoute>
         </Switch>
       </Page>
     </Router>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-export const useGetHintByProblemId = (problemId, token) => {
+export const useGetHintByProblemId = (problemId) => {
   const [hint, set_hint] = useState();
 
   const getHintByProblemId = async () => {
@@ -11,9 +11,6 @@ export const useGetHintByProblemId = (problemId, token) => {
       const response = await axios.get(backend+"hint/get-hint/", {
         params: {
           problemId: problemId
-        },
-        headers: {
-          'Authorization': `Bearer ${token}`,
         }
       });
       const { success, data } = response.data;
@@ -30,7 +27,7 @@ export const useGetHintByProblemId = (problemId, token) => {
   return { getHintByProblemId, hint };
 };
 
-export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty, token) => {
+export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty) => {
   const [loading, set_loading] = useState(true);
   const [problem_id, set_problem_id] = useState();
   const [body, set_body] = useState();
@@ -51,11 +48,6 @@ export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty
       const response = await axios.post(
         backend + "problem/get-problem-for-user",
         info,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
       );
       const { success, data } = response.data;
       if (success) {

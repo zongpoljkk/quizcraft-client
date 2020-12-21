@@ -3,7 +3,7 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-export const useGetsubTopicName = (topic_name, token) => {
+export const useGetsubTopicName = (topic_name) => {
   const [loading, set_loading] = useState(true);
   const [subtopics, set_subtopics] = useState();
 
@@ -12,9 +12,6 @@ export const useGetsubTopicName = (topic_name, token) => {
       const response = await axios.get(backend + "subtopic/get-subtopics/", {
         params: {
           topic: topic_name
-        },
-        headers: {
-          'Authorization': `Bearer ${token}`,
         }
       });
       const { success, data } = response.data;

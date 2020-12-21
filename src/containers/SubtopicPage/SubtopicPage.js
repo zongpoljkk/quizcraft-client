@@ -7,9 +7,9 @@ import SubtopicBox from "./components/SubtopicBox";
 import { useGetsubTopicName } from "./SubtopicPageHelper";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-const SubtopicPage = ({ token }) => {
+const SubtopicPage = () => {
   const location = useLocation();
-  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(location.state.topic_name, token);
+  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(location.state.topic_name);
 
   useEffect(() => {
     getSubtopicName();

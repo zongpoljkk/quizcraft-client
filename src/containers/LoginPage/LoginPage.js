@@ -8,7 +8,9 @@ import logo from "../../assets/thumbnail/logo.png";
 import { Button } from "../../components/Button"
 import config from "../../config";
 
-const LoginPage = ({ user_info, history }) => {
+const LoginPage = ({ history }) => {
+  const user_id = localStorage.getItem("userId");
+  console.log("uid",user_id)
   const redirect_uri = 'http://localhost:3000/oauth/mcv-callback'
   const URL = `https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=${config.client_id}&redirect_uri=${redirect_uri}`;
   const [display_login, set_display_login] = useState(false)
@@ -39,9 +41,9 @@ const LoginPage = ({ user_info, history }) => {
   }
 
   useEffect(() => {
-    if(user_info !== null && user_info !== "undefined") {
-       history.push("/homepage")
-       history.go(0);
+    if(user_id) {
+      history.push("/homepage");
+      history.go(0);
     }
   }, [])
 
