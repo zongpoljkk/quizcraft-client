@@ -44,7 +44,6 @@ const App = () => {
         }
       });
       const { success, data } = response.data;
-      console.log(data);
       if (success) {
         set_user_info(data);
       } else {
@@ -56,7 +55,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    getUserData();
+    if(token){
+      getUserData();
+    }
   }, []);
 
   return (
@@ -82,13 +83,13 @@ const App = () => {
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/profile">
-            <ProfilePage />
+            <ProfilePage handleLogout={handleLogout}/>
           </PrivateRoute>
           <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage">
-            <Homepage user_info={user_info} handleLogout={handleLogout}/>
+            <Homepage user_info={user_info}/>
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />

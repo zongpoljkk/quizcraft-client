@@ -1,21 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Button } from "../../components/Button"
 
-const Homepage = ({ history, user_info, handleLogout }) => {
-  // return <div></div>;
-
-  return(                   
-  <Button
-    onClick={() => {
-      handleLogout()
-      history.push("/")
-      history.go(0)
-    }}
-  >
-    ออกจากระบบ
-  </Button>
-)};
+const Homepage = ({ user_info }) => {
+  return <div></div>;
+};
 
 /* const useStyles = makeStyles({
     container: {
@@ -73,4 +60,4 @@ const Homepage = ({ history, user_info, handleLogout }) => {
     }
   }); */
 
-export default withRouter(Homepage);
+export default Homepage;

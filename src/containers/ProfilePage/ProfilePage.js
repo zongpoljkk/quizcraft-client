@@ -55,7 +55,7 @@ const ITEMS = [
 const CONTAINER_PADDING = 64;
 const NAVBAR_HEIGHT = 54;
 
-const ProfilePage = ({ history }) => {
+const ProfilePage = ({ history, handleLogout }) => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
@@ -152,7 +152,16 @@ const ProfilePage = ({ history }) => {
           ))}
         </ItemContainer>
       </ContentContainer>
-      <Button type="outline">ออกจากระบบ</Button>
+      <Button 
+        type="outline" 
+        onClick={() => {
+          handleLogout()
+          history.push("/")
+          history.go(0)
+        }}
+      >
+        ออกจากระบบ
+      </Button>
     </Container>
   );
 };
