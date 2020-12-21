@@ -52,6 +52,9 @@ const ITEMS = [
   },
 ]
 
+const CONTAINER_PADDING = 64;
+const NAVBAR_HEIGHT = 54;
+
 const ProfilePage = ({ history }) => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -77,7 +80,7 @@ const ProfilePage = ({ history }) => {
   }, [selected_image]);
 
   return (
-    <Container height={screen_height-54-64}>
+    <Container height={screen_height-NAVBAR_HEIGHT-CONTAINER_PADDING}>
       <ContentContainer>
         <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
           onMouseEnter={handleMouseEnter}
