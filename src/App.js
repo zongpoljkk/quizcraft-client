@@ -5,9 +5,12 @@ import Navbar from "./components/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import Homepage from "./containers/Homepage/Homepage";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
+import EditUsernamePage from "./containers/EditUsernamePage/EditUsernamePage";
 import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
+import QuizGame from "./containers/QuizGame/QuizGame";
 
 const App = () => {
   return (
@@ -15,8 +18,14 @@ const App = () => {
       <Navbar />
       <Page>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/homepage">
             <Homepage />
+          </Route>
+          <Route exact path="/profile">
+            <ProfilePage />
+          </Route>
+          <Route exact path="/edit-username">
+            <EditUsernamePage />
           </Route>
           <Route exact path="/topic">
             <TopicPage />
@@ -26,6 +35,9 @@ const App = () => {
           </Route>
           <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
             <PracticeGame />
+          </Route>
+          <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game">
+            <QuizGame />
           </Route>
           <Route path="*">
             <ErrorPage />

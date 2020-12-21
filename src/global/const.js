@@ -65,3 +65,9 @@ export const LEADERBOARD_FILTER = {
   SCHOOL: "โรงเรียน",
   CLASS: "ห้องเรียน",
 };
+
+export const RANK = {
+  BRONZE: "BRONZE",
+  SILVER: "SILVER",
+  GOLD: "GOLD",
+};

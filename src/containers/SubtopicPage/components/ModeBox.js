@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { Subheader } from "../../../components/Typography";
-import { COLOR, DIFFICULTY } from "../../../global/const";
+import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
 
 const ModeBox = ({ 
   icon, 
@@ -27,8 +27,11 @@ const ModeBox = ({
     selected_mode, 
     selected_difficulty 
   ) => {
+    console.log(selected_mode, MODE.PRACTICE.type )
     history.push({
-      pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+"/practice-game", 
+      pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+
+        (selected_mode === MODE.PRACTICE.type ? "/practice-game" 
+        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/challenge-game"), 
       state: {
         subject_name: selected_subject,
         topic_name: selected_topic_name,
