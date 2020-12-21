@@ -60,18 +60,17 @@ const ModeBox = ({
       >
         <Container>
           <Box style={style}>
-            <Icon size={"40px"} src={icon} />
+            <Icon src={icon} />
             <Subheader props color={COLOR.WHITE}>
               {type}
             </Subheader>
-              <ChevronIcon size={"20px"} src={chevron} /> 
+              <ChevronIcon src={chevron} /> 
           </Box>
         </Container>
       </motion.div>
       <DifficultyBox ref={ref}>
         {Object.entries(DIFFICULTY).map((item, index) => (
           <Icon
-            size={"40px"} 
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
