@@ -15,8 +15,10 @@ import skip_icon from "../../assets/icon/skip.png";
 import hint_icon from "../../assets/icon/hint.png";
 import photo from "../../assets/icon/photo.png";
 
-import { COLOR, RANK } from "../../global/const"
-import { useWindowDimensions } from "../../global/util"
+import { COLOR, RANK } from "../../global/const";
+import { useWindowDimensions } from "../../global/util";
+import backend from "../../ip";
+import Axios from "axios";
 
 // MOCK DATA
 const IMAGE = null;
@@ -32,36 +34,35 @@ const MAX_XP = 2000;
 const ITEMS = [
   {
     icon: hint_icon,
-    amount: 1
+    amount: 1,
   },
   {
     icon: skip_icon,
-    amount: 3
+    amount: 3,
   },
   {
     icon: hint_icon,
-    amount: 6
+    amount: 6,
   },
   {
     icon: hint_icon,
-    amount: 1
+    amount: 1,
   },
   {
     icon: skip_icon,
-    amount: 2
+    amount: 2,
   },
-]
+];
 
 const CONTAINER_PADDING = 64;
 const NAVBAR_HEIGHT = 54;
 
 const ProfilePage = ({ history }) => {
-
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
-  
+
   const handleMouseEnter = () => {
     set_hover(true);
   };
@@ -72,68 +73,88 @@ const ProfilePage = ({ history }) => {
 
   const handleUpload = () => {
     inputFile.current.click();
-  }
+  };
 
   useEffect(() => {
     // TODO: integrate API when selected_image have data
     console.log(selected_image);
+    if (selected_image !== null) {
+      const formData = new FormData();
+
+      formData.append("userId", "5fd848013db6029a03837c3b");
+      formData.append("image", selected_image);
+      // Display the key/value pairs
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+      Axios({
+        method: "put",
+        url: `${backend}user/change-profile-picture`,
+        data: {
+          formData,
+        },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        // headers: {
+        //   "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        // },
+      }).then((res) => {
+        console.log(res);
+      });
+    }
   }, [selected_image]);
 
   return (
-    <Container height={screen_height-NAVBAR_HEIGHT-CONTAINER_PADDING}>
+    <Container height={screen_height - NAVBAR_HEIGHT - CONTAINER_PADDING}>
       <ContentContainer>
-        <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
+        <ProfileImage
+          backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {hover 
-            ? <div
-                style={{ marginTop: 8 }}
-                onClick={handleUpload}
-              >
-                <input 
-                  type="file"
-                  ref={inputFile}
-                  onChange={e => set_selected_image(e.target.files[0])}
-                  style={{ display: 'none' }}
-                />
-                <img src={photo} height={100} width={100}/>
-              </div>
-            : IMAGE ? <Image src={IMAGE}/> : null
-          }
+          {hover ? (
+            <div style={{ marginTop: 8 }} onClick={handleUpload}>
+              <input
+                type="file"
+                ref={inputFile}
+                onChange={(e) => set_selected_image(e.target.files[0])}
+                style={{ display: "none" }}
+              />
+              <img src={photo} height={100} width={100} />
+            </div>
+          ) : IMAGE ? (
+            <Image src={IMAGE} />
+          ) : null}
         </ProfileImage>
         <UsernameContainer>
           <Header>{USERNAME}</Header>
-          <div 
+          <div
             style={{ marginLeft: 16 }}
             onClick={() => history.push("/edit-username")}
           >
-            <img src={edit_username_icon} height={20}/>
+            <img src={edit_username_icon} height={20} />
           </div>
         </UsernameContainer>
         <InfoContainer>
-          <Subheader>{NAME} {SURNAME}</Subheader>
-          <div style={{ marginBottom: 16 }}/>
+          <Subheader>
+            {NAME} {SURNAME}
+          </Subheader>
+          <div style={{ marginBottom: 16 }} />
           <Subheader>{SCHOOL}</Subheader>
-          <div style={{ marginBottom: 16 }}/>
+          <div style={{ marginBottom: 16 }} />
           <Subheader>{CLASS}</Subheader>
         </InfoContainer>
         <LevelContainer>
-          {USER_RANK === RANK.BRONZE &&
-            <img src={bronze} height={44}/>
-          }
-          {USER_RANK === RANK.SILVER &&
-            <img src={silver} height={44}/>
-          }
-          {USER_RANK === RANK.GOLD &&
-            <img src={gold} height={44}/>
-          }
-          <div style={{ marginRight: 8 }}/>
+          {USER_RANK === RANK.BRONZE && <img src={bronze} height={44} />}
+          {USER_RANK === RANK.SILVER && <img src={silver} height={44} />}
+          {USER_RANK === RANK.GOLD && <img src={gold} height={44} />}
+          <div style={{ marginRight: 8 }} />
           <ContentContainer>
             <LevelTitleContainer>
               <LevelTitle marginBottom={6}>
                 <Body>เลเวล</Body>
-                <div style={{ marginRight: 8 }}/>
+                <div style={{ marginRight: 8 }} />
                 <Body color={COLOR.MANDARIN}>{LEVEL}</Body>
               </LevelTitle>
               <LevelTitle marginBottom={2}>
@@ -141,13 +162,13 @@ const ProfilePage = ({ history }) => {
                 <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
               </LevelTitle>
             </LevelTitleContainer>
-            <ProgressBar percent={(XP/MAX_XP)*100}/>
+            <ProgressBar percent={(XP / MAX_XP) * 100} />
           </ContentContainer>
         </LevelContainer>
-        <ItemContainer maxWidth={screen_width-64}>
+        <ItemContainer maxWidth={screen_width - 64}>
           {ITEMS?.map((item, index) => (
             <div key={index} style={{ marginRight: 16 }}>
-              <Item icon={item.icon} amount={item.amount}/>
+              <Item icon={item.icon} amount={item.amount} />
             </div>
           ))}
         </ItemContainer>
@@ -163,7 +184,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: ${props => props.height}px;
+  min-height: ${(props) => props.height}px;
 `;
 
 const ContentContainer = styled.div`
@@ -173,24 +194,24 @@ const ContentContainer = styled.div`
   align-items: center;
 `;
 
-const ProfileImage = styled.div.attrs(props => ({
-  backgroundColor: props.backgroundColor
+const ProfileImage = styled.div.attrs((props) => ({
+  backgroundColor: props.backgroundColor,
 }))`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.backgroundColor};
+  background-color: ${(props) => props.backgroundColor};
   height: 210px;
   width: 210px;
   border-radius: 50%;
 `;
 
-const Image = styled.img.attrs(props => ({
+const Image = styled.img.attrs((props) => ({
   height: props.height || 210,
-  width: props.width || 210
+  width: props.width || 210,
 }))`
-  height: ${props => props.height}px;
-  width: ${props => props.width}px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
   border-radius: 50%;
 `;
 
@@ -225,23 +246,23 @@ const LevelTitleContainer = styled.div`
   width: 100%;
 `;
 
-const LevelTitle = styled.div.attrs(props => ({
-  marginBottom: props.marginBottom
+const LevelTitle = styled.div.attrs((props) => ({
+  marginBottom: props.marginBottom,
 }))`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: ${props => props.marginBottom}px;
+  margin-bottom: ${(props) => props.marginBottom}px;
 `;
 
-const ItemContainer = styled.div.attrs(props => ({
-  maxWidth: props.maxWidth
+const ItemContainer = styled.div.attrs((props) => ({
+  maxWidth: props.maxWidth,
 }))`
   display: flex;
   flex-direction: row;
   overflow: scroll;
   justify-content: flex-start;
-  max-width: ${props => props.maxWidth}px;
+  max-width: ${(props) => props.maxWidth}px;
   margin-bottom: 32px;
 `;
 
