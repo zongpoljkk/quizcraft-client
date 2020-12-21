@@ -30,7 +30,7 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
 }
 
-const PracticeGame = ({ history }) => {
+const PracticeGame = ({ history, token }) => {
 
   const location = useLocation();
   const [used_time, set_used_time] = useState();
@@ -50,9 +50,10 @@ const PracticeGame = ({ history }) => {
     USER_ID, 
     location.state.subject_name, 
     location.state.subtopic_name, 
-    location.state.difficulty
+    location.state.difficulty,
+    token
   );
-  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
+  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id, token);
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);

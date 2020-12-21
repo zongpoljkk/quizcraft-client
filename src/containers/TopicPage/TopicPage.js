@@ -9,11 +9,11 @@ import { useGetTopicName } from "./TopicPageHelper";
 // TODO: Remove mock after integrate subject
 const MOCK_SUBJECT = "คณิตศาสตร์";
 
-const TopicPage = ({ history }) => {
+const TopicPage = ({ history, token }) => {
 
   const location = useLocation();
   // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
-  const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT);
+  const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT, token);
 
   const handleClick = (topic_name) => {
     history.push({

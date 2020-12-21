@@ -18,6 +18,7 @@ const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
   const _id = localStorage.getItem("userId");
+
   const getUserData = async () => {
     try {
       const response = await axios.get(backend + "user/get-user/", {
@@ -32,7 +33,6 @@ const App = () => {
       console.log(data);
       if (success) {
         set_user_info(data);
-        console.log(user_info);
       } else {
         console.log("getUserInfo Error");
       } 
@@ -53,19 +53,19 @@ const App = () => {
       <Page>
         <Switch>
         <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
-            <PracticeGame />
+            <PracticeGame token={token}/>
           </Route>
           <Route exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game">
-            <QuizGame />
+            <QuizGame token={token}/>
           </Route>
           <Route path="/oauth/mcv-callback">
-            <OAuthRedirectPage />
+            <OAuthRedirectPage/>
           </Route>
           <Route exact path="/:subject/:topic">
-            <SubtopicPage />
+            <SubtopicPage token={token}/>
           </Route>
           <Route exact path="/topic">
-            <TopicPage />
+            <TopicPage token={token}/>
           </Route>
           <Route exact path="/homepage">
             <Homepage user_info={user_info}/>

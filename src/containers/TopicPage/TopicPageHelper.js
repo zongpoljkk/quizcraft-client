@@ -3,10 +3,9 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-export const useGetTopicName = (subject_name) => {
+export const useGetTopicName = (subject_name, token) => {
   const [loading, set_loading] = useState(true);
   const [topics, set_topics] = useState();
-  const token = localStorage.getItem("token");
 
   const getTopicName = async () => {
     try {

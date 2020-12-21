@@ -3,9 +3,7 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-const token = localStorage.getItem("token");
-
-export const useGetHintByProblemId = (problemId) => {
+export const useGetHintByProblemId = (problemId, token) => {
   const [hint, set_hint] = useState();
 
   const getHintByProblemId = async () => {
@@ -32,7 +30,7 @@ export const useGetHintByProblemId = (problemId) => {
   return { getHintByProblemId, hint };
 };
 
-export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty) => {
+export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty, token) => {
   const [loading, set_loading] = useState(true);
   const [problem_id, set_problem_id] = useState();
   const [body, set_body] = useState();
