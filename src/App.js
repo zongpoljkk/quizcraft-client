@@ -66,36 +66,60 @@ const App = () => {
       )}
       <Page>
         <Switch>
-          <PrivateRoute exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game">
+          <PrivateRoute 
+            exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game"
+            getUserData = {getUserData}
+          >
             <PracticeGame />
           </PrivateRoute>
-          <PrivateRoute exact path="/:subject/:selected_topiwselected_subtopic_name/:selected_difficulty/quiz-game">
+          <PrivateRoute 
+            exact path="/:subject/:selected_topiwselected_subtopic_name/:selected_difficulty/quiz-game"
+            getUserData = {getUserData}
+          >
             <QuizGame />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/:subject/:topic">
+          <PrivateRoute
+            exact path="/:subject/:topic"
+            getUserData = {getUserData}
+          >
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/topic">
+          <PrivateRoute 
+            exact path="/topic"
+            getUserData = {getUserData}
+          >
             <TopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/profile">
+          <PrivateRoute
+            exact path="/profile"
+            getUserData = {getUserData}
+          >
             <ProfilePage handleLogout={handleLogout}/>
           </PrivateRoute>
-          <PrivateRoute exact path="/edit-username">
+          <PrivateRoute 
+            exact path="/edit-username"
+            getUserData = {getUserData}
+          >
             <EditUsernamePage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage">
-            <Homepage user_info={user_info}/>
+          <PrivateRoute 
+            exact path="/homepage"
+            getUserData = {getUserData}
+          >
+            <Homepage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
-          <PublicRoute path="*">
+          <PrivateRoute 
+            path="*"
+            getUserData = {getUserData}
+          >
             <ErrorPage />
-          </PublicRoute>
+          </PrivateRoute>
         </Switch>
       </Page>
     </Router>

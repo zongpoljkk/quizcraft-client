@@ -36,19 +36,15 @@ export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty
   const [correct_answer, set_correct_answer] = useState();
   const [choices, set_choices] = useState();
 
-  const getProblemForUser = async (set_skip) => {
+  const getProblemForUser = async (set_skip = () => {}) => {
     set_loading(true);
     try {
-      const info = { 
+      const response = await axios.post(backend+"problem/get-problem-for-user", {
         userId : user_id,
         subject: subject,
         subtopicName : subtopic_name,
         difficulty : difficulty
-      };
-      const response = await axios.post(
-        backend + "problem/get-problem-for-user",
-        info,
-      );
+      });
       const { success, data } = response.data;
       if (success) {
         set_problem_id(data.problem._id);

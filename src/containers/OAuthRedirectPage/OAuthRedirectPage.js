@@ -9,8 +9,6 @@ import backend from '../../ip';
 const OAuthRedirectPage = () => {
   const params = qs.parse(window.location.search);
   const { code } = params;
-  const [token, set_token] = useState("");
-
   const history = useHistory()
 
   const redirectAPI = async () => {
@@ -22,7 +20,6 @@ const OAuthRedirectPage = () => {
       if (response.data) {
         const { success, token } = response.data
         if (success) {
-          set_token(token);
           var decoded = jwt_decode(token);
           var userId = decoded.userId;
           localStorage.setItem("token", token);
