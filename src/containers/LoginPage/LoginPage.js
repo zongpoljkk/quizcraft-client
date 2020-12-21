@@ -56,7 +56,7 @@ const LoginPage = ({ history }) => {
         style={{zIndex: 1, position: "fixed"}}
         onAnimationComplete={onComplete}
       >
-        <Image size={"400px"} src={logo_animation}/> 
+        <img width="400" height="400" src={logo_animation}/> 
       </motion.div>
       {display_login &&
         <LoginContainer
@@ -65,7 +65,7 @@ const LoginPage = ({ history }) => {
           variants={item}
           transition={{ duration: 0.2 }}
         >
-          <Image size={"200px"} src={logo} /> 
+          <img width="300" style={{marginBottom: "64px"}} src={logo} /> 
           <Button onClick={onClickLogin.bind(this)}> เข้าสู่ระบบ </Button>
         </LoginContainer>
       }
@@ -93,11 +93,6 @@ const LoginContainer = styled(motion.div)`
   align-items: center;
   z-index: 0;
   position: fixed;
-`;
-
-const Image = styled.img`
-  width: ${props => props.size};
-  height: ${props => props.size};
 `;
 
 export default withRouter(LoginPage);
