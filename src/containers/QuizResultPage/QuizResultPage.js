@@ -77,7 +77,7 @@ const QuizResultPage = ({ history }) => {
         initial="hidden"
         animate="visible"
         variants={variants}
-        transition={{ delay: 1 }}
+        transition={{ delay: 2 }}
       >
         <div style={{ margin: "0px" }}>
           <LottieFile
@@ -104,7 +104,7 @@ const QuizResultPage = ({ history }) => {
         initial="hidden"
         animate="visible"
         variants={variants}
-        transition={{ delay: 2 }}
+        transition={{ delay: 3 }}
       >
         <Button type="outline" onClick={handleExit}>
           ออก
