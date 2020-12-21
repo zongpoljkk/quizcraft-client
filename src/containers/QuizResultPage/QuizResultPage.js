@@ -67,7 +67,7 @@ const QuizResultPage = ({ history }) => {
       </CenterDiv>
 
       <CenterDiv style={{ marginBottom: "64px" }}>
-        <Circle>
+        <Circle initial="hidden" animate="visible" variants={variants}>
           <RunningNum score={score} />
           <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
         </Circle>
@@ -121,7 +121,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Circle = styled.span`
+const Circle = styled(motion.span)`
   height: 212px;
   width: 212px;
   background-color: ${COLOR.ISLAND_SPICE};
