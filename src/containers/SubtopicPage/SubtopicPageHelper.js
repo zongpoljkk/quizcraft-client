@@ -6,7 +6,7 @@ import backend from "../../ip";
 export const useGetsubTopicName = (topic_name) => {
   const [loading, set_loading] = useState(true);
   const [subtopics, set_subtopics] = useState();
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const getSubtopicName = async () => {
     try {

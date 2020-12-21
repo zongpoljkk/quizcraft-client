@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -8,7 +9,8 @@ import { Button } from "../../components/Button"
 import config from "../../config";
 
 
-const LoginPage = () => {
+const LoginPage = ({ user_info, history }) => {
+
   const redirect_uri = 'http://localhost:3000/oauth/mcv-callback'
   const URL = `https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=${config.client_id}&redirect_uri=${redirect_uri}`;
   const [display_login, set_display_login] = useState(false)
@@ -37,6 +39,13 @@ const LoginPage = () => {
   const onClickLogin = () => {
     window.location.assign(URL);
   }
+
+  useEffect(() => {
+    if(user_info !== null && user_info !== "undefined") {
+       history.push("/homepage")
+       history.go(0);
+    }
+  }, [])
 
   return (
     <Container>
@@ -92,4 +101,4 @@ const Image = styled.img`
   height: ${props => props.size};
 `;
 
-export default LoginPage;
+export default withRouter(LoginPage);

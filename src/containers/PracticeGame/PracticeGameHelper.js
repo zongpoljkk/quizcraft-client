@@ -3,7 +3,7 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-const token = sessionStorage.getItem("token");
+const token = localStorage.getItem("token");
 
 export const useGetHintByProblemId = (problemId) => {
   const [hint, set_hint] = useState();

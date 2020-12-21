@@ -25,8 +25,8 @@ const OAuthRedirectPage = () => {
           set_token(token);
           var decoded = jwt_decode(token);
           var userId = decoded.userId;
-          sessionStorage.setItem("token", token);
-          sessionStorage.setItem("userId", userId);
+          localStorage.setItem("token", token);
+          localStorage.setItem("userId", userId);
           history.push('/homepage');
           history.go(0);
         } else {
