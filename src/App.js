@@ -22,8 +22,7 @@ const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
-
-
+  
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
