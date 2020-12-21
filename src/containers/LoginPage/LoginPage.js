@@ -10,7 +10,6 @@ import config from "../../config";
 
 
 const LoginPage = ({ user_info, history }) => {
-
   const redirect_uri = 'http://localhost:3000/oauth/mcv-callback'
   const URL = `https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=${config.client_id}&redirect_uri=${redirect_uri}`;
   const [display_login, set_display_login] = useState(false)

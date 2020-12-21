@@ -30,7 +30,6 @@ const App = () => {
         }
       });
       const { success, data } = response.data;
-      console.log(data);
       if (success) {
         set_user_info(data);
       } else {
