@@ -9,6 +9,7 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
+import { LottieFile } from "../../components/LottieFile";
 import GameContent from "../../components/GameContent";
 
 import { 
@@ -17,17 +18,24 @@ import {
 } from "./PracticeGameHelper";
 
 import skip_icon from "../../assets/icon/skip.png";
+import skip_data from "../../assets/lottie/skip.json";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
 
 // MOCK DATA
 const USER_ID = "5fcb4ccbc53dd068520072a1";
 
-const PracticeGame = ({history}) => {
+const ITEM_USAGE = {
+  UN_USE: "UN_USE",
+  IN_USE: "IN_USE",
+}
+
+const PracticeGame = ({ history }) => {
 
   const location = useLocation();
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
+  const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
 
   const { 
     getProblemForUser,
@@ -42,12 +50,13 @@ const PracticeGame = ({history}) => {
     USER_ID, 
     location.state.subject_name, 
     location.state.subtopic_name, 
-    location.state.difficulty
+    location.state.difficulty,
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
   const onSkip = () => {
-    getProblemForUser();
+    set_skip(ITEM_USAGE.IN_USE);
+    getProblemForUser(set_skip);
   }
 
   const onExit = (subject_name, topic_name) => {
@@ -77,7 +86,18 @@ const PracticeGame = ({history}) => {
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
               <ItemCard onClick={onSkip}>
-                <img src={skip_icon} height={20}/>
+                {skip === ITEM_USAGE.UN_USE && (
+                  <CenterContainer onClick={onSkip}>
+                    <img src={skip_icon} height={22}/>
+                  </CenterContainer>
+                )}
+                {skip === ITEM_USAGE.IN_USE && (
+                  <SkipContainer>
+                    <ZoomItem>
+                      <LottieFile animationData={skip_data} loop={false} height={64}/>
+                    </ZoomItem>
+                  </SkipContainer>
+                )}
               </ItemCard>
               <TimeContainer>
                 <Body color={COLOR.MANDARIN}>
@@ -152,6 +172,20 @@ const TimeContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const CenterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const SkipContainer = styled.div`
+  margin-left: -18px;
+  transform: rotate(90deg);
+`;
+
+const ZoomItem = styled.div`
+  transform: scale(1.7);
 `;
 
 export default withRouter(PracticeGame);
