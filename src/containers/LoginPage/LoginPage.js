@@ -65,7 +65,7 @@ const LoginPage = ({ history }) => {
           variants={item}
           transition={{ duration: 0.2 }}
         >
-          <img width={300} style={{marginBottom: "64px"}} src={logo} /> 
+          <img width={280} style={{marginBottom: "64px"}} src={logo} /> 
           <Button onClick={onClickLogin.bind(this)}> เข้าสู่ระบบ </Button>
         </LoginContainer>
       }
