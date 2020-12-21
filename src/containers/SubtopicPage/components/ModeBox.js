@@ -28,7 +28,6 @@ const ModeBox = ({
     selected_mode, 
     selected_difficulty 
   ) => {
-    console.log(selected_mode, MODE.PRACTICE.type )
     history.push({
       pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+
         (selected_mode === MODE.PRACTICE.type ? "/practice-game" 
