@@ -11,7 +11,8 @@ import {
 } from "./components/Container";
 import Sign from "./components/Sign";
 import { Solution } from "./components/Solution";
-import { Button } from "../../components/Button/Button";
+import { Button } from "../../components/Button";
+import { LottieFile } from "../../components/LottieFile";
 
 // Media
 import Correct_Flag from "../../assets/Correct_Flag.png";
@@ -20,7 +21,7 @@ import Correct_Backward from "../../assets/Correct_Backward.png";
 import Correct_Forward from "../../assets/Correct_Forward.png";
 import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
 import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
-import Coin from "../../components/Coin/Coin.jsx";
+import coin_data from "../../assets/lottie/coin.json";
 
 // Helper
 import { backward, forward } from "./PracticeAnswerHelper";
@@ -28,7 +29,10 @@ import { backward, forward } from "./PracticeAnswerHelper";
 // Global
 import { Body, Header } from "../../components/Typography";
 import { COLOR } from "../../global/const";
-import { useLocation } from "react-router-dom";
+import { useWindowDimensions } from "../../global/util";
+
+const CONTAINER_PADDING = 64;
+const NAVBAR_HEIGHT = 54;
 
 const TITLE = {
   CORRECT: "ถูกต้อง",
@@ -98,6 +102,8 @@ const PracticeAnswer = ({ history }) => {
     setIsLoading(false);
   }, []);
 
+  const { height, width: screen_width } = useWindowDimensions();
+
   const greetingHolder = () => {
     if (firstClick && correct) {
       return (
@@ -105,7 +111,15 @@ const PracticeAnswer = ({ history }) => {
           <Body style={{ lineHeight: "1.2em" }}>
             ยินดีด้วย! คุณได้รับ 1 เหรียญ
           </Body>
-          <Coin />
+          {/* <Coin /> */}
+          <div style={{ display: "inline-block", marginTop: "8px" }}>
+            <LottieFile
+              animationData={coin_data}
+              loop={false}
+              height={30}
+              width={30}
+            />
+          </div>
         </GreetingDiv>
       );
     } else {
@@ -146,8 +160,12 @@ const PracticeAnswer = ({ history }) => {
   };
 
   return (
-    <Container answer={correct}>
-      <Background answer={correct} onClick={(e) => handleFirstClick(e)} />
+    <Container
+      answer={correct}
+      onClick={handleFirstClick}
+      minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
+    >
+      <Background answer={correct} />
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
       <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
         {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
@@ -249,20 +267,20 @@ const ReportDiv = styled.div`
   justify-content: flex-start;
   align-items: flex-end;
   margin-top: auto;
+  z-index: 1;
 `;
 
 const ReportFlag = styled.img`
   alt: "Report Flag";
   height: 24px;
-  margin: 32px 8px 0 32px;
-  display: inline-block;
+  margin: 32px 8px 0 40px;
+  padding-bottom: 4px;
 `;
 
 const ReportText = styled.p`
   font-family: Prompt;
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
   text-decoration: underline;
-  display: inline-block;
   margin-bottom: 0;
 `;
 

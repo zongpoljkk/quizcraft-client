@@ -11,7 +11,9 @@ import { HintItem } from "../../components/HintItem";
 import { Button } from "../../components/Button";
 // import PracticeGameContent from "./PracticeGameContent";
 import GameContent from "../../components/GameContent";
-import {
+import LoadingPage from "../LoadingPage/LoadingPage";
+
+import { 
   useGetHintByProblemId,
   useGetProblemForUser,
   getAndCheckAnswer,
@@ -130,19 +132,21 @@ const PracticeGame = ({ history }) => {
         startImmediately={true}
         lastUnit="h"
       >
-        {({ getTime }) => (
+        {({ getTime, start, reset }) => (
           <React.Fragment>
+            {problem_id ? start() : reset()}
             <Headline>
-              <ExitModal
-                onExit={() =>
-                  onExit(location.state.subject_name, location.state.topic_name)
-                }
-              />
-              <HintItem onGetHint={() => getHintByProblemId()} content={hint} />
-              <ItemCard onClick={onSkip}>
+              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
+              <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
+              <ItemCard>
                 {skip === ITEM_USAGE.UN_USE && (
-                  <CenterContainer onClick={onSkip}>
-                    <img src={skip_icon} height={22} />
+                  <CenterContainer
+                    onClick={() => {
+                      onSkip();
+                      reset();
+                    }}
+                  >
+                    <img src={skip_icon} height={22}/>
                   </CenterContainer>
                 )}
                 {skip === ITEM_USAGE.IN_USE && (
@@ -163,9 +167,9 @@ const PracticeGame = ({ history }) => {
                 </Body>
               </TimeContainer>
             </Headline>
-            {loading ? (
-              <div> loading </div>
-            ) : (
+            {loading 
+            ? <LoadingPage/>
+            : (
               <React.Fragment>
                 <ProblemBox
                   problem={title}
