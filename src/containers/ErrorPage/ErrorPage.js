@@ -26,8 +26,7 @@ const ErrorPage = () => {
         There's an error with the page you've requested
         <br />
         <br />
-        If you've got any troubles with the page - please report to DevSecOps
-        team.
+        If you've got any troubles with the page - please report to Quizcraft Team.
         <br />
       </div>
     </div>

@@ -60,6 +60,12 @@ export const ANSWER_TYPE = {
   RADIO_CHOICE: "RADIO_CHOICE",
 };
 
+export const LEADERBOARD_FILTER = {
+  GLOBAL: "ทั่วโลก",
+  SCHOOL: "โรงเรียน",
+  CLASS: "ห้องเรียน",
+};
+
 export const RANK = {
   BRONZE: "BRONZE",
   SILVER: "SILVER",
