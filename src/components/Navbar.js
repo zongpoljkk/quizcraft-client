@@ -15,19 +15,9 @@ import shop from "../assets/icon/shop.png";
 
 import { COLOR, RANK } from "../global/const"
 
-// MOCK DATA
-const USER_RANK = "BRONZE";
-const USER_LEVEL = 25;
-const USER_STREAK = 4;
-const USER_COIN = 20;
-
 const Navbar = ({
   history,
-  user_profile_image,
-  user_rank = USER_RANK,
-  user_level = USER_LEVEL,
-  user_streak = USER_STREAK,
-  user_coin = USER_COIN
+  user_info,
 }) => {
 
   const handleClickLogo = () => {
@@ -49,13 +39,13 @@ const Navbar = ({
       </div>
       <InfoContainer>
         <div style={{ display: 'flex' }} data-tip data-for="levelTip">
-          {user_rank === RANK.BRONZE &&
+          {user_info.rank === RANK.BRONZE &&
             <Icon src={bronze}/>
           }
-          {user_rank === RANK.SILVER &&
+          {user_info.rank === RANK.SILVER &&
             <Icon src={silver}/>
           }
-          {user_rank === RANK.GOLD &&
+          {user_info.rank === RANK.GOLD &&
             <Icon src={gold}/>
           }
         </div>
@@ -67,23 +57,23 @@ const Navbar = ({
           border
           borderColor={COLOR.ISLAND_SPICE}
         >
-          <Body color={COLOR.MANDARIN}>Level {user_level}</Body>
+          <Body color={COLOR.MANDARIN}>Level {user_info.levelInfo.level}</Body>
         </ReactTooltip>
         <div style={{ marginRight: 12 }}/>
         <Icon src={streak} marginRight={4}/>
-        <Header color={COLOR.WHITE}>{user_streak}</Header>
+        <Header color={COLOR.WHITE}>{user_info.streak}</Header>
         <div style={{ marginRight: 12 }}/>
         <Icon src={coin} marginRight={4}/>
-        <Header color={COLOR.WHITE}>{user_coin}</Header>
+        <Header color={COLOR.WHITE}>{user_info.coin}</Header>
         <div style={{ marginRight: 12 }}/>
         <div onClick={handleClickShop} style={{ display: 'flex' }}>
           <Icon src={shop} marginRight={12}/>
         </div>
         <ProfileImage 
-          backgroundColor={user_profile_image ? null : COLOR.ISLAND_SPICE} 
+          backgroundColor={user_info.photo ? null : COLOR.ISLAND_SPICE} 
           onClick={handleClickProfileImage}
         >
-          {user_profile_image ? <Image src={user_profile_image}/> : null}
+          {user_info.photo ? <Image src={user_info.photo}/> : null}
         </ProfileImage>
       </InfoContainer>
     </Container>

@@ -44,7 +44,7 @@ const App = () => {
       });
       const { success, data } = response.data;
       if (success) {
-        set_user_info(data);
+        set_user_info(data[0]);
       } else {
         console.log("getUserInfo Error");
       } 
@@ -61,7 +61,7 @@ const App = () => {
 
   return (
     <Router>
-      {localStorage.getItem("userId") && (
+      {localStorage.getItem("userId") && user_info &&(
         <Navbar user_info={user_info}/>
       )}
       <Page>
@@ -97,7 +97,10 @@ const App = () => {
             exact path="/profile"
             getUserData = {getUserData}
           >
-            <ProfilePage handleLogout={handleLogout}/>
+            <ProfilePage 
+              handleLogout={handleLogout}
+              user_info={user_info}
+            />
           </PrivateRoute>
           <PrivateRoute 
             exact path="/edit-username"
