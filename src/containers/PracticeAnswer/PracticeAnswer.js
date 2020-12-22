@@ -69,9 +69,9 @@ const PracticeAnswer = ({ history }) => {
       state: {
         userId: location.state.userId,
         problemId: location.state.problemId,
-        subject: location.state.subject,
-        topic: location.state.topic,
-        subtopic: location.state.subtopic,
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+        subtopic_name: location.state.subtopic,
         difficulty: location.state.difficulty,
       },
     });

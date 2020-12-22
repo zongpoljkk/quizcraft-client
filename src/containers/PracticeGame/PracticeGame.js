@@ -13,7 +13,7 @@ import { Button } from "../../components/Button";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { 
+import {
   useGetHintByProblemId,
   useGetProblemForUser,
   getAndCheckAnswer,
@@ -26,7 +26,7 @@ import { LottieFile } from "../../components/LottieFile";
 import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 // MOCK DATA
-const USER_ID = "5fcb4ccbc53dd068520072a1";
+const USER_ID = "5fe1c049e301922c4f2fc0dd";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -38,6 +38,12 @@ const PROBLEM_ID = "5fce5e62f329e3f7f295d364";
 const USER_ANSWER = "16^1";
 const TOPIC = "เลขยกกำลัง";
 const SUBTOPIC = "การดำเนินการของเลขยกกำลัง";
+
+const CONTENT3 =
+  "You can only join the football team if you can stay late on [Mondays.&Fridays.]";
+const QUESTION4 = "[] should be more than 200 words.";
+const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
+const TYPE_ANSWER = "RADIO_CHOICE";
 
 const PracticeGame = ({ history }) => {
   const location = useLocation();
@@ -55,10 +61,10 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetProblemForUser(
-    USER_ID, 
-    location.state.subject_name, 
-    location.state.subtopic_name, 
-    location.state.difficulty,
+    USER_ID,
+    location.state.subject_name,
+    location.state.subtopic_name,
+    location.state.difficulty
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -106,7 +112,7 @@ const PracticeGame = ({ history }) => {
           subtopic +
           "/" +
           difficulty +
-          "practice-answer",
+          "/practice-answer",
         state: {
           problemId: problemId,
           userId: userId,
@@ -136,8 +142,12 @@ const PracticeGame = ({ history }) => {
           <React.Fragment>
             {problem_id ? start() : reset()}
             <Headline>
-              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
-              <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
+              <ExitModal
+                onExit={() =>
+                  onExit(location.state.subject_name, location.state.topic_name)
+                }
+              />
+              <HintItem onGetHint={() => getHintByProblemId()} content={hint} />
               <ItemCard>
                 {skip === ITEM_USAGE.UN_USE && (
                   <CenterContainer
@@ -146,7 +156,7 @@ const PracticeGame = ({ history }) => {
                       reset();
                     }}
                   >
-                    <img src={skip_icon} height={22}/>
+                    <img src={skip_icon} height={22} />
                   </CenterContainer>
                 )}
                 {skip === ITEM_USAGE.IN_USE && (
@@ -167,9 +177,9 @@ const PracticeGame = ({ history }) => {
                 </Body>
               </TimeContainer>
             </Headline>
-            {loading 
-            ? <LoadingPage/>
-            : (
+            {loading ? (
+              <LoadingPage />
+            ) : (
               <React.Fragment>
                 <ProblemBox
                   problem={title}
@@ -185,12 +195,21 @@ const PracticeGame = ({ history }) => {
                         : "flex-start",
                   }}
                 >
-                  <GameContent
+                  {/* <GameContent
                     type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
                     choices={choices}
                     content={body}
+                    answer={answer}
+                    set_answer={set_answer}
+                  /> */}
+                  <GameContent
+                    type={TYPE_ANSWER}
+                    correct_answer={correct_answer}
+                    question={QUESTION4}
+                    choices={CHOICES1}
+                    content={CONTENT3}
                     answer={answer}
                     set_answer={set_answer}
                   />
