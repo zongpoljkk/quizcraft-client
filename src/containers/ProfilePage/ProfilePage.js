@@ -74,6 +74,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
                   pathname: "/edit-username", 
                   state: {
                     username: user_info.username,
+                    user_id: user_info._id,
                   }
                 });
               }}
