@@ -69,7 +69,14 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             <Header>{user_info.username}</Header>
             <div 
               style={{ marginLeft: 16 }}
-              onClick={() => history.push("/edit-username")}
+              onClick={() => {
+                history.push({
+                  pathname: "/edit-username", 
+                  state: {
+                    username: user_info.username,
+                  }
+                });
+              }}
             >
               <img src={edit_username_icon} height={20}/>
             </div>
