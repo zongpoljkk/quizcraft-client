@@ -77,10 +77,9 @@ const App = () => {
           >
             <PracticeGame />
           </PrivateRoute>
-          <PrivateRoute
-            exact
-            path="/:subject/:selected_topiwselected_subtopic_name/:selected_difficulty/quiz-game"
-            getUserData={getUserData}
+          <PrivateRoute 
+            exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
+            getUserData = {getUserData}
           >
             <QuizGame />
           </PrivateRoute>
