@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { Subheader, Body } from "../../components/Typography";
@@ -14,7 +15,7 @@ import { useEditUsername } from "./EditUsernameHelper";
 const USERNAME = "ชื่อผู้ใช้";
 const USER_ID = "5fdf83e69de2582261da443e";
 
-const EditUsernamePage = () => {
+const EditUsernamePage = ({ history }) => {
 
   const [new_username, set_new_username] = useState('');
   const { editUsername, edited_username, error_message } = useEditUsername(USER_ID, new_username);
@@ -22,9 +23,19 @@ const EditUsernamePage = () => {
   const handleClick = () => {
     // TODO: connect API edit username
     editUsername(USER_ID, new_username);
+    console.log({edited_username});
     set_new_username("");
+    if(edited_username && edited_username.careOf){
+      history.push({
+        pathname: "/profile", 
+        state: {
+          username: edited_username,
+        }
+      })
+    }
     console.log({new_username});
   };
+
   const engToThai = (error_message) => {
     switch (error_message) {
       case "Username cannot be blank!":
@@ -95,4 +106,4 @@ const UsernameContainer = styled.div`
   border-radius: 10px;
 `;
 
-export default EditUsernamePage;
+export default withRouter(EditUsernamePage);
