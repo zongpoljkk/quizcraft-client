@@ -35,7 +35,8 @@ const SubjectCard = ({ history }) => {
 
   const handleOnSubjectClick = (subject_name) => {
     history.push({
-      pathname: "/" + subject_name,
+      // pathname: "/" + subject_name,
+      pathname: "/" + "topic",
       state: {
         subject_name: subject_name,
       },
