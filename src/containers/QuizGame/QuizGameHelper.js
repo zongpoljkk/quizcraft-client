@@ -63,5 +63,5 @@ export const useGetEachProblem = (user_id, subject, subtopic_name, difficulty) =
     }
   };
 
-  return { getEachProblem, loading, problem_id, body, answer_type, title, correct_answer, choices };
+  return { getEachProblem, loading, problem_id, set_problem_id, body, answer_type, title, correct_answer, choices };
 };

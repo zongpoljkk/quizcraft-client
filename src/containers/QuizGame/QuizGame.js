@@ -47,6 +47,7 @@ const QuizGame = ({ history }) => {
     getEachProblem,
     loading,
     problem_id,
+    set_problem_id,
     body,
     answer_type,
     title,
@@ -113,7 +114,7 @@ const QuizGame = ({ history }) => {
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
-            {problem_id && start()}
+            {problem_id ? start() : reset()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <div style={{ marginRight: 8 }}/>
@@ -126,11 +127,13 @@ const QuizGame = ({ history }) => {
               onSkip={() => {
                 onSkip();
                 reset();
+                set_problem_id();
               }}
               refresh={refresh}
               onRefresh={() => {
                 onRefresh();
                 reset();
+                set_problem_id();
               }}
             >
             <TimeContainer>
@@ -181,6 +184,7 @@ const QuizGame = ({ history }) => {
                     onButtonClick={() => {
                       onNext();
                       reset();
+                      set_problem_id();
                     }}
                   />
                 </CenterContainer>

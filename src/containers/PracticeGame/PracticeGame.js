@@ -51,7 +51,7 @@ const PracticeGame = ({ history }) => {
     USER_ID, 
     location.state.subject_name, 
     location.state.subtopic_name, 
-    location.state.difficulty
+    location.state.difficulty,
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -83,7 +83,7 @@ const PracticeGame = ({ history }) => {
       >
         {({ getTime, start, reset }) => (
           <React.Fragment>
-            {problem_id && start()}
+            {problem_id ? start() : reset()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
