@@ -11,6 +11,7 @@ import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
 import { LottieFile } from "../../components/LottieFile";
 import GameContent from "../../components/GameContent";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
   useGetHintByProblemId,
@@ -50,7 +51,7 @@ const PracticeGame = ({ history }) => {
     USER_ID, 
     location.state.subject_name, 
     location.state.subtopic_name, 
-    location.state.difficulty
+    location.state.difficulty,
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -80,14 +81,20 @@ const PracticeGame = ({ history }) => {
         startImmediately={true}
         lastUnit="h"
       >
-        {({ getTime }) => (
+        {({ getTime, start, reset }) => (
           <React.Fragment>
+            {problem_id ? start() : reset()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
-              <ItemCard onClick={onSkip}>
+              <ItemCard>
                 {skip === ITEM_USAGE.UN_USE && (
-                  <CenterContainer onClick={onSkip}>
+                  <CenterContainer
+                    onClick={() => {
+                      onSkip();
+                      reset();
+                    }}
+                  >
                     <img src={skip_icon} height={22}/>
                   </CenterContainer>
                 )}
@@ -106,7 +113,7 @@ const PracticeGame = ({ history }) => {
               </TimeContainer>
             </Headline>
             {loading 
-            ? <div> loading </div>
+            ? <LoadingPage/>
             : (
               <React.Fragment>
                 <ProblemBox
