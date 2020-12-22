@@ -7,8 +7,6 @@ import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
 
-//TEST MODAL
-import { LevelUpModal } from "../../components/LevelUpModal"
 
 // MOCK DATA
 const LEADER_BOARD = {
@@ -99,7 +97,6 @@ const Homepage = () => {
 
   return (
     <Container ref={ref}>
-      <div> <LevelUpModal /> </div>
       <GroupPanel />
       <SubjectCard />
       <div style = {{marginTop: "16px", width: "100%"}}>
