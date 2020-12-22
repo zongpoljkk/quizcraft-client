@@ -21,7 +21,7 @@ function App() {
           <Route exact path="/">
             <Homepage />
           </Route>
-          <Route path="/practice-answer">
+          <Route path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer">
             <PracticeAnswer />
           </Route>
           <Route exact path="/practice-game">

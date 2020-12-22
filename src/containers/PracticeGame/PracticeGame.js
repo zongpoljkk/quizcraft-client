@@ -9,9 +9,9 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem";
 import { Button } from "../../components/Button";
-import PracticeGameContent from "./PracticeGameContent";
+// import PracticeGameContent from "./PracticeGameContent";
 import GameContent from "../../components/GameContent";
-import { 
+import {
   useGetHintByProblemId,
   useGetProblemForUser,
   getAndCheckAnswer,
@@ -19,6 +19,7 @@ import {
 
 import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
+import { LottieFile } from "../../components/LottieFile";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
 
@@ -94,7 +95,16 @@ const PracticeGame = ({ history }) => {
       subtopic
     ).then((res) => {
       history.push({
-        pathname: "/" + "practice-answer",
+        pathname:
+          "/" +
+          subject +
+          "/" +
+          topic +
+          "/" +
+          subtopic +
+          "/" +
+          difficulty +
+          "practice-answer",
         state: {
           problemId: problemId,
           userId: userId,
