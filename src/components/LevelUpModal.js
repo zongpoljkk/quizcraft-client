@@ -10,9 +10,6 @@ import levelUp from "../assets/lottie/levelUp.json";
 import { ProgressBar } from "./ProgressBar";
 import { COLOR } from "../global/const";
 
-
-import close_icon from "../assets/icon/close.png";
-
 //MOCK DATA
 const LEVEL = 12;
 const XP = 876;
@@ -44,9 +41,6 @@ export const LevelUpModal = () => {
 
   return (
     <div>
-      <div onClick={toggle}>
-        <img src={close_icon} height={16} width={16}/>
-      </div>
       <Modal
         isShowing={isShowing}
         hide={toggle}
