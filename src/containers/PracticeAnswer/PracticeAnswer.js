@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 // Components
-// import CenterDiv from "../../components/CenterDiv/CenterDiv";
 import {
   Container,
   correct_background_color,
@@ -17,14 +16,7 @@ import { LottieFile } from "../../components/LottieFile";
 // Media
 import Correct_Flag from "../../assets/Correct_Flag.png";
 import Incorrect_Flag from "../../assets/Incorrect_Flag.png";
-import Correct_Backward from "../../assets/Correct_Backward.png";
-import Correct_Forward from "../../assets/Correct_Forward.png";
-import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
-import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 import coin_data from "../../assets/lottie/coin.json";
-
-// Helper
-import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -64,7 +56,16 @@ const PracticeAnswer = ({ history }) => {
 
   const handleNextButtonClick = () => {
     history.push({
-      pathname: "/" + "practice-game",
+      pathname:
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.topic +
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.difficulty +
+        "/practice-game",
       state: {
         userId: location.state.userId,
         problemId: location.state.problemId,

@@ -75,46 +75,43 @@ const App = () => {
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game"
-            getUserData={getUserData}
           >
             <PracticeGame />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
-            getUserData={getUserData}
           >
             <PracticeAnswer />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
-            getUserData={getUserData}
           >
             <QuizGame />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
+          <PrivateRoute exact path="/:subject/:topic">
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/topic" getUserData={getUserData}>
+          <PrivateRoute exact path="/topic">
             <TopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/profile" getUserData={getUserData}>
+          <PrivateRoute exact path="/profile">
             <ProfilePage handleLogout={handleLogout} />
           </PrivateRoute>
-          <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
+          <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+          <PrivateRoute exact path="/homepage">
             <Homepage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
-          <PrivateRoute path="*" getUserData={getUserData}>
+          <PrivateRoute path="*">
             <ErrorPage />
           </PrivateRoute>
         </Switch>
