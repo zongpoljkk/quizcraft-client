@@ -1,6 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap");
 
+html {
+  min-height: 100%;
+}
+
 body {
+  min-height: 100%;
   margin: 0;
   font-family: "Prompt", sans-serif;
   -webkit-font-smoothing: antialiased;

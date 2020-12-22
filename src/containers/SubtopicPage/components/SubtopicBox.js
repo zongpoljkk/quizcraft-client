@@ -5,7 +5,12 @@ import ModeBox from "./ModeBox";
 
 import { COLOR, MODE } from "../../../global/const";
 
-const SubtopicBox = (props) => {
+const SubtopicBox = ({
+  id,
+  title,
+  subject,
+  topic
+}) => {
   const [opened, set_opened] = useState(false);
 
   const handle_toggle = () => {
@@ -18,10 +23,21 @@ const SubtopicBox = (props) => {
 
   return (
     <Container>
-      <Accordion onClick={handle_toggle}> {props.title} </Accordion>
+      <Accordion onClick={handle_toggle}>{title}</Accordion>
       {opened === true
         ? Object.entries(MODE).map((item, index) => (
-            <ModeBox key={index} icon={item[1].icon} type={item[1].type} />
+            <ModeBox 
+              key={index} 
+              icon={item[1].icon} 
+              type={item[1].type}
+              title={title}
+              id={id}
+              subject={subject}
+              topic={topic}
+              style={{
+                borderRadius: index === Object.entries(MODE).length-1 ? "0px 0px 10px 10px" : null
+              }}
+            />
           ))
         : null}
     </Container>
@@ -31,7 +47,7 @@ const SubtopicBox = (props) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  box-shadow: 1px 2px 5px #d9d9d9;
+  box-shadow: 1px 2px 5px ${COLOR.SHADOW};
   margin-bottom: 16px;
   border-radius: 10px;
 `;

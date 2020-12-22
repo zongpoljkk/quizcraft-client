@@ -41,15 +41,15 @@ export const MODE = {
 
 export const DIFFICULTY = {
   EASY: {
-    type: "ง่าย",
+    type: "EASY",
     icon: level_easy
   },
   MEDIUM: {
-    type: "ปานกลาง",
+    type: "MEDIUM",
     icon: level_medium
   },
   HARD: {
-    type: "ยาก",
+    type: "HARD",
     icon: level_hard
   }
 };
@@ -58,4 +58,16 @@ export const ANSWER_TYPE = {
   MATH_INPUT: "MATH_INPUT",
   SELECT_ONE: "SELECT_ONE",
   RADIO_CHOICE: "RADIO_CHOICE",
+};
+
+export const LEADERBOARD_FILTER = {
+  GLOBAL: "ทั่วโลก",
+  SCHOOL: "โรงเรียน",
+  CLASS: "ห้องเรียน",
+};
+
+export const RANK = {
+  BRONZE: "BRONZE",
+  SILVER: "SILVER",
+  GOLD: "GOLD",
 };

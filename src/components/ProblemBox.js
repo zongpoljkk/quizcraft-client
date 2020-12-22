@@ -32,5 +32,6 @@ const ProblemContainer = styled.div`
 const Problem = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 16px
+  margin-top: 16px;
+  text-align: center;
 `;

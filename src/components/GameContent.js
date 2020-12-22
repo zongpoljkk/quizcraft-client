@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-import { AnswerMathInput } from "../../components/Answer/AnswerMathInput";
-import { AnswerSelectOne } from "../../components/Answer/AnswerSelectOne";
-import { AnswerRadioChoice } from "../../components/Answer/AnswerRadioChoice";
+import { AnswerMathInput } from "./Answer/AnswerMathInput";
+import { AnswerSelectOne } from "./Answer/AnswerSelectOne";
+import { AnswerRadioChoice } from "./Answer/AnswerRadioChoice";
 
-import { ANSWER_TYPE } from "../../global/const"
+import { ANSWER_TYPE } from "../global/const"
 
-const PracticeGameContent = ({
+const GameContent = ({
   type,
   correct_answer='',
   content='',
@@ -49,4 +49,4 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-export default PracticeGameContent;
+export default GameContent;

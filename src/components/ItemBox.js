@@ -5,18 +5,24 @@ import { COLOR } from "../global/const";
 export const ItemBox = ({ 
   children, 
   color = COLOR.WHITE,
-  type = "large" 
+  type = "large",
+  shadow = "box", 
+  width,
 }) => {
 
-  return <Box type={type} color={color} >{children}</Box>;
+  return <Box type={type} color={color} shadow={shadow} width={width}>{children}</Box>;
 };
 
 const Box = styled.div.attrs(props => ({
   color: props.color,
   type: props.type,
+  shadow: props.shadow,
+  width: props.width || null,
 }))`
   padding: ${(props) => {
     switch (props.type) {
+      case "frame":
+        return `24px 16px 24px 16px`;
       case "large":
         return `22px 17px 22px 17px`;
       case "small":
@@ -25,17 +31,27 @@ const Box = styled.div.attrs(props => ({
         return `none`;
     }
   }};
+  box-shadow: ${(props) => {
+    switch (props.shadow) {
+      case "frame":
+        return `0px 0px 4px ${COLOR.SHADOW}`;
+      case "box":
+        return `1px 2px 5px ${COLOR.SHADOW}`;
+      default:
+        return `none`;
+    }
+  }};
   border-radius: 10px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px 2px 5px ${COLOR.SHADOW};
   background: ${props => props.color};
+  max-width: ${props => props.width}px;
   top: 0px;
-
   &:hover {
-    position: relative;
-    top: -10px;
+    position: ${props => props.type === "frame" ? "static" : "relative"};
+    top: ${props => props.type === "frame" ? 0 : -10}px;
   }
 `;
