@@ -1,11 +1,6 @@
 import backend from "../../ip";
 import axios from "axios";
 
-const requestHeader = {
-  "content-type": "application/json",
-  Authorization: `Bearer ${accessToken}`,
-};
-
 export const getAndCheckAnswer = async (
   problemId,
   userId,
@@ -27,7 +22,6 @@ export const getAndCheckAnswer = async (
     const options = {
       method: "POST",
       url: url,
-      headers: { requestHeader },
       data: JSON.stringify(data),
       //   headers: { "content-type": "application/json" },
       // headers: { "content-type": "application/x-www-form-urlencoded" },
