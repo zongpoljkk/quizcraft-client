@@ -47,7 +47,6 @@ const TYPE_ANSWER = "RADIO_CHOICE";
 
 const PracticeGame = ({ history }) => {
   const location = useLocation();
-  const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
 
@@ -93,7 +92,6 @@ const PracticeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    set_used_time(getTime / 1000);
     getAndCheckAnswer(
       problemId,
       userId,
