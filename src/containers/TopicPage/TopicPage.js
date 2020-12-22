@@ -7,21 +7,21 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { useGetTopicName } from "./TopicPageHelper";
 
 // TODO: Remove mock after integrate subject
-// const MOCK_SUBJECT = "คณิตศาสตร์";
+const MOCK_SUBJECT = "คณิตศาสตร์";
 
 const TopicPage = ({ history }) => {
+
   const location = useLocation();
-  const { getTopicName, loading, topics } = useGetTopicName(
-    location.state.subject_name
-  );
+  // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
+  const { getTopicName, loading, topics } = useGetTopicName(MOCK_SUBJECT);
 
   const handleClick = (topic_name) => {
     history.push({
-      pathname: "/" + location.state.subject_name + "/" + topic_name,
+      pathname: "/" + MOCK_SUBJECT + "/" + topic_name, 
       state: {
-        subject_name: location.state.subject_name,
-        topic_name: topic_name,
-      },
+        subject_name: MOCK_SUBJECT,
+        topic_name: topic_name
+      }
     });
   };
 
@@ -36,10 +36,10 @@ const TopicPage = ({ history }) => {
       ) : (
         <Container>
           {topics?.map((topic, index) => (
-            <TopicBox
-              key={index}
-              title={topic.topic_name}
-              image={topic.topic_image}
+            <TopicBox 
+              key={index}  
+              title={topic.topic_name} 
+              image={topic.topic_image} 
               onClick={() => handleClick(topic.topic_name)}
             />
           ))}
