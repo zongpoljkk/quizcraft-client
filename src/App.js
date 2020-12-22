@@ -84,12 +84,13 @@ const App = () => {
           >
             <QuizGame />
           </PrivateRoute>
-          <Route
+          <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
+            getUserData={getUserData}
           >
             <QuizResultPage />
-          </Route>
+          </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
