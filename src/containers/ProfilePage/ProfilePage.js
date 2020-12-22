@@ -93,12 +93,12 @@ const ProfilePage = ({ history }) => {
         data: {
           formData,
         },
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         // headers: {
-        //   "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        //   "Content-Type": "multipart/form-data",
         // },
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        },
       }).then((res) => {
         console.log(res);
       });
