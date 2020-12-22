@@ -99,11 +99,21 @@ const QuizGame = ({ history }) => {
         userId,
         userAnswer,
         getTime / 1000,
+        subject,
         topic,
         subtopic
       ).then((res) => {
         history.push({
-          pathname: "/" + "practice-answer",
+          pathname:
+            "/" +
+            subject +
+            "/" +
+            topic +
+            "/" +
+            subtopic +
+            "/" +
+            difficulty +
+            "/practice-answer",
           state: {
             problemId: problemId,
             userId: userId,
@@ -210,9 +220,6 @@ const QuizGame = ({ history }) => {
                   <Button
                     type={answer ? "default" : "disabled"}
                     onClick={() => {
-                      set_used_time(getTime() / 1000);
-                      stop();
-                      // onCheck();
                       set_used_time(getTime() / 1000);
                       stop();
                       onCheck(

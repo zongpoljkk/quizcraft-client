@@ -7,6 +7,7 @@ export const getAndCheckAnswer = async (
   userId,
   userAnswer,
   userTime,
+  subject,
   topic,
   subtopic
 ) => {
@@ -17,6 +18,7 @@ export const getAndCheckAnswer = async (
       userId: userId,
       userAnswer: userAnswer,
       userTime: userTime,
+      subject: subject,
       topic: topic,
       subtopic: subtopic,
     };
