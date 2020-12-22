@@ -28,7 +28,7 @@ const EditUsernamePage = () => {
   const engToThai = (error_message) => {
     switch (error_message) {
       case "Username cannot be blank!":
-        return "ชื่อผู้ใช้ไม่เว้นว่าง"
+        return "ชื่อผู้ใช้ไม่สามารถเว้นว่างได้"
       case "already have this username!":
         return "ชื่อผู้ใช้นี้มีคนใช้แล้ว"
       default:

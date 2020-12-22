@@ -17,7 +17,6 @@ export const useEditUsername = (user_id, new_username) => {
       if (success) {
         set_edited_username(data.username);
         set_error_message(null);
-        set_loading(false);
       }
       else {
         console.log("Error")
