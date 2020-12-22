@@ -158,7 +158,7 @@ const PracticeAnswer = () => {
     >
       <Background answer={correct} />
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
-      <CenterDiv style={{ marginTop: "68px", position: "relative" }}>
+      <CenterDiv style={{ marginTop: 32, marginBottom: 16, position: "relative" }}>
         {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
         <Sign answer={correct} />
       </CenterDiv>
@@ -166,7 +166,7 @@ const PracticeAnswer = () => {
         {correct ? (
           <Header color={COLOR.CELERY}>{title}</Header>
         ) : (
-          <Header color={COLOR.TRINIDAD}>{title}Î</Header>
+          <Header color={COLOR.TRINIDAD}>{title}</Header>
         )}
       </CenterDiv>
       {firstClick ? (
@@ -202,7 +202,7 @@ const Background = styled.div`
     props.answer ? correct_background_color : incorrect_background_color};
   width: 100%;
   height: 100%;
-  top: 0px;
+  top: 54px;
   left: 0px;
   position: fixed;
   overflow-y: scroll;
