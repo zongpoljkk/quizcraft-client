@@ -11,31 +11,31 @@ const TopicBox = ({
 }) => {
 
   return (
-    <Container onClick={onClick}>
+    <div style = {{marginBottom: "32px"}} onClick={onClick}>
       <ItemBox>
         <TopicImg 
           src={image ? image : default_topic}
         />
-        <Header>{title}</Header>
+        <Header>
+          <CropText> {title} </CropText>
+        </Header>
       </ItemBox>
-    </Container>
+    </div>
   );
 };
-
-const Container = styled.div`
-  margin-bottom: 32px;
-  position: relative;
-  top: 0px;
-
-  &:hover {
-    position: relative;
-    top: -10px;
-`;
 
 const TopicImg = styled.img`
   alt: "Topic Image";
   width: 80px;
   height: 80px;
-  margin-bottom: 7px;
+  margin-bottom: 4px;
 `;
+
+const CropText = styled.div`
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+  width: 126px; 
+`;
+
 export default TopicBox;
