@@ -20,15 +20,14 @@ export const getAndCheckAnswer = async (
       userTime: userTime,
       subject: subject,
       topic: topic,
-      subtopic: subtopic,
+      subtopic: "subtopic",
     };
+    console.log(data);
     const options = {
       method: "POST",
       url: url,
       data: JSON.stringify(data),
-      //   headers: { "content-type": "application/json" },
-      // headers: { "content-type": "application/x-www-form-urlencoded" },
-      // params: params,
+      headers: { "content-type": "application/json" },
     };
     const response = await axios(options);
     if (response.status === 200) {

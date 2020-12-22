@@ -23,7 +23,7 @@ import { getAndCheckAnswer } from "./QuizGameHelper";
 // MOCK DATA
 const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-const USER_ID = "5fcb4ccbc53dd068520072a1";
+const USER_ID = "5fe1c049e301922c4f2fc0dd";
 
 // MOCK CHOICES
 const CONTENT3 =
@@ -97,12 +97,13 @@ const QuizGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log("KAOO")
+    console.log("KAOO");
     if (answer) {
-      console.log("MEE ANSWER")
+      console.log("MEE ANSWER");
       toggle();
       // TODO: connect API check answer
       set_used_time(getTime / 1000);
+
       getAndCheckAnswer(
         problemId,
         userId,
@@ -112,28 +113,21 @@ const QuizGame = ({ history }) => {
         topic,
         subtopic
       ).then((res) => {
-        history.push({
-          pathname:
-            "/" +
-            subject +
-            "/" +
-            topic +
-            "/" +
-            subtopic +
-            "/" +
-            difficulty +
-            "/practice-answer",
-          state: {
-            problemId: problemId,
-            userId: userId,
-            correct: res.data.correct,
-            solution: res.data.solution,
-            subject: subject,
-            topic: topic,
-            subtopic: subtopic,
-            difficulty: difficulty,
-          },
-        });
+        if (current_index === 10) {
+          history.push({
+            pathname: "/" + subject + "/" + topic,
+            // state: {
+            //   problemId: problemId,
+            //   userId: userId,
+            //   correct: res.data.correct,
+            //   solution: res.data.solution,
+            //   subject: subject,
+            //   topic: topic,
+            //   subtopic: subtopic,
+            //   difficulty: difficulty,
+            // },
+          });
+        }
       });
     }
   };
@@ -236,13 +230,13 @@ const QuizGame = ({ history }) => {
                       set_used_time(getTime() / 1000);
                       stop();
                       onCheck(
-                        location.state.problemId,
-                        location.state.userId,
-                        location.state.userAnswer,
+                        problem_id,
+                        USER_ID,
+                        answer,
                         getTime(),
-                        location.state.subject,
-                        location.state.topic,
-                        location.state.subtopic,
+                        location.state.subject_name,
+                        location.state.topic_name,
+                        location.state.subtopic_name,
                         location.state.difficulty
                       );
                     }}
