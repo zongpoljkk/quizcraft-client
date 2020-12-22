@@ -12,10 +12,9 @@ import Sign from "./components/Sign";
 import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
+import { Report } from "../../components/Report";
 
 // Media
-import Correct_Flag from "../../assets/Correct_Flag.png";
-import Incorrect_Flag from "../../assets/Incorrect_Flag.png";
 import Correct_Backward from "../../assets/Correct_Backward.png";
 import Correct_Forward from "../../assets/Correct_Forward.png";
 import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
@@ -191,17 +190,9 @@ const PracticeAnswer = () => {
 
       {arrowHolder()}
 
-      {correct ? (
-        <ReportDiv>
-          <ReportFlag src={Correct_Flag} />
-          <ReportText answer={correct}>รายงาน</ReportText>
-        </ReportDiv>
-      ) : (
-        <ReportDiv>
-          <ReportFlag src={Incorrect_Flag} />{" "}
-          <ReportText answer={correct}>รายงาน</ReportText>
-        </ReportDiv>
-      )}
+      <ReportContainer>
+        <Report correct={correct}/>
+      </ReportContainer>
     </Container>
   );
 };
@@ -253,26 +244,9 @@ const ShiftRight = styled.img`
   margin-left: 32px;
 `;
 
-const ReportDiv = styled.div`
+const ReportContainer = styled.div`
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
-  margin-top: auto;
-  z-index: 1;
-`;
-
-const ReportFlag = styled.img`
-  alt: "Report Flag";
-  height: 24px;
-  margin: 32px 8px 0 40px;
-  padding-bottom: 4px;
-`;
-
-const ReportText = styled.p`
-  font-family: Prompt;
-  color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
-  text-decoration: underline;
-  margin-bottom: 0;
 `;
 
 export default PracticeAnswer;
