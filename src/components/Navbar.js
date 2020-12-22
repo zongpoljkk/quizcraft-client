@@ -57,7 +57,7 @@ const Navbar = ({
           border
           borderColor={COLOR.ISLAND_SPICE}
         >
-          <Body color={COLOR.MANDARIN}>Level {user_info.levelInfo.level}</Body>
+          <Body color={COLOR.MANDARIN}>Level {user_info.level}</Body>
         </ReactTooltip>
         <div style={{ marginRight: 12 }}/>
         <Icon src={streak} marginRight={4}/>

@@ -110,14 +110,14 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
                 <LevelTitle marginBottom={6}>
                   <Body>เลเวล</Body>
                   <div style={{ marginRight: 8 }}/>
-                  <Body color={COLOR.MANDARIN}>{user_info.levelInfo.level}</Body>
+                  <Body color={COLOR.MANDARIN}>{user_info.level}</Body>
                 </LevelTitle>
                 <LevelTitle marginBottom={2}>
-                  <Overline color={COLOR.MANDARIN}>{user_info.levelInfo.score}</Overline>
-                  <Overline color={COLOR.SILVER}>/{user_info.levelInfo.goal}</Overline>
+                  <Overline color={COLOR.MANDARIN}>{user_info.exp}</Overline>
+                  <Overline color={COLOR.SILVER}>/{user_info.maxExp}</Overline>
                 </LevelTitle>
               </LevelTitleContainer>
-              <ProgressBar percent={(user_info.levelInfo.score/user_info.levelInfo.goal)*100}/>
+              <ProgressBar percent={(user_info.exp/user_info.maxExp)*100}/>
             </ContentContainer>
           </LevelContainer>
           <ItemContainer 
