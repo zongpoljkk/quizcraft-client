@@ -25,6 +25,13 @@ const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
 const USER_ID = "5fcb4ccbc53dd068520072a1";
 
+// MOCK CHOICES
+const CONTENT3 =
+  "You can only join the football team if you can stay late on [Mondays.&Fridays.]";
+const QUESTION4 = "[] should be more than 200 words.";
+const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
+const TYPE_ANSWER = "RADIO_CHOICE";
+
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
@@ -90,7 +97,9 @@ const QuizGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
+    console.log("KAOO")
     if (answer) {
+      console.log("MEE ANSWER")
       toggle();
       // TODO: connect API check answer
       set_used_time(getTime / 1000);
@@ -207,11 +216,15 @@ const QuizGame = ({ history }) => {
                   }}
                 >
                   <GameContent
-                    type={answer_type}
+                    // type={answer_type}
+                    type={TYPE_ANSWER}
                     correct_answer={correct_answer}
-                    question={body}
-                    choices={choices}
-                    content={body}
+                    // question={body}
+                    question={QUESTION4}
+                    // choices={choices}
+                    choices={CHOICES1}
+                    // content={body}
+                    content={CONTENT3}
                     answer={answer}
                     set_answer={set_answer}
                   />
