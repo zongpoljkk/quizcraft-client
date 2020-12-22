@@ -53,10 +53,10 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetProblemForUser(
-    USER_ID,
-    location.state.subject_name,
-    location.state.subtopic_name,
-    location.state.difficulty
+    USER_ID, 
+    location.state.subject_name, 
+    location.state.subtopic_name, 
+    location.state.difficulty,
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
