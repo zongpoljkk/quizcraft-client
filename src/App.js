@@ -56,8 +56,16 @@ const App = () => {
       } else {
         console.log("getUserInfo Error");
       }
-    } catch (e) {
-      console.log("There are something wrong about get user infomation :(");
+    } catch (error) {
+      if(error.response.status === 401){
+        console.log(error.response.data.error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        return <Redirect to="/" />;
+      }
+      else{
+        console.log("There are something wrong about get user infomation :(");
+      }
     }
   };
 
