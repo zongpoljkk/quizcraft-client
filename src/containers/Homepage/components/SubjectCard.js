@@ -75,7 +75,6 @@ const SubjectDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  margin-top: 32px;
   text-align: center;
 `;
 

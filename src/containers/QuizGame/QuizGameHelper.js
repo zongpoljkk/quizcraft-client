@@ -24,7 +24,7 @@ export const useGetHintByProblemId = (problemId) => {
     }
   };
 
-  return { getHintByProblemId, hint };
+  return { getHintByProblemId, hint, set_hint };
 };
 
 export const useGetEachProblem = (user_id, subject, subtopic_name, difficulty) => {
