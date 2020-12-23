@@ -42,6 +42,6 @@ export const engToThai = (error_message) => {
     case "userId not match userId that decoded from token!":
       return "ไม่อนุญาตให้แก้ชื่อผู้ใช้ของบัญชีอื่น"
     default:
-      return "ชื่อผู้ใช้ 6-12 ตัว ประกอบด้วยตัวอักษร ตัวเลข ตัวอักษรพิเศษ _ และ - เท่านั้น"
+      return "ชื่อผู้ใช้ต้องมีความยาว 6-12 ตัว ประกอบด้วยตัวอักษร ตัวเลข ตัวอักษรพิเศษ _ และ - เท่านั้น"
   }
 }
