@@ -6,8 +6,7 @@ import { Subheader, Body } from "../../components/Typography";
 import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
-import { COLOR, RANK } from "../../global/const"
-import { useWindowDimensions } from "../../global/util"
+import { COLOR } from "../../global/const"
 
 import { useEditUsername } from "./EditUsernameHelper";
 
@@ -22,13 +21,7 @@ const EditUsernamePage = ({ history }) => {
 
   const handleClick = () => {
     editUsername(USER_ID, new_username);
-    console.log({edited_username})
-    console.log({error_message})
     set_new_username("");
-    // if(edited_username){
-    //   history.push("/profile");
-    // }
-    console.log({new_username});
   };
 
   const engToThai = (error_message) => {
@@ -43,6 +36,12 @@ const EditUsernamePage = ({ history }) => {
         return "ชื่อผู้ใช้มีรูปแบบไม่ถูกต้อง"
     }
   }
+
+  useEffect(() => {
+    if (edited_username) {
+      history.push("/profile");
+    }
+  }, [edited_username]);
 
   return (
     <Container>

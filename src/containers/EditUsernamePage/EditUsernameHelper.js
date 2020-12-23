@@ -15,18 +15,18 @@ export const useEditUsername = (user_id, new_username) => {
       })
       const { success, data } = response.data;
       if (success) {
-          set_edited_username(data.username);
-          set_error_message(null);
+        set_edited_username(data.username);
+        set_error_message(null);
       } else {
         console.log("edit username Error");
       } 
     } catch (error) {
-        if(error.response.status === 400){
-          set_error_message(error.response.data.error);
-        }
-        else{
-          console.log("There are something wrong about edit username :(");
-        }
+      if(error.response.status === 400){
+        set_error_message(error.response.data.error);
+      }
+      else{
+        console.log("There are something wrong about edit username :(");
+      }
     }
   };
 
