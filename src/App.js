@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
 
 import { PrivateRoute } from "./route/PrivateRoute";
@@ -55,12 +52,11 @@ const App = () => {
         console.log("getUserInfo Error");
       }
     } catch (error) {
-      if(error.response.status === 401){
+      if (error.response.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         window.location.pathname = "/";
-      }
-      else{
+      } else {
         console.log("There are something wrong about get user infomation :(");
       }
     }
@@ -74,8 +70,8 @@ const App = () => {
 
   return (
     <Router>
-      {localStorage.getItem("userId") && user_info &&(
-        <Navbar user_info={user_info}/>
+      {localStorage.getItem("userId") && user_info && (
+        <Navbar user_info={user_info} />
       )}
       <Page>
         <Switch>
@@ -103,7 +99,7 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic">
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/topic">
+          <PrivateRoute path="/:topic">
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
