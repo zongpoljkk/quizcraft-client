@@ -38,7 +38,6 @@ const Homepage = ({ user_id }) => {
               <div style = {{marginBottom: "12px"}}>
                 <Header>กระดานผู้นำ</Header>
               </div>
-              {/* <Tabs data={LEADER_BOARD} /> */}
               <Tabs data={leader_board} />
             </ItemBox>
           </div>
