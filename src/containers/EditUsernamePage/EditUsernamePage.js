@@ -21,18 +21,13 @@ const EditUsernamePage = ({ history }) => {
   const { editUsername, edited_username, error_message } = useEditUsername(USER_ID, new_username);
 
   const handleClick = () => {
-    // TODO: connect API edit username
     editUsername(USER_ID, new_username);
-    console.log({edited_username});
+    console.log({edited_username})
+    console.log({error_message})
     set_new_username("");
-    if(edited_username && edited_username.careOf){
-      history.push({
-        pathname: "/profile", 
-        state: {
-          username: edited_username,
-        }
-      })
-    }
+    // if(edited_username){
+    //   history.push("/profile");
+    // }
     console.log({new_username});
   };
 
@@ -42,6 +37,8 @@ const EditUsernamePage = ({ history }) => {
         return "ชื่อผู้ใช้ไม่สามารถเว้นว่างได้"
       case "already have this username!":
         return "ชื่อผู้ใช้นี้มีคนใช้แล้ว"
+      case "userId not match userId that decoded from token!":
+        return "ไม่อนุญาตให้แก้ชื่อผู้ใช้ของบัญชีอื่น"
       default:
         return "ชื่อผู้ใช้มีรูปแบบไม่ถูกต้อง"
     }

@@ -40,7 +40,6 @@ const App = () => {
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    console.log(localStorage.getItem("token"));
   };
 
   const getUserData = async () => {
