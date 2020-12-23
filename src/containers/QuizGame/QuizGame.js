@@ -59,7 +59,12 @@ const QuizGame = ({ history }) => {
     location.state.subtopic_name, 
     location.state.difficulty,
   );
-  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
+
+  const {
+    getHintByProblemId,
+    hint,
+    set_hint
+  } = useGetHintByProblemId(problem_id);
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
@@ -128,12 +133,14 @@ const QuizGame = ({ history }) => {
                 onSkip();
                 reset();
                 set_problem_id();
+                set_hint();
               }}
               refresh={refresh}
               onRefresh={() => {
                 onRefresh();
                 reset();
                 set_problem_id();
+                set_hint();
               }}
             >
             <TimeContainer>
@@ -185,6 +192,7 @@ const QuizGame = ({ history }) => {
                       onNext();
                       reset();
                       set_problem_id();
+                      set_hint();
                     }}
                   />
                 </CenterContainer>

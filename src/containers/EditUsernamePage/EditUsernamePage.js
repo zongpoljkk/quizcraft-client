@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { Subheader, Body } from "../../components/Typography";
@@ -10,17 +10,13 @@ import { COLOR } from "../../global/const"
 
 import { useEditUsername } from "./EditUsernameHelper";
 
-// MOCK DATA
-const USERNAME = "ชื่อผู้ใช้";
-const USER_ID = "5fdf83e69de2582261da443e";
-
 const EditUsernamePage = ({ history }) => {
-
+  const location = useLocation();
   const [new_username, set_new_username] = useState('');
-  const { editUsername, edited_username, error_message } = useEditUsername(USER_ID, new_username);
+  const { editUsername, edited_username, error_message } = useEditUsername(location.state.user_id, new_username);
 
   const handleClick = () => {
-    editUsername(USER_ID, new_username);
+    editUsername(location.state.user_id, new_username);
     set_new_username("");
   };
 
@@ -49,7 +45,7 @@ const EditUsernamePage = ({ history }) => {
         <Subheader>ชื่อผู้ใช้เดิม</Subheader>
         <div style={{ marginBottom: 8 }}/>
         <UsernameContainer>
-          <Subheader>{USERNAME}</Subheader>
+          <Subheader>{location.state.username}</Subheader>
         </UsernameContainer>
       </TextfieldContainer>
       <TextfieldContainer marginBottom={36}>
