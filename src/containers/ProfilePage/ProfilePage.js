@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -6,56 +6,22 @@ import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
 import { Button } from "../../components/Button";
 import { Item } from "./component/Item";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
-import skip_icon from "../../assets/icon/skip.png";
-import hint_icon from "../../assets/icon/hint.png";
 import photo from "../../assets/icon/photo.png";
 
 import { COLOR, RANK } from "../../global/const"
 import { useWindowDimensions } from "../../global/util"
 
-// MOCK DATA
-const IMAGE = null;
-const USERNAME = "ชื่อผู้ใช้";
-const NAME = "ชื่อ";
-const SURNAME = "นามสกุล";
-const SCHOOL = "โรงเรียน";
-const CLASS = "ห้องเรียน";
-const USER_RANK = "BRONZE";
-const LEVEL = 12;
-const XP = 876;
-const MAX_XP = 2000;
-const ITEMS = [
-  {
-    icon: hint_icon,
-    amount: 1
-  },
-  {
-    icon: skip_icon,
-    amount: 3
-  },
-  {
-    icon: hint_icon,
-    amount: 6
-  },
-  {
-    icon: hint_icon,
-    amount: 1
-  },
-  {
-    icon: skip_icon,
-    amount: 2
-  },
-]
-
 const CONTAINER_PADDING = 64;
 const NAVBAR_HEIGHT = 54;
+const ITEM_SIZE = 102;
 
-const ProfilePage = ({ history, handleLogout }) => {
+const ProfilePage = ({ history, handleLogout, user_info }) => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [hover, set_hover] = useState(false);
@@ -74,95 +40,109 @@ const ProfilePage = ({ history, handleLogout }) => {
     inputFile.current.click();
   }
 
-  useEffect(() => {
-    // TODO: integrate API when selected_image have data
-    console.log(selected_image);
-  }, [selected_image]);
-
   return (
-    <Container height={screen_height-NAVBAR_HEIGHT-CONTAINER_PADDING}>
-      <ContentContainer>
-        <ProfileImage backgroundColor={IMAGE ? null : COLOR.ISLAND_SPICE}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {hover 
-            ? <div
-                style={{ marginTop: 8 }}
-                onClick={handleUpload}
-              >
-                <input 
-                  type="file"
-                  ref={inputFile}
-                  onChange={e => set_selected_image(e.target.files[0])}
-                  style={{ display: 'none' }}
-                />
-                <img src={photo} height={100} width={100}/>
-              </div>
-            : IMAGE ? <Image src={IMAGE}/> : null
-          }
-        </ProfileImage>
-        <UsernameContainer>
-          <Header>{USERNAME}</Header>
-          <div 
-            style={{ marginLeft: 16 }}
-            onClick={() => history.push("/edit-username")}
+    (!user_info)
+    ? <LoadingPage/>
+    : <Container height={screen_height-NAVBAR_HEIGHT-CONTAINER_PADDING}>
+        <ContentContainer>
+          <ProfileImage backgroundColor={user_info.photo ? null : COLOR.ISLAND_SPICE}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
-            <img src={edit_username_icon} height={20}/>
-          </div>
-        </UsernameContainer>
-        <InfoContainer>
-          <Subheader>{NAME} {SURNAME}</Subheader>
-          <div style={{ marginBottom: 16 }}/>
-          <Subheader>{SCHOOL}</Subheader>
-          <div style={{ marginBottom: 16 }}/>
-          <Subheader>{CLASS}</Subheader>
-        </InfoContainer>
-        <LevelContainer>
-          {USER_RANK === RANK.BRONZE &&
-            <img src={bronze} height={44}/>
-          }
-          {USER_RANK === RANK.SILVER &&
-            <img src={silver} height={44}/>
-          }
-          {USER_RANK === RANK.GOLD &&
-            <img src={gold} height={44}/>
-          }
-          <div style={{ marginRight: 8 }}/>
-          <ContentContainer>
-            <LevelTitleContainer>
-              <LevelTitle marginBottom={6}>
-                <Body>เลเวล</Body>
-                <div style={{ marginRight: 8 }}/>
-                <Body color={COLOR.MANDARIN}>{LEVEL}</Body>
-              </LevelTitle>
-              <LevelTitle marginBottom={2}>
-                <Overline color={COLOR.MANDARIN}>{XP}</Overline>
-                <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
-              </LevelTitle>
-            </LevelTitleContainer>
-            <ProgressBar percent={(XP/MAX_XP)*100}/>
-          </ContentContainer>
-        </LevelContainer>
-        <ItemContainer maxWidth={screen_width-64}>
-          {ITEMS?.map((item, index) => (
-            <div key={index} style={{ marginRight: 16 }}>
-              <Item icon={item.icon} amount={item.amount}/>
+            {hover 
+              ? <div
+                  style={{ marginTop: 8 }}
+                  onClick={handleUpload}
+                >
+                  <input 
+                    type="file"
+                    ref={inputFile}
+                    onChange={e => set_selected_image(e.target.files[0])}
+                    style={{ display: 'none' }}
+                  />
+                  <img src={photo} height={100} width={100}/>
+                </div>
+              : user_info.photo ? <Image src={user_info.photo}/> : null
+            }
+          </ProfileImage>
+          <UsernameContainer>
+            <Header>{user_info.username}</Header>
+            <div 
+              style={{ marginLeft: 16 }}
+              onClick={() => {
+                history.push({
+                  pathname: "/edit-username", 
+                  state: {
+                    username: user_info.username,
+                    user_id: user_info._id,
+                  }
+                });
+              }}
+            >
+              <img src={edit_username_icon} height={20}/>
             </div>
-          ))}
-        </ItemContainer>
-      </ContentContainer>
-      <Button 
-        type="outline" 
-        onClick={() => {
-          handleLogout()
-          history.push("/")
-          history.go(0)
-        }}
-      >
-        ออกจากระบบ
-      </Button>
-    </Container>
+          </UsernameContainer>
+          <InfoContainer>
+            <Subheader>ชื่อ : {user_info.firstname} {user_info.lastname}</Subheader>
+            {user_info.school &&
+              <div style={{ marginTop: 16 }}>
+                <Subheader>โรงเรียน : {user_info.school}</Subheader>
+              </div>
+            }
+            {user_info.class &&
+              <div style={{ marginTop: 16 }}>
+                <Subheader>ห้องเรียน : {user_info.class}</Subheader>
+              </div>
+            }
+          </InfoContainer>
+          <LevelContainer>
+            {user_info.rank === RANK.BRONZE &&
+              <img src={bronze} height={44}/>
+            }
+            {user_info.rank === RANK.SILVER &&
+              <img src={silver} height={44}/>
+            }
+            {user_info.rank === RANK.GOLD &&
+              <img src={gold} height={44}/>
+            }
+            <div style={{ marginRight: 8 }}/>
+            <ContentContainer>
+              <LevelTitleContainer>
+                <LevelTitle marginBottom={6}>
+                  <Body>เลเวล</Body>
+                  <div style={{ marginRight: 8 }}/>
+                  <Body color={COLOR.MANDARIN}>{user_info.level}</Body>
+                </LevelTitle>
+                <LevelTitle marginBottom={2}>
+                  <Overline color={COLOR.MANDARIN}>{user_info.exp}</Overline>
+                  <Overline color={COLOR.SILVER}>/{user_info.maxExp}</Overline>
+                </LevelTitle>
+              </LevelTitleContainer>
+              <ProgressBar percent={(user_info.exp/user_info.maxExp)*100}/>
+            </ContentContainer>
+          </LevelContainer>
+          <ItemContainer 
+            width={screen_width-CONTAINER_PADDING}
+            justifyContent={user_info.itemInfos.length*ITEM_SIZE <= screen_width-CONTAINER_PADDING ? "center" : "flex-start"}
+          >
+            {user_info.itemInfos?.map((item, index) => (
+              <div key={index} style={{ marginRight: index === user_info.itemInfos.length-1 ? null : 16 }}>
+                <Item icon={item.icon} amount={item.amount}/>
+              </div>
+            ))}
+          </ItemContainer>
+        </ContentContainer>
+        <Button 
+          type="outline" 
+          onClick={() => {
+            handleLogout()
+            history.push("/")
+            history.go(0)
+          }}
+        >
+          ออกจากระบบ
+        </Button>
+      </Container>
   );
 };
 
@@ -244,13 +224,14 @@ const LevelTitle = styled.div.attrs(props => ({
 `;
 
 const ItemContainer = styled.div.attrs(props => ({
-  maxWidth: props.maxWidth
+  width: props.width,
+  justifyContent: props.justifyContent
 }))`
   display: flex;
   flex-direction: row;
+  justify-content: ${props => props.justifyContent};
   overflow: scroll;
-  justify-content: flex-start;
-  max-width: ${props => props.maxWidth}px;
+  width: ${props => props.width}px;
   margin-bottom: 32px;
 `;
 

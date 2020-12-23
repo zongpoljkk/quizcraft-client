@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import { Subheader } from "../../components/Typography";
 import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
-import { COLOR, RANK } from "../../global/const"
-import { useWindowDimensions } from "../../global/util"
-
-// MOCK DATA
-const USERNAME = "ชื่อผู้ใช้";
+import { COLOR } from "../../global/const"
 
 const EditUsernamePage = () => {
 
+  const location = useLocation();
   const [new_username, set_new_username] = useState('');
 
   const handleClick = () => {
@@ -26,7 +24,7 @@ const EditUsernamePage = () => {
         <Subheader>ชื่อผู้ใช้เดิม</Subheader>
         <div style={{ marginBottom: 8 }}/>
         <UsernameContainer>
-          <Subheader>{USERNAME}</Subheader>
+          <Subheader>{location.state.username}</Subheader>
         </UsernameContainer>
       </TextfieldContainer>
       <TextfieldContainer marginBottom={36}>

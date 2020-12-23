@@ -98,8 +98,10 @@ const Homepage = () => {
   return (
     <Container ref={ref}>
       <GroupPanel />
-      <SubjectCard />
-      <div style = {{marginTop: "16px", width: "100%"}}>
+      <ScrollView>
+        <SubjectCard />
+      </ScrollView>
+      <div style = {{marginTop: 28, width: "100%"}}>
         <ItemBox type="frame" shadow="frame" width={container_width-32}>
           <div style = {{marginBottom: "12px"}}>
             <Header>กระดานผู้นำ</Header>
@@ -118,6 +120,16 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const ScrollView = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  width: 100%;
+  max-height: 240px;
+  overflow: scroll;
+  margin-top: 32px;
 `;
 
 export default Homepage;
