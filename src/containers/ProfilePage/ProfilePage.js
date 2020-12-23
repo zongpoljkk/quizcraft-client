@@ -83,15 +83,15 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             </div>
           </UsernameContainer>
           <InfoContainer>
-            <Subheader>{user_info.firstname} {user_info.lastname}</Subheader>
+            <Subheader>ชื่อ : {user_info.firstname} {user_info.lastname}</Subheader>
             {user_info.school &&
               <div style={{ marginTop: 16 }}>
-                <Subheader>{user_info.school}</Subheader>
+                <Subheader>โรงเรียน : {user_info.school}</Subheader>
               </div>
             }
             {user_info.class &&
               <div style={{ marginTop: 16 }}>
-                <Subheader>{user_info.class}</Subheader>
+                <Subheader>ห้องเรียน : {user_info.class}</Subheader>
               </div>
             }
           </InfoContainer>
