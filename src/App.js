@@ -99,6 +99,9 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic">
             <SubtopicPage />
           </PrivateRoute>
+          <PrivateRoute exact path="/homepage">
+            <Homepage />
+          </PrivateRoute>
           <PrivateRoute path="/:topic">
             <TopicPage />
           </PrivateRoute>
@@ -108,9 +111,9 @@ const App = () => {
           <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage">
+          {/* <PrivateRoute exact path="/homepage">
             <Homepage />
-          </PrivateRoute>
+          </PrivateRoute> */}
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
