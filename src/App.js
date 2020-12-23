@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 
@@ -58,10 +56,9 @@ const App = () => {
       }
     } catch (error) {
       if(error.response.status === 401){
-        console.log(error.response.data.error);
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
-        return <Redirect to="/" />;
+        window.location.pathname = "/";
       }
       else{
         console.log("There are something wrong about get user infomation :(");
