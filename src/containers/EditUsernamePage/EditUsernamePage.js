@@ -8,7 +8,7 @@ import { Button } from "../../components/Button";
 
 import { COLOR } from "../../global/const"
 
-import { useEditUsername } from "./EditUsernameHelper";
+import { useEditUsername, engToThai } from "./EditUsernameHelper";
 
 const EditUsernamePage = ({ history }) => {
   const location = useLocation();
@@ -19,19 +19,6 @@ const EditUsernamePage = ({ history }) => {
     editUsername(location.state.user_id, new_username);
     set_new_username("");
   };
-
-  const engToThai = (error_message) => {
-    switch (error_message) {
-      case "Username cannot be blank!":
-        return "ชื่อผู้ใช้ไม่สามารถเว้นว่างได้"
-      case "already have this username!":
-        return "ชื่อผู้ใช้นี้มีคนใช้แล้ว"
-      case "userId not match userId that decoded from token!":
-        return "ไม่อนุญาตให้แก้ชื่อผู้ใช้ของบัญชีอื่น"
-      default:
-        return "ชื่อผู้ใช้มีรูปแบบไม่ถูกต้อง"
-    }
-  }
 
   useEffect(() => {
     if (edited_username) {
@@ -55,11 +42,11 @@ const EditUsernamePage = ({ history }) => {
           value={new_username}
           onChange={e => set_new_username(e.target.value)}
         />
-        {error_message ?
+        {error_message &&
           <div style={{marginTop: "8px"}}>
             <Body props color = {COLOR.MANDARIN}> {engToThai(error_message)} </Body>
           </div>
-      : null}
+        }
       </TextfieldContainer>
       <Button
         type={new_username ? "default" : "disabled"}
