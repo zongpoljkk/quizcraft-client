@@ -11,7 +11,7 @@ export const TabContent = ({
   return(  
     <Container>
       {Object.entries(data).map((user, i) => (
-        <InfoBox backgroundColor={(index-1) === i ? COLOR.MANDARIN : null}>
+        <InfoBox key={i} backgroundColor={(index-1) === i ? COLOR.MANDARIN : null}>
           <Body>{i+1}</Body>
           <UserImg backgroundColor={user[1].profile_image ? null : COLOR.ISLAND_SPICE}>
             {user[1].profile_image ? <img src={user[1].profile_image}/> : null}
