@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 
@@ -40,7 +38,6 @@ const App = () => {
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    console.log(localStorage.getItem("token"));
   };
 
   const getUserData = async () => {
@@ -56,8 +53,15 @@ const App = () => {
       } else {
         console.log("getUserInfo Error");
       }
-    } catch (e) {
-      console.log("There are something wrong about get user infomation :(");
+    } catch (error) {
+      if(error.response.status === 401){
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        window.location.pathname = "/";
+      }
+      else{
+        console.log("There are something wrong about get user infomation :(");
+      }
     }
   };
 

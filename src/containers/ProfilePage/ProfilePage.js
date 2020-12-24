@@ -15,7 +15,7 @@ import gold from "../../assets/icon/gold.png";
 import photo from "../../assets/icon/photo.png";
 
 import { COLOR, RANK } from "../../global/const"
-import { useWindowDimensions } from "../../global/util"
+import { useWindowDimensions } from "../../global/utils"
 
 const CONTAINER_PADDING = 64;
 const NAVBAR_HEIGHT = 54;
