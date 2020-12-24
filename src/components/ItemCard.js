@@ -21,4 +21,5 @@ const CardContainer = styled.div`
   height: 32px;
   width: 56px;
   border-radius: 4px;
+  padding: 2px
 `;

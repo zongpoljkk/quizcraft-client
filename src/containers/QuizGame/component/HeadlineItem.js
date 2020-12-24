@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { HintItem } from "../../../components/HintItem";
 import { ItemCard } from "../../../components/ItemCard";
 import { LottieFile } from "../../../components/LottieFile";
+import { Subheader } from "../../../components/Typography";
 
 import skip_icon from "../../../assets/icon/skip.png";
 import skip_data from "../../../assets/lottie/skip.json";
@@ -25,16 +26,20 @@ export const HeadlineItem = ({
   onSkip,
   refresh,
   onRefresh,
+  amount_of_hints,
+  amount_of_skips,
+  amount_of_refreshs,
   children
 }) => {
 
   return (
     <ItemHeadline>
-      <HintItem onGetHint={onGetHint} content={hintContent}/>
+      <HintItem amount_of_hints={amount_of_hints} onGetHint={onGetHint} content={hintContent}/>
       <ItemCard>
         {skip === ITEM_USAGE.UN_USE && (
           <CenterContainer onClick={onSkip}>
-            <img src={skip_icon} height={22}/>
+            <ItemIcon src={skip_icon}/>
+            <Subheader color={COLOR.MANDARIN}>{amount_of_skips}</Subheader>
           </CenterContainer>
         )}
         {skip === ITEM_USAGE.IN_USE && (
@@ -46,7 +51,8 @@ export const HeadlineItem = ({
         )}
         {skip === ITEM_USAGE.USED && (
           <CenterContainer>
-            <img src={skip_icon} height={22}/>
+            <ItemIcon src={skip_icon}/>
+            <Subheader color={COLOR.MANDARIN}>{amount_of_skips}</Subheader>
             <DisableItem />
           </CenterContainer>
         )}
@@ -54,7 +60,8 @@ export const HeadlineItem = ({
       <ItemCard>
         {refresh === ITEM_USAGE.UN_USE && (
           <CenterContainer onClick={onRefresh}>
-            <img src={refresh_icon} height={22}/>
+            <ItemIcon src={refresh_icon} marginRight={8}/>
+            <Subheader color={COLOR.MANDARIN}>{amount_of_refreshs}</Subheader>
           </CenterContainer>
         )}
         {refresh === ITEM_USAGE.IN_USE && 
@@ -62,7 +69,8 @@ export const HeadlineItem = ({
         }
         {refresh === ITEM_USAGE.USED && (
           <CenterContainer>
-            <img src={refresh_icon} height={22}/>
+            <ItemIcon src={refresh_icon} marginRight={8}/>
+            <Subheader color={COLOR.MANDARIN}>{amount_of_refreshs}</Subheader>
             <DisableItem />
           </CenterContainer>
         )}
@@ -84,6 +92,14 @@ const ItemHeadline = styled.div`
 const CenterContainer = styled.div`
   display: flex;
   justify-content: center;
+  line-height: 22px;
+`;
+
+const ItemIcon = styled.img.attrs(props => ({
+  marginRight: props.marginRight || 4
+}))`
+  height: 22px;
+  margin-right: ${props => props.marginRight}px;
 `;
 
 const SkipContainer = styled.div`

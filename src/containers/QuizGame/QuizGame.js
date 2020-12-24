@@ -15,6 +15,7 @@ import { HeadlineItem } from "./component/HeadlineItem"
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
+  useGetAmountOfItems,
   useGetHintByProblemId,
   useGetEachProblem
 } from "./QuizGameHelper";
@@ -42,6 +43,7 @@ const QuizGame = ({ history }) => {
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
+  const user_id = localStorage.getItem("userId");
   
   const { 
     getEachProblem,
@@ -65,6 +67,14 @@ const QuizGame = ({ history }) => {
     hint,
     set_hint
   } = useGetHintByProblemId(problem_id);
+
+  const {
+    getAmountOfItems,
+    amount_of_hints,
+    amount_of_skips,
+    amount_of_refreshs
+  } = useGetAmountOfItems(user_id);
+
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
@@ -107,6 +117,7 @@ const QuizGame = ({ history }) => {
   };
 
   useEffect(() => {
+    getAmountOfItems();
     getEachProblem();
   }, []);
 
@@ -142,6 +153,9 @@ const QuizGame = ({ history }) => {
                 set_problem_id();
                 set_hint();
               }}
+              amount_of_hints={amount_of_hints}
+              amount_of_skips={amount_of_skips}
+              amount_of_refreshs={amount_of_refreshs}
             >
             <TimeContainer>
               <Body color={COLOR.MANDARIN}>
