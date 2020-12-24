@@ -137,7 +137,10 @@ const QuizGame = ({ history }) => {
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={current_index}/>
             </Headline>
             <HeadlineItem 
-              onGetHint={() => getHintByProblemId()}
+              onGetHint={() => {
+                getHintByProblemId();
+                getAmountOfItems();
+              }}
               hintContent={hint}
               skip={skip} 
               onSkip={() => {
@@ -145,6 +148,7 @@ const QuizGame = ({ history }) => {
                 reset();
                 set_problem_id();
                 set_hint();
+                getAmountOfItems();
               }}
               refresh={refresh}
               onRefresh={() => {
@@ -152,6 +156,7 @@ const QuizGame = ({ history }) => {
                 reset();
                 set_problem_id();
                 set_hint();
+                getAmountOfItems();
               }}
               amount_of_hints={amount_of_hints}
               amount_of_skips={amount_of_skips}

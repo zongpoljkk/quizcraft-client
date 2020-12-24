@@ -23,14 +23,17 @@ export const HintItem = ({
 
   return (
     <div>
-      <ItemCard 
+      <ItemCard
         onClick={() => {
-          onGetHint();
-          toggle();
+          if(amount_of_hints !== 0) {
+            onGetHint();
+            toggle();
+          }
         }}
+        disable={amount_of_hints === 0 ? true : false}
       >
-        <ItemContainer src={hint_icon}/>
-        <Subheader color={COLOR.MANDARIN}>{amount_of_hints}</Subheader>
+        <ItemContainer src={hint_icon} marginRight={amount_of_hints >= 0 ? 8 : null}/>
+        <Subheader>{amount_of_hints}</Subheader>
       </ItemCard>
       <FooterModal
         isShowing={content ? isShowing : null}
@@ -77,7 +80,9 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 
-const ItemContainer = styled.img`
+const ItemContainer = styled.img.attrs(props => ({
+  marginRight: props.marginRight
+}))`
   height: 22px;
-  margin-right: 8px;
+  margin-right: ${props => props.marginRight}px;
 `;

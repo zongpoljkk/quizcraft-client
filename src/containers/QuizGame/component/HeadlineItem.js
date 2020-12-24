@@ -35,11 +35,11 @@ export const HeadlineItem = ({
   return (
     <ItemHeadline>
       <HintItem amount_of_hints={amount_of_hints} onGetHint={onGetHint} content={hintContent}/>
-      <ItemCard>
+      <ItemCard disable={(amount_of_skips === 0 || skip === ITEM_USAGE.USED) ? true : false}>
         {skip === ITEM_USAGE.UN_USE && (
-          <CenterContainer onClick={onSkip}>
+          <CenterContainer onClick={amount_of_skips === 0 ? null : onSkip}>
             <ItemIcon src={skip_icon}/>
-            <Subheader color={COLOR.MANDARIN}>{amount_of_skips}</Subheader>
+            <Subheader>{amount_of_skips}</Subheader>
           </CenterContainer>
         )}
         {skip === ITEM_USAGE.IN_USE && (
@@ -52,16 +52,15 @@ export const HeadlineItem = ({
         {skip === ITEM_USAGE.USED && (
           <CenterContainer>
             <ItemIcon src={skip_icon}/>
-            <Subheader color={COLOR.MANDARIN}>{amount_of_skips}</Subheader>
-            <DisableItem />
+            <Subheader>{amount_of_skips}</Subheader>
           </CenterContainer>
         )}
       </ItemCard>
-      <ItemCard>
+      <ItemCard disable={(amount_of_refreshs === 0 || refresh === ITEM_USAGE.USED)? true : false}>
         {refresh === ITEM_USAGE.UN_USE && (
-          <CenterContainer onClick={onRefresh}>
+          <CenterContainer onClick={amount_of_refreshs === 0 ? null : onRefresh}>
             <ItemIcon src={refresh_icon} marginRight={8}/>
-            <Subheader color={COLOR.MANDARIN}>{amount_of_refreshs}</Subheader>
+            <Subheader>{amount_of_refreshs}</Subheader>
           </CenterContainer>
         )}
         {refresh === ITEM_USAGE.IN_USE && 
@@ -70,8 +69,7 @@ export const HeadlineItem = ({
         {refresh === ITEM_USAGE.USED && (
           <CenterContainer>
             <ItemIcon src={refresh_icon} marginRight={8}/>
-            <Subheader color={COLOR.MANDARIN}>{amount_of_refreshs}</Subheader>
-            <DisableItem />
+            <Subheader>{amount_of_refreshs}</Subheader>
           </CenterContainer>
         )}
       </ItemCard>
@@ -109,15 +107,4 @@ const SkipContainer = styled.div`
 
 const ZoomItem = styled.div`
   transform: scale(1.7);
-`;
-
-const DisableItem = styled.div`
-  display: flex;
-  background-color: ${COLOR.BLACK};
-  opacity: 0.3;
-  height: 32px;
-  width: 56px;
-  border-radius: 4px;
-  position: absolute;
-  margin-top: -5px;
 `;
