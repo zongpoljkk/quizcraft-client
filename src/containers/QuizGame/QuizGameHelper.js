@@ -92,3 +92,25 @@ export const useGetAmountOfItems = (user_id) => {
 
   return { getAmountOfItems, amount_of_hints, amount_of_skips, amount_of_refreshs };
 };
+
+export const useItem = (user_id) => {
+  
+  const putUseItem = async (item_name) => {
+    try {
+      const response = await axios.put(backend+"user/used-item", {
+        userId: user_id,
+        itemName: item_name
+      });
+      const { success, data } = response.data;
+      if (success) {
+        console.log("used",item_name);
+      } else {
+        console.log("putUseItem Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about use items :(");
+    }
+  };
+
+  return { putUseItem };
+};

@@ -17,7 +17,8 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { 
   useGetAmountOfItems,
   useGetHintByProblemId,
-  useGetEachProblem
+  useGetEachProblem,
+  useItem
 } from "./QuizGameHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
@@ -75,16 +76,21 @@ const QuizGame = ({ history }) => {
     amount_of_refreshs
   } = useGetAmountOfItems(user_id);
 
+  const { putUseItem } = useItem(user_id);
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
     getEachProblem(set_skip);
     set_current_index((index) => index+1);
+    set_problem_id();
+    set_hint();
   };
 
   const onRefresh = () => {
     set_refresh(ITEM_USAGE.IN_USE);
     getEachProblem(set_refresh);
+    set_problem_id();
+    set_hint();
   };
 
   const onExit = (subject_name, topic_name) => {
@@ -116,6 +122,10 @@ const QuizGame = ({ history }) => {
     }
   };
 
+  const getNewAmount = () => {
+    getAmountOfItems();
+  };
+
   useEffect(() => {
     getAmountOfItems();
     getEachProblem();
@@ -139,28 +149,27 @@ const QuizGame = ({ history }) => {
             <HeadlineItem 
               onGetHint={() => {
                 getHintByProblemId();
-                getAmountOfItems();
+                if (!hint) {
+                  putUseItem("Hint");
+                }
               }}
               hintContent={hint}
               skip={skip} 
               onSkip={() => {
+                putUseItem("Skip");
                 onSkip();
                 reset();
-                set_problem_id();
-                set_hint();
-                getAmountOfItems();
               }}
               refresh={refresh}
               onRefresh={() => {
+                putUseItem("Refresh");
                 onRefresh();
                 reset();
-                set_problem_id();
-                set_hint();
-                getAmountOfItems();
               }}
               amount_of_hints={amount_of_hints}
               amount_of_skips={amount_of_skips}
               amount_of_refreshs={amount_of_refreshs}
+              getNewAmount={getNewAmount}
             >
             <TimeContainer>
               <Body color={COLOR.MANDARIN}>

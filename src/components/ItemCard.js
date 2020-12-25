@@ -21,8 +21,8 @@ const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: ${COLOR.SILVER_OPACITY_30};
-  min-height: 32px;
-  min-width: 56px;
+  height: 32px;
+  width: 56px;
   border-radius: 4px;
   padding-left: 4px;
   padding-right: 4px;
@@ -33,9 +33,9 @@ const DisableCard = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${COLOR.BLACK};
-  opacity: 0.3;
-  min-height: 32px;
-  min-width: 56px;
+  opacity: 0.4;
+  height: 32px;
+  width: 56px;
   border-radius: 4px;
   padding-left: 4px;
   padding-right: 4px;

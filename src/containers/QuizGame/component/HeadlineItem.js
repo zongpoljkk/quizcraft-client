@@ -11,8 +11,6 @@ import skip_data from "../../../assets/lottie/skip.json";
 import refresh_icon from "../../../assets/icon/refresh.png";
 import refresh_data from "../../../assets/lottie/refresh.json";
 
-import { COLOR } from "../../../global/const"
-
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
@@ -29,11 +27,12 @@ export const HeadlineItem = ({
   amount_of_hints,
   amount_of_skips,
   amount_of_refreshs,
+  getNewAmount,
   children
 }) => {
 
   return (
-    <ItemHeadline>
+    <ItemHeadline onChange={getNewAmount()}>
       <HintItem amount_of_hints={amount_of_hints} onGetHint={onGetHint} content={hintContent}/>
       <ItemCard disable={(amount_of_skips === 0 || skip === ITEM_USAGE.USED) ? true : false}>
         {skip === ITEM_USAGE.UN_USE && (
