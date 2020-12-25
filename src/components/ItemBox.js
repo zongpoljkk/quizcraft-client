@@ -7,10 +7,23 @@ export const ItemBox = ({
   color = COLOR.WHITE,
   type = "large",
   shadow = "box", 
+  maxWidth,
   width,
+  height
 }) => {
 
-  return <Box type={type} color={color} shadow={shadow} width={width}>{children}</Box>;
+  return (
+    <Box 
+      type={type}
+      color={color}
+      shadow={shadow}
+      maxWidth={maxWidth}
+      width={width}
+      height={height}
+    >
+      {children}
+    </Box>
+  );
 };
 
 const Box = styled.div.attrs(props => ({
@@ -48,7 +61,9 @@ const Box = styled.div.attrs(props => ({
   justify-content: center;
   align-items: center;
   background: ${props => props.color};
-  max-width: ${props => props.width}px;
+  max-width: ${props => props.maxWidth}px;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
   top: 0px;
   &:hover {
     position: ${props => props.type === "frame" ? "static" : "relative"};
