@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { Button } from "../../components/Button";
 import { Header } from "../../components/Typography";
+import useModal from "../../components/useModal";
 import { ChallengeBox } from "./components/ChallengeBox";
+import { SpecificChallengeModal } from "./components/SpecificChallengeModal";
 
 import { useWindowDimensions } from "../../global/utils"
 
@@ -21,13 +23,22 @@ const MY_SCORE = 0;
 const CHALLENGER_SCORE = 4;
 
 const AllChallengePage = () => {
+
   const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const {isShowing, toggle} = useModal();
+  const [username, set_username] = useState();
 
   return (
     <Container>
       <ButtonContainer>
         <Button type="outline">สุ่มคู่แข่ง</Button>
-        <Button>เจาะจงคู่แข่ง</Button>
+        <Button onClick={toggle}>เจาะจงคู่แข่ง</Button>
+        <SpecificChallengeModal 
+          username={username}
+          set_username={set_username}
+          isShowing={isShowing}
+          toggle={toggle}
+        />
       </ButtonContainer>
       <Box>
         <Header>รอบของคุณ</Header>
@@ -39,6 +50,15 @@ const AllChallengePage = () => {
             challenger_score={CHALLENGER_SCORE}
             type={CHALLENGE_BOX_TYPE.MY_TURN}
           />
+          <div style={{ marginRight: 12 }}/>
+          <ChallengeBox
+            image={IMAGE}
+            username={USERNAME}
+            my_scores={MY_SCORE}
+            challenger_score={CHALLENGER_SCORE}
+            type={CHALLENGE_BOX_TYPE.MY_TURN}
+          />
+          <div style={{ marginRight: 12 }}/>
           <ChallengeBox
             image={IMAGE}
             username={USERNAME}
@@ -64,6 +84,14 @@ const AllChallengePage = () => {
             my_scores={MY_SCORE}
             challenger_score={CHALLENGER_SCORE}
             type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
+          />
+          <div style={{ marginRight: 12 }}/>
+          <ChallengeBox
+            image={IMAGE}
+            username={USERNAME}
+            my_scores={MY_SCORE}
+            challenger_score={CHALLENGER_SCORE}
+            type={CHALLENGE_BOX_TYPE.MY_TURN}
           />
         </ChallengeBoxContainer>
       </Box>

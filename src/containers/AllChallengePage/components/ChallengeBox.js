@@ -22,7 +22,7 @@ export const ChallengeBox = ({
 }) => {
 
   return (
-    <div style={{ marginTop: 12, marginRight: 24 }}>
+    <div style={{ marginTop: 12 }}>
       <ItemBox type = "small" color={read ? COLOR.WHITE : COLOR.ISLAND_SPICE} width={96}>
         <ProfileImage backgroundColor={image ? null : COLOR.ISLAND_SPICE}>
           {image ? <Image src={image}/> : null}
