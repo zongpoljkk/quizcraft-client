@@ -41,6 +41,7 @@ const EditUsernamePage = ({ history }) => {
         <TextField
           value={new_username}
           onChange={e => set_new_username(e.target.value)}
+          placeholder="ชื่อผู้ใช้ใหม่"
         />
         {error_message &&
           <div style={{marginTop: "8px"}}>
