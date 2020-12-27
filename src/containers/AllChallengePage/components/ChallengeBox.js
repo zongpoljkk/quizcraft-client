@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { ItemBox } from "../../../components/ItemBox";
@@ -18,11 +18,17 @@ export const ChallengeBox = ({
   my_scores,
   challenger_score,
   type,
+  margin_right,
+  getMarginRightOfChallengeBox = () => {},
   read = true
 }) => {
+  
+  useEffect(() => {
+    getMarginRightOfChallengeBox();
+  }, []);
 
   return (
-    <div style={{ marginTop: 12 }}>
+    <div style={{ marginTop: 12, marginRight: margin_right }}>
       <ItemBox type = "small" color={read ? COLOR.WHITE : COLOR.ISLAND_SPICE} width={96}>
         <ProfileImage backgroundColor={image ? null : COLOR.ISLAND_SPICE}>
           {image ? <Image src={image}/> : null}

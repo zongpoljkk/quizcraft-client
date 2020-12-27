@@ -7,7 +7,11 @@ import useModal from "../../components/useModal";
 import { ChallengeBox } from "./components/ChallengeBox";
 import { SpecificChallengeModal } from "./components/SpecificChallengeModal";
 
-import { useWindowDimensions } from "../../global/utils"
+import { 
+  getMarginRightOfChallengeBox
+} from "./AllChallengePageHelper";
+
+import { useWindowDimensions } from "../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {
   MY_TURN: "MY_TURN",
@@ -17,16 +21,52 @@ const CHALLENGE_BOX_TYPE = {
 const CONTAINER_PADDING = 64;
 
 // MOCK DATA
-const IMAGE = null;
-const USERNAME = "สมชาย<3สมปอง";
-const MY_SCORE = 0;
-const CHALLENGER_SCORE = 4;
+const MOCK_DATA = [
+  {
+    IMAGE: null,
+    USERNAME: "สมชาย<3สมปอง",
+    MY_SCORE: 0,
+    CHALLENGER_SCORE: 4,
+  },
+  {
+    IMAGE: null,
+    USERNAME: "อิอิ",
+    MY_SCORE: 0,
+    CHALLENGER_SCORE: 4,
+  },
+  {
+    IMAGE: null,
+    USERNAME: "mister_heart",
+    MY_SCORE: 0,
+    CHALLENGER_SCORE: 4,
+  },
+  {
+    IMAGE: null,
+    USERNAME: "สมหญิงเองจ้า",
+    MY_SCORE: 0,
+    CHALLENGER_SCORE: 4,
+  },
+  {
+    IMAGE: null,
+    USERNAME: "สมศรีเป็นผู้หญิง",
+    MY_SCORE: 0,
+    CHALLENGER_SCORE: 4,
+  },
+  {
+    IMAGE: null,
+    USERNAME: "เกียงศักดิ์เรียนดี",
+    MY_SCORE: 0,
+    CHALLENGER_SCORE: 4,
+  }
+]
 
 const AllChallengePage = () => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const {isShowing, toggle} = useModal();
   const [username, set_username] = useState();
+  const container_width = screen_width-CONTAINER_PADDING;
+  const [margin_right, set_margin_right] = useState();
 
   return (
     <Container>
@@ -42,69 +82,62 @@ const AllChallengePage = () => {
       </ButtonContainer>
       <Box>
         <Header>รอบของคุณ</Header>
-        <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.MY_TURN}
-          />
-          <div style={{ marginRight: 12 }}/>
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.MY_TURN}
-          />
-          <div style={{ marginRight: 12 }}/>
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.MY_TURN}
-          />
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.MY_TURN}
-          />
+        <ChallengeBoxContainer maxWidth={container_width}>
+          {MOCK_DATA?.map((challenge, index) => 
+            <div key={index}>
+              <ChallengeBox
+                image={challenge.IMAGE}
+                username={challenge.USERNAME}
+                my_scores={challenge.MY_SCORE}
+                challenger_score={challenge.CHALLENGER_SCORE}
+                type={CHALLENGE_BOX_TYPE.MY_TURN}
+                margin_right={margin_right && margin_right[index]}
+                getMarginRightOfChallengeBox={() => 
+                  getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
+                }
+              />
+            </div>
+          )}
         </ChallengeBoxContainer>
       </Box>
       <Box>
         <Header>รอบของคู่แข่ง</Header>
         <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
-          />
-          <div style={{ marginRight: 12 }}/>
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.MY_TURN}
-          />
+          {MOCK_DATA?.map((challenge, index) => 
+            <div key={index}>
+              <ChallengeBox
+                image={challenge.IMAGE}
+                username={challenge.USERNAME}
+                my_scores={challenge.MY_SCORE}
+                challenger_score={challenge.CHALLENGER_SCORE}
+                type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
+                margin_right={margin_right && margin_right[index]}
+                getMarginRightOfChallengeBox={() => 
+                  getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
+                }
+              />
+            </div>
+          )}
         </ChallengeBoxContainer>
       </Box>
       <Box>
         <Header>ผลลัพธ์</Header>
         <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
-          <ChallengeBox
-            image={IMAGE}
-            username={USERNAME}
-            my_scores={MY_SCORE}
-            challenger_score={CHALLENGER_SCORE}
-            type={CHALLENGE_BOX_TYPE.RESULT}
-          />
+          {MOCK_DATA?.map((challenge, index) => 
+            <div key={index}>
+              <ChallengeBox
+                image={challenge.IMAGE}
+                username={challenge.USERNAME}
+                my_scores={challenge.MY_SCORE}
+                challenger_score={challenge.CHALLENGER_SCORE}
+                type={CHALLENGE_BOX_TYPE.RESULT}
+                margin_right={margin_right && margin_right[index]}
+                getMarginRightOfChallengeBox={() => 
+                  getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
+                }
+              />
+            </div>
+          )}
         </ChallengeBoxContainer>
       </Box>
     </Container>
