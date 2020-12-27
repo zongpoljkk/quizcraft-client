@@ -156,9 +156,15 @@ const QuizGame = ({ history }) => {
               hintContent={hint}
               skip={skip} 
               onSkip={() => {
-                putUseItem("Skip");
-                onSkip();
-                reset();
+                if(current_index < NUMBER_OF_QUIZ) {
+                  putUseItem("Skip");
+                  onSkip();
+                  reset();
+                }
+                else {
+                  // TODO: push to result page and check with empty answer
+                  history.push("/result-page");
+                }
               }}
               refresh={refresh}
               onRefresh={() => {
