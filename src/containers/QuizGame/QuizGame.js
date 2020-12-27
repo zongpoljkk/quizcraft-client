@@ -163,6 +163,7 @@ const QuizGame = ({ history }) => {
                 }
                 else {
                   // TODO: push to result page and check with empty answer
+                  putUseItem("Skip");
                   history.push("/result-page");
                 }
               }}
