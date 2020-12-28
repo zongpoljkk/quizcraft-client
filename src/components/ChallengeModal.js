@@ -10,11 +10,13 @@ import { LottieFile } from "./LottieFile";
 import challenge from "../assets/lottie/challenge.json";
 import { COLOR } from "../global/const";
 
+import close_icon from "../assets/icon/close.png";
+
 //MOCK DATA
 const USERNAME = "pimkunut_tee";
 const OPPONENT_USERNAME = "nnnnnnuttt98";
-const PROFILE_IMG =""
-const OPPONENT_PROFILE_IMG =""
+const PROFILE_IMG = "";
+const OPPONENT_PROFILE_IMG = "";
 
 export const ChallengeModal = () => {
 
@@ -42,6 +44,9 @@ export const ChallengeModal = () => {
 
   return (
     <div>
+      <IconContainer onClick={toggle}>
+        <img src={close_icon} height={16} width={16}/>
+      </IconContainer>
       <Modal
         isShowing={isShowing}
         hide={toggle}
@@ -135,4 +140,9 @@ const CropText = styled.div`
   white-space: nowrap; 
   text-overflow: ellipsis; 
   width: 105px; 
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  height: 100%;
 `;
