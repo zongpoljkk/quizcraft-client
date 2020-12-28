@@ -11,7 +11,7 @@ import { ProblemIndex } from "../../components/ProblemIndex"
 import { AnswerModal } from "../../components/AnswerModal"
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-import { HeadlineItem } from "./component/HeadlineItem"
+import { HeadlineItem } from "./components/HeadlineItem"
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
