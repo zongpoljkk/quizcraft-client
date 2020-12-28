@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Body } from "../Typography";
 import { RadioButton } from "../RadioButton"
 import { COLOR } from "../../global/const"
-import { useWindowDimensions } from "../../global/util"
+import { useWindowDimensions } from "../../global/utils"
 
 import { splitQuestion } from "./AnswertHelper";
 

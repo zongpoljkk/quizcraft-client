@@ -7,7 +7,6 @@ import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
 
-
 // MOCK DATA
 const LEADER_BOARD = {
   byAll: [
