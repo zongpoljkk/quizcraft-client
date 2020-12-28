@@ -44,15 +44,16 @@ const ReportPage = () => {
             />
         </div>
       ))}
-      {report_problem === "อื่น ๆ" &&
-        <TextField
+      {report_problem === REPORT.ETC &&
+        <TextField 
+          height="36"
           value={etc_problem}
           onChange={e => set_etc_problem(e.target.value)}
           placeholder="ปัญหาที่พบ"
         />
       }
       <CenterContainer marginTop="36">
-        <Button type={report_problem ? "default" : "disabled"}>
+        <Button type={((report_problem && report_problem !== REPORT.ETC) || (report_problem === REPORT.ETC && etc_problem)) ? "default" : "disabled"}>
           ตรวจ
         </Button>
       </CenterContainer>
