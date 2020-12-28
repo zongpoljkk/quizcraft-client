@@ -7,6 +7,7 @@ import { COLOR } from "../../global/const";
 import { mathAnswerBox } from "./AnswertHelper";
 
 let mainCurlyBraces = [];
+let powerExists = false;
 
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   const [mainAns, setMainAns] = useState("");
@@ -65,6 +66,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </div>
       );
     } else if (item.type === "power") {
+      powerExists = true;
       return (
         <PowerInputAnswer
           width={item.width}
@@ -95,14 +97,28 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
 
   useEffect(() => {
     let tempAns;
+    let curlyMain = mainAns;
+    let curlyPower = powerAns;
+    let tempAnsString;
     if (mainCurlyBraces.length > 0) {
-      tempAns = ["(" + mainAns + ")", "[" + powerAns + "]"];
-    } else {
-      tempAns = [mainAns, "[" + powerAns + "]"];
+      // There are curly braces at main Ans
+      curlyMain = "(" + mainAns + ")";
     }
-    const tempAnsString = tempAns.join("^");
+    if (powerExists) {
+      curlyPower = "[" + powerAns + "]";
+    }
+    tempAns = [curlyMain, curlyPower];
+    if (curlyPower !== "") {
+      tempAnsString = tempAns.join("^");
+    } else {
+      tempAnsString = curlyMain;
+    }
     setUserAns(tempAnsString);
     set_answer(tempAnsString);
+
+    // Cleanup
+    mainCurlyBraces = [];
+    powerExists = false;
   }, [mainAns, powerAns]);
 
   return (

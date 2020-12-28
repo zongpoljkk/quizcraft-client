@@ -77,9 +77,6 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const handleFirstClick = () => {
-    console.log("CLICK");
-    console.log(solution);
-    console.log(staticSolution);
     if (solution.length === staticSolution.length) {
     } else {
       console.log("ELSE");
