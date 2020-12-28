@@ -14,41 +14,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   const [powerAns, setPowerAns] = useState("");
   const [userAns, setUserAns] = useState([]);
 
-  const checkMathInput = () => {
-    // console.log(correct_answer);
-    // // console.log(answer);
-    // let base;
-    // let exponent;
-    // if (document.getElementById("answerBox_2")) {
-    //   // There are curly braces in this math expression
-    //   // answerBox_0 and answerBox_2 are curly braces
-    //   base =
-    //     "(" +
-    //     document.getElementById("answerBox_1").getElementsByTagName("input")[0]
-    //       .value +
-    //     ")";
-    //   exponent = document
-    //     .getElementById("answerBox_3")
-    //     .getElementsByTagName("input")[0].value;
-    // } else {
-    //   base = document
-    //     .getElementById("answerBox_0")
-    //     .getElementsByTagName("input")[0].value;
-    //   exponent = document
-    //     .getElementById("answerBox_1")
-    //     .getElementsByTagName("input")[0].value;
-    // }
-    // console.log(base);
-    // console.log(exponent);
-    // exponent = "[" + exponent + "]";
-    // // set_answer(base.toString());
-    // let tempAns = [];
-    // tempAns = [...tempAns, base];
-    // tempAns = [...tempAns, exponent];
-    // const mathAns = tempAns.join("^");
-    // set_answer(mathAns);
-  };
-
   const outputBoxes = (item) => {
     if (item.type === "(" && item.last_type === "main") {
       if (mainCurlyBraces.length === 0) {
