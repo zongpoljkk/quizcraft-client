@@ -14,11 +14,11 @@ import GameContent from "../../components/GameContent";
 import { HeadlineItem } from "./component/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { 
+import {
   useGetAmountOfItems,
   useGetHintByProblemId,
   useGetEachProblem,
-  useItem
+  useItem,
 } from "./QuizGameHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
@@ -53,8 +53,8 @@ const QuizGame = ({ history }) => {
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
   const user_id = localStorage.getItem("userId");
-  
-  const { 
+
+  const {
     getEachProblem,
     loading,
     problem_id,
@@ -71,17 +71,15 @@ const QuizGame = ({ history }) => {
     location.state.difficulty
   );
 
-  const {
-    getHintByProblemId,
-    hint,
-    set_hint
-  } = useGetHintByProblemId(problem_id);
+  const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
+    problem_id
+  );
 
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
-    amount_of_refreshs
+    amount_of_refreshs,
   } = useGetAmountOfItems(user_id);
 
   const { putUseItem } = useItem(user_id);
@@ -89,7 +87,7 @@ const QuizGame = ({ history }) => {
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
     getEachProblem(set_skip);
-    set_current_index((index) => index+1);
+    set_current_index((index) => index + 1);
     set_problem_id();
     set_hint();
   };
@@ -198,7 +196,7 @@ const QuizGame = ({ history }) => {
                 current_index={current_index}
               />
             </Headline>
-            <HeadlineItem 
+            <HeadlineItem
               onGetHint={() => {
                 getHintByProblemId();
                 if (!hint) {
@@ -208,12 +206,11 @@ const QuizGame = ({ history }) => {
               hintContent={hint}
               skip={skip}
               onSkip={() => {
-                if(current_index < NUMBER_OF_QUIZ) {
+                if (current_index < NUMBER_OF_QUIZ) {
                   putUseItem("Skip");
                   onSkip();
                   reset();
-                }
-                else {
+                } else {
                   // TODO: push to result page and check with empty answer
                   putUseItem("Skip");
                   history.push("/result-page");
@@ -255,6 +252,15 @@ const QuizGame = ({ history }) => {
                   }}
                 >
                   <GameContent
+                    type={answer_type}
+                    correct_answer={correct_answer}
+                    question={body}
+                    choices={choices}
+                    content={body}
+                    answer={answer}
+                    set_answer={set_answer}
+                  />
+                  {/* <GameContent
                     // type={answer_type}
                     type={TYPE_ANSWER}
                     correct_answer={correct_answer}
@@ -266,7 +272,7 @@ const QuizGame = ({ history }) => {
                     content={CONTENT3}
                     answer={answer}
                     set_answer={set_answer}
-                  />
+                  /> */}
                 </ContentContainer>
                 <CenterContainer>
                   <Button
