@@ -53,6 +53,7 @@ const QuizGame = ({ history }) => {
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
   const user_id = localStorage.getItem("userId");
+  const [correct, set_correct] = useState(false);
 
   const {
     getEachProblem,
@@ -65,7 +66,7 @@ const QuizGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetEachProblem(
-    USER_ID,
+    user_id,
     location.state.subject_name,
     location.state.subtopic_name,
     location.state.difficulty
@@ -135,6 +136,8 @@ const QuizGame = ({ history }) => {
         topic,
         subtopic
       ).then((res) => {
+        console.log(res);
+        set_correct(res.data.correct);
         if (current_index === 10) {
           history.push({
             pathname: "/" + subject + "/" + topic,
