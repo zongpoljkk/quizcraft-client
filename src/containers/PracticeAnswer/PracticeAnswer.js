@@ -30,11 +30,6 @@ const TITLE = {
   INCORRECT: "คำตอบที่ถูกต้องคือ",
 };
 
-const MOCKDATA = {
-  STATIC_SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
-  SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
-};
-
 const PracticeAnswer = ({ history }) => {
   const [correct, set_correct] = useState(true);
   // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
@@ -83,24 +78,13 @@ const PracticeAnswer = ({ history }) => {
       if (!firstClick) {
         setFirstClick(true);
       }
-      // if (firstClick === false) {
-      //   setFirstClick(true);
-      // }
-      // else {
       // Get first value that is not already in solution
       const nextVal = staticSolution.filter((sol) => {
         return !solution.includes(sol);
       });
-      // const copySol = [...solution];
-      // solution.push(nextVal);
-      // copySol.push(nextVal[0]);
       let tmpSol = solution.slice();
-      const newLine = "= " + nextVal[0];
       tmpSol.push(nextVal[0]);
       set_solution([...tmpSol]);
-      // set_solution([...copySol]);
-      // }
-      // set_solution(stringToArrayOfString(solution));
     }
   };
 
@@ -111,12 +95,7 @@ const PracticeAnswer = ({ history }) => {
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
     // set_static_solution(location.state.solution.split("\\n"));
     set_static_solution(location.state.solution.split(/[\r\n]+/));
-    set_solution(
-      // stringToArrayOfString(solution.split("\\n")[0])
-      // stringToArrayOfString(solution.split("\\n")[0])
-      // stringToArrayOfString(solution)
-      []
-    );
+    set_solution([]);
     setIsLoading(false);
   }, []);
 
@@ -187,11 +166,9 @@ const PracticeAnswer = ({ history }) => {
       minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
     >
       <Background answer={correct} />
-      {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
       <CenterDiv
         style={{ marginTop: 32, marginBottom: 16, position: "relative" }}
       >
-        {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
         <Sign answer={correct} />
       </CenterDiv>
       <CenterDiv>
