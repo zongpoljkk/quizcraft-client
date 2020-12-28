@@ -90,12 +90,18 @@ const PracticeGame = ({ history }) => {
       const base = document
         .getElementById("answerBox_0")
         .getElementsByTagName("input")[0].value;
-      const exponent = document
+      let exponent = document
         .getElementById("answerBox_1")
         .getElementsByTagName("input")[0].value;
       console.log(base);
       console.log(exponent);
-      set_answer(base.toString());
+      exponent = "[" + exponent + "]";
+      // set_answer(base.toString());
+      let tempAns = [];
+      tempAns = [...tempAns, base];
+      tempAns = [...tempAns, exponent];
+      const mathAns = tempAns.join("^");
+      set_answer(mathAns);
     }
   };
 
@@ -151,8 +157,8 @@ const PracticeGame = ({ history }) => {
   useEffect(() => {
     if (answer !== "") {
       handleCheckAnswerClick(
-        PROBLEM_ID,
-        // problem_id,
+        // PROBLEM_ID,
+        problem_id,
         localStorage.getItem("userId"),
         answer,
         time,

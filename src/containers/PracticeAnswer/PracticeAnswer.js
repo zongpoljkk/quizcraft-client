@@ -41,11 +41,11 @@ const PracticeAnswer = ({ history }) => {
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
   // So you can always refer to this state
-  const [staticSolution, set_static_solution] = useState(MOCKDATA.STATIC_SOL);
+  const [staticSolution, set_static_solution] = useState("");
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState(MOCKDATA.SOL);
+  const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -77,30 +77,54 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const handleFirstClick = () => {
+    console.log("CLICK");
+    console.log(solution);
+    console.log(staticSolution);
     if (solution.length === staticSolution.length) {
     } else {
+      console.log("ELSE");
       if (!firstClick) {
         setFirstClick(true);
-      } else {
-        // Get first value that is not already in solution
-        const nextVal = staticSolution.filter((sol) => {
-          return !solution.includes(sol);
-        });
-        set_solution([...solution, nextVal[0]]);
       }
+      // if (firstClick === false) {
+      //   setFirstClick(true);
+      // }
+      // else {
+      // Get first value that is not already in solution
+      const nextVal = staticSolution.filter((sol) => {
+        return !solution.includes(sol);
+      });
+      // const copySol = [...solution];
+      // solution.push(nextVal);
+      // copySol.push(nextVal[0]);
+      let tmpSol = solution.slice();
+      const newLine = "= " + nextVal[0];
+      tmpSol.push(nextVal[0]);
+      set_solution([...tmpSol]);
+      // set_solution([...copySol]);
+      // }
+      // set_solution(stringToArrayOfString(solution));
     }
   };
 
   useEffect(() => {
+    console.log(location.state);
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
-    set_static_solution(location.state.solution.split("\\n"));
+    // set_static_solution(location.state.solution.split("\\n"));
+    set_static_solution(location.state.solution.split(/[\r\n]+/));
     set_solution(
-      stringToArrayOfString(location.state.solution.split("\\n")[0])
+      // stringToArrayOfString(solution.split("\\n")[0])
+      // stringToArrayOfString(solution.split("\\n")[0])
+      // stringToArrayOfString(solution)
+      []
     );
     setIsLoading(false);
   }, []);
+
+  // rerender when solution change
+  useEffect(() => {}, [solution]);
 
   const { height, width: screen_width } = useWindowDimensions();
 
@@ -183,11 +207,14 @@ const PracticeAnswer = ({ history }) => {
       {firstClick ? (
         <SolutionDiv>
           <ul style={{ listStyle: "none", padding: 0 }}>
-            {solution.map((line) => {
+            {solution.map((line, i) => {
               // TODO: Replace Math.random() with solution.id after it has one
               return (
                 <li key={Math.random()}>
-                  <Solution answer={correct}>{line}</Solution>
+                  <Solution answer={correct}>
+                    {i > 0 ? "= " : null}
+                    {line}
+                  </Solution>
                 </li>
               );
             })}
