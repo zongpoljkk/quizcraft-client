@@ -36,7 +36,7 @@ const ITEM_USAGE = {
 const PROBLEM_ID = "5fce5e62f329e3f7f295d364";
 // const USER_ID = "5fd560243de6aaa3c97aa72b";
 const USER_ANSWER = "16^1";
-const TOPIC = "เลขยกกำลัง";
+// const TOPIC = "เลขยกกำลัง";
 const SUBTOPIC = "การดำเนินการของเลขยกกำลัง";
 
 const CONTENT3 =
@@ -61,7 +61,7 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetProblemForUser(
-    USER_ID,
+    localStorage.getItem("userId"),
     location.state.subject_name,
     location.state.subtopic_name,
     location.state.difficulty
@@ -170,21 +170,20 @@ const PracticeGame = ({ history }) => {
     getProblemForUser();
   }, []);
 
-  useEffect(() => {
-    if (answer !== "") {
-      handleCheckAnswerClick(
-        // PROBLEM_ID,
-        problem_id,
-        localStorage.getItem("userId"),
-        answer,
-        time,
-        location.state.subject_name,
-        TOPIC,
-        location.state.subtopic_name,
-        location.state.difficulty
-      );
-    }
-  }, [answer]);
+  // useEffect(() => {
+  //   if (answer !== "") {
+  //     handleCheckAnswerClick(
+  //       problem_id,
+  //       localStorage.getItem("userId"),
+  //       answer,
+  //       time,
+  //       location.state.subject_name,
+  //       location.state.topic_name,
+  //       location.state.subtopic_name,
+  //       location.state.difficulty
+  //     );
+  //   }
+  // }, [answer]);
 
   return (
     <Container>
@@ -273,20 +272,20 @@ const PracticeGame = ({ history }) => {
                   <Button
                     type={answer ? "default" : "disabled"}
                     onClick={() => {
-                      setTime(getTime());
-                      checkMathInput(answer_type);
-
-                      // handleCheckAnswerClick(
-                      //   PROBLEM_ID,
-                      //   // problem_id,
-                      //   localStorage.getItem("userId"),
-                      //   answer,
-                      //   getTime(),
-                      //   location.state.subject_name,
-                      //   TOPIC,
-                      // location.state.subtopic_name,
-                      // location.state.difficulty
-                      // );
+                      // setTime(getTime());
+                      // if (location.state.subject_name === "คณิตศาสตร์") {
+                      //   checkMathInput(answer_type);
+                      // }
+                      handleCheckAnswerClick(
+                        problem_id,
+                        localStorage.getItem("userId"),
+                        answer,
+                        getTime(),
+                        location.state.subject_name,
+                        location.state.topic_name,
+                        location.state.subtopic_name,
+                        location.state.difficulty
+                      );
                     }}
                   >
                     ตรวจ

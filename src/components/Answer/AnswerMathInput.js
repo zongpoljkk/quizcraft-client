@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Header } from "../Typography";
@@ -6,9 +6,53 @@ import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 
+let mainCurlyBraces = [];
+
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
+  const [mainAns, setMainAns] = useState("");
+  const [powerAns, setPowerAns] = useState("");
+  const [userAns, setUserAns] = useState([]);
+
+  const checkMathInput = () => {
+    // console.log(correct_answer);
+    // // console.log(answer);
+    // let base;
+    // let exponent;
+    // if (document.getElementById("answerBox_2")) {
+    //   // There are curly braces in this math expression
+    //   // answerBox_0 and answerBox_2 are curly braces
+    //   base =
+    //     "(" +
+    //     document.getElementById("answerBox_1").getElementsByTagName("input")[0]
+    //       .value +
+    //     ")";
+    //   exponent = document
+    //     .getElementById("answerBox_3")
+    //     .getElementsByTagName("input")[0].value;
+    // } else {
+    //   base = document
+    //     .getElementById("answerBox_0")
+    //     .getElementsByTagName("input")[0].value;
+    //   exponent = document
+    //     .getElementById("answerBox_1")
+    //     .getElementsByTagName("input")[0].value;
+    // }
+    // console.log(base);
+    // console.log(exponent);
+    // exponent = "[" + exponent + "]";
+    // // set_answer(base.toString());
+    // let tempAns = [];
+    // tempAns = [...tempAns, base];
+    // tempAns = [...tempAns, exponent];
+    // const mathAns = tempAns.join("^");
+    // set_answer(mathAns);
+  };
+
   const outputBoxes = (item) => {
     if (item.type === "(" && item.last_type === "main") {
+      if (mainCurlyBraces.length === 0) {
+        mainCurlyBraces.push("(");
+      }
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
@@ -21,7 +65,12 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </div>
       );
     } else if (item.type === "power") {
-      return <PowerInputAnswer width={item.width} />;
+      return (
+        <PowerInputAnswer
+          width={item.width}
+          onChange={(e) => setPowerAns(e.target.value)}
+        />
+      );
     } else if (item.type === ")" && item.last_type === "main") {
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
@@ -35,9 +84,26 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </div>
       );
     } else {
-      return <MainInputAnswer width={item.width} />;
+      return (
+        <MainInputAnswer
+          width={item.width}
+          onChange={(e) => setMainAns(e.target.value)}
+        />
+      );
     }
   };
+
+  useEffect(() => {
+    let tempAns;
+    if (mainCurlyBraces.length > 0) {
+      tempAns = ["(" + mainAns + ")", "[" + powerAns + "]"];
+    } else {
+      tempAns = [mainAns, "[" + powerAns + "]"];
+    }
+    const tempAnsString = tempAns.join("^");
+    setUserAns(tempAnsString);
+    set_answer(tempAnsString);
+  }, [mainAns, powerAns]);
 
   return (
     <Container>
