@@ -87,12 +87,28 @@ const PracticeGame = ({ history }) => {
     console.log(correct_answer);
     // console.log(answer);
     if (answer_type === ANSWER_TYPE.MATH_INPUT) {
-      const base = document
-        .getElementById("answerBox_0")
-        .getElementsByTagName("input")[0].value;
-      let exponent = document
-        .getElementById("answerBox_1")
-        .getElementsByTagName("input")[0].value;
+      let base;
+      let exponent;
+      if (document.getElementById("answerBox_2")) {
+        // There are curly braces in this math expression
+        // answerBox_0 and answerBox_2 are curly braces
+        base =
+          "(" +
+          document
+            .getElementById("answerBox_1")
+            .getElementsByTagName("input")[0].value +
+          ")";
+        exponent = document
+          .getElementById("answerBox_3")
+          .getElementsByTagName("input")[0].value;
+      } else {
+        base = document
+          .getElementById("answerBox_0")
+          .getElementsByTagName("input")[0].value;
+        exponent = document
+          .getElementById("answerBox_1")
+          .getElementsByTagName("input")[0].value;
+      }
       console.log(base);
       console.log(exponent);
       exponent = "[" + exponent + "]";

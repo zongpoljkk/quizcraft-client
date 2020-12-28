@@ -208,7 +208,7 @@ const PracticeAnswer = ({ history }) => {
         <SolutionDiv>
           <ul style={{ listStyle: "none", padding: 0 }}>
             {solution.map((line, i) => {
-              // TODO: Replace Math.random() with solution.id after it has one
+              // TODO: Replace Math.random() with line.id after it has one
               return (
                 <li key={Math.random()}>
                   <Solution answer={correct}>
@@ -253,9 +253,9 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 64px auto 104px auto;
-  height: 160px;
-  overflow: scroll;
+  margin: 0px auto 104px auto;
+  /* height: 160px; */
+  overflow: visible;
 `;
 
 const GreetingDiv = styled.div`
