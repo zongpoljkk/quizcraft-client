@@ -127,7 +127,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
           >
             {user_info.itemInfos?.map((item, index) => (
               <div key={index} style={{ marginRight: index === user_info.itemInfos.length-1 ? null : 16 }}>
-                <Item icon={item.icon} amount={item.amount}/>
+                <Item icon={item.image} amount={item.amount}/>
               </div>
             ))}
           </ItemContainer>
