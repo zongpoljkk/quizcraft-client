@@ -47,8 +47,9 @@ const TYPE_ANSWER = "RADIO_CHOICE";
 
 const PracticeGame = ({ history }) => {
   const location = useLocation();
-  const [answer, set_answer] = useState();
+  const [answer, set_answer] = useState("");
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
+  const [time, setTime] = useState(0);
 
   const {
     getProblemForUser,
@@ -82,7 +83,23 @@ const PracticeGame = ({ history }) => {
     });
   };
 
-  const handleCheckAnswerClick = (
+  const checkMathInput = (answer_type) => {
+    console.log(correct_answer);
+    // console.log(answer);
+    if (answer_type === ANSWER_TYPE.MATH_INPUT) {
+      const base = document
+        .getElementById("answerBox_0")
+        .getElementsByTagName("input")[0].value;
+      const exponent = document
+        .getElementById("answerBox_1")
+        .getElementsByTagName("input")[0].value;
+      console.log(base);
+      console.log(exponent);
+      set_answer(base.toString());
+    }
+  };
+
+  const handleCheckAnswerClick = async (
     problemId,
     userId,
     userAnswer,
@@ -92,6 +109,7 @@ const PracticeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
+    console.log(userAnswer);
     getAndCheckAnswer(
       problemId,
       userId,
@@ -126,8 +144,25 @@ const PracticeGame = ({ history }) => {
   };
 
   useEffect(() => {
+    console.log(location.state);
     getProblemForUser();
   }, []);
+
+  useEffect(() => {
+    if (answer !== "") {
+      handleCheckAnswerClick(
+        PROBLEM_ID,
+        // problem_id,
+        localStorage.getItem("userId"),
+        answer,
+        time,
+        location.state.subject_name,
+        TOPIC,
+        location.state.subtopic_name,
+        location.state.difficulty
+      );
+    }
+  }, [answer]);
 
   return (
     <Container>
@@ -193,7 +228,7 @@ const PracticeGame = ({ history }) => {
                         : "flex-start",
                   }}
                 >
-                  {/* <GameContent
+                  <GameContent
                     type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
@@ -201,8 +236,8 @@ const PracticeGame = ({ history }) => {
                     content={body}
                     answer={answer}
                     set_answer={set_answer}
-                  /> */}
-                  <GameContent
+                  />
+                  {/* <GameContent
                     type={TYPE_ANSWER}
                     correct_answer={correct_answer}
                     question={QUESTION4}
@@ -210,23 +245,27 @@ const PracticeGame = ({ history }) => {
                     content={CONTENT3}
                     answer={answer}
                     set_answer={set_answer}
-                  />
+                  /> */}
                 </ContentContainer>
                 <ButtonContainer>
                   <Button
                     type={answer ? "default" : "disabled"}
-                    onClick={() =>
-                      handleCheckAnswerClick(
-                        PROBLEM_ID,
-                        USER_ID,
-                        USER_ANSWER,
-                        getTime(),
-                        location.state.subject_name,
-                        TOPIC,
-                        location.state.subtopic_name,
-                        location.state.difficulty
-                      )
-                    }
+                    onClick={() => {
+                      setTime(getTime());
+                      checkMathInput(answer_type);
+
+                      // handleCheckAnswerClick(
+                      //   PROBLEM_ID,
+                      //   // problem_id,
+                      //   localStorage.getItem("userId"),
+                      //   answer,
+                      //   getTime(),
+                      //   location.state.subject_name,
+                      //   TOPIC,
+                      // location.state.subtopic_name,
+                      // location.state.difficulty
+                      // );
+                    }}
                   >
                     ตรวจ
                   </Button>

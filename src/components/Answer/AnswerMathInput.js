@@ -2,60 +2,47 @@ import React from "react";
 import styled from "styled-components";
 
 import { Header } from "../Typography";
-import { COLOR } from "../../global/const"
+import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 
-export const AnswerMathInput = ({
-  correct_answer = '',
-  set_answer
-}) => {
-
+export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   const outputBoxes = (item) => {
-    if(item.type === "(" && item.last_type === "main") {
+    if (item.type === "(" && item.last_type === "main") {
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
         </div>
       );
-    }
-    else if(item.type === "(" && item.last_type === "power") {
+    } else if (item.type === "(" && item.last_type === "power") {
       return (
         <div style={{ marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
         </div>
       );
-    }
-    else if(item.type === "power") {
-      return (
-        <PowerInputAnswer width={item.width}/>
-      );
-    }
-    else if(item.type === ")" && item.last_type === "main") {
+    } else if (item.type === "power") {
+      return <PowerInputAnswer width={item.width} />;
+    } else if (item.type === ")" && item.last_type === "main") {
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>)</Header>
         </div>
       );
-    }
-    else if(item.type === ")" && item.last_type === "power") {
+    } else if (item.type === ")" && item.last_type === "power") {
       return (
         <div style={{ marginLeft: 4, marginRight: 4 }}>
           <Header>)</Header>
         </div>
       );
-    }
-    else {
-      return (
-        <MainInputAnswer width={item.width}/>
-      );
+    } else {
+      return <MainInputAnswer width={item.width} />;
     }
   };
 
-  return ( 
+  return (
     <Container>
       {mathAnswerBox(correct_answer).map((box, i) => (
-        <div key={i}>
+        <div key={i} id={`answerBox_${i}`}>
           {outputBoxes(box)}
         </div>
       ))}
@@ -71,7 +58,7 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-const MainInputAnswer = styled.input.attrs(props => ({
+const MainInputAnswer = styled.input.attrs((props) => ({
   type: "text",
   width: props.width || 36,
 }))`
@@ -79,7 +66,7 @@ const MainInputAnswer = styled.input.attrs(props => ({
   border-radius: 10px;
   outline: none;
   height: 36px;
-  width: ${props => props.width}px;
+  width: ${(props) => props.width}px;
   margin-top: 36px;
   margin-bottom: 12px;
   font-family: Prompt, sans-serif;
@@ -92,7 +79,7 @@ const MainInputAnswer = styled.input.attrs(props => ({
   }
 `;
 
-const PowerInputAnswer = styled.input.attrs(props => ({
+const PowerInputAnswer = styled.input.attrs((props) => ({
   type: "text",
   width: props.width || 36,
 }))`
@@ -100,7 +87,7 @@ const PowerInputAnswer = styled.input.attrs(props => ({
   border-radius: 10px;
   outline: none;
   height: 36px;
-  width: ${props => props.width}px;
+  width: ${(props) => props.width}px;
   font-family: Prompt, sans-serif;
   font-weight: 500;
   font-size: 20px;

@@ -1,44 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { AnswerMathInput } from "./Answer/AnswerMathInput";
 import { AnswerSelectOne } from "./Answer/AnswerSelectOne";
 import { AnswerRadioChoice } from "./Answer/AnswerRadioChoice";
 
-import { ANSWER_TYPE } from "../global/const"
+import { ANSWER_TYPE } from "../global/const";
 
 const GameContent = ({
   type,
-  correct_answer='',
-  content='',
-  question='',
-  choices={},
+  correct_answer = "",
+  content = "",
+  question = "",
+  choices = {},
   answer,
-  set_answer
+  set_answer,
 }) => {
+  const checkMathInput = () => {
+    console.log(correct_answer);
+    // console.log(answer);
+    if (type === ANSWER_TYPE.MATH_INPUT) {
+      const base = document
+        .getElementById("answerBox_0")
+        .getElementsByTagName("input")[0].value;
+      const exponent = document
+        .getElementById("answerBox_1")
+        .getElementsByTagName("input")[0].value;
+      console.log(base);
+      console.log(exponent);
+    }
+  };
 
-  return ( 
+  useEffect(() => {
+  });
+
+  return (
     <Container>
-      { type === ANSWER_TYPE.MATH_INPUT &&
+      {type === ANSWER_TYPE.MATH_INPUT && (
         <AnswerMathInput
           correct_answer={correct_answer}
           set_answer={set_answer}
         />
-      }
-      { type === ANSWER_TYPE.SELECT_ONE &&
-        <AnswerSelectOne
-          content={content}
-          set_answer={set_answer}
-        />
-      }
-      { type === ANSWER_TYPE.RADIO_CHOICE &&
+      )}
+      {type === ANSWER_TYPE.SELECT_ONE && (
+        <AnswerSelectOne content={content} set_answer={set_answer} />
+      )}
+      {type === ANSWER_TYPE.RADIO_CHOICE && (
         <AnswerRadioChoice
           question={question}
-          choices = {choices}
+          choices={choices}
           set_answer={set_answer}
           answer={answer}
         />
-      }
+      )}
     </Container>
   );
 };
