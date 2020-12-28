@@ -60,7 +60,7 @@ export const useGetHintByProblemId = (problemId) => {
     }
   };
 
-  return { getHintByProblemId, hint };
+  return { getHintByProblemId, hint, set_hint };
 };
 
 export const useGetEachProblem = (
@@ -107,15 +107,54 @@ export const useGetEachProblem = (
     }
   };
 
-  return {
-    getEachProblem,
-    loading,
-    problem_id,
-    set_problem_id,
-    body,
-    answer_type,
-    title,
-    correct_answer,
-    choices,
+  return { getEachProblem, loading, problem_id, set_problem_id, body, answer_type, title, correct_answer, choices };
+};
+
+export const useGetAmountOfItems = (user_id) => {
+  const [amount_of_hints, set_amount_of_hints] = useState(0);
+  const [amount_of_skips, set_amount_of_skips] = useState(0);
+  const [amount_of_refreshs, set_amount_of_refreshs] = useState(0);
+
+  const getAmountOfItems = async () => {
+    try {
+      const response = await axios.get(backend+"user/get-amount-of-items", {
+        params: {
+          userId: user_id
+        }
+      });
+      if (response.data) {
+        set_amount_of_hints(response.data.hint);
+        set_amount_of_skips(response.data.skip);
+        set_amount_of_refreshs(response.data.refresh);
+      } else {
+        console.log("getAmountOfItems Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about get amount of items :(");
+    }
   };
+
+  return { getAmountOfItems, amount_of_hints, amount_of_skips, amount_of_refreshs };
+};
+
+export const useItem = (user_id) => {
+  
+  const putUseItem = async (item_name) => {
+    try {
+      const response = await axios.put(backend+"user/used-item", {
+        userId: user_id,
+        itemName: item_name
+      });
+      const { success, data } = response.data;
+      if (success) {
+        console.log("used",item_name);
+      } else {
+        console.log("putUseItem Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about use items :(");
+    }
+  };
+
+  return { putUseItem };
 };

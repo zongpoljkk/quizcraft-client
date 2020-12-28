@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 
@@ -41,7 +39,6 @@ const App = () => {
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    console.log(localStorage.getItem("token"));
   };
 
   const getUserData = async () => {
@@ -53,12 +50,19 @@ const App = () => {
       });
       const { success, data } = response.data;
       if (success) {
-        set_user_info(data);
+        set_user_info(data[0]);
       } else {
         console.log("getUserInfo Error");
       }
-    } catch (e) {
-      console.log("There are something wrong about get user infomation :(");
+    } catch (error) {
+      if(error.response.status === 401){
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        window.location.pathname = "/";
+      }
+      else{
+        console.log("There are something wrong about get user infomation :(");
+      }
     }
   };
 
@@ -70,7 +74,9 @@ const App = () => {
 
   return (
     <Router>
-      {localStorage.getItem("userId") && <Navbar user_info={user_info} />}
+      {localStorage.getItem("userId") && user_info &&(
+        <Navbar user_info={user_info}/>
+      )}
       <Page>
         <Switch>
           <PrivateRoute
@@ -105,9 +111,8 @@ const App = () => {
           <PrivateRoute exact path="/topic">
             <TopicPage />
           </PrivateRoute>
-          {/* <PrivateRoute exact path="/profile" getUserData={getUserData}> */}
-          <PrivateRoute exact path="/profile">
-            <ProfilePage handleLogout={handleLogout} />
+          <PrivateRoute exact path="/profile" getUserData={getUserData}>
+            <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
           {/* <PrivateRoute exact path="/edit-username" getUserData={getUserData}> */}
           <PrivateRoute exact path="/edit-username">

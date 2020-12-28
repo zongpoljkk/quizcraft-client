@@ -4,13 +4,12 @@ import styled from "styled-components";
 import { HintItem } from "../../../components/HintItem";
 import { ItemCard } from "../../../components/ItemCard";
 import { LottieFile } from "../../../components/LottieFile";
+import { Subheader } from "../../../components/Typography";
 
 import skip_icon from "../../../assets/icon/skip.png";
 import skip_data from "../../../assets/lottie/skip.json";
 import refresh_icon from "../../../assets/icon/refresh.png";
 import refresh_data from "../../../assets/lottie/refresh.json";
-
-import { COLOR } from "../../../global/const"
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -25,16 +24,21 @@ export const HeadlineItem = ({
   onSkip,
   refresh,
   onRefresh,
+  amount_of_hints,
+  amount_of_skips,
+  amount_of_refreshs,
+  getNewAmount,
   children
 }) => {
 
   return (
-    <ItemHeadline>
-      <HintItem onGetHint={onGetHint} content={hintContent}/>
-      <ItemCard>
+    <ItemHeadline onChange={getNewAmount()}>
+      <HintItem amount_of_hints={amount_of_hints} onGetHint={onGetHint} content={hintContent}/>
+      <ItemCard disable={(amount_of_skips === 0 || skip === ITEM_USAGE.USED) ? true : false}>
         {skip === ITEM_USAGE.UN_USE && (
-          <CenterContainer onClick={onSkip}>
-            <img src={skip_icon} height={22}/>
+          <CenterContainer onClick={amount_of_skips === 0 ? null : onSkip}>
+            <ItemIcon src={skip_icon}/>
+            <Subheader>{amount_of_skips}</Subheader>
           </CenterContainer>
         )}
         {skip === ITEM_USAGE.IN_USE && (
@@ -46,15 +50,16 @@ export const HeadlineItem = ({
         )}
         {skip === ITEM_USAGE.USED && (
           <CenterContainer>
-            <img src={skip_icon} height={22}/>
-            <DisableItem />
+            <ItemIcon src={skip_icon}/>
+            <Subheader>{amount_of_skips}</Subheader>
           </CenterContainer>
         )}
       </ItemCard>
-      <ItemCard>
+      <ItemCard disable={(amount_of_refreshs === 0 || refresh === ITEM_USAGE.USED)? true : false}>
         {refresh === ITEM_USAGE.UN_USE && (
-          <CenterContainer onClick={onRefresh}>
-            <img src={refresh_icon} height={22}/>
+          <CenterContainer onClick={amount_of_refreshs === 0 ? null : onRefresh}>
+            <ItemIcon src={refresh_icon} marginRight={8}/>
+            <Subheader>{amount_of_refreshs}</Subheader>
           </CenterContainer>
         )}
         {refresh === ITEM_USAGE.IN_USE && 
@@ -62,8 +67,8 @@ export const HeadlineItem = ({
         }
         {refresh === ITEM_USAGE.USED && (
           <CenterContainer>
-            <img src={refresh_icon} height={22}/>
-            <DisableItem />
+            <ItemIcon src={refresh_icon} marginRight={8}/>
+            <Subheader>{amount_of_refreshs}</Subheader>
           </CenterContainer>
         )}
       </ItemCard>
@@ -84,6 +89,14 @@ const ItemHeadline = styled.div`
 const CenterContainer = styled.div`
   display: flex;
   justify-content: center;
+  line-height: 22px;
+`;
+
+const ItemIcon = styled.img.attrs(props => ({
+  marginRight: props.marginRight || 4
+}))`
+  height: 22px;
+  margin-right: ${props => props.marginRight}px;
 `;
 
 const SkipContainer = styled.div`
@@ -93,15 +106,4 @@ const SkipContainer = styled.div`
 
 const ZoomItem = styled.div`
   transform: scale(1.7);
-`;
-
-const DisableItem = styled.div`
-  display: flex;
-  background-color: ${COLOR.BLACK};
-  opacity: 0.3;
-  height: 32px;
-  width: 56px;
-  border-radius: 4px;
-  position: absolute;
-  margin-top: -5px;
 `;

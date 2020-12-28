@@ -14,7 +14,12 @@ import GameContent from "../../components/GameContent";
 import { HeadlineItem } from "./component/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { useGetHintByProblemId, useGetEachProblem } from "./QuizGameHelper";
+import { 
+  useGetAmountOfItems,
+  useGetHintByProblemId,
+  useGetEachProblem,
+  useItem
+} from "./QuizGameHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
 
@@ -47,8 +52,9 @@ const QuizGame = ({ history }) => {
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
-
-  const {
+  const user_id = localStorage.getItem("userId");
+  
+  const { 
     getEachProblem,
     loading,
     problem_id,
@@ -64,17 +70,35 @@ const QuizGame = ({ history }) => {
     location.state.subtopic_name,
     location.state.difficulty
   );
-  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
+
+  const {
+    getHintByProblemId,
+    hint,
+    set_hint
+  } = useGetHintByProblemId(problem_id);
+
+  const {
+    getAmountOfItems,
+    amount_of_hints,
+    amount_of_skips,
+    amount_of_refreshs
+  } = useGetAmountOfItems(user_id);
+
+  const { putUseItem } = useItem(user_id);
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
     getEachProblem(set_skip);
-    set_current_index((index) => index + 1);
+    set_current_index((index) => index+1);
+    set_problem_id();
+    set_hint();
   };
 
   const onRefresh = () => {
     set_refresh(ITEM_USAGE.IN_USE);
     getEachProblem(set_refresh);
+    set_problem_id();
+    set_hint();
   };
 
   const onExit = (subject_name, topic_name) => {
@@ -143,7 +167,12 @@ const QuizGame = ({ history }) => {
     }
   };
 
+  const getNewAmount = () => {
+    getAmountOfItems();
+  };
+
   useEffect(() => {
+    getAmountOfItems();
     getEachProblem();
   }, []);
 
@@ -169,21 +198,37 @@ const QuizGame = ({ history }) => {
                 current_index={current_index}
               />
             </Headline>
-            <HeadlineItem
-              onGetHint={() => getHintByProblemId()}
+            <HeadlineItem 
+              onGetHint={() => {
+                getHintByProblemId();
+                if (!hint) {
+                  putUseItem("Hint");
+                }
+              }}
               hintContent={hint}
               skip={skip}
               onSkip={() => {
-                onSkip();
-                reset();
-                set_problem_id();
+                if(current_index < NUMBER_OF_QUIZ) {
+                  putUseItem("Skip");
+                  onSkip();
+                  reset();
+                }
+                else {
+                  // TODO: push to result page and check with empty answer
+                  putUseItem("Skip");
+                  history.push("/result-page");
+                }
               }}
               refresh={refresh}
               onRefresh={() => {
+                putUseItem("Refresh");
                 onRefresh();
                 reset();
-                set_problem_id();
               }}
+              amount_of_hints={amount_of_hints}
+              amount_of_skips={amount_of_skips}
+              amount_of_refreshs={amount_of_refreshs}
+              getNewAmount={getNewAmount}
             >
               <TimeContainer>
                 <Body color={COLOR.MANDARIN}>
@@ -256,6 +301,7 @@ const QuizGame = ({ history }) => {
                       onNext();
                       reset();
                       set_problem_id();
+                      set_hint();
                     }}
                   />
                 </CenterContainer>
