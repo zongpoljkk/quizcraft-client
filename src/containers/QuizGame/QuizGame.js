@@ -276,7 +276,7 @@ const QuizGame = ({ history }) => {
                       stop();
                       onCheck(
                         problem_id,
-                        USER_ID,
+                        localStorage.getItem("userId"),
                         answer,
                         getTime(),
                         location.state.subject_name,
