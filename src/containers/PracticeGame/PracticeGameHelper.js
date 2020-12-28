@@ -8,17 +8,17 @@ export const useGetHintByProblemId = (problemId) => {
 
   const getHintByProblemId = async () => {
     try {
-      const response = await axios.get(backend+"hint/get-hint/", {
+      const response = await axios.get(backend + "hint/get-hint/", {
         params: {
-          problemId: problemId
-        }
+          problemId: problemId,
+        },
       });
       const { success, data } = response.data;
       if (success) {
         set_hint(data.body);
       } else {
         console.log("getHintByProblemId Error");
-      } 
+      }
     } catch (e) {
       console.log("There are something wrong about get hint :(");
     }
@@ -27,6 +27,41 @@ export const useGetHintByProblemId = (problemId) => {
   return { getHintByProblemId, hint };
 };
 
+export const getAndCheckAnswer = async (
+  problemId,
+  userId,
+  userAnswer,
+  userTime,
+  topic,
+  subtopic
+) => {
+  try {
+    const url = `${backend}problem/get-and-check-answer`;
+    const data = {
+      problemId: problemId,
+      userId: userId,
+      userAnswer: userAnswer,
+      userTime: userTime,
+      topic: topic,
+      subtopic: subtopic,
+    };
+    const options = {
+      method: "POST",
+      url: url,
+      headers: { "content-type": "application/json" },
+      data: JSON.stringify(data),
+      // headers: { "content-type": "application/x-www-form-urlencoded" },
+      // params: params,
+    };
+    const response = await axios(options);
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.error("Unable to get and check answer and update difficulty index");
+  }
+  return Promise.reject(new Error("getAndCheckAnswer"));
+};
 export const useGetProblemForUser = (user_id, subject, subtopic_name, difficulty) => {
   const [loading, set_loading] = useState(true);
   const [problem_id, set_problem_id] = useState();

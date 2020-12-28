@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 // Components
-// import CenterDiv from "../../components/CenterDiv/CenterDiv";
 import {
   Container,
   correct_background_color,
@@ -15,14 +15,7 @@ import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
 
 // Media
-import Correct_Backward from "../../assets/Correct_Backward.png";
-import Correct_Forward from "../../assets/Correct_Forward.png";
-import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
-import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 import coin_data from "../../assets/lottie/coin.json";
-
-// Helper
-import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -42,18 +35,93 @@ const MOCKDATA = {
   SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
 };
 
-const PracticeAnswer = () => {
+const PracticeAnswer = ({ history }) => {
   const [correct, set_correct] = useState(true);
   // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
   // So you can always refer to this state
-  const [staticSolution, set_static_solution] = useState(MOCKDATA.STATIC_SOL);
+  const [staticSolution, set_static_solution] = useState("");
   // solution is an array of string. Each string represents one line of solution
   // At first, the array will have just one string but after forward click, we'll
   // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState(MOCKDATA.SOL);
+  const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const location = useLocation();
+
+  const stringToArrayOfString = (v) => [].concat(v).map((name) => name);
+
+  const handleNextButtonClick = () => {
+    history.push({
+      pathname:
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.topic +
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.difficulty +
+        "/practice-game",
+      state: {
+        userId: location.state.userId,
+        problemId: location.state.problemId,
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+        subtopic_name: location.state.subtopic,
+        difficulty: location.state.difficulty,
+      },
+    });
+  };
+
+  const handleFirstClick = () => {
+    if (solution.length === staticSolution.length) {
+    } else {
+      console.log("ELSE");
+      if (!firstClick) {
+        setFirstClick(true);
+      }
+      // if (firstClick === false) {
+      //   setFirstClick(true);
+      // }
+      // else {
+      // Get first value that is not already in solution
+      const nextVal = staticSolution.filter((sol) => {
+        return !solution.includes(sol);
+      });
+      // const copySol = [...solution];
+      // solution.push(nextVal);
+      // copySol.push(nextVal[0]);
+      let tmpSol = solution.slice();
+      const newLine = "= " + nextVal[0];
+      tmpSol.push(nextVal[0]);
+      set_solution([...tmpSol]);
+      // set_solution([...copySol]);
+      // }
+      // set_solution(stringToArrayOfString(solution));
+    }
+  };
+
+  useEffect(() => {
+    console.log(location.state);
+    setIsLoading(true);
+    set_correct(location.state.correct);
+    set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
+    // set_static_solution(location.state.solution.split("\\n"));
+    set_static_solution(location.state.solution.split(/[\r\n]+/));
+    set_solution(
+      // stringToArrayOfString(solution.split("\\n")[0])
+      // stringToArrayOfString(solution.split("\\n")[0])
+      // stringToArrayOfString(solution)
+      []
+    );
+    setIsLoading(false);
+  }, []);
+
+  // rerender when solution change
+  useEffect(() => {}, [solution]);
 
   const { height, width: screen_width } = useWindowDimensions();
 
@@ -90,7 +158,7 @@ const PracticeAnswer = () => {
     if (firstClick) {
       if (solution.length === staticSolution.length) {
         return (
-          <ShiftDiv>
+          <ShiftDiv style={{ zIndex: "1" }}>
             <div style={{ marginTop: "20px" }}>
               <Button
                 type="custom"
@@ -99,56 +167,18 @@ const PracticeAnswer = () => {
                 backgroundColor={
                   correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
                 }
+                onClick={() => handleNextButtonClick()}
               >
                 ทำต่อ
               </Button>
             </div>
           </ShiftDiv>
         );
-      } else {
-        if (correct) {
-          return (
-            <ShiftDiv>
-              <ShiftLeft
-                src={Correct_Backward}
-                onClick={() => backward(solution)}
-              />
-              <ShiftRight
-                src={Correct_Forward}
-                onClick={() => forward(solution, staticSolution)}
-              />
-            </ShiftDiv>
-          );
-        } else {
-          return (
-            <ShiftDiv>
-              <ShiftLeft
-                src={Incorrect_Backward}
-                onClick={() => backward(solution)}
-              />
-              <ShiftRight
-                src={Incorrect_Forward}
-                onClick={() => forward(solution, staticSolution)}
-              />
-            </ShiftDiv>
-          );
-        }
       }
     } else {
       return <ShiftDiv></ShiftDiv>;
     }
   };
-
-  const handleFirstClick = () => {
-    setFirstClick(true);
-  };
-
-  useEffect(() => {
-    // TODO: Get the solution and store each line in staticSolution
-    //   axios.get().then((res) => {
-    //       setStaticSolution(res)
-    //     })
-  });
 
   return (
     <Container
@@ -158,7 +188,9 @@ const PracticeAnswer = () => {
     >
       <Background answer={correct} />
       {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
-      <CenterDiv style={{ marginTop: 32, marginBottom: 16, position: "relative" }}>
+      <CenterDiv
+        style={{ marginTop: 32, marginBottom: 16, position: "relative" }}
+      >
         {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
         <Sign answer={correct} />
       </CenterDiv>
@@ -172,11 +204,14 @@ const PracticeAnswer = () => {
       {firstClick ? (
         <SolutionDiv>
           <ul style={{ listStyle: "none", padding: 0 }}>
-            {solution.map((line) => {
-              // TODO: Replace Math.random() with solution.id after it has one
+            {solution.map((line, i) => {
+              // TODO: Replace Math.random() with line.id after it has one
               return (
                 <li key={Math.random()}>
-                  <Solution answer={correct}>{line}</Solution>
+                  <Solution answer={correct}>
+                    {i > 0 ? "= " : null}
+                    {line}
+                  </Solution>
                 </li>
               );
             })}
@@ -191,7 +226,7 @@ const PracticeAnswer = () => {
       {arrowHolder()}
 
       <ReportContainer>
-        <Report correct={correct}/>
+        <Report correct={correct} />
       </ReportContainer>
     </Container>
   );
@@ -206,6 +241,7 @@ const Background = styled.div`
   left: 0px;
   position: fixed;
   overflow-y: scroll;
+  z-index: 0;
 `;
 
 const CenterDiv = styled.div`
@@ -214,9 +250,9 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 64px auto 104px auto;
-  height: 160px;
-  overflow: scroll;
+  margin: 0px auto 104px auto;
+  /* height: 160px; */
+  overflow: visible;
 `;
 
 const GreetingDiv = styled.div`
@@ -249,4 +285,4 @@ const ReportContainer = styled.div`
   justify-content: flex-start;
 `;
 
-export default PracticeAnswer;
+export default withRouter(PracticeAnswer);

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
 
 import { PrivateRoute } from "./route/PrivateRoute";
@@ -55,12 +52,11 @@ const App = () => {
         console.log("getUserInfo Error");
       }
     } catch (error) {
-      if(error.response.status === 401){
+      if (error.response.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         window.location.pathname = "/";
-      }
-      else{
+      } else {
         console.log("There are something wrong about get user infomation :(");
       }
     }
@@ -74,58 +70,53 @@ const App = () => {
 
   return (
     <Router>
-      {localStorage.getItem("userId") && user_info &&(
-        <Navbar user_info={user_info}/>
+      {localStorage.getItem("userId") && user_info && (
+        <Navbar user_info={user_info} />
       )}
       <Page>
         <Switch>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game"
-            // getUserData={getUserData}
           >
             <PracticeGame />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
-            // getUserData={getUserData}
           >
             <PracticeAnswer />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
-            // getUserData={getUserData}
           >
             <QuizGame />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          {/* <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}> */}
           <PrivateRoute exact path="/:subject/:topic">
             <SubtopicPage />
           </PrivateRoute>
-          {/* <PrivateRoute exact path="/topic" getUserData={getUserData}> */}
-          <PrivateRoute exact path="/topic">
+          <PrivateRoute exact path="/homepage">
+            <Homepage />
+          </PrivateRoute>
+          <PrivateRoute path="/:topic">
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
-          {/* <PrivateRoute exact path="/edit-username" getUserData={getUserData}> */}
           <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
           </PrivateRoute>
-          {/* <PrivateRoute exact path="/homepage" getUserData={getUserData}> */}
-          <PrivateRoute exact path="/homepage">
+          {/* <PrivateRoute exact path="/homepage">
             <Homepage />
-          </PrivateRoute>
+          </PrivateRoute> */}
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
-          {/* <PrivateRoute path="*" getUserData={getUserData}> */}
           <PrivateRoute path="*">
             <ErrorPage />
           </PrivateRoute>

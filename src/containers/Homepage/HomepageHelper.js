@@ -1,9 +1,9 @@
 import axios from "axios";
-import { API_HOST } from "../../global/const";
+import backend from "../../ip";
 
 export const getSubjects = async () => {
   try {
-    const res = await axios.get(`${API_HOST}/api/subtopic/get-all-subjects`);
+    const res = await axios.get(`${backend}subtopic/get-all-subjects`);
     if (res.status === 200) {
       return res.data;
     }
@@ -12,4 +12,3 @@ export const getSubjects = async () => {
   }
   return Promise.reject(new Error("getSubjects"));
 };
-

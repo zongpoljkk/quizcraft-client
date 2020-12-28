@@ -16,7 +16,7 @@ export const COLOR = {
   TRINIDAD: "#D24C2B",
   SILVER: "#BFC0C0",
   SILVER_OPACITY_30: "#ECEDED",
-  SHADOW: "#D9D9D9"
+  SHADOW: "#D9D9D9",
 };
 
 export const SIZE = {
@@ -27,31 +27,31 @@ export const SIZE = {
 export const MODE = {
   PRACTICE: {
     type: "ฝึกซ้อม",
-    icon: practice
+    icon: practice,
   },
   QUIZ: {
     type: "ทดสอบ",
-    icon: quiz
+    icon: quiz,
   },
   CHALLENGE: {
     type: "ท้าทาย",
-    icon: challenge
-  }
+    icon: challenge,
+  },
 };
 
 export const DIFFICULTY = {
   EASY: {
     type: "EASY",
-    icon: level_easy
+    icon: level_easy,
   },
   MEDIUM: {
     type: "MEDIUM",
-    icon: level_medium
+    icon: level_medium,
   },
   HARD: {
     type: "HARD",
-    icon: level_hard
-  }
+    icon: level_hard,
+  },
 };
 
 export const ANSWER_TYPE = {
