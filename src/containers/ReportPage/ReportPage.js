@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import styled from "styled-components";
 
 import { Header, Subheader } from "../../components/Typography";
@@ -14,11 +14,17 @@ const PROBLEM_TITLE = "จงทำเลขยกกำลังต่อไป
 const PROBLEM_CONTENT = "g^[14]*g^[-34]*g^[36]*g^[-16]"
 
 const ReportPage = () => {
+  const ref = useRef(null);
+  const [container_width, set_container_width] = useState();
   const [report_problem, set_report_problem] = useState();
   const [etc_problem, set_etc_problem] = useState();
+
+  useEffect(() => {
+    set_container_width(ref.current ? ref.current.offsetWidth : 0);
+  }, [ref.current]);
   
   return ( 
-    <Container>
+    <Container ref={ref}>
       <CenterContainer>
         <Header> รายงาน </Header>
       </CenterContainer>
@@ -35,7 +41,7 @@ const ReportPage = () => {
         <Subheader> ปัญหาที่พบ </Subheader>
       </div>
       {Object.entries(REPORT).map(([report_key, report_value]) => (
-        <div style={{marginBottom: "4px"}}>
+        <div style={{marginLeft: "8px", marginBottom: "4px"}}>
           <RadioButton
             key = {report_key}
             value={report_problem} 
@@ -45,12 +51,14 @@ const ReportPage = () => {
         </div>
       ))}
       {report_problem === REPORT.ETC &&
-        <TextField 
-          height="36"
-          value={etc_problem}
-          onChange={e => set_etc_problem(e.target.value)}
-          placeholder="ปัญหาที่พบ"
-        />
+        <TextfieldContainer width={container_width-32}>
+          <TextField 
+            height="36"
+            value={etc_problem}
+            onChange={e => set_etc_problem(e.target.value)}
+            placeholder="ปัญหาที่พบ"
+          />
+        </TextfieldContainer>
       }
       <CenterContainer marginTop="36">
         <Button type={((report_problem && report_problem !== REPORT.ETC) || (report_problem === REPORT.ETC && etc_problem)) ? "default" : "disabled"}>
@@ -73,6 +81,16 @@ const CenterContainer = styled.div.attrs(props => ({
   display: flex;
   justify-content: center;
   margin-top: ${props => props.marginTop}px;
+`;
+
+const TextfieldContainer = styled.div.attrs(props => ({
+  width: props.width
+}))`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: ${props => props.width}px;
+  margin-left: 32px;
 `;
 
 
