@@ -5,6 +5,7 @@ import qs from 'query-string'
 import axios from 'axios'
 
 import backend from '../../ip';
+import LoadingPage from '../LoadingPage/LoadingPage';
 
 const OAuthRedirectPage = () => {
   const params = qs.parse(window.location.search);
@@ -39,7 +40,7 @@ const OAuthRedirectPage = () => {
     redirectAPI()
   }, [])
 
-  return null
+  return <LoadingPage />
 ;}
 
 

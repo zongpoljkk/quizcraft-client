@@ -22,6 +22,7 @@ import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 import QuizGame from "./containers/QuizGame/QuizGame";
 import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage"
+import ReportPage from "./containers/ReportPage/ReportPage"
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
@@ -71,7 +72,7 @@ const App = () => {
       getUserData();
     }
   }, []);
-
+  
   return (
     <Router>
       {localStorage.getItem("userId") && user_info &&(
@@ -117,6 +118,9 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/challenge-result" getUserData={getUserData}>
             <ChallengeResultPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
+            <ReportPage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage />
