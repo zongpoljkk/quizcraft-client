@@ -123,7 +123,7 @@ const App = () => {
             <ReportPage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage />
+            <Homepage user_id={user_id}/>
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
