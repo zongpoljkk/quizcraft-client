@@ -14,12 +14,10 @@ import close_icon from "../assets/icon/close.png";
 
 //MOCK DATA
 const USERNAME = "pimkunut_tee";
-const OPPONENT_USERNAME = "nnnnnnuttt98";
+const OPPONENT_USERNAME = "jinjin";
 const PROFILE_IMG = "";
 const OPPONENT_PROFILE_IMG = "";
-
 export const ChallengeModal = () => {
-
   const {isShowing, toggle} = useModal();
   const list = {
     hidden: {
@@ -138,7 +136,8 @@ const UserImg = styled.div.attrs(props => ({
 const CropText = styled.div`
   overflow: hidden; 
   white-space: nowrap; 
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+  text-align: center; 
   width: 105px; 
 `;
 
