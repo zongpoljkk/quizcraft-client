@@ -30,7 +30,9 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
   USED: "USED",
 };
-const NUMBER_OF_QUIZ = 5;
+const NUMBER_OF_QUIZ = 3;
+
+const QUIZ_MODE = "quiz";
 
 const QuizGame = ({ history }) => {
   const location = useLocation();
@@ -47,6 +49,10 @@ const QuizGame = ({ history }) => {
   const [score, set_score] = useState(0);
   const [earned_exp, set_earned_exp] = useState(0);
   const [earned_coins, set_earned_coins] = useState(0);
+
+  let send_score = 0;
+  let send_exp = 0;
+  let send_coin = 0;
 
   const {
     getEachProblem,
@@ -124,7 +130,8 @@ const QuizGame = ({ history }) => {
         getTime / 1000,
         subject,
         topic,
-        subtopic
+        subtopic,
+        QUIZ_MODE
       ).then((res) => {
         console.log(res);
 
@@ -137,6 +144,9 @@ const QuizGame = ({ history }) => {
         set_earned_coins(
           correct ? earned_coins + res.data.earned_coins : earned_coins
         );
+        send_score = score + 1;
+        send_exp = earned_exp + 1;
+        send_coin = earned_coins + 1;
         toggle();
       });
     }
@@ -162,9 +172,9 @@ const QuizGame = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
-          score: score,
-          earned_exp: earned_exp,
-          earned_coins: earned_coins,
+          score: send_score,
+          earned_exp: send_exp,
+          earned_coins: send_coin,
         },
       });
     } else {

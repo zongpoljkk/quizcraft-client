@@ -9,7 +9,8 @@ export const getAndCheckAnswer = async (
   userTime,
   subject,
   topic,
-  subtopic
+  subtopic,
+  mode
 ) => {
   try {
     const url = `${backend}problem/get-and-check-answer`;
@@ -20,7 +21,8 @@ export const getAndCheckAnswer = async (
       userTime: userTime,
       subject: subject,
       topic: topic,
-      subtopic: "subtopic",
+      subtopic: subtopic,
+      mode: mode,
     };
     console.log(data);
     const options = {
@@ -107,7 +109,17 @@ export const useGetEachProblem = (
     }
   };
 
-  return { getEachProblem, loading, problem_id, set_problem_id, body, answer_type, title, correct_answer, choices };
+  return {
+    getEachProblem,
+    loading,
+    problem_id,
+    set_problem_id,
+    body,
+    answer_type,
+    title,
+    correct_answer,
+    choices,
+  };
 };
 
 export const useGetAmountOfItems = (user_id) => {
@@ -117,10 +129,10 @@ export const useGetAmountOfItems = (user_id) => {
 
   const getAmountOfItems = async () => {
     try {
-      const response = await axios.get(backend+"user/get-amount-of-items", {
+      const response = await axios.get(backend + "user/get-amount-of-items", {
         params: {
-          userId: user_id
-        }
+          userId: user_id,
+        },
       });
       if (response.data) {
         set_amount_of_hints(response.data.hint);
@@ -128,29 +140,33 @@ export const useGetAmountOfItems = (user_id) => {
         set_amount_of_refreshs(response.data.refresh);
       } else {
         console.log("getAmountOfItems Error");
-      } 
+      }
     } catch (e) {
       console.log("There are something wrong about get amount of items :(");
     }
   };
 
-  return { getAmountOfItems, amount_of_hints, amount_of_skips, amount_of_refreshs };
+  return {
+    getAmountOfItems,
+    amount_of_hints,
+    amount_of_skips,
+    amount_of_refreshs,
+  };
 };
 
 export const useItem = (user_id) => {
-  
   const putUseItem = async (item_name) => {
     try {
-      const response = await axios.put(backend+"user/used-item", {
+      const response = await axios.put(backend + "user/used-item", {
         userId: user_id,
-        itemName: item_name
+        itemName: item_name,
       });
       const { success, data } = response.data;
       if (success) {
-        console.log("used",item_name);
+        console.log("used", item_name);
       } else {
         console.log("putUseItem Error");
-      } 
+      }
     } catch (e) {
       console.log("There are something wrong about use items :(");
     }
