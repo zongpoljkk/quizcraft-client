@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -31,25 +31,36 @@ const QuizResultPage = ({ history }) => {
 
   const location = useLocation();
 
-  const handleOnPlayAgain = () => {
+  const handleOnPlayAgain = (history) => {
     history.push({
       pathname:
-        location.state.selected_topic_name +
         "/" +
-        location.state.selected_subtopic_name +
+        location.state.subject +
         "/" +
-        location.state.selected_difficulty +
+        location.state.topic +
+        "/" +
+        location.state.subtopic +
+        "/" +
+        location.state.difficulty +
         "/quiz-game",
       state: {
-        topic_name: location.state.selected_topic_name,
-        subtopic_name: location.state.selected_subtopic_name,
-        difficulty: location.state.selected_difficulty,
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+        subtopic_name: location.state.subtopic,
+        difficulty: location.state.difficulty,
       },
     });
   };
 
-  const handleExit = () => {
+  const handleExit = (history) => {
     // TODO: Return to "Select Mode Page"
+    history.push({
+      pathname: "/" + location.state.subject + "/" + location.state.topic,
+      state: {
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+      },
+    });
   };
 
   useEffect(() => {
@@ -109,10 +120,10 @@ const QuizResultPage = ({ history }) => {
         variants={variants}
         transition={{ delay: 3 }}
       >
-        <Button type="outline" onClick={handleExit}>
+        <Button type="outline" onClick={() => handleExit(history)}>
           ออก
         </Button>
-        <Button onClick={handleOnPlayAgain}>เล่นอีกครั้ง</Button>
+        <Button onClick={() => handleOnPlayAgain(history)}>เล่นอีกครั้ง</Button>
       </ButtonDiv>
     </Container>
   );
@@ -158,4 +169,4 @@ const ButtonDiv = styled(motion.div)`
   width: 100%;
 `;
 
-export default QuizResultPage;
+export default withRouter(QuizResultPage);

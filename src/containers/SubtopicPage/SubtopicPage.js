@@ -14,7 +14,6 @@ const SubtopicPage = () => {
   );
 
   useEffect(() => {
-    console.log(location.state);
     getSubtopicName();
   }, []);
 
