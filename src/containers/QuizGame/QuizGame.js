@@ -50,10 +50,6 @@ const QuizGame = ({ history }) => {
   const [earned_exp, set_earned_exp] = useState(0);
   const [earned_coins, set_earned_coins] = useState(0);
 
-  let send_score = 0;
-  let send_exp = 0;
-  let send_coin = 0;
-
   const {
     getEachProblem,
     loading,
@@ -133,20 +129,19 @@ const QuizGame = ({ history }) => {
         subtopic,
         QUIZ_MODE
       ).then((res) => {
-        console.log(res);
+        console.log(res.data);
 
         //update earned exp and coins
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
         set_solution(res.data.solution);
-        set_score(correct ? score + 1 : score);
-        set_earned_exp(correct ? earned_exp + res.data.earned_exp : earned_exp);
-        set_earned_coins(
-          correct ? earned_coins + res.data.earned_coins : earned_coins
-        );
-        send_score = score + 1;
-        send_exp = earned_exp + 1;
-        send_coin = earned_coins + 1;
+        if (res.data.correct) {
+          set_score((score) => score + 1);
+          set_earned_exp((earned_exp) => earned_exp + res.data.earned_exp);
+          set_earned_coins(
+            (earned_coins) => earned_coins + res.data.earned_coins
+          );
+        }
         toggle();
       });
     }
@@ -172,9 +167,9 @@ const QuizGame = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
-          score: send_score,
-          earned_exp: send_exp,
-          earned_coins: send_coin,
+          score: score,
+          earned_exp: earned_exp,
+          earned_coins: earned_coins,
         },
       });
     } else {
@@ -280,19 +275,6 @@ const QuizGame = ({ history }) => {
                     answer={user_answer}
                     set_answer={set_user_answer}
                   />
-                  {/* <GameContent
-                    // type={answer_type}
-                    type={TYPE_ANSWER}
-                    correct_answer={correct_answer}
-                    // question={body}
-                    question={QUESTION4}
-                    // choices={choices}
-                    choices={CHOICES1}
-                    // content={body}
-                    content={CONTENT3}
-                    answer={answer}
-                    set_answer={set_answer}
-                  /> */}
                 </ContentContainer>
                 <CenterContainer>
                   <Button
