@@ -19,6 +19,9 @@ const OPPONENT_USERNAME = "jinjin";
 const OPPONENT_SCORE = "2";
 const OPPONENT_RESULT = [1, 0, 1, 0, 0];
 
+//CONSTANT
+const NUMBER_OF_PROBLEM = 5;
+
 const ChallengeResultPage = () => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
@@ -124,7 +127,7 @@ const ChallengeResultPage = () => {
             />
           ))}
           <motion.div 
-            custom={9} 
+            custom={NUMBER_OF_PROBLEM+4} 
             variants={variants} 
           >
             <Header props color = {COLOR.MANDARIN}>{SCORE}</Header> 
@@ -140,7 +143,7 @@ const ChallengeResultPage = () => {
             />
           ))}
           <motion.div 
-            custom={9} 
+            custom={NUMBER_OF_PROBLEM+4} 
             variants={variants} 
           >
             <Header props color = {COLOR.MANDARIN}>{OPPONENT_SCORE}</Header>  
