@@ -24,7 +24,6 @@ export const getAndCheckAnswer = async (
       subtopic: subtopic,
       mode: mode,
     };
-    console.log(data);
     const options = {
       method: "POST",
       url: url,
