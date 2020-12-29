@@ -25,24 +25,12 @@ import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 import { getAndCheckAnswer } from "./QuizGameHelper";
 
-// MOCK DATA
-const CORRECT = false;
-const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-const USER_ID = "5fe1c049e301922c4f2fc0dd";
-
-// MOCK CHOICES
-const CONTENT3 =
-  "You can only join the football team if you can stay late on [Mondays.&Fridays.]";
-const QUESTION4 = "[] should be more than 200 words.";
-const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
-const TYPE_ANSWER = "RADIO_CHOICE";
-
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
   USED: "USED",
 };
-const NUMBER_OF_QUIZ = 10;
+const NUMBER_OF_QUIZ = 1;
 
 const QuizGame = ({ history }) => {
   const location = useLocation();
@@ -140,28 +128,34 @@ const QuizGame = ({ history }) => {
         set_answer_key(res.data.answer);
         set_solution(res.data.solution);
         toggle();
-        if (current_index === 10) {
-          history.push({
-            pathname: "/" + subject + "/" + topic,
-            // state: {
-            //   problemId: problemId,
-            //   userId: userId,
-            //   correct: res.data.correct,
-            //   solution: res.data.solution,
-            //   subject: subject,
-            //   topic: topic,
-            //   subtopic: subtopic,
-            //   difficulty: difficulty,
-            // },
-          });
-        }
       });
     }
   };
 
-  const onNext = () => {
+  const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
       // TODO: push to result page
+      set_current_index(1);
+      set_user_answer();
+      history.push({
+        pathname:
+          "/" +
+          subject +
+          "/" +
+          topic +
+          "/" +
+          subtopic +
+          "/" +
+          difficulty +
+          "/quiz-result",
+        state: {
+          userId: userId,
+          subject: subject,
+          topic: topic,
+          subtopic: subtopic,
+          difficulty: difficulty,
+        },
+      });
     } else {
       set_current_index((index) => index + 1);
       set_user_answer();
@@ -309,7 +303,13 @@ const QuizGame = ({ history }) => {
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }
                     onButtonClick={() => {
-                      onNext();
+                      onNext(
+                        user_id,
+                        location.state.subject_name,
+                        location.state.topic_name,
+                        location.state.subtopic_name,
+                        location.state.difficulty
+                      );
                       reset();
                       set_problem_id();
                       set_hint();

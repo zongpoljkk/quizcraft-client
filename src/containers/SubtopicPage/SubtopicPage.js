@@ -14,13 +14,14 @@ const SubtopicPage = () => {
   );
 
   useEffect(() => {
+    console.log(location.state);
     getSubtopicName();
   }, []);
 
   return (
     <React.Fragment>
       {loading ? (
-        <LoadingPage/>
+        <LoadingPage />
       ) : (
         <Container>
           <TopicStyle>
