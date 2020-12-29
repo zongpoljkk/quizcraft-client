@@ -70,7 +70,7 @@ const ChallengeResultPage = () => {
           <Header>สรุปผลคะแนน</Header>
         </div>
       </motion.div>
-      <UserInfoContainer>
+      <UserInfoContainer justifyContent={container_width > 411 ? "center": "space-between"}>
         <UserInfo>
           <UserImg
             custom={1} 
@@ -88,7 +88,8 @@ const ChallengeResultPage = () => {
         </UserInfo>
         <motion.div
           custom={1} 
-          variants={variants} 
+          variants={variants}
+          style={container_width > 411 ? {marginLeft:"55px", marginRight: "55px"} : {}}
         >
           <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
         </ motion.div>
@@ -111,8 +112,9 @@ const ChallengeResultPage = () => {
       <ScoreBoxContainer 
         custom={3} 
         variants={variants}
+        justifyContent={container_width > 411 ? "center": "space-between"}
       >
-        <ScoreBox>
+        <ScoreBox marginRight={container_width > 411 ? "135" : "0"}>
           {RESULT.map((result, index)=> (
             <Icon
               key={index}
@@ -155,18 +157,20 @@ const Container = styled(motion.div)`
   flex-direction: column;
 `;
 
-const UserInfoContainer = styled.div`
+const UserInfoContainer = styled.div.attrs(props => ({
+  justifyContent: props.justifyContent
+}))`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-top: 16px;
+  justify-content: ${props => props.justifyContent};
 `;
 
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 110px;
+  width: 120px;
 `;
 
 const UserImg = styled(motion.div).attrs(props => ({
@@ -179,17 +183,22 @@ const UserImg = styled(motion.div).attrs(props => ({
   margin-bottom: 8px;
 `;
 
-const ScoreBoxContainer = styled(motion.div)`
+const ScoreBoxContainer = styled(motion.div).attrs(props => ({
+  justifyContent: props.justifyContent
+}))`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => props.justifyContent};
 `;
 
-const ScoreBox = styled.div`
+const ScoreBox = styled(motion.div).attrs(props => ({
+  marginRight: props.marginRight
+}))`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 24px;
+  margin-right: ${props => props.marginRight}px;
   padding: 32px 40px 32px 40px;
   background-color: ${COLOR.ISLAND_SPICE};
   border-radius: 10px;

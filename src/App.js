@@ -72,7 +72,7 @@ const App = () => {
       getUserData();
     }
   }, []);
-  
+
   return (
     <Router>
       {localStorage.getItem("userId") && user_info &&(
