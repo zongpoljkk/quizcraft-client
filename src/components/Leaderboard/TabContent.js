@@ -11,13 +11,13 @@ export const TabContent = ({
   return(  
     <Container>
       {Object.entries(data).map((user, i) => (
-        <InfoBox key={i} backgroundColor={index === i ? COLOR.MANDARIN : null}>
+        <InfoBox key={i} backgroundColor={(index-1) === i ? COLOR.MANDARIN : null}>
           <Body>{i+1}</Body>
           <UserImg backgroundColor={user[1].profile_image ? null : COLOR.ISLAND_SPICE}>
             {user[1].profile_image ? <img src={user[1].profile_image}/> : null}
           </UserImg>
           <Body>{user[1].username}</Body>
-          <LevelText color={index === i ? COLOR.ISLAND_SPICE : COLOR.GOLDEN_TAINOI}> Lv.{user[1].levels}</LevelText>
+          <LevelText color={(index-1) === i ? COLOR.ISLAND_SPICE : COLOR.GOLDEN_TAINOI}> Lv.{user[1].level}</LevelText>
         </InfoBox>
       ))}
     </Container>

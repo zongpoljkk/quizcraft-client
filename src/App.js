@@ -18,6 +18,7 @@ import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 import QuizGame from "./containers/QuizGame/QuizGame";
+import ReportPage from "./containers/ReportPage/ReportPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
@@ -99,8 +100,11 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic">
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage">
-            <Homepage />
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
+            <ReportPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+            <Homepage user_id={user_id} />
           </PrivateRoute>
           <PrivateRoute path="/:topic">
             <TopicPage />
@@ -111,9 +115,6 @@ const App = () => {
           <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
           </PrivateRoute>
-          {/* <PrivateRoute exact path="/homepage">
-            <Homepage />
-          </PrivateRoute> */}
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>

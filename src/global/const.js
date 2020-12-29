@@ -71,3 +71,12 @@ export const RANK = {
   SILVER: "SILVER",
   GOLD: "GOLD",
 };
+
+export const REPORT = {
+  WRONG_DIFFICULTY: "โจทย์ระดับความยากไม่ถูกต้อง",
+  NOT_CLEAR: "โจทย์คลุมเครือ",
+  NO_ANSWER: "ไม่สามารถหาคำตอบได้",
+  WRONG_ANSWER: "เฉลยคำตอบไม่ถูกต้อง",
+  WRONG_SOLUTION: "เฉลยวิธีทำไม่ถูกต้อง",
+  ETC: "อื่น ๆ",
+}
