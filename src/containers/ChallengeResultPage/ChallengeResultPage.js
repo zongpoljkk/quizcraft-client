@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { Header,Subheader, Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
-import correct_icon from "../../assets/icon/correct.png";
-import incorrect_icon from "../../assets/icon/incorrect.png";
+import correct_icon from "../../assets/icon/success.png";
+import incorrect_icon from "../../assets/icon/fail.png";
 import { motion } from "framer-motion";
 
 import { COLOR } from "../../global/const"
@@ -15,7 +15,7 @@ const USERNAME = "pimkunut_tee"
 const SCORE = "3";
 const RESULT = [1, 1, 0, 1, 0];
 const OPPONENT_PROFILE_IMG = "";
-const OPPONENT_USERNAME = "nnut98";
+const OPPONENT_USERNAME = "jinjin";
 const OPPONENT_SCORE = "2";
 const OPPONENT_RESULT = [1, 0, 1, 0, 0];
 
@@ -34,21 +34,16 @@ const ChallengeResultPage = () => {
       opacity: 1,
       transition: {
         when: "beforeChildren",
-        staggerChildren: 0.85
+        staggerChildren: 0.5
       }
     }
-  };
-
-  const item = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
   };
 
   const variants = {
     visible: index => ({
       opacity: 1,
       transition: {
-        delay: (index+3.25) * 0.75,
+        delay: index * 0.75,
       },
     }),
     hidden: { opacity: 0 },
@@ -66,7 +61,8 @@ const ChallengeResultPage = () => {
       ref={ref}
     >
       <motion.div
-        variants={item} 
+        custom={0} 
+        variants={variants} 
         style={{display: "flex", alignItems: "center"}}
       >
         <ExitModal />
@@ -74,33 +70,59 @@ const ChallengeResultPage = () => {
           <Header>สรุปผลคะแนน</Header>
         </div>
       </motion.div>
-      <UserInfoContainer variants={item}>
+      <UserInfoContainer>
         <UserInfo>
-          <UserImg backgroundColor={PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
+          <UserImg
+            custom={1} 
+            variants={variants}  
+            backgroundColor={PROFILE_IMG ? null : COLOR.ISLAND_SPICE}
+          >
               {PROFILE_IMG ? <img src={PROFILE_IMG}/> : null}
           </UserImg>
-          <Body> {USERNAME} </Body>
+          <motion.div
+            custom={2} 
+            variants={variants} 
+          >
+            <Body> {USERNAME} </Body>
+          </motion.div>
         </UserInfo>
-        <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
+        <motion.div
+          custom={1} 
+          variants={variants} 
+        >
+          <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
+        </ motion.div>
         <UserInfo>
-          <UserImg backgroundColor={OPPONENT_PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
+          <UserImg
+            custom={1} 
+            variants={variants}   
+            backgroundColor={OPPONENT_PROFILE_IMG ? null : COLOR.ISLAND_SPICE}
+          >
               {OPPONENT_PROFILE_IMG ? <img src={OPPONENT_PROFILE_IMG}/> : null}
           </UserImg>
-          <Body> {OPPONENT_USERNAME} </Body>
+          <motion.div
+            custom={2} 
+            variants={variants} 
+          >
+            <Body> {OPPONENT_USERNAME} </Body>
+          </motion.div>
         </UserInfo>
       </UserInfoContainer>
-      <ScoreBoxContainer variants={item}>
+      <ScoreBoxContainer 
+        custom={3} 
+        variants={variants}
+      >
         <ScoreBox>
           {RESULT.map((result, index)=> (
             <Icon
               key={index}
-              custom={index} 
+              custom={index+4} 
               variants={variants}
               src={result ? correct_icon: incorrect_icon}
             />
           ))}
           <motion.div 
-            custom={5} 
+            custom={9} 
             variants={variants} 
           >
             <Header props color = {COLOR.MANDARIN}>{SCORE}</Header> 
@@ -110,13 +132,13 @@ const ChallengeResultPage = () => {
           {OPPONENT_RESULT.map((result, index)=> (
             <Icon
               key={index}
-              custom={index} 
+              custom={index+4} 
               variants={variants} 
               src={result ? correct_icon: incorrect_icon}
             />
           ))}
           <motion.div 
-            custom={5} 
+            custom={9} 
             variants={variants} 
           >
             <Header props color = {COLOR.MANDARIN}>{OPPONENT_SCORE}</Header>  
@@ -133,7 +155,7 @@ const Container = styled(motion.div)`
   flex-direction: column;
 `;
 
-const UserInfoContainer = styled(motion.div)`
+const UserInfoContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,9 +166,10 @@ const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 110px;
 `;
 
-const UserImg = styled.div.attrs(props => ({
+const UserImg = styled(motion.div).attrs(props => ({
   backgroundColor: props.backgroundColor
 }))`
   background-color: ${props => props.backgroundColor};
@@ -161,7 +184,7 @@ const ScoreBoxContainer = styled(motion.div)`
   justify-content: space-between;
 `;
 
-const ScoreBox = styled(motion.div)`
+const ScoreBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
