@@ -48,12 +48,14 @@ const QuizGame = ({ history }) => {
   const location = useLocation();
   const { isShowing, toggle } = useModal();
   const [used_time, set_used_time] = useState();
-  const [answer, set_answer] = useState();
+  const [user_answer, set_user_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
   const user_id = localStorage.getItem("userId");
   const [correct, set_correct] = useState(false);
+  const [solution, set_solution] = useState("");
+  const [answer_key, set_answer_key] = useState("");
 
   const {
     getEachProblem,
@@ -120,10 +122,7 @@ const QuizGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log("KAOO");
-    if (answer) {
-      console.log("MEE ANSWER");
-      toggle();
+    if (user_answer) {
       // TODO: connect API check answer
       set_used_time(getTime / 1000);
 
@@ -138,6 +137,9 @@ const QuizGame = ({ history }) => {
       ).then((res) => {
         console.log(res);
         set_correct(res.data.correct);
+        set_answer_key(res.data.answer);
+        set_solution(res.data.solution);
+        toggle();
         if (current_index === 10) {
           history.push({
             pathname: "/" + subject + "/" + topic,
@@ -162,7 +164,7 @@ const QuizGame = ({ history }) => {
       // TODO: push to result page
     } else {
       set_current_index((index) => index + 1);
-      set_answer();
+      set_user_answer();
       getEachProblem();
       // TODO: check amount of item -> set item
     }
@@ -260,8 +262,8 @@ const QuizGame = ({ history }) => {
                     question={body}
                     choices={choices}
                     content={body}
-                    answer={answer}
-                    set_answer={set_answer}
+                    answer={user_answer}
+                    set_answer={set_user_answer}
                   />
                   {/* <GameContent
                     // type={answer_type}
@@ -279,14 +281,14 @@ const QuizGame = ({ history }) => {
                 </ContentContainer>
                 <CenterContainer>
                   <Button
-                    type={answer ? "default" : "disabled"}
+                    type={user_answer ? "default" : "disabled"}
                     onClick={() => {
                       set_used_time(getTime() / 1000);
                       stop();
                       onCheck(
                         problem_id,
                         localStorage.getItem("userId"),
-                        answer,
+                        user_answer,
                         getTime(),
                         location.state.subject_name,
                         location.state.topic_name,
@@ -301,8 +303,8 @@ const QuizGame = ({ history }) => {
                     isShowing={isShowing}
                     toggle={toggle}
                     // TODO: add real data instand of CORRECT after connect API
-                    correct={CORRECT}
-                    answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
+                    correct={correct}
+                    answer={correct ? null : answer_key}
                     buttonTitle={
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }
