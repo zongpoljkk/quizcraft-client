@@ -30,7 +30,7 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
   USED: "USED",
 };
-const NUMBER_OF_QUIZ = 3;
+const NUMBER_OF_QUIZ = 10;
 
 const QUIZ_MODE = "quiz";
 
