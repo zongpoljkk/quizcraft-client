@@ -17,7 +17,7 @@ import { COLOR } from "../../global/const";
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
 
-const MOCK_SCORE = 8;
+// const MOCK_SCORE = 8;
 
 const variants = {
   visible: { opacity: 1 },
@@ -53,7 +53,10 @@ const QuizResultPage = ({ history }) => {
   };
 
   useEffect(() => {
-    setScore(MOCK_SCORE);
+    console.log(location.state);
+    setScore(location.state.score);
+    setEXP(location.state.earned_exp);
+    setCoin(location.state.earned_coins);
     // TODO: Uncomment when using real data
     // setScore(location.state.score);
     // setEXP(location.state.exp);

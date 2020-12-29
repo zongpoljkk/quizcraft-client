@@ -30,7 +30,7 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
   USED: "USED",
 };
-const NUMBER_OF_QUIZ = 1;
+const NUMBER_OF_QUIZ = 5;
 
 const QuizGame = ({ history }) => {
   const location = useLocation();
@@ -44,6 +44,9 @@ const QuizGame = ({ history }) => {
   const [correct, set_correct] = useState(false);
   const [solution, set_solution] = useState("");
   const [answer_key, set_answer_key] = useState("");
+  const [score, set_score] = useState(0);
+  const [earned_exp, set_earned_exp] = useState(0);
+  const [earned_coins, set_earned_coins] = useState(0);
 
   const {
     getEachProblem,
@@ -111,7 +114,7 @@ const QuizGame = ({ history }) => {
     difficulty
   ) => {
     if (user_answer) {
-      // TODO: connect API check answer
+      // connect API check answer
       set_used_time(getTime / 1000);
 
       getAndCheckAnswer(
@@ -124,9 +127,16 @@ const QuizGame = ({ history }) => {
         subtopic
       ).then((res) => {
         console.log(res);
+
+        //update earned exp and coins
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
         set_solution(res.data.solution);
+        set_score(correct ? score + 1 : score);
+        set_earned_exp(correct ? earned_exp + res.data.earned_exp : earned_exp);
+        set_earned_coins(
+          correct ? earned_coins + res.data.earned_coins : earned_coins
+        );
         toggle();
       });
     }
@@ -134,9 +144,7 @@ const QuizGame = ({ history }) => {
 
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
-      // TODO: push to result page
-      set_current_index(1);
-      set_user_answer();
+      //push to result page
       history.push({
         pathname:
           "/" +
@@ -154,6 +162,9 @@ const QuizGame = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
+          score: score,
+          earned_exp: earned_exp,
+          earned_coins: earned_coins,
         },
       });
     } else {
