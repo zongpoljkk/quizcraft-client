@@ -17,6 +17,7 @@ const USERNAME = "pimkunut_tee";
 const OPPONENT_USERNAME = "jinjin";
 const PROFILE_IMG = "";
 const OPPONENT_PROFILE_IMG = "";
+
 export const ChallengeModal = () => {
   const {isShowing, toggle} = useModal();
   const list = {
