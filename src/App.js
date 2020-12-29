@@ -19,6 +19,7 @@ import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 import QuizResultPage from "./containers/QuizResultPage/QuizResultPage";
 import QuizGame from "./containers/QuizGame/QuizGame";
+import ReportPage from "./containers/ReportPage/ReportPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
@@ -108,7 +109,10 @@ const App = () => {
             <SubtopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage">
-            <Homepage />
+            <Homepage user_id={user_id} />
+          </PrivateRoute>
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
+            <ReportPage />
           </PrivateRoute>
           <PrivateRoute path="/:topic">
             <TopicPage />
