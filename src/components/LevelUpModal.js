@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 
 import { Header, Body, Overline } from "./Typography";
 import { Modal } from "./Modal";
-import useModal from "./useModal";
 import { LottieFile } from "./LottieFile";
 import levelUp from "../assets/lottie/levelUp.json";
+import silver from "../assets/lottie/rank_silver.json";
+import gold from "../assets/lottie/rank_gold.json";
 import { ProgressBar } from "./ProgressBar";
 import { COLOR } from "../global/const";
 
@@ -15,9 +16,13 @@ const LEVEL = 12;
 const XP = 876;
 const MAX_XP = 2000;
 const COIN = 200;
-export const LevelUpModal = () => {
 
-  const {isShowing, toggle} = useModal();
+export const LevelUpModal = ({
+  isShowing,
+  toggle,
+  rank
+}) => {
+
   const list = {
     hidden: {
       opacity: 0,
@@ -51,13 +56,18 @@ export const LevelUpModal = () => {
           variants={list}
         >
           <motion.div variants={item}>
-            <Header> เลเวลอัพ! </Header>
+            <Header> { rank ? "คุณได้เลื่อนระดับ!" : "เลเวลอัพ!"} </Header>
           </motion.div>
           <motion.div 
             variants={item} 
             style = {{marginTop: "4px", marginBottom:"4px" }}
           >
-            <LottieFile animationData={levelUp} width="118px" height="121px" loop={false}/>
+            <LottieFile 
+              animationData={!rank ? levelUp: rank === "silver" ? silver: gold} 
+              width="118px" 
+              height="121px" 
+              loop={rank ? true: false}
+            />
           </motion.div>
           <motion.div variants={item}>
             <Header> + {COIN} coins </Header>
