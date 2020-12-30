@@ -11,6 +11,7 @@ import {
   getMarginRightOfChallengeBox
 } from "./AllChallengePageHelper";
 
+import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {
@@ -18,7 +19,6 @@ const CHALLENGE_BOX_TYPE = {
   CHALLENGER_TURN: "CHALLENGER_TURN",
   RESULT: "RESULT"
 };
-const CONTAINER_PADDING = 64;
 
 // MOCK DATA
 const MOCK_DATA = [
@@ -70,7 +70,7 @@ const AllChallengePage = () => {
 
   return (
     <Container>
-      <ButtonContainer>
+      <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
         <Button type="outline">สุ่มคู่แข่ง</Button>
         <Button onClick={toggle}>เจาะจงคู่แข่ง</Button>
         <SpecificChallengeModal 
@@ -153,11 +153,13 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div.attrs(props => ({
+  justifyContent: props.justifyContent
+}))`
   display: flex;
   flex: 1;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${props => props.justifyContent};
   width: 100%;
 `;
 
