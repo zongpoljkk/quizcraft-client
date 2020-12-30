@@ -79,4 +79,6 @@ export const REPORT = {
   WRONG_ANSWER: "เฉลยคำตอบไม่ถูกต้อง",
   WRONG_SOLUTION: "เฉลยวิธีทำไม่ถูกต้อง",
   ETC: "อื่น ๆ",
-}
+};
+
+export const LARGE_DEVICE_SIZE = 768;
