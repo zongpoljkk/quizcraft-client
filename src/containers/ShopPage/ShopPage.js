@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -16,6 +16,14 @@ import refresh from "../../assets/refresh.png";
 import blank from "../../assets/blank.png";
 
 const Shop = () => {
+  const ANIMATIONS = {
+    rest: 1,
+    hover: 1.1,
+    pressed: 0.95,
+  };
+
+  const [current_item, set_current_item] = useState("");
+  const [animation, set_animation] = useState(ANIMATIONS.rest);
   const items_properties = [
     {
       src: lightbulb,
@@ -69,6 +77,19 @@ const Shop = () => {
           return (
             <ItemContainer
               key={item_properties.item_name}
+              onMouseOver={() => {
+                set_current_item(item_properties.item_name);
+                set_animation(ANIMATIONS.hover);
+              }}
+              onMouseLeave={() => {
+                set_animation(ANIMATIONS.rest);
+              }}
+              onMouseDown={() => {
+                set_animation(ANIMATIONS.pressed);
+              }}
+              onMouseUp={() => {
+                set_animation(ANIMATIONS.hover);
+              }}
               onClick={
                 item_properties.item_name !== "ไอเทม"
                   ? () => handleItemClick(item_properties)
@@ -78,7 +99,16 @@ const Shop = () => {
                 opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
               }}
             >
-              <Item src={item_properties.src}></Item>
+              <Item
+                src={item_properties.src}
+                animate={{
+                  scale:
+                    item_properties.item_name === current_item &&
+                    current_item !== "ไอเทม"
+                      ? animation
+                      : 1,
+                }}
+              ></Item>
               <div style={{ margin: "8px auto", lineHeight: "24px" }}>
                 <Subheader>{item_properties.item_name}</Subheader>
               </div>
