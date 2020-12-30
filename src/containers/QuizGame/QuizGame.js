@@ -11,7 +11,7 @@ import { ProblemIndex } from "../../components/ProblemIndex"
 import { AnswerModal } from "../../components/AnswerModal"
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-import { HeadlineItem } from "./component/HeadlineItem"
+import { HeadlineItem } from "./components/HeadlineItem"
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
@@ -26,7 +26,6 @@ import { ANSWER_TYPE, COLOR } from "../../global/const"
 // MOCK DATA
 const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-const USER_ID = "5fcb4ccbc53dd068520072a1";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -57,7 +56,7 @@ const QuizGame = ({ history }) => {
     correct_answer,
     choices
   } = useGetEachProblem(
-    USER_ID, 
+    user_id, 
     location.state.subject_name, 
     location.state.subtopic_name, 
     location.state.difficulty,

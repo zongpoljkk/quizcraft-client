@@ -23,9 +23,6 @@ import skip_data from "../../assets/lottie/skip.json";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
 
-// MOCK DATA
-const USER_ID = "5fcb4ccbc53dd068520072a1";
-
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
@@ -37,6 +34,7 @@ const PracticeGame = ({ history }) => {
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
+  const user_id = localStorage.getItem("userId");
 
   const { 
     getProblemForUser,
@@ -48,7 +46,7 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices
   } = useGetProblemForUser(
-    USER_ID, 
+    user_id, 
     location.state.subject_name, 
     location.state.subtopic_name, 
     location.state.difficulty,
