@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useLocation, withRouter } from "react-router-dom";
 
 import { Button } from "../../components/Button";
 import { Header } from "../../components/Typography";
@@ -58,15 +59,33 @@ const MOCK_DATA = [
     MY_SCORE: 0,
     CHALLENGER_SCORE: 4,
   }
-]
+];
+const CHALLENGE_ID = "5feb03791ba082482c783089";
 
-const AllChallengePage = () => {
+const AllChallengePage = ({ history }) => {
 
+  const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const {isShowing, toggle} = useModal();
   const [username, set_username] = useState();
   const container_width = screen_width-CONTAINER_PADDING;
   const [margin_right, set_margin_right] = useState();
+
+  const onChallengeBoxClick = () => {
+    console.log(location)
+    history.push({
+      pathname: "./challenge-game",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty,
+        challenge_id: CHALLENGE_ID
+      }
+    })
+  }
 
   return (
     <Container>
@@ -95,6 +114,7 @@ const AllChallengePage = () => {
                 getMarginRightOfChallengeBox={() => 
                   getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
                 }
+                onClick={() => onChallengeBoxClick()}
               />
             </div>
           )}
@@ -115,6 +135,7 @@ const AllChallengePage = () => {
                 getMarginRightOfChallengeBox={() => 
                   getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
                 }
+                onClick={() => onChallengeBoxClick()}
               />
             </div>
           )}
@@ -135,6 +156,7 @@ const AllChallengePage = () => {
                 getMarginRightOfChallengeBox={() => 
                   getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
                 }
+                onClick={() => onChallengeBoxClick()}
               />
             </div>
           )}
@@ -180,4 +202,4 @@ const ChallengeBoxContainer = styled.div`
   max-width: ${props => props.maxWidth}px;
 `;
 
-export default AllChallengePage;
+export default withRouter(AllChallengePage);

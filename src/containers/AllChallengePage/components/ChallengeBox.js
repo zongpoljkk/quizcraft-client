@@ -20,6 +20,7 @@ export const ChallengeBox = ({
   type,
   margin_right,
   getMarginRightOfChallengeBox = () => {},
+  onClick = () => {},
   read = true
 }) => {
   
@@ -28,7 +29,7 @@ export const ChallengeBox = ({
   }, []);
 
   return (
-    <div style={{ marginTop: 12, marginRight: margin_right }}>
+    <div style={{ marginTop: 12, marginRight: margin_right }} onClick={onClick}>
       <ItemBox type = "small" color={read ? COLOR.WHITE : COLOR.ISLAND_SPICE} width={96}>
         <ProfileImage backgroundColor={image ? null : COLOR.ISLAND_SPICE}>
           {image ? <Image src={image}/> : null}
