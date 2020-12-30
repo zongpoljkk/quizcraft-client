@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 // Global
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
 import { COLOR } from "../../global/const";
+import { convertHexToRGBA } from "../../global/utils";
 
 // Images
 import lightbulb from "../../assets/lightbulb.png";
@@ -12,38 +13,45 @@ import freeze from "../../assets/freeze.png";
 import double from "../../assets/double.png";
 import skip from "../../assets/skip.png";
 import refresh from "../../assets/refresh.png";
+import blank from "../../assets/blank.png";
 
 const Shop = () => {
   const items_properties = [
     {
       src: lightbulb,
-      item_name: "Hint",
+      item_name: "คำใบ้",
       item_description: "Item description",
       price: 50,
     },
     {
       src: refresh,
-      item_name: "Refresh",
+      item_name: "รีเฟรช",
       item_description: "Item description",
       price: 70,
     },
     {
       src: skip,
-      item_name: "Skip",
+      item_name: "ข้าม",
       item_description: "Item description",
       price: 100,
     },
     {
-      src: freeze,
-      item_name: "Freeze",
+      src: double,
+      item_name: "ดับเบิ้ล",
       item_description: "Item description",
       price: 300,
     },
     {
-      src: double,
-      item_name: "Double",
+      src: freeze,
+      item_name: "หยุดเวลา",
       item_description: "Item description",
       price: 300,
+    },
+    {
+      src: blank,
+      item_name: "ไอเทม",
+      item_description: "Coming Soon...",
+      price: "???",
     },
   ];
 
@@ -53,14 +61,31 @@ const Shop = () => {
         <Header>ร้านค้า</Header>
       </HeaderContainer>
       <ShopContainer>
-        {/* <Item src={lightbulb}></Item> */}
         {items_properties.map((item_properties) => {
           return (
-            <ItemContainer key={item_properties.item_name}>
+            <ItemContainer
+              key={item_properties.item_name}
+              style={{
+                opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
+              }}
+            >
               <Item src={item_properties.src}></Item>
-              <Subheader>{item_properties.item_name}</Subheader>
-              <Overline>{item_properties.item_description}</Overline>
-              <Body>{item_properties.price} เหรียญ</Body>
+              <div style={{ margin: "8px auto", lineHeight: "24px" }}>
+                <Subheader>{item_properties.item_name}</Subheader>
+              </div>
+              <div style={{ lineHeight: "32px" }}>
+                <Overline>{item_properties.item_description}</Overline>
+              </div>
+              <div
+                style={{
+                  marginTop: "16px",
+                  lineHeight: "20px",
+                  display: "flex",
+                }}
+              >
+                <Body color={COLOR.CELERY}>{item_properties.price} </Body>
+                <Body>&nbsp;เหรียญ</Body>
+              </div>
             </ItemContainer>
           );
         })}
@@ -92,11 +117,14 @@ const ShopContainer = styled.div`
 
 const ItemContainer = styled.div`
   display: flex;
-  flex: 1 1 30%;
-  flex-wrap: wrap;
+  flex: 1 1 25%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${COLOR.ISLAND_SPICE};
+  margin-bottom: 32px;
+  margin-left: 8px;
+  margin-right: 8px;
+  background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
 `;
 
 const Item = styled(motion.img)`
