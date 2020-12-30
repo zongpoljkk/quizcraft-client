@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
 import { Button } from "../../components/Button";
-import { Item } from "./component/Item";
+import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
