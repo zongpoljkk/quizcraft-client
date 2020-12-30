@@ -55,6 +55,8 @@ const Shop = () => {
     },
   ];
 
+  const handleItemClick = (item_properties) => {};
+
   return (
     <Container>
       <HeaderContainer>
@@ -65,6 +67,11 @@ const Shop = () => {
           return (
             <ItemContainer
               key={item_properties.item_name}
+              onClick={
+                item_properties.item_name !== "ไอเทม"
+                  ? () => handleItemClick(item_properties)
+                  : () => {}
+              }
               style={{
                 opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
               }}
