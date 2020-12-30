@@ -12,7 +12,8 @@ import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { UserInfo } from "./components/UserInfo";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const"
+import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
+import { useWindowDimensions } from "../../global/utils"
 
 const NUMBER_OF_QUIZ = 5;
 
@@ -37,6 +38,7 @@ const ChallengeGame = ({ history }) => {
   const location = useLocation();
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   const onExit = (subject_name, topic_name) => {
     history.push({
@@ -102,7 +104,7 @@ const ChallengeGame = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                <SpacebetweenContainer>
+                <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                   <Button
                     type="outline"
                     onClick={() => {
@@ -123,7 +125,7 @@ const ChallengeGame = ({ history }) => {
                   >
                     ตรวจ
                   </Button>
-                </SpacebetweenContainer>
+                </ButtonContainer>
               </React.Fragment>
             )}
           </React.Fragment>
@@ -160,9 +162,11 @@ const TimeContainer = styled.div`
   margin-left: 8px;
 `;
 
-const SpacebetweenContainer = styled.div`
+const ButtonContainer = styled.div.attrs(props => ({
+  justifyContent: props.justifyContent
+}))`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => props.justifyContent};
 `;
 
 export default withRouter(ChallengeGame);
