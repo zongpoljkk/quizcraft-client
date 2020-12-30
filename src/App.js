@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
 
 import { PrivateRoute } from "./route/PrivateRoute";
@@ -21,7 +18,8 @@ import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
 import QuizGame from "./containers/QuizGame/QuizGame";
-import ReportPage from "./containers/ReportPage/ReportPage"
+import ShopPage from "./containers/ShopPage/ShopPage";
+import ReportPage from "./containers/ReportPage/ReportPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
@@ -55,12 +53,11 @@ const App = () => {
         console.log("getUserInfo Error");
       }
     } catch (error) {
-      if(error.response.status === 401){
+      if (error.response.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         window.location.pathname = "/";
-      }
-      else{
+      } else {
         console.log("There are something wrong about get user infomation :(");
       }
     }
@@ -74,8 +71,8 @@ const App = () => {
 
   return (
     <Router>
-      {localStorage.getItem("userId") && user_info &&(
-        <Navbar user_info={user_info}/>
+      {localStorage.getItem("userId") && user_info && (
+        <Navbar user_info={user_info} />
       )}
       <Page>
         <Switch>
@@ -119,7 +116,10 @@ const App = () => {
             <ReportPage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage user_id={user_id}/>
+            <Homepage user_id={user_id} />
+          </PrivateRoute>
+          <PrivateRoute exact path="/shop">
+            <ShopPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
