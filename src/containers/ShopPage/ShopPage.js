@@ -55,7 +55,9 @@ const Shop = () => {
     },
   ];
 
-  const handleItemClick = (item_properties) => {};
+  const handleItemClick = (item_properties) => {
+    console.log(item_properties.item_name);
+  };
 
   return (
     <Container>
