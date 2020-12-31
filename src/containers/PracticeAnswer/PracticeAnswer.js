@@ -26,10 +26,10 @@ import { backward, forward } from "./PracticeAnswerHelper";
 
 // Global
 import { Body, Header } from "../../components/Typography";
-import { COLOR } from "../../global/const";
+
+import { COLOR, CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-const CONTAINER_PADDING = 64;
 const NAVBAR_HEIGHT = 54;
 
 const TITLE = {

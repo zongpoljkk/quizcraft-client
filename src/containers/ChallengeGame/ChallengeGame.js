@@ -40,12 +40,16 @@ const ChallengeGame = ({ history }) => {
   const [answer, set_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
-  const onExit = (subject_name, topic_name) => {
+  const onExit = () => {
     history.push({
-      pathname: "/" + subject_name + "/" + topic_name, 
+      pathname: "./all-challenges", 
       state: {
-        subject_name: subject_name,
-        topic_name: topic_name,
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty
       }
     });
   };
@@ -68,7 +72,7 @@ const ChallengeGame = ({ history }) => {
           <React.Fragment>
             {PROBLEM_ID ? start() : reset()}
             <Headline>
-              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
+              <ExitModal onExit={() => onExit()}/>
               <div style={{ marginRight: 8 }}/>
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={CURRENT_INDEX}/>
               <TimeContainer>
