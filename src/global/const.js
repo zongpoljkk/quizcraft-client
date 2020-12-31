@@ -60,8 +60,27 @@ export const ANSWER_TYPE = {
   RADIO_CHOICE: "RADIO_CHOICE",
 };
 
+export const LEADERBOARD_FILTER = {
+  GLOBAL: "ทั่วโลก",
+  SCHOOL: "โรงเรียน",
+  CLASS: "ห้องเรียน",
+};
+
 export const RANK = {
   BRONZE: "BRONZE",
   SILVER: "SILVER",
   GOLD: "GOLD",
 };
+
+export const REPORT = {
+  WRONG_DIFFICULTY: "โจทย์ระดับความยากไม่ถูกต้อง",
+  NOT_CLEAR: "โจทย์คลุมเครือ",
+  NO_ANSWER: "ไม่สามารถหาคำตอบได้",
+  WRONG_ANSWER: "เฉลยคำตอบไม่ถูกต้อง",
+  WRONG_SOLUTION: "เฉลยวิธีทำไม่ถูกต้อง",
+  ETC: "อื่น ๆ",
+};
+
+export const LARGE_DEVICE_SIZE = 768;
+
+export const CONTAINER_PADDING = 64;

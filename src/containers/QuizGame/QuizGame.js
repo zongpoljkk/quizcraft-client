@@ -11,12 +11,14 @@ import { ProblemIndex } from "../../components/ProblemIndex"
 import { AnswerModal } from "../../components/AnswerModal"
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-import { HeadlineItem } from "./component/HeadlineItem"
+import { HeadlineItem } from "./components/HeadlineItem"
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
+  useGetAmountOfItems,
   useGetHintByProblemId,
-  useGetEachProblem
+  useGetEachProblem,
+  useItem
 } from "./QuizGameHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
@@ -24,7 +26,6 @@ import { ANSWER_TYPE, COLOR } from "../../global/const"
 // MOCK DATA
 const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-const USER_ID = "5fcb4ccbc53dd068520072a1";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -42,6 +43,7 @@ const QuizGame = ({ history }) => {
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
+  const user_id = localStorage.getItem("userId");
   
   const { 
     getEachProblem,
@@ -54,22 +56,40 @@ const QuizGame = ({ history }) => {
     correct_answer,
     choices
   } = useGetEachProblem(
-    USER_ID, 
+    user_id, 
     location.state.subject_name, 
     location.state.subtopic_name, 
     location.state.difficulty,
   );
-  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
+
+  const {
+    getHintByProblemId,
+    hint,
+    set_hint
+  } = useGetHintByProblemId(problem_id);
+
+  const {
+    getAmountOfItems,
+    amount_of_hints,
+    amount_of_skips,
+    amount_of_refreshs
+  } = useGetAmountOfItems(user_id);
+
+  const { putUseItem } = useItem(user_id);
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
     getEachProblem(set_skip);
     set_current_index((index) => index+1);
+    set_problem_id();
+    set_hint();
   };
 
   const onRefresh = () => {
     set_refresh(ITEM_USAGE.IN_USE);
     getEachProblem(set_refresh);
+    set_problem_id();
+    set_hint();
   };
 
   const onExit = (subject_name, topic_name) => {
@@ -101,7 +121,12 @@ const QuizGame = ({ history }) => {
     }
   };
 
+  const getNewAmount = () => {
+    getAmountOfItems();
+  };
+
   useEffect(() => {
+    getAmountOfItems();
     getEachProblem();
   }, []);
 
@@ -121,20 +146,36 @@ const QuizGame = ({ history }) => {
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={current_index}/>
             </Headline>
             <HeadlineItem 
-              onGetHint={() => getHintByProblemId()}
+              onGetHint={() => {
+                getHintByProblemId();
+                if (!hint) {
+                  putUseItem("Hint");
+                }
+              }}
               hintContent={hint}
               skip={skip} 
               onSkip={() => {
-                onSkip();
-                reset();
-                set_problem_id();
+                if(current_index < NUMBER_OF_QUIZ) {
+                  putUseItem("Skip");
+                  onSkip();
+                  reset();
+                }
+                else {
+                  // TODO: push to result page and check with empty answer
+                  putUseItem("Skip");
+                  history.push("/result-page");
+                }
               }}
               refresh={refresh}
               onRefresh={() => {
+                putUseItem("Refresh");
                 onRefresh();
                 reset();
-                set_problem_id();
               }}
+              amount_of_hints={amount_of_hints}
+              amount_of_skips={amount_of_skips}
+              amount_of_refreshs={amount_of_refreshs}
+              getNewAmount={getNewAmount}
             >
             <TimeContainer>
               <Body color={COLOR.MANDARIN}>
@@ -185,6 +226,7 @@ const QuizGame = ({ history }) => {
                       onNext();
                       reset();
                       set_problem_id();
+                      set_hint();
                     }}
                   />
                 </CenterContainer>
