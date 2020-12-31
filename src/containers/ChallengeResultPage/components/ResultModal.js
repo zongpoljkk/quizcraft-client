@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { Header, Body, Overline } from "../../../components/Typography";
+import { Header, Subheader, Body, Overline } from "../../../components/Typography";
 import { Modal } from "../../../components/Modal";
 import { LottieFile } from "../../../components/LottieFile";
 import levelUp from "../../../assets/lottie/levelUp.json";
@@ -69,7 +69,7 @@ export const ResultModal = ({
           />
         </motion.div>
         <motion.div variants={list}>
-          <Header>+{GAIN_COIN} coins +{GAIN_XP} XP</Header>
+          <Subheader>+{GAIN_COIN} coins +{GAIN_XP} XP</Subheader>
         </motion.div>
         <ProgressBarContainer variants={list}>
             <LevelTitleContainer>
