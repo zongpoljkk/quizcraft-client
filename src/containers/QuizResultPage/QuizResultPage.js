@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -155,4 +155,4 @@ const ButtonDiv = styled(motion.div)`
   width: 100%;
 `;
 
-export default QuizResultPage;
+export default withRouter(QuizResultPage);
