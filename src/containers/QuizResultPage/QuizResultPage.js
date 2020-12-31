@@ -32,20 +32,20 @@ const QuizResultPage = ({ history }) => {
   const location = useLocation();
 
   const handleOnPlayAgain = () => {
-    history.push({
-      pathname:
-        location.state.selected_topic_name +
-        "/" +
-        location.state.selected_subtopic_name +
-        "/" +
-        location.state.selected_difficulty +
-        "/quiz-game",
-      state: {
-        topic_name: location.state.selected_topic_name,
-        subtopic_name: location.state.selected_subtopic_name,
-        difficulty: location.state.selected_difficulty,
-      },
-    });
+    // history.push({
+    //   pathname:
+    //     location.state.selected_topic_name +
+    //     "/" +
+    //     location.state.selected_subtopic_name +
+    //     "/" +
+    //     location.state.selected_difficulty +
+    //     "/quiz-game",
+    //   state: {
+    //     topic_name: location.state.selected_topic_name,
+    //     subtopic_name: location.state.selected_subtopic_name,
+    //     difficulty: location.state.selected_difficulty,
+    //   },
+    // });
   };
 
   const handleExit = () => {
