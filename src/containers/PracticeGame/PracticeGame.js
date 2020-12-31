@@ -25,9 +25,6 @@ import { LottieFile } from "../../components/LottieFile";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
 
-// MOCK DATA
-const USER_ID = "5fe1c049e301922c4f2fc0dd";
-
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
@@ -49,7 +46,7 @@ const PracticeGame = ({ history }) => {
   const location = useLocation();
   const [answer, set_answer] = useState("");
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
-  const [time, setTime] = useState(0);
+  const user_id = localStorage.getItem("userId");
 
   const {
     getProblemForUser,
@@ -61,10 +58,10 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetProblemForUser(
-    localStorage.getItem("userId"),
-    location.state.subject_name,
-    location.state.subtopic_name,
-    location.state.difficulty
+    user_id, 
+    location.state.subject_name, 
+    location.state.subtopic_name, 
+    location.state.difficulty,
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -131,7 +128,6 @@ const PracticeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log(userAnswer);
     getAndCheckAnswer(
       problemId,
       userId,
