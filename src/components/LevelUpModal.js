@@ -64,9 +64,9 @@ export const LevelUpModal = ({
           >
             <LottieFile 
               animationData={!rank ? levelUp: rank === "silver" ? silver: gold} 
-              width="118px" 
+              width="118px"
               height="121px" 
-              loop={rank ? true: false}
+              loop={rank ? true : false}
             />
           </motion.div>
           <motion.div variants={item}>
