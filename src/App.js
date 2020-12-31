@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
 
 import { PrivateRoute } from "./route/PrivateRoute";
@@ -77,9 +72,10 @@ const App = () => {
           >
             <PracticeGame />
           </PrivateRoute>
-          <PrivateRoute 
-            exact path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
-            getUserData = {getUserData}
+          <PrivateRoute
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
+            getUserData={getUserData}
           >
             <QuizGame />
           </PrivateRoute>
