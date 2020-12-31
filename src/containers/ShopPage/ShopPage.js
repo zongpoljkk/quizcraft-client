@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { LottieFile } from "../../components/LottieFile";
 
 // Global
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
@@ -14,6 +15,9 @@ import double from "../../assets/double.png";
 import skip from "../../assets/skip.png";
 import refresh from "../../assets/refresh.png";
 import blank from "../../assets/blank.png";
+
+// Lottie
+import skip_data from "../../assets/lottie/skip.json";
 
 const Shop = () => {
   const ANIMATIONS = {
@@ -99,7 +103,7 @@ const Shop = () => {
                 opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
               }}
             >
-              <Item
+              {/* <Item
                 src={item_properties.src}
                 animate={{
                   scale:
@@ -108,7 +112,8 @@ const Shop = () => {
                       ? animation
                       : 1,
                 }}
-              ></Item>
+              ></Item> */}
+              <LottieFile animationData={skip_data} loop={false} height={64} />
               <div style={{ margin: "8px auto", lineHeight: "24px" }}>
                 <Subheader>{item_properties.item_name}</Subheader>
               </div>
@@ -160,6 +165,7 @@ const ItemContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 24px 0px;
   margin-bottom: 32px;
   margin-left: 8px;
   margin-right: 8px;
