@@ -166,7 +166,6 @@ const PracticeGame = ({ history }) => {
   };
 
   useEffect(() => {
-    console.log(location.state);
     getProblemForUser();
   }, []);
 
