@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { Body } from "./Typography";
-import { Modal } from "./Modal";
-import { Button } from "./Button";
-import useModal from "./useModal";
-import { LottieFile } from "./LottieFile";
-import challenge from "../assets/lottie/challenge.json";
-import { COLOR } from "../global/const";
+import { Body } from "../../../components/Typography";
+import { Modal } from "../../../components/Modal";
+import { Button } from "../../../components/Button";
+import { LottieFile } from "../../../components/LottieFile";
+import challenge from "../../../assets/lottie/challenge.json";
 
-import close_icon from "../assets/icon/close.png";
+import { COLOR } from "../../../global/const";
 
 //MOCK DATA
 const USERNAME = "pimkunut_tee";
@@ -18,8 +16,8 @@ const OPPONENT_USERNAME = "jinjin";
 const PROFILE_IMG = "";
 const OPPONENT_PROFILE_IMG = "";
 
-export const ChallengeModal = () => {
-  const {isShowing, toggle} = useModal();
+export const RandomChallengeModal = ({ isShowing, toggle }) => {
+  const [display_lottie, set_display_lottie] = useState(false);
   const list = {
     hidden: {
       opacity: 0,
@@ -31,7 +29,7 @@ export const ChallengeModal = () => {
       opacity: 1,
       transition: {
         when: "beforeChildren",
-        staggerChildren: 0.85
+        staggerChildren: 1
       }
     }
   };
@@ -41,11 +39,14 @@ export const ChallengeModal = () => {
     visible: { opacity: 1 }
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      set_display_lottie(true)
+    }, 3000);
+  }, []);
+
   return (
     <div>
-      <IconContainer onClick={toggle}>
-        <img src={close_icon} height={16} width={16}/>
-      </IconContainer>
       <Modal
         isShowing={isShowing}
         hide={toggle}
@@ -72,14 +73,16 @@ export const ChallengeModal = () => {
           </ImgWithCaption>
           <motion.div 
             variants={item} 
-            style = {{marginTop: "8px", marginBottom:"8px" }}
+            style = {{marginTop: "8px", marginBottom:"8px", width:"150px", height:"75px", alignSelf: "center" }}
           >
-            <LottieFile 
-              animationData={challenge} 
-              width="150px" 
-              height="75px" 
-              loop={false}
-            />
+            {display_lottie && (
+              <LottieFile 
+                animationData={challenge} 
+                width="150px" 
+                height="75px" 
+                loop={false}
+              />
+            )}
           </motion.div> 
           <ImgWithCaption alignSelf={"flex-end"}>
             <motion.div 
@@ -140,9 +143,4 @@ const CropText = styled.div`
   text-overflow: ellipsis;
   text-align: center; 
   width: 105px; 
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  height: 100%;
 `;
