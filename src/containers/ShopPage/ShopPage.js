@@ -30,7 +30,6 @@ const Shop = () => {
     pressed: 0.95,
   };
 
-  const [current_item, set_current_item] = useState("");
   const [animation, set_animation] = useState(ANIMATIONS.rest);
   const [in_used, set_in_used] = useState({
     คำใบ้: false,
@@ -128,16 +127,7 @@ const Shop = () => {
                 opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
               }}
             >
-              <Item
-                // animate={{
-                //   scale:
-                //     item_properties.item_name === current_item &&
-                //     current_item !== "ไอเทม"
-                //       ? animation
-                //       : 1,
-                // }}
-                style={{ height: "80px" }}
-              >
+              <Item style={{ height: "80px" }}>
                 {in_used[item_properties.item_name] ? (
                   <LottieFile
                     animationData={item_properties.animation_data}
