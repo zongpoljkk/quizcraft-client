@@ -45,18 +45,6 @@ export const UserInfoBox = ({
     hidden: { opacity: 0 },
   }
 
-  const variant_box = {
-    visible: index => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: index * 0.75,
-        ease: [0.42, 0, 0.58, 1]
-      },
-    }),
-    hidden: { y:48, opacity: 0 },
-  }
-
   return (
        <UserInfoContainer
         initial="hidden"
@@ -80,7 +68,7 @@ export const UserInfoBox = ({
         </UserInfo>
         <ScoreBox
           custom={3} 
-          variants={variant_box} 
+          variants={variants} 
         >
           {challenge_result.map((result, index)=> (
             <Icon
@@ -102,7 +90,7 @@ export const UserInfoBox = ({
             variants={variants}
             style={{marginTop: "8px"}}
           >
-            <Overline props color={COLOR.MANDARIN}> เวลาที่ใช้: {(time/60000)} นาที </Overline>
+            <Overline props color={COLOR.MANDARIN}> เวลาที่ใช้: {Math.floor(time/3600)}:{Math.floor((time%3600)/60)}:{Math.floor((time%3600)%60)} </Overline>
           </motion.div>
     </UserInfoContainer>
   );

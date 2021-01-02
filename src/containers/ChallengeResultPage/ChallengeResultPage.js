@@ -16,12 +16,12 @@ const PROFILE_IMG = "";
 const USERNAME = "pimkunut_tee";
 const SCORE = "3";
 const RESULT = [1, 1, 0, 1, 0];
-const TIME = 335400;
+const TIME = 1432; //unit s => if other unit change in userinfo box
 const OPPONENT_PROFILE_IMG = "";
 const OPPONENT_USERNAME = "jinjin";
 const OPPONENT_SCORE = "2";
 const OPPONENT_RESULT = [1, 0, 1, 0, 0];
-const OPPONENT_TIME = 600000;
+const OPPONENT_TIME = 5500;
 
 //MOCK DATA FOR MODAL
 const LEVEL = 12;
