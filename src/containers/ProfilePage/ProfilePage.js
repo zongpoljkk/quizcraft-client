@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
 import { Button } from "../../components/Button";
-import { Item } from "./component/Item";
+import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
@@ -14,10 +14,9 @@ import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import photo from "../../assets/icon/photo.png";
 
-import { COLOR, RANK } from "../../global/const"
+import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils"
 
-const CONTAINER_PADDING = 64;
 const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
 
