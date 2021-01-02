@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 import { Body } from "../Typography";
 import { RadioButton } from "../RadioButton"
-import { COLOR } from "../../global/const"
+
+import { COLOR, CONTAINER_PADDING } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils"
 
 import { splitQuestion } from "./AnswertHelper";
 
-const CONTAINER_PADDING = 64;
 const MIN_BLANK_WIDTH = 40;
 const MAX_BLANK_WIDTH = 140;
 
