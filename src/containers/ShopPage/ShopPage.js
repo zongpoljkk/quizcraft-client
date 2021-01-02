@@ -44,35 +44,36 @@ const Shop = () => {
       src: lightbulb,
       animation_data: hint_data,
       item_name: "คำใบ้",
-      item_description: "Item description",
+      item_description: "แสดงคำใบ้สำหรับโจทย์ข้อนั้นๆ",
       price: 50,
     },
     {
       src: refresh,
       animation_data: refresh_data,
       item_name: "รีเฟรช",
-      item_description: "Item description",
+      item_description: "เปลี่ยนโจทย์ใหม่",
       price: 70,
     },
     {
       src: skip,
       animation_data: skip_data,
       item_name: "ข้าม",
-      item_description: "Item description",
+      item_description: "ข้ามโจทย์ข้อนี้โดยที่ถือว่าทำถูกไปเลย",
       price: 100,
     },
     {
       src: double,
       animation_data: double_data,
       item_name: "ดับเบิ้ล",
-      item_description: "Item description",
+      item_description:
+        "เมื่อกดใช้จะได้ค่าประสบการณ์เป็นสองเท่าเป็นเวลา 24 ชั่วโมง",
       price: 300,
     },
     {
       src: freeze,
       animation_data: freeze_data,
       item_name: "หยุดเวลา",
-      item_description: "Item description",
+      item_description: "เมื่อกดใช้จะค้าง streak ไว้ 1 วัน",
       price: 300,
     },
     {
@@ -128,19 +129,20 @@ const Shop = () => {
               }}
             >
               <Item
-              // animate={{
-              //   scale:
-              //     item_properties.item_name === current_item &&
-              //     current_item !== "ไอเทม"
-              //       ? animation
-              //       : 1,
-              // }}
+                // animate={{
+                //   scale:
+                //     item_properties.item_name === current_item &&
+                //     current_item !== "ไอเทม"
+                //       ? animation
+                //       : 1,
+                // }}
+                style={{ height: "80px" }}
               >
                 {in_used[item_properties.item_name] ? (
                   <LottieFile
                     animationData={item_properties.animation_data}
                     loop={false}
-                    height={80}
+                    height={100}
                   />
                 ) : (
                   <ItemImg src={item_properties.src} />
@@ -149,7 +151,14 @@ const Shop = () => {
               <div style={{ margin: "8px auto", lineHeight: "24px" }}>
                 <Subheader>{item_properties.item_name}</Subheader>
               </div>
-              <div style={{ lineHeight: "32px" }}>
+              <div
+                style={{
+                  margin: "8px auto",
+                  padding: "0px 20px",
+                  textAlign: "center",
+                  height: "96px",
+                }}
+              >
                 <Overline>{item_properties.item_description}</Overline>
               </div>
               <div
@@ -206,6 +215,8 @@ const ItemContainer = styled.div`
 const ItemImg = styled.img`
   height: 80px;
 `;
-const Item = styled(motion.div)``;
+const Item = styled(motion.div)`
+  margin-bottom: 12px;
+`;
 
 export default Shop;
