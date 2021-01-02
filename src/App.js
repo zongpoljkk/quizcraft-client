@@ -121,6 +121,12 @@ const App = () => {
           >
             <ChallengeGame />
           </PrivateRoute>
+          <PrivateRoute 
+            exact 
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result" 
+            getUserData={getUserData}>
+            <ChallengeResultPage />
+          </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
@@ -135,9 +141,6 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
             <EditUsernamePage />
-          </PrivateRoute>
-          <PrivateRoute exact path="/challenge-result" getUserData={getUserData}>
-            <ChallengeResultPage />
           </PrivateRoute>
           <PrivateRoute exact path="/report" getUserData={getUserData}>
             <ReportPage />

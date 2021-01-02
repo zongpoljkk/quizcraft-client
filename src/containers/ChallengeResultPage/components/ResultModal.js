@@ -10,17 +10,15 @@ import { ProgressBar } from "../../../components/ProgressBar";
 
 import { COLOR } from "../../../global/const";
 
-//MOCK DATA
-const LEVEL = 12;
-const XP = 876;
-const MAX_XP = 2000;
-const GAIN_COIN = 200;
-const GAIN_XP = 150;
-
 export const ResultModal = ({
   isShowing,
   toggle,
   win,
+  level,
+  xp,
+  max_xp,
+  gain_coin,
+  gain_xp
 }) => {
 
   const list = {
@@ -69,21 +67,21 @@ export const ResultModal = ({
           />
         </motion.div>
         <motion.div variants={list}>
-          <Subheader>+{GAIN_COIN} coins +{GAIN_XP} XP</Subheader>
+          <Subheader>+{gain_coin} coins +{gain_xp} XP</Subheader>
         </motion.div>
         <ProgressBarContainer variants={list}>
             <LevelTitleContainer>
               <LevelTitle marginBottom={6}>
                 <Body>เลเวล</Body>
                 <div style={{ marginRight: 8 }}/>
-                <Body color={COLOR.MANDARIN}>{LEVEL}</Body>
+                <Body color={COLOR.MANDARIN}>{level}</Body>
               </LevelTitle>
               <LevelTitle marginBottom={2}>
-                <Overline color={COLOR.MANDARIN}>{XP}</Overline>
-                <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
+                <Overline color={COLOR.MANDARIN}>{xp}</Overline>
+                <Overline color={COLOR.SILVER}>/{max_xp}</Overline>
               </LevelTitle>
             </LevelTitleContainer>
-            <ProgressBar percent={(XP/MAX_XP)*100}/>
+            <ProgressBar percent={(xp/max_xp)*100}/>
           </ProgressBarContainer>
       </Container>
     </Modal>

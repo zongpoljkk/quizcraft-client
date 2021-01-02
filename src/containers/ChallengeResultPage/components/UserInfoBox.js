@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { Header, Body } from "../../../components/Typography";
+import { Header, Body, Overline } from "../../../components/Typography";
 import correct_icon from "../../../assets/icon/success.png";
 import incorrect_icon from "../../../assets/icon/fail.png";
 
@@ -16,6 +16,7 @@ export const UserInfoBox = ({
   username,
   challenge_result,
   total_score,
+  time
 }) => {
 
   const list = {
@@ -72,7 +73,7 @@ export const UserInfoBox = ({
           </UserImg>
           <motion.div
             custom={2} 
-            variants={variants} 
+            variants={variants}
           >
             <Body> {username} </Body>
           </motion.div>
@@ -96,6 +97,13 @@ export const UserInfoBox = ({
             <Header props color = {COLOR.MANDARIN}>{total_score}</Header> 
           </motion.div>
         </ScoreBox>
+        <motion.div
+            custom={NUMBER_OF_PROBLEM+5} 
+            variants={variants}
+            style={{marginTop: "8px"}}
+          >
+            <Overline props color={COLOR.MANDARIN}> เวลาที่ใช้: {(time/60000)} นาที </Overline>
+          </motion.div>
     </UserInfoContainer>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -8,7 +9,6 @@ import { UserInfoBox } from "./components/UserInfoBox";
 import { ResultModal } from "./components/ResultModal";
 import useModal from "../../components/useModal";
 
-
 import { COLOR } from "../../global/const";
 
 //MOCK DATA
@@ -16,23 +16,35 @@ const PROFILE_IMG = "";
 const USERNAME = "pimkunut_tee";
 const SCORE = "3";
 const RESULT = [1, 1, 0, 1, 0];
+const TIME = 335400;
 const OPPONENT_PROFILE_IMG = "";
 const OPPONENT_USERNAME = "jinjin";
 const OPPONENT_SCORE = "2";
 const OPPONENT_RESULT = [1, 0, 1, 0, 0];
+const OPPONENT_TIME = 600000;
 
-const ChallengeResultPage = () => {
+//MOCK DATA FOR MODAL
+const LEVEL = 12;
+const XP = 876;
+const MAX_XP = 2000;
+const GAIN_COIN = 200;
+const GAIN_XP = 150;
+
+const ChallengeResultPage = ( { history }) => {
   const ref = useRef(null);
-  const [container_width, set_container_width] = useState();
+  const location = useLocation();
   const {isShowing, toggle} = useModal();
-  const [win, set_win] = useState(false);
-  const [showModal, setShowModal] = useState()
+  const [container_width, set_container_width] = useState();
+  const [win, set_win] = useState();
+  const [showModal, setShowModal] = useState();
 
   const isWin = () => {
-    //CHECK SCORE
-    if(SCORE > OPPONENT_SCORE){
-      set_win(true);
+    //TODO: INTEGRATE TO CHECK SCORE
+    if(SCORE > OPPONENT_SCORE) set_win(true);
+    if(SCORE === OPPONENT_SCORE){
+      if(TIME < OPPONENT_TIME) set_win(true);
     }
+    else set_win(false);
   }
 
   const list = {
@@ -68,7 +80,7 @@ const ChallengeResultPage = () => {
   useEffect(() => {
     setTimeout(() => {
       setShowModal(toggle)
-    }, 7750);
+    }, 8750);
   }, []);
 
   return (
@@ -83,7 +95,7 @@ const ChallengeResultPage = () => {
         variants={variants}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <ExitModal />
+        <ExitModal onExit={() => history.push("./all-challenges")} />
         <div
           style={{
             display: "flex",
@@ -101,6 +113,7 @@ const ChallengeResultPage = () => {
           username={USERNAME}
           challenge_result={RESULT}
           total_score={SCORE}
+          time={TIME}
         />
         <motion.div 
           custom={1} 
@@ -115,12 +128,18 @@ const ChallengeResultPage = () => {
           username={OPPONENT_USERNAME}
           challenge_result={OPPONENT_RESULT}
           total_score={OPPONENT_SCORE}
+          time={OPPONENT_TIME}
         />
       </DetailContainer>
       <ResultModal
         isShowing={isShowing}
         toggle={toggle}
         win={isWin}
+        level={LEVEL}
+        xp={XP}
+        max_xp={MAX_XP}
+        gain_coin={GAIN_COIN}
+        gain_xp={GAIN_XP}
       />
     </Container>
   );
@@ -139,4 +158,4 @@ const DetailContainer = styled.div`
   margin-top: 16px;
 `;
 
-export default ChallengeResultPage;
+export default withRouter(ChallengeResultPage);
