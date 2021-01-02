@@ -17,7 +17,11 @@ import refresh from "../../assets/refresh.png";
 import blank from "../../assets/blank.png";
 
 // Lottie
+import hint_data from "../../assets/lottie/hint.json";
+import refresh_data from "../../assets/lottie/refresh.json";
 import skip_data from "../../assets/lottie/skip.json";
+import double_data from "../../assets/lottie/double.json";
+import freeze_data from "../../assets/lottie/freeze.json";
 
 const Shop = () => {
   const ANIMATIONS = {
@@ -28,33 +32,45 @@ const Shop = () => {
 
   const [current_item, set_current_item] = useState("");
   const [animation, set_animation] = useState(ANIMATIONS.rest);
+  const [in_used, set_in_used] = useState({
+    คำใบ้: false,
+    รีเฟรช: false,
+    ข้าม: false,
+    ดับเบิ้ล: false,
+    หยุดเวลา: false,
+  });
   const items_properties = [
     {
       src: lightbulb,
+      animation_data: hint_data,
       item_name: "คำใบ้",
       item_description: "Item description",
       price: 50,
     },
     {
       src: refresh,
+      animation_data: refresh_data,
       item_name: "รีเฟรช",
       item_description: "Item description",
       price: 70,
     },
     {
       src: skip,
+      animation_data: skip_data,
       item_name: "ข้าม",
       item_description: "Item description",
       price: 100,
     },
     {
       src: double,
+      animation_data: double_data,
       item_name: "ดับเบิ้ล",
       item_description: "Item description",
       price: 300,
     },
     {
       src: freeze,
+      animation_data: freeze_data,
       item_name: "หยุดเวลา",
       item_description: "Item description",
       price: 300,
@@ -68,6 +84,7 @@ const Shop = () => {
   ];
 
   const handleItemClick = (item_properties) => {
+    // TODO: Buy item logic
     console.log(item_properties.item_name);
   };
 
@@ -82,11 +99,18 @@ const Shop = () => {
             <ItemContainer
               key={item_properties.item_name}
               onMouseOver={() => {
-                set_current_item(item_properties.item_name);
-                set_animation(ANIMATIONS.hover);
+                // set_current_item(item_properties.item_name);
+                if (item_properties.item_name !== "ไอเทม") {
+                  set_animation(ANIMATIONS.hover);
+                  set_in_used({
+                    ...in_used,
+                    [item_properties.item_name]: true,
+                  });
+                }
               }}
               onMouseLeave={() => {
                 set_animation(ANIMATIONS.rest);
+                set_in_used({ ...in_used, [item_properties.item_name]: false });
               }}
               onMouseDown={() => {
                 set_animation(ANIMATIONS.pressed);
@@ -103,17 +127,25 @@ const Shop = () => {
                 opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
               }}
             >
-              {/* <Item
-                src={item_properties.src}
-                animate={{
-                  scale:
-                    item_properties.item_name === current_item &&
-                    current_item !== "ไอเทม"
-                      ? animation
-                      : 1,
-                }}
-              ></Item> */}
-              <LottieFile animationData={skip_data} loop={false} height={64} />
+              <Item
+              // animate={{
+              //   scale:
+              //     item_properties.item_name === current_item &&
+              //     current_item !== "ไอเทม"
+              //       ? animation
+              //       : 1,
+              // }}
+              >
+                {in_used[item_properties.item_name] ? (
+                  <LottieFile
+                    animationData={item_properties.animation_data}
+                    loop={false}
+                    height={80}
+                  />
+                ) : (
+                  <ItemImg src={item_properties.src} />
+                )}
+              </Item>
               <div style={{ margin: "8px auto", lineHeight: "24px" }}>
                 <Subheader>{item_properties.item_name}</Subheader>
               </div>
@@ -148,7 +180,6 @@ const HeaderContainer = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;
-  margin-top: 32px;
   margin-bottom: 32px;
 `;
 
@@ -172,8 +203,9 @@ const ItemContainer = styled.div`
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
 `;
 
-const Item = styled(motion.img)`
-  width: 80px;
+const ItemImg = styled.img`
+  height: 80px;
 `;
+const Item = styled(motion.div)``;
 
 export default Shop;
