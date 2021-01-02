@@ -71,10 +71,9 @@ const AllChallengePage = ({ history }) => {
   const container_width = screen_width-CONTAINER_PADDING;
   const [margin_right, set_margin_right] = useState();
 
-  const onChallengeBoxClick = () => {
-    console.log(location)
+  const onChallengeBoxClick = (result) => {
     history.push({
-      pathname: "./challenge-game",
+      pathname: result ? "./challenge-result" : "./challenge-game",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
@@ -85,7 +84,7 @@ const AllChallengePage = ({ history }) => {
         challenge_id: CHALLENGE_ID
       }
     })
-  }
+  };
 
   return (
     <Container>
@@ -156,7 +155,7 @@ const AllChallengePage = ({ history }) => {
                 getMarginRightOfChallengeBox={() => 
                   getMarginRightOfChallengeBox(container_width, set_margin_right, MOCK_DATA.length)
                 }
-                onClick={() => onChallengeBoxClick()}
+                onClick={() => onChallengeBoxClick('result')}
               />
             </div>
           )}
