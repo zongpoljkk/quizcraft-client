@@ -29,12 +29,22 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
       opacity: 1,
       transition: {
         when: "beforeChildren",
-        staggerChildren: 1
+        staggerChildren: 1.25
       }
     }
   };
 
   const item = {
+    visible: (index) => ({
+      opacity: 1,
+      transition: {
+        delay: index * 1.25,
+      },
+    }),
+    hidden: { opacity: 0 },
+  };
+
+  const variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 }
   };
@@ -42,7 +52,7 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
   useEffect(() => {
     setTimeout(() => {
       set_display_lottie(true)
-    }, 3000);
+    }, 3700);
   }, []);
 
   return (
@@ -58,21 +68,21 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
         >
           <ImgWithCaption>
             <motion.div 
-              variants={item} 
+              variants={variants}
               style= {{alignSelf: "center"}}
             >
               <UserImg backgroundColor={PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
                 {PROFILE_IMG ? <img src={PROFILE_IMG}/> : null}
               </UserImg>
             </motion.div>
-            <motion.div variants={item}>
+            <motion.div variants={variants}>
               <Body>
                 <CropText>{USERNAME}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
           <motion.div 
-            variants={item} 
+            variants={variants}
             style = {{marginTop: "8px", marginBottom:"8px", width:"150px", height:"75px", alignSelf: "center" }}
           >
             {display_lottie && (
@@ -86,14 +96,15 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
           </motion.div> 
           <ImgWithCaption alignSelf={"flex-end"}>
             <motion.div 
-              variants={item} 
+              variants={item}
+              custom={4} 
               style= {{alignSelf: "center"}}
             >
               <UserImg backgroundColor={OPPONENT_PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
                 {OPPONENT_PROFILE_IMG ? <img src={OPPONENT_PROFILE_IMG}/> : null}
               </UserImg>
             </motion.div>
-            <motion.div variants={item}>
+            <motion.div variants={item} custom={5}>
               <Body>
                 <CropText>{OPPONENT_USERNAME}</CropText>
               </Body>
@@ -101,6 +112,7 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
           </ImgWithCaption>
           <motion.div 
             variants={item}
+            custom={6} 
             style = {{display: "flex", justifyContent: "center" ,marginTop: "24px"}}
           >
             <Button> ยืนยัน </Button>
