@@ -16,7 +16,7 @@ const PROFILE_IMG = "";
 const USERNAME = "pimkunut_tee";
 const SCORE = "3";
 const RESULT = [1, 1, 0, 1, 0];
-const TIME = 1432; //unit s => if other unit change in userinfo box
+const TIME = 1432; //unit s => if other unit change in helper
 const OPPONENT_PROFILE_IMG = "";
 const OPPONENT_USERNAME = "jinjin";
 const OPPONENT_SCORE = "2";

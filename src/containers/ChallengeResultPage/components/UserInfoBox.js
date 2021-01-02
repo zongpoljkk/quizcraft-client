@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Header, Body, Overline } from "../../../components/Typography";
 import correct_icon from "../../../assets/icon/success.png";
 import incorrect_icon from "../../../assets/icon/fail.png";
+import { secondToHour } from "../ChallengeResultPageHelper";
 
 import { COLOR } from "../../../global/const"
 
@@ -90,7 +91,7 @@ export const UserInfoBox = ({
             variants={variants}
             style={{marginTop: "8px"}}
           >
-            <Overline props color={COLOR.MANDARIN}> เวลาที่ใช้: {Math.floor(time/3600)}:{Math.floor((time%3600)/60)}:{Math.floor((time%3600)%60)} </Overline>
+            <Overline props color={COLOR.MANDARIN}> เวลาที่ใช้: {secondToHour(time)} </Overline>
           </motion.div>
     </UserInfoContainer>
   );
