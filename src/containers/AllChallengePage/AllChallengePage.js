@@ -5,9 +5,12 @@ import { useLocation, withRouter } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Header } from "../../components/Typography";
 import useModal from "../../components/useModal";
+import { LottieFile } from "../../components/LottieFile";
 import { ChallengeBox } from "./components/ChallengeBox";
 import { SpecificChallengeModal } from "./components/SpecificChallengeModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
+
+import no_data from "../../assets/lottie/no_data.json";
 
 import { 
   getMarginRightOfChallengeBox,
@@ -81,66 +84,84 @@ const AllChallengePage = ({ history }) => {
         : <React.Fragment>
             <Box>
               <Header>รอบของคุณ</Header>
-              <ChallengeBoxContainer maxWidth={container_width}>
-                {my_turns?.map((challenge, index) => 
-                  <div key={index}>
-                    <ChallengeBox
-                      image={challenge.photo}
-                      username={challenge.username}
-                      my_scores={challenge.myScore}
-                      challenger_score={challenge.theirScore}
-                      type={CHALLENGE_BOX_TYPE.MY_TURN}
-                      margin_right={margin_right && margin_right[index]}
-                      getMarginRightOfChallengeBox={() => 
-                        getMarginRightOfChallengeBox(container_width, set_margin_right, my_turns.length)
-                      }
-                      onClick={() => onChallengeBoxClick(challenge.challengeId)}
-                    />
-                  </div>
-                )}
-              </ChallengeBoxContainer>
+              {my_turns.length !== 0 ? 
+                <ChallengeBoxContainer maxWidth={container_width}>
+                  {my_turns?.map((challenge, index) => 
+                    <div key={index}>
+                      <ChallengeBox
+                        image={challenge.photo}
+                        username={challenge.username}
+                        my_scores={challenge.myScore}
+                        challenger_score={challenge.theirScore}
+                        type={CHALLENGE_BOX_TYPE.MY_TURN}
+                        margin_right={margin_right && margin_right[index]}
+                        getMarginRightOfChallengeBox={() => 
+                          getMarginRightOfChallengeBox(container_width, set_margin_right, my_turns.length)
+                        }
+                        onClick={() => onChallengeBoxClick(challenge.challengeId)}
+                      />
+                    </div>
+                  )}
+                </ChallengeBoxContainer>
+                : 
+                <NoDataContainer>
+                  <LottieFile animationData={no_data} loop={false} height="240px"/>
+                </NoDataContainer>
+              }
             </Box>
             <Box>
               <Header>รอบของคู่แข่ง</Header>
-              <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
-                {challenger_turns?.map((challenge, index) => 
-                  <div key={index}>
-                    <ChallengeBox
-                      image={challenge.photo}
-                      username={challenge.username}
-                      my_scores={challenge.myScore}
-                      challenger_score={challenge.theirScore}
-                      type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
-                      margin_right={margin_right && margin_right[index]}
-                      getMarginRightOfChallengeBox={() => 
-                        getMarginRightOfChallengeBox(container_width, set_margin_right, challenger_turns.length)
-                      }
-                      onClick={() => onChallengeBoxClick(challenge.challengeId)}
-                    />
-                  </div>
-                )}
-              </ChallengeBoxContainer>
+              {challenger_turns.length !== 0 ? 
+                <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
+                  {challenger_turns?.map((challenge, index) => 
+                    <div key={index}>
+                      <ChallengeBox
+                        image={challenge.photo}
+                        username={challenge.username}
+                        my_scores={challenge.myScore}
+                        challenger_score={challenge.theirScore}
+                        type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
+                        margin_right={margin_right && margin_right[index]}
+                        getMarginRightOfChallengeBox={() => 
+                          getMarginRightOfChallengeBox(container_width, set_margin_right, challenger_turns.length)
+                        }
+                        onClick={() => onChallengeBoxClick(challenge.challengeId)}
+                      />
+                    </div>
+                  )}
+                </ChallengeBoxContainer>
+                : 
+                <NoDataContainer>
+                  <LottieFile animationData={no_data} loop={false} height="240px"/>
+                </NoDataContainer>
+              }
             </Box>
             <Box>
               <Header>ผลลัพธ์</Header>
-              <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
-                {results?.map((challenge, index) => 
-                  <div key={index}>
-                    <ChallengeBox
-                      image={challenge.photo}
-                      username={challenge.username}
-                      my_scores={challenge.myScore}
-                      challenger_score={challenge.theirScore}
-                      type={CHALLENGE_BOX_TYPE.RESULT}
-                      margin_right={margin_right && margin_right[index]}
-                      getMarginRightOfChallengeBox={() => 
-                        getMarginRightOfChallengeBox(container_width, set_margin_right, results.length)
-                      }
-                      onClick={() => onChallengeBoxClick(challenge.challengeId, 'result')}
-                    />
-                  </div>
-                )}
-              </ChallengeBoxContainer>
+              {results.length !== 0 ? 
+                <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
+                  {results?.map((challenge, index) => 
+                    <div key={index}>
+                      <ChallengeBox
+                        image={challenge.photo}
+                        username={challenge.username}
+                        my_scores={challenge.myScore}
+                        challenger_score={challenge.theirScore}
+                        type={CHALLENGE_BOX_TYPE.RESULT}
+                        margin_right={margin_right && margin_right[index]}
+                        getMarginRightOfChallengeBox={() => 
+                          getMarginRightOfChallengeBox(container_width, set_margin_right, results.length)
+                        }
+                        onClick={() => onChallengeBoxClick(challenge.challengeId, 'result')}
+                      />
+                    </div>
+                  )}
+                </ChallengeBoxContainer>
+              : 
+                <NoDataContainer>
+                  <LottieFile animationData={no_data} loop={false} height="240px"/>
+                </NoDataContainer>
+              }
             </Box>
           </React.Fragment>
       }
@@ -172,6 +193,7 @@ const Box = styled.div`
   flex: 1;
   flex-direction: column;
   align-self: flex-start;
+  width: 100%;
   margin-top: 24px;
 `;
 
@@ -182,6 +204,13 @@ const ChallengeBoxContainer = styled.div`
   flex-wrap: wrap;
   align-self: flex-start;
   max-width: ${props => props.maxWidth}px;
+`;
+
+const NoDataContainer = styled.div`
+  display: flex;
+  align-items: center;
+  align-self: center;
+  height: 120px;
 `;
 
 export default withRouter(AllChallengePage);
