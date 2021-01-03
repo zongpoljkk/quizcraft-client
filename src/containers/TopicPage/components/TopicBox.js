@@ -34,7 +34,8 @@ const TopicImg = styled.img`
 const CropText = styled.div`
   overflow: hidden; 
   white-space: nowrap; 
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+  text-align: center; 
   width: 126px; 
 `;
 
