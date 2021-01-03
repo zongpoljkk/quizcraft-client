@@ -58,3 +58,25 @@ export const useGetALlMyChallenges = (user_id, subtopic_name, difficulty) => {
 
   return { getALlMyChallenges, loading, my_turns, challenger_turns, results };
 };
+
+export const useReadChallenge = () => {
+
+  const readChallenge = async (user_id, challenge_id) => {
+    try {
+      const response = await axios.put(backend+"challenge/read-challenge", {
+        userId : user_id,
+        challengeId : challenge_id
+      });
+      const { success, isRead } = response.data;
+      if (success) {
+        console.log(isRead);
+      } else {
+        console.log("readChallenge Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about read challenge :(");
+    }
+  };
+
+  return { readChallenge };
+};
