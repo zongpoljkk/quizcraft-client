@@ -20,7 +20,7 @@ import { COLOR } from "../../global/const";
 const GAIN_COIN = 200;
 const GAIN_XP = 150;
 
-const ChallengeResultPage = ( { history, user_info }) => {
+const ChallengeResultPage = ( { history }) => {
   const ref = useRef(null);
   const location = useLocation();
   const [isShowing, toggle] = useModal();
@@ -159,9 +159,6 @@ const ChallengeResultPage = ( { history, user_info }) => {
             isShowing={isShowing}
             toggle={toggle}
             win={win}
-            level={user_info?.level}
-            xp={user_info?.exp}
-            max_xp={user_info?.maxExp}
             gain_coin={GAIN_COIN}
             gain_xp={GAIN_XP}
           />
