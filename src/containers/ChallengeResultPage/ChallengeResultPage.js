@@ -159,8 +159,8 @@ const ChallengeResultPage = ( { history }) => {
             isShowing={isShowing}
             toggle={toggle}
             win={win}
-            gain_coin={GAIN_COIN}
-            gain_xp={GAIN_XP}
+            gain_coin={my_result.gainCoin}
+            gain_xp={my_result.gainExp}
           />
         </React.Fragment>
       }
