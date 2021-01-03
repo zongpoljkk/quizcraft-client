@@ -86,7 +86,6 @@ const PracticeGame = ({ history }) => {
       topic,
       subtopic
     ).then((res) => {
-      console.log(res.data);
       history.push({
         pathname:
           "/" +

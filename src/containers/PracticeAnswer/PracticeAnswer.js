@@ -72,11 +72,8 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const handleFirstClick = () => {
-    console.log(solution);
-    console.log(staticSolution);
     if (solution.length === staticSolution.length) {
     } else {
-      console.log("ELSE");
       if (!firstClick) {
         setFirstClick(true);
       }
@@ -91,13 +88,10 @@ const PracticeAnswer = ({ history }) => {
   };
 
   useEffect(() => {
-    console.log(location.state);
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
-    // set_static_solution(location.state.solution.split("\\n"));
     if (location.state.solution === "") {
-      console.log("SHOULD KAOO")
       set_static_solution([location.state.correct_answer]);
     } else {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
