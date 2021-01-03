@@ -36,6 +36,10 @@ const Container = styled.div`
   flex: 1;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default withRouter(ErrorPage);
