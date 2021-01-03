@@ -159,9 +159,9 @@ const ChallengeResultPage = ( { history, user_info }) => {
         isShowing={isShowing}
         toggle={toggle}
         win={win}
-        level={user_info.level}
-        xp={user_info.exp}
-        max_xp={user_info.maxExp}
+        level={user_info?.level}
+        xp={user_info?.exp}
+        max_xp={user_info?.maxExp}
         gain_coin={GAIN_COIN}
         gain_xp={GAIN_XP}
       />
