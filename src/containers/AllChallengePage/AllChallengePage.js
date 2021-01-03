@@ -7,6 +7,7 @@ import { Header } from "../../components/Typography";
 import useModal from "../../components/useModal";
 import { ChallengeBox } from "./components/ChallengeBox";
 import { SpecificChallengeModal } from "./components/SpecificChallengeModal";
+import { RandomChallengeModal } from "./components/RandomChallengeModal";
 
 import { 
   getMarginRightOfChallengeBox
@@ -66,7 +67,8 @@ const AllChallengePage = ({ history }) => {
 
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const {isShowing, toggle} = useModal();
+  const [isShowingModal1, toggleModal1] = useModal();
+  const [isShowingModal2, toggleModal2] = useModal();
   const [username, set_username] = useState();
   const container_width = screen_width-CONTAINER_PADDING;
   const [margin_right, set_margin_right] = useState();
@@ -90,13 +92,17 @@ const AllChallengePage = ({ history }) => {
   return (
     <Container>
       <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-        <Button type="outline">สุ่มคู่แข่ง</Button>
-        <Button onClick={toggle}>เจาะจงคู่แข่ง</Button>
+        <Button type="outline" onClick={toggleModal1}>สุ่มคู่แข่ง</Button>
+        <RandomChallengeModal 
+          isShowing={isShowingModal1}
+          toggle={toggleModal1}
+        />
+        <Button onClick={toggleModal2}>เจาะจงคู่แข่ง</Button>
         <SpecificChallengeModal 
           username={username}
           set_username={set_username}
-          isShowing={isShowing}
-          toggle={toggle}
+          isShowing={isShowingModal2}
+          toggle={toggleModal2}
         />
       </ButtonContainer>
       <Box>
