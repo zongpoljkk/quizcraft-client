@@ -16,7 +16,8 @@ import no_data from "../../assets/lottie/no_data.json";
 import { 
   getMarginRightOfChallengeBox,
   useGetALlMyChallenges,
-  useReadChallenge
+  useReadChallenge,
+  useRandomChallenge
 } from "./AllChallengePageHelper";
 
 import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const"
@@ -53,6 +54,19 @@ const AllChallengePage = ({ history }) => {
 
   const { readChallenge } = useReadChallenge();
 
+  const {
+    randomChallenge,
+    loading: loading2,
+    challenge_id,
+    me,
+    opponent
+  } = useRandomChallenge(
+    user_id,
+    location.state.subject_name,
+    location.state.subtopic_name, 
+    location.state.difficulty,
+  );
+
   const onChallengeBoxClick = (challenge_id, result) => {
     readChallenge(user_id, challenge_id);
     history.push({
@@ -69,6 +83,28 @@ const AllChallengePage = ({ history }) => {
     });
   };
 
+  const onRandomChallenge = async () => {
+    await randomChallenge();
+    await toggleModal1();
+  }
+
+  const onRandomChallengeModalSubmit = (challenge_id) => {
+    if (challenge_id) {
+      history.push({
+        pathname: "./challenge-game",
+        state: {
+          subject_name: location.state.subject_name,
+          topic_name: location.state.topic_name,
+          subtopic_id: location.state.subtopic_id,
+          subtopic_name: location.state.subtopic_name,
+          mode: location.state.mode,
+          difficulty: location.state.difficulty,
+          challenge_id: challenge_id
+        }
+      });
+    };
+  };
+
   useEffect(() => {
     getALlMyChallenges();
   }, []);
@@ -76,10 +112,22 @@ const AllChallengePage = ({ history }) => {
   return (
     <Container>
       <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-        <Button type="outline" onClick={toggleModal1}>สุ่มคู่แข่ง</Button>
+        <Button type="outline" 
+          onClick={onRandomChallenge}
+        >สุ่มคู่แข่ง</Button>
+        {loading2
+          ? <LoadingPage/>
+          : null
+        }
         <RandomChallengeModal 
           isShowing={isShowingModal1}
           toggle={toggleModal1}
+          my_username={me? me.username: ""}
+          opponent_username={opponent? opponent.username: ""}
+          my_profile_img={me? me.photo : ""} 
+          opponent_profile_img={opponent? opponent.photo : ""}
+          challenge_id={challenge_id? challenge_id : ""}
+          onSubmit={() => onRandomChallengeModalSubmit(challenge_id? challenge_id : null)}
         />
         <Button onClick={toggleModal2}>เจาะจงคู่แข่ง</Button>
         <SpecificChallengeModal 
