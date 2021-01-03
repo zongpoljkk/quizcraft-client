@@ -22,13 +22,10 @@ const OPPONENT_RESULT = [1, 0, 1, 0, 0];
 const OPPONENT_TIME = 5500;
 
 //MOCK DATA FOR MODAL
-const LEVEL = 12;
-const XP = 876;
-const MAX_XP = 2000;
 const GAIN_COIN = 200;
 const GAIN_XP = 150;
 
-const ChallengeResultPage = ( { history }) => {
+const ChallengeResultPage = ( { history, user_info }) => {
   const ref = useRef(null);
   const location = useLocation();
   const [isShowing, toggle] = useModal();
@@ -162,9 +159,9 @@ const ChallengeResultPage = ( { history }) => {
         isShowing={isShowing}
         toggle={toggle}
         win={win}
-        level={LEVEL}
-        xp={XP}
-        max_xp={MAX_XP}
+        level={user_info.level}
+        xp={user_info.exp}
+        max_xp={user_info.maxExp}
         gain_coin={GAIN_COIN}
         gain_xp={GAIN_XP}
       />

@@ -125,7 +125,7 @@ const App = () => {
             exact 
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result" 
             getUserData={getUserData}>
-            <ChallengeResultPage />
+            <ChallengeResultPage user_info={user_info}/>
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
