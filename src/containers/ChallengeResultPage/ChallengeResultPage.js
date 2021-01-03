@@ -16,14 +16,8 @@ import {
 import { COLOR } from "../../global/const";
 
 //MOCK DATA
-const PROFILE_IMG = "";
-const USERNAME = "pimkunut_tee";
-const SCORE = "3";
 const RESULT = [1, 1, 0, 1, 0];
 const TIME = 1432; //unit s => if other unit change in helper
-const OPPONENT_PROFILE_IMG = "";
-const OPPONENT_USERNAME = "jinjin";
-const OPPONENT_SCORE = "2";
 const OPPONENT_RESULT = [1, 0, 1, 0, 0];
 const OPPONENT_TIME = 5500;
 
@@ -66,14 +60,14 @@ const ChallengeResultPage = ( { history }) => {
     });
   };
 
-  const isWin = () => {
-    //TODO: INTEGRATE TO CHECK SCORE
-    if(SCORE > OPPONENT_SCORE) set_win(true);
-    if(SCORE === OPPONENT_SCORE){
+  const isWin = (my_info, challenger_info) => {
+    if(my_info?.score > challenger_info?.score) set_win(true);
+    if(my_info?.score === challenger_info?.score){
+      //TODO: INTEGRATE TO CHECK TIME USED
       if(TIME < OPPONENT_TIME) set_win(true);
     }
     else set_win(false);
-  }
+  };
 
   const list = {
     hidden: {
@@ -112,6 +106,10 @@ const ChallengeResultPage = ( { history }) => {
     }, 8750);
   }, []);
 
+  useEffect(() => {
+    isWin(my_info, challenger_info);
+  }, [my_info, challenger_info]);
+
   return (
     <Container 
       initial="hidden" 
@@ -138,10 +136,10 @@ const ChallengeResultPage = ( { history }) => {
       <DetailContainer>
         <UserInfoBox
           container_width={container_width}
-          profile_image={PROFILE_IMG}
-          username={USERNAME}
+          profile_image={my_info?.photo}
+          username={my_info?.username}
           challenge_result={RESULT}
-          total_score={SCORE}
+          total_score={my_info?.score}
           time={TIME}
         />
         <motion.div 
@@ -153,17 +151,17 @@ const ChallengeResultPage = ( { history }) => {
         </motion.div>
         <UserInfoBox
           container_width={container_width}
-          profile_image={OPPONENT_PROFILE_IMG}
-          username={OPPONENT_USERNAME}
+          profile_image={challenger_info?.photo}
+          username={challenger_info?.username}
           challenge_result={OPPONENT_RESULT}
-          total_score={OPPONENT_SCORE}
+          total_score={challenger_info?.score}
           time={OPPONENT_TIME}
         />
       </DetailContainer>
       <ResultModal
         isShowing={isShowing}
         toggle={toggle}
-        win={isWin}
+        win={win}
         level={LEVEL}
         xp={XP}
         max_xp={MAX_XP}
