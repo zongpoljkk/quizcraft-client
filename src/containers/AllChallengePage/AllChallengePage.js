@@ -11,7 +11,8 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
   getMarginRightOfChallengeBox,
-  useGetALlMyChallenges
+  useGetALlMyChallenges,
+  useReadChallenge
 } from "./AllChallengePageHelper";
 
 import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const"
@@ -32,22 +33,7 @@ const AllChallengePage = ({ history }) => {
   const container_width = screen_width-CONTAINER_PADDING;
   const [margin_right, set_margin_right] = useState();
   const user_id = localStorage.getItem("userId");
-
-  const onChallengeBoxClick = (challenge_id, result) => {
-    history.push({
-      pathname: result ? "./challenge-result" : "./challenge-game",
-      state: {
-        subject_name: location.state.subject_name,
-        topic_name: location.state.topic_name,
-        subtopic_id: location.state.subtopic_id,
-        subtopic_name: location.state.subtopic_name,
-        mode: location.state.mode,
-        difficulty: location.state.difficulty,
-        challenge_id: challenge_id
-      }
-    })
-  };
-
+  
   const { 
     getALlMyChallenges,
     loading,
@@ -59,6 +45,24 @@ const AllChallengePage = ({ history }) => {
     location.state.subtopic_name, 
     location.state.difficulty,
   );
+
+  const { readChallenge } = useReadChallenge();
+
+  const onChallengeBoxClick = (challenge_id, result) => {
+    readChallenge(user_id, challenge_id);
+    history.push({
+      pathname: result ? "./challenge-result" : "./challenge-game",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty,
+        challenge_id: challenge_id
+      }
+    });
+  };
 
   useEffect(() => {
     getALlMyChallenges();
@@ -89,6 +93,7 @@ const AllChallengePage = ({ history }) => {
                       username={challenge.username}
                       my_scores={challenge.myScore}
                       challenger_score={challenge.theirScore}
+                      is_read={challenge.isRead}
                       type={CHALLENGE_BOX_TYPE.MY_TURN}
                       margin_right={margin_right && margin_right[index]}
                       getMarginRightOfChallengeBox={() => 
@@ -110,6 +115,7 @@ const AllChallengePage = ({ history }) => {
                       username={challenge.username}
                       my_scores={challenge.myScore}
                       challenger_score={challenge.theirScore}
+                      is_read={challenge.isRead}
                       type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
                       margin_right={margin_right && margin_right[index]}
                       getMarginRightOfChallengeBox={() => 
@@ -131,6 +137,7 @@ const AllChallengePage = ({ history }) => {
                       username={challenge.username}
                       my_scores={challenge.myScore}
                       challenger_score={challenge.theirScore}
+                      is_read={challenge.isRead}
                       type={CHALLENGE_BOX_TYPE.RESULT}
                       margin_right={margin_right && margin_right[index]}
                       getMarginRightOfChallengeBox={() => 
