@@ -18,22 +18,6 @@ const OPPONENT_PROFILE_IMG = "";
 
 export const RandomChallengeModal = ({ isShowing, toggle }) => {
   const [display_lottie, set_display_lottie] = useState(false);
-  const list = {
-    hidden: {
-      opacity: 0,
-      transition: {
-        when: "afterChildren"
-      }
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        when: "beforeChildren",
-        staggerChildren: 1.25
-      }
-    }
-  };
-
   const item = {
     visible: (index) => ({
       opacity: 1,
@@ -44,15 +28,12 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
     hidden: { opacity: 0 },
   };
 
-  const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
+  const animation_success = () => {
+      set_display_lottie(true);
+  }
 
   useEffect(() => {
-    setTimeout(() => {
-      set_display_lottie(true)
-    }, 3700);
+    set_display_lottie(false);
   }, []);
 
   return (
@@ -64,35 +45,44 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
         <Container
           initial="hidden"
           animate="visible"
-          variants={list}
         >
           <ImgWithCaption>
             <motion.div 
-              variants={variants}
+              variants={item}
+              custom={0}
               style= {{alignSelf: "center"}}
             >
               <UserImg backgroundColor={PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
                 {PROFILE_IMG ? <img src={PROFILE_IMG}/> : null}
               </UserImg>
             </motion.div>
-            <motion.div variants={variants}>
+            <motion.div 
+              variants={item}
+              custom={1}
+              initial="hidden"
+              animate="visible"
+              onAnimationComplete={() => animation_success()}
+            >
               <Body>
                 <CropText>{USERNAME}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
           <motion.div 
-            variants={variants}
-            style = {{marginTop: "8px", marginBottom:"8px", width:"150px", height:"75px", alignSelf: "center" }}
+            variants={item}
+            custom={0}
+            style = {{marginTop: "8px", marginBottom:"8px" }}
+            onAnimationComplete={() => animation_success()}
           >
-            {display_lottie && (
-              <LottieFile 
-                animationData={challenge} 
-                width="150px" 
-                height="75px" 
-                loop={false}
-              />
-            )}
+            <LottieFile 
+              animationData={challenge} 
+              width="150px" 
+              height="75px" 
+              loop={false}
+              autoplay={true}
+              isPaused={!display_lottie}
+              isStopped={!display_lottie}
+            />
           </motion.div> 
           <ImgWithCaption alignSelf={"flex-end"}>
             <motion.div 
