@@ -23,7 +23,7 @@ import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
 import { LottieFile } from "../../components/LottieFile";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const"
+import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -46,10 +46,10 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetProblemForUser(
-    user_id, 
-    location.state.subject_name, 
-    location.state.subtopic_name, 
-    location.state.difficulty,
+    user_id,
+    location.state.subject_name,
+    location.state.subtopic_name,
+    location.state.difficulty
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -86,6 +86,7 @@ const PracticeGame = ({ history }) => {
       topic,
       subtopic
     ).then((res) => {
+      console.log(res.data);
       history.push({
         pathname:
           "/" +
@@ -101,6 +102,7 @@ const PracticeGame = ({ history }) => {
           problemId: problemId,
           userId: userId,
           correct: res.data.correct,
+          correct_answer: res.data.answer,
           solution: res.data.solution,
           subject: subject,
           topic: topic,

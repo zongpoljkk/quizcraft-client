@@ -72,6 +72,8 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const handleFirstClick = () => {
+    console.log(solution);
+    console.log(staticSolution);
     if (solution.length === staticSolution.length) {
     } else {
       console.log("ELSE");
@@ -94,7 +96,12 @@ const PracticeAnswer = ({ history }) => {
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
     // set_static_solution(location.state.solution.split("\\n"));
-    set_static_solution(location.state.solution.split(/[\r\n]+/));
+    if (location.state.solution === "") {
+      console.log("SHOULD KAOO")
+      set_static_solution([location.state.correct_answer]);
+    } else {
+      set_static_solution(location.state.solution.split(/[\r\n]+/));
+    }
     set_solution([]);
     setIsLoading(false);
   }, []);
