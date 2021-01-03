@@ -21,7 +21,7 @@ const Homepage = ({ user_id }) => {
 
   useEffect(() => {
     getLeaderBoard()
-  }, [leader_board]);
+  }, []);
 
   return (
     <React.Fragment>

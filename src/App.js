@@ -21,7 +21,8 @@ import QuizResultPage from "./containers/QuizResultPage/QuizResultPage";
 import QuizGame from "./containers/QuizGame/QuizGame";
 import AllChallengePage from "./containers/AllChallengePage/AllChallengePage";
 import ChallengeGame from "./containers/ChallengeGame/ChallengeGame";
-import ReportPage from "./containers/ReportPage/ReportPage";
+import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage"
+import ReportPage from "./containers/ReportPage/ReportPage"
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
 
@@ -93,6 +94,7 @@ const App = () => {
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
+            getUserData={getUserData}
           >
             <QuizGame />
           </PrivateRoute>
@@ -117,13 +119,19 @@ const App = () => {
           >
             <ChallengeGame />
           </PrivateRoute>
+          <PrivateRoute 
+            exact 
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result" 
+            getUserData={getUserData}>
+            <ChallengeResultPage />
+          </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
           <PrivateRoute exact path="/:subject/:topic">
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage">
+          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage user_id={user_id} />
           </PrivateRoute>
           <PrivateRoute exact path="/report" getUserData={getUserData}>
@@ -137,6 +145,9 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
+            <ReportPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
