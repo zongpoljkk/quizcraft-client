@@ -96,7 +96,6 @@ const AllChallengePage = ({ history }) => {
         <RandomChallengeModal 
           isShowing={isShowingModal1}
           toggle={toggleModal1}
-          display_lottie={display_lottie}
         />
         <Button onClick={toggleModal2}>เจาะจงคู่แข่ง</Button>
         <SpecificChallengeModal 
