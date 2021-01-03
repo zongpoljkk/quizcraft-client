@@ -37,7 +37,7 @@ const NUMBER_OF_QUIZ = 10;
 const QuizGame = ({ history }) => {
   
   const location = useLocation();
-  const {isShowing, toggle} = useModal();
+  const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);

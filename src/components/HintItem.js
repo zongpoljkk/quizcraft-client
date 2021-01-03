@@ -19,7 +19,7 @@ export const HintItem = ({
   content
 }) => {
 
-  const {isShowing, toggle} = useModal();
+  const [isShowing, toggle] = useModal();
 
   return (
     <div>
