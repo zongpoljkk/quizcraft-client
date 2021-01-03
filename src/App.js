@@ -17,9 +17,11 @@ import EditUsernamePage from "./containers/EditUsernamePage/EditUsernamePage";
 import TopicPage from "./containers/TopicPage/TopicPage";
 import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGame/PracticeGame";
+import QuizResultPage from "./containers/QuizResultPage/QuizResultPage";
 import QuizGame from "./containers/QuizGame/QuizGame";
 import AllChallengePage from "./containers/AllChallengePage/AllChallengePage";
 import ChallengeGame from "./containers/ChallengeGame/ChallengeGame";
+import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage"
 import ReportPage from "./containers/ReportPage/ReportPage"
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
@@ -27,7 +29,6 @@ import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage"
 const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
-  console.log(token);
   const user_id = localStorage.getItem("userId");
 
   if (token) {
@@ -96,7 +97,14 @@ const App = () => {
           >
             <QuizGame />
           </PrivateRoute>
-          <PrivateRoute 
+          <PrivateRoute
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
+            getUserData={getUserData}
+          >
+            <QuizResultPage />
+          </PrivateRoute>
+          <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
@@ -109,6 +117,12 @@ const App = () => {
             getUserData={getUserData}
           >
             <ChallengeGame />
+          </PrivateRoute>
+          <PrivateRoute 
+            exact 
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result" 
+            getUserData={getUserData}>
+            <ChallengeResultPage />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
@@ -131,6 +145,12 @@ const App = () => {
           <PrivateRoute exact path="/edit-username">
             <EditUsernamePage />
           </PrivateRoute>
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
+            <ReportPage />
+          </PrivateRoute>
+          {/* <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+            <Homepage user_id={user_id} />
+          </PrivateRoute> */}
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
