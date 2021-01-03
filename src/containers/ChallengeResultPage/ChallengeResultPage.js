@@ -9,6 +9,10 @@ import { UserInfoBox } from "./components/UserInfoBox";
 import { ResultModal } from "./components/ResultModal";
 import useModal from "../../components/useModal";
 
+import { 
+  useGetChallengeInfo
+} from "./ChallengeResultPageHelper";
+
 import { COLOR } from "../../global/const";
 
 //MOCK DATA
@@ -37,6 +41,30 @@ const ChallengeResultPage = ( { history }) => {
   const [container_width, set_container_width] = useState();
   const [win, set_win] = useState();
   const [showModal, setShowModal] = useState();
+  const user_id = localStorage.getItem("userId");
+
+  const { 
+    getChallengeInfo,
+    my_info,
+    challenger_info
+  } = useGetChallengeInfo(
+    user_id,
+    location.state.challenge_id
+  );
+
+  const onExit = () => {
+    history.push({
+      pathname: "./all-challenges",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty
+      }
+    });
+  };
 
   const isWin = () => {
     //TODO: INTEGRATE TO CHECK SCORE
@@ -78,6 +106,7 @@ const ChallengeResultPage = ( { history }) => {
   }, [ref.current]);
 
   useEffect(() => {
+    getChallengeInfo();
     setTimeout(() => {
       setShowModal(toggle)
     }, 8750);
@@ -95,7 +124,7 @@ const ChallengeResultPage = ( { history }) => {
         variants={variants}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <ExitModal onExit={() => history.push("./all-challenges")} />
+        <ExitModal onExit={() => onExit()} />
         <div
           style={{
             display: "flex",

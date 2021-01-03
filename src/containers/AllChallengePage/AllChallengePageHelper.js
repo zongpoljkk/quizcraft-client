@@ -69,7 +69,7 @@ export const useReadChallenge = () => {
       });
       const { success, isRead } = response.data;
       if (success) {
-        console.log(isRead);
+        console.log("isRead", isRead);
       } else {
         console.log("readChallenge Error");
       } 
