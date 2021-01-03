@@ -12,7 +12,7 @@ export const ExitModal = ({
   onExit = () => {},
 }) => {
 
-  const {isShowing, toggle} = useModal();
+  const [isShowing, toggle] = useModal();
 
   return (
     <div>

@@ -33,7 +33,7 @@ const GAIN_XP = 150;
 const ChallengeResultPage = ( { history }) => {
   const ref = useRef(null);
   const location = useLocation();
-  const {isShowing, toggle} = useModal();
+  const [isShowing, toggle] = useModal();
   const [container_width, set_container_width] = useState();
   const [win, set_win] = useState();
   const [showModal, setShowModal] = useState();
