@@ -76,30 +76,3 @@ const Container = styled(motion.div)`
   align-items: center;
 `;
 
-const ProgressBarContainer = styled(motion.div)`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
-`;
-
-const LevelTitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
-`;
-
-const LevelTitle = styled.div.attrs(props => ({
-  marginBottom: props.marginBottom
-}))`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: ${props => props.marginBottom}px;
-`;
-
