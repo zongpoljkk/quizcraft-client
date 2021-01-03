@@ -42,3 +42,33 @@ export const useGetChallengeInfo = (user_id, challenge_id) => {
 
   return { getChallengeInfo, my_info, challenger_info };
 };
+
+export const useGetFinalChallengeResult = (user_id, challenge_id) => {
+  const [loading, set_loading] = useState(true);
+  const [my_result, set_my_result] = useState();
+  const [challenger_result, set_challenger_result] = useState();
+
+  const getFinalChallengeResult = async () => {
+    set_loading(true);
+    try {
+      const response = await axios.get(backend+"challenge/get-final-challenge-result", {
+        params: {
+          userId : user_id,
+          challengeId : challenge_id
+        }
+      });
+      const { success, data } = response.data;
+      if (success) {
+        set_my_result(data.me);
+        set_challenger_result(data.opponent);
+        set_loading(false);
+      } else {
+        console.log("getFinalChallengeResult Error");
+      } 
+    } catch (e) {
+      console.log("There are something wrong about get final challenge result :(");
+    }
+  };
+
+  return { getFinalChallengeResult, loading, my_result, challenger_result };
+};
