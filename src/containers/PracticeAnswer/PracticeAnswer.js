@@ -32,14 +32,12 @@ const TITLE = {
 
 const PracticeAnswer = ({ history }) => {
   const [correct, set_correct] = useState(true);
-  // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
   // So you can always refer to this state
   const [staticSolution, set_static_solution] = useState("");
   // solution is an array of string. Each string represents one line of solution
-  // At first, the array will have just one string but after forward click, we'll
-  // add one more line to the array and remove one line after backward click
+  // At first, the array will have just one string but after click next line will be added to the solution
   const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

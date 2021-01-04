@@ -9,7 +9,6 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem";
 import { Button } from "../../components/Button";
-// import PracticeGameContent from "./PracticeGameContent";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 

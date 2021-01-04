@@ -12,36 +12,20 @@ import eng_logo from "../../../assets/english_logo.png";
 // Global
 import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
-import { useHistory, useLocation, withRouter } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
 const SubjectCard = ({ history }) => {
-  // let history = useHistory();
-  let location = useLocation();
-
   const [subjects, setSubjects] = useState([]);
-
-  const returnImg = (subject) => {
-    switch (subject) {
-      case "คณิตศาสตร์":
-        return math_logo;
-      case "อังกฤษ":
-        return eng_logo;
-      default:
-        return math_logo;
-    }
-  };
 
   const handleOnSubjectClick = (subject_name) => {
     history.push({
-      // pathname: "/" + subject_name,
       pathname: "/" + subject_name,
       state: {
         subject_name: subject_name,
       },
     });
-    // location.pushState()
   };
 
   useEffect(() => {
