@@ -12,6 +12,7 @@ const ModeBox = ({
   type, 
   id,
   title,
+  available_difficulty,
   subject,
   topic,
   history,
@@ -68,14 +69,14 @@ const ModeBox = ({
         </Container>
       </motion.div>
       <DifficultyBox ref={ref}>
-        {Object.entries(DIFFICULTY).map((item, index) => (
+        {available_difficulty.map((item, index) => (
           <Icon
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleClick(subject, id, title, topic, type, item[1].type)
+              item.isAvailable && handleClick(subject, id, title, topic, type, item.difficulty)
             }}
-            src={item[1].icon}
+            src={DIFFICULTY[item.difficulty].icon}
           />
         ))}
       </DifficultyBox>
