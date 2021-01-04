@@ -50,10 +50,6 @@ const ChallengeGame = ({ history }) => {
     location.state.challenge_id
   );
 
-  useEffect(() => {
-    getChallengeInfo();
-  }, []);
-
   const onExit = () => {
     history.push({
       pathname: "./all-challenges", 
@@ -67,7 +63,7 @@ const ChallengeGame = ({ history }) => {
       }
     });
   };
-
+  
   const onCheck = () => {
     if(answer) {
       // TODO: connect API check answer
@@ -75,12 +71,17 @@ const ChallengeGame = ({ history }) => {
     // TODO: connect API check answer with blank answer
   };
 
+  useEffect(() => {
+    getChallengeInfo();
+  }, []);
+
   return ( 
     <Container>
       <Timer
         formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
         startImmediately={false}
         lastUnit="h"
+        initialTime={my_info?.usedTime}
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
@@ -88,7 +89,7 @@ const ChallengeGame = ({ history }) => {
             <Headline>
               <ExitModal onExit={() => onExit()}/>
               <div style={{ marginRight: 8 }}/>
-              <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={CURRENT_INDEX}/>
+              <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={my_info?.currentProblem+1}/>
               <TimeContainer>
                 <Body color={COLOR.MANDARIN}>
                   <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
