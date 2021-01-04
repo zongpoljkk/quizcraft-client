@@ -20,8 +20,8 @@ const Homepage = ({ user_id }) => {
   }, [ref.current]);
 
   useEffect(() => {
-    getLeaderBoard();
-  }, [leader_board]);
+    getLeaderBoard()
+  }, []);
 
   return (
     <React.Fragment>
