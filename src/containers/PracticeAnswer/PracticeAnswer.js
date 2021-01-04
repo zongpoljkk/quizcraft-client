@@ -44,8 +44,6 @@ const PracticeAnswer = ({ history }) => {
 
   const location = useLocation();
 
-  const stringToArrayOfString = (v) => [].concat(v).map((name) => name);
-
   const handleNextButtonClick = () => {
     history.push({
       pathname:
@@ -185,7 +183,9 @@ const PracticeAnswer = ({ history }) => {
               return (
                 <li key={Math.random()}>
                   <Solution answer={correct}>
-                    {i > 0 ? "= " : null}
+                    {i > 0 || location.state.subject === "คณิตศาสตร์"
+                      ? "= "
+                      : null}
                     {line}
                   </Solution>
                 </li>
