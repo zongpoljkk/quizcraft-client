@@ -27,7 +27,7 @@ const Shop = () => {
   const ANIMATIONS = {
     rest: 1,
     hover: 1.1,
-    pressed: 0.95,
+    pressed: 0.9,
   };
 
   const [animation, set_animation] = useState(ANIMATIONS.rest);
@@ -99,7 +99,6 @@ const Shop = () => {
             <ItemContainer
               key={item_properties.item_name}
               onMouseOver={() => {
-                // set_current_item(item_properties.item_name);
                 if (item_properties.item_name !== "ไอเทม") {
                   set_animation(ANIMATIONS.hover);
                   set_in_used({
@@ -191,7 +190,6 @@ const ShopContainer = styled.div`
 
 const ItemContainer = styled.div`
   display: flex;
-  flex: 1 1 25%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -200,6 +198,15 @@ const ItemContainer = styled.div`
   margin-left: 8px;
   margin-right: 8px;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
+  @media screen and (min-width: 411px) {
+    flex: 1 1 25%;
+  }
+  @media screen and (min-width: 301px) and (max-width: 410px) {
+    flex: 1 1 35%;
+  }
+  @media screen and (max-width: 300px) {
+    flex: 1 1 50%;
+  }
 `;
 
 const ItemImg = styled.img`
