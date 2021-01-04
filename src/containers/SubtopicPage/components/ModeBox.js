@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import { Subheader } from "../../../components/Typography";
 import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
+import chevron from "../../../assets/icon/chevron.png";
 
 const ModeBox = ({ 
   icon, 
@@ -27,11 +28,10 @@ const ModeBox = ({
     selected_mode, 
     selected_difficulty 
   ) => {
-    console.log(selected_mode, MODE.PRACTICE.type )
     history.push({
       pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+
         (selected_mode === MODE.PRACTICE.type ? "/practice-game" 
-        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/challenge-game"), 
+        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/all-challenges"), 
       state: {
         subject_name: selected_subject,
         topic_name: selected_topic_name,
@@ -63,6 +63,7 @@ const ModeBox = ({
             <Subheader props color={COLOR.WHITE}>
               {type}
             </Subheader>
+              <ChevronIcon src={chevron} /> 
           </Box>
         </Container>
       </motion.div>
@@ -89,6 +90,7 @@ const Background = styled.div`
   background: ${COLOR.GOLDEN_TAINOI};
   z-index: 3;
 `;
+
 const Container = styled.div`
   display: flex;
   flex: 1;
@@ -118,6 +120,14 @@ const Icon = styled.img`
   width: 40px;
   height: 40px;
   margin-right: 16px;
+`;
+
+const ChevronIcon = styled.img`
+  alt: "swipe icon";
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  opacity: 0.3;
 `;
 
 export default withRouter(ModeBox);

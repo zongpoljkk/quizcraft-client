@@ -11,6 +11,7 @@ import { HintItem } from "../../components/HintItem"
 import { Button } from "../../components/Button"
 import { LottieFile } from "../../components/LottieFile";
 import GameContent from "../../components/GameContent";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
   useGetHintByProblemId,
@@ -21,9 +22,6 @@ import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
-
-// MOCK DATA
-const USER_ID = "5fcb4ccbc53dd068520072a1";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -36,6 +34,7 @@ const PracticeGame = ({ history }) => {
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
+  const user_id = localStorage.getItem("userId");
 
   const { 
     getProblemForUser,
@@ -47,10 +46,10 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices
   } = useGetProblemForUser(
-    USER_ID, 
+    user_id, 
     location.state.subject_name, 
     location.state.subtopic_name, 
-    location.state.difficulty
+    location.state.difficulty,
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -80,14 +79,20 @@ const PracticeGame = ({ history }) => {
         startImmediately={true}
         lastUnit="h"
       >
-        {({ getTime }) => (
+        {({ getTime, start, reset }) => (
           <React.Fragment>
+            {problem_id ? start() : reset()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <HintItem onGetHint={() => getHintByProblemId()} content={hint}/>
-              <ItemCard onClick={onSkip}>
+              <ItemCard>
                 {skip === ITEM_USAGE.UN_USE && (
-                  <CenterContainer onClick={onSkip}>
+                  <CenterContainer
+                    onClick={() => {
+                      onSkip();
+                      reset();
+                    }}
+                  >
                     <img src={skip_icon} height={22}/>
                   </CenterContainer>
                 )}
@@ -106,7 +111,7 @@ const PracticeGame = ({ history }) => {
               </TimeContainer>
             </Headline>
             {loading 
-            ? <div> loading </div>
+            ? <LoadingPage/>
             : (
               <React.Fragment>
                 <ProblemBox

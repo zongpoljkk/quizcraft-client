@@ -1,37 +1,45 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-// import { Typography, Divider } from "antd";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
-const ErrorPage = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  let msg = params.get("msg");
-  if (msg) {
-    // Capitalize
-    msg = msg.charAt(0).toUpperCase() + msg.slice(1);
-  } else {
-    // Somehow redirected to this page
-    msg = "Not Found";
-  }
-  params.delete("msg");
+import { Subheader, Body } from "../../components/Typography";
+import { Button } from "../../components/Button";
+import { LottieFile } from "../../components/LottieFile";
+
+import page_not_found from "../../assets/lottie/404.json";
+
+import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
+
+const ErrorPage = ({ history }) => {
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
-    <div
-      className="site-layout-background"
-      style={{ marginTop: 16, padding: 24 }}
-    >
-      <div style={{ textAlign: "center" }}>
-        {msg}
-        <br />
-        There's an error with the page you've requested
-        <br />
-        <br />
-        If you've got any troubles with the page - please report to DevSecOps
-        team.
-        <br />
-      </div>
-    </div>
+    <Container>
+      <LottieFile 
+        animationData={page_not_found} 
+        width={screen_width-CONTAINER_PADDING}
+      />
+      <Subheader color={COLOR.MANDARIN}>ขออภัย ไม่พบหน้าที่คุณต้องการ</Subheader>
+      <Body color={COLOR.MANDARIN}>กรุณาตรวจสอบใหม่อีกครั้ง หรือกลับสู่หน้าแรก</Body>
+      <div style={{ marginBottom: 32 }}/>
+      <Button onClick={() => { history.push("homepage"); }}>
+        กลับหน้าแรก
+      </Button>
+    </Container>
   );
 };
 
-export default ErrorPage;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+export default withRouter(ErrorPage);
