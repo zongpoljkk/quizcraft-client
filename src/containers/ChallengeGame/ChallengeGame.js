@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
@@ -11,6 +11,10 @@ import { ProblemIndex } from "../../components/ProblemIndex"
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { UserInfo } from "./components/UserInfo";
+
+import {
+  useGetChallengeInfo
+} from "./ChallengeGameHelper";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils"
@@ -27,10 +31,6 @@ const QUESTION = '[] should be more than 200 words.';
 const CHOICES = ["slowly", "slowled", "slows", "slowing"];
 const TYPE_ANSWER = "RADIO_CHOICE";
 const LOADING = false;
-const MY_PHOTO = null;
-const CHALLENGER_PHOTO = null;
-const MY_SCORE = 0;
-const CHALLENGER_SCORE = null;
 const CURRENT_INDEX = 1;
 
 const ChallengeGame = ({ history }) => {
@@ -39,6 +39,20 @@ const ChallengeGame = ({ history }) => {
   const [used_time, set_used_time] = useState();
   const [answer, set_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const user_id = localStorage.getItem("userId");
+
+  const { 
+    getChallengeInfo,
+    my_info,
+    challenger_info
+  } = useGetChallengeInfo(
+    user_id,
+    location.state.challenge_id
+  );
+
+  useEffect(() => {
+    getChallengeInfo();
+  }, []);
 
   const onExit = () => {
     history.push({
@@ -82,10 +96,11 @@ const ChallengeGame = ({ history }) => {
               </TimeContainer>
             </Headline>
             <UserInfo
-              my_image={MY_PHOTO}
-              challenger_image={CHALLENGER_PHOTO}
-              my_score={MY_SCORE}
-              challenger_score={CHALLENGER_SCORE}
+              my_image={my_info?.photo}
+              challenger_image={challenger_info?.photo}
+              my_score={my_info?.score}
+              challenger_score={challenger_info?.score}
+              challenger_is_played={challenger_info?.isPlayed}
             />
             {LOADING 
             ? <LoadingPage/>

@@ -9,7 +9,8 @@ export const UserInfo = ({
   my_image,
   challenger_image,
   my_score,
-  challenger_score
+  challenger_score,
+  challenger_is_played
 }) => {
 
   return (
@@ -29,7 +30,7 @@ export const UserInfo = ({
           {challenger_image ? <Image src={challenger_image}/> : null}
         </ProfileImage>
         <div style={{ marginBottom: 4 }}/>
-        {challenger_score
+        {challenger_is_played
           ? <Body color={COLOR.MANDARIN}>{challenger_score}</Body>
           : <Body color={COLOR.SILVER}>รอเล่น</Body>
         }
