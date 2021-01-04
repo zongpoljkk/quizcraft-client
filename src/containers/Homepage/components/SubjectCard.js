@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Utils
 import { convertHexToRGBA } from "../../../global/utils";
-import { getSubjects } from "../HomepageHelper";
+import { useGetSubjects } from "../HomepageHelper";
 
-// Media
-import math_logo from "../../../assets/math_logo.png";
-import eng_logo from "../../../assets/english_logo.png";
+// Components
+import LoadingPage from "../../LoadingPage/LoadingPage";
 
 // Global
 import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
-import { useLocation, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
-const SubjectCard = ({ history }) => {
-  const [subjects, setSubjects] = useState([]);
+const SubjectCard = ({ history, subjects_data }) => {
+  const [subjects, set_subjects] = useState([]);
+
+  // const { getSubjects, subjects_loading, subjects } = useGetSubjects();
 
   const handleOnSubjectClick = (subject_name) => {
     history.push({
@@ -30,9 +31,7 @@ const SubjectCard = ({ history }) => {
 
   useEffect(() => {
     console.log(`useEffect: SubjectCard`);
-    getSubjects().then((subjects) => {
-      setSubjects(subjects.data);
-    });
+    set_subjects(subjects_data);
   }, []);
   return (
     <SubjectDiv>
