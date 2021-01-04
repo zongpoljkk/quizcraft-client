@@ -16,24 +16,6 @@ const GameContent = ({
   answer,
   set_answer,
 }) => {
-  const checkMathInput = () => {
-    console.log(correct_answer);
-    // console.log(answer);
-    if (type === ANSWER_TYPE.MATH_INPUT) {
-      const base = document
-        .getElementById("answerBox_0")
-        .getElementsByTagName("input")[0].value;
-      const exponent = document
-        .getElementById("answerBox_1")
-        .getElementsByTagName("input")[0].value;
-      console.log(base);
-      console.log(exponent);
-    }
-  };
-
-  useEffect(() => {
-  });
-
   return (
     <Container>
       {type === ANSWER_TYPE.MATH_INPUT && (

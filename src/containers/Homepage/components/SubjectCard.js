@@ -1,54 +1,37 @@
-import { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Utils
 import { convertHexToRGBA } from "../../../global/utils";
-import { getSubjects } from "../HomepageHelper";
+import { useGetSubjects } from "../HomepageHelper";
 
-// Media
-import math_logo from "../../../assets/math_logo.png";
-import eng_logo from "../../../assets/english_logo.png";
+// Components
+import LoadingPage from "../../LoadingPage/LoadingPage";
 
 // Global
 import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
-import { useHistory, useLocation, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
-const SubjectCard = ({ history }) => {
-  // let history = useHistory();
-  let location = useLocation();
+const SubjectCard = ({ history, subjects_data }) => {
+  const [subjects, set_subjects] = useState([]);
 
-  const [subjects, setSubjects] = useState([]);
-
-  const returnImg = (subject) => {
-    switch (subject) {
-      case "คณิตศาสตร์":
-        return math_logo;
-      case "อังกฤษ":
-        return eng_logo;
-      default:
-        return math_logo;
-    }
-  };
+  // const { getSubjects, subjects_loading, subjects } = useGetSubjects();
 
   const handleOnSubjectClick = (subject_name) => {
     history.push({
-      // pathname: "/" + subject_name,
       pathname: "/" + subject_name,
       state: {
         subject_name: subject_name,
       },
     });
-    // location.pushState()
   };
 
   useEffect(() => {
     console.log(`useEffect: SubjectCard`);
-    getSubjects().then((subjects) => {
-      setSubjects(subjects.data);
-    });
+    set_subjects(subjects_data);
   }, []);
   return (
     <SubjectDiv>

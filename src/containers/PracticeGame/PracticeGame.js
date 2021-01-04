@@ -9,7 +9,6 @@ import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
 import { HintItem } from "../../components/HintItem";
 import { Button } from "../../components/Button";
-// import PracticeGameContent from "./PracticeGameContent";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
@@ -30,18 +29,6 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
 };
 
-const PROBLEM_ID = "5fce5e62f329e3f7f295d364";
-// const USER_ID = "5fd560243de6aaa3c97aa72b";
-const USER_ANSWER = "16^1";
-// const TOPIC = "เลขยกกำลัง";
-const SUBTOPIC = "การดำเนินการของเลขยกกำลัง";
-
-const CONTENT3 =
-  "You can only join the football team if you can stay late on [Mondays.&Fridays.]";
-const QUESTION4 = "[] should be more than 200 words.";
-const CHOICES1 = ["slowly", "slowled", "slows", "slowing"];
-const TYPE_ANSWER = "RADIO_CHOICE";
-
 const PracticeGame = ({ history }) => {
   const location = useLocation();
   const [answer, set_answer] = useState("");
@@ -58,10 +45,10 @@ const PracticeGame = ({ history }) => {
     correct_answer,
     choices,
   } = useGetProblemForUser(
-    user_id, 
-    location.state.subject_name, 
-    location.state.subtopic_name, 
-    location.state.difficulty,
+    user_id,
+    location.state.subject_name,
+    location.state.subtopic_name,
+    location.state.difficulty
   );
   const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
 
@@ -78,44 +65,6 @@ const PracticeGame = ({ history }) => {
         topic_name: topic_name,
       },
     });
-  };
-
-  const checkMathInput = (answer_type) => {
-    console.log(correct_answer);
-    // console.log(answer);
-    if (answer_type === ANSWER_TYPE.MATH_INPUT) {
-      let base;
-      let exponent;
-      if (document.getElementById("answerBox_2")) {
-        // There are curly braces in this math expression
-        // answerBox_0 and answerBox_2 are curly braces
-        base =
-          "(" +
-          document
-            .getElementById("answerBox_1")
-            .getElementsByTagName("input")[0].value +
-          ")";
-        exponent = document
-          .getElementById("answerBox_3")
-          .getElementsByTagName("input")[0].value;
-      } else {
-        base = document
-          .getElementById("answerBox_0")
-          .getElementsByTagName("input")[0].value;
-        exponent = document
-          .getElementById("answerBox_1")
-          .getElementsByTagName("input")[0].value;
-      }
-      console.log(base);
-      console.log(exponent);
-      exponent = "[" + exponent + "]";
-      // set_answer(base.toString());
-      let tempAns = [];
-      tempAns = [...tempAns, base];
-      tempAns = [...tempAns, exponent];
-      const mathAns = tempAns.join("^");
-      set_answer(mathAns);
-    }
   };
 
   const handleCheckAnswerClick = async (
@@ -151,6 +100,7 @@ const PracticeGame = ({ history }) => {
           problemId: problemId,
           userId: userId,
           correct: res.data.correct,
+          correct_answer: res.data.answer,
           solution: res.data.solution,
           subject: subject,
           topic: topic,
@@ -164,21 +114,6 @@ const PracticeGame = ({ history }) => {
   useEffect(() => {
     getProblemForUser();
   }, []);
-
-  // useEffect(() => {
-  //   if (answer !== "") {
-  //     handleCheckAnswerClick(
-  //       problem_id,
-  //       localStorage.getItem("userId"),
-  //       answer,
-  //       time,
-  //       location.state.subject_name,
-  //       location.state.topic_name,
-  //       location.state.subtopic_name,
-  //       location.state.difficulty
-  //     );
-  //   }
-  // }, [answer]);
 
   return (
     <Container>
@@ -253,24 +188,11 @@ const PracticeGame = ({ history }) => {
                     answer={answer}
                     set_answer={set_answer}
                   />
-                  {/* <GameContent
-                    type={TYPE_ANSWER}
-                    correct_answer={correct_answer}
-                    question={QUESTION4}
-                    choices={CHOICES1}
-                    content={CONTENT3}
-                    answer={answer}
-                    set_answer={set_answer}
-                  /> */}
                 </ContentContainer>
                 <ButtonContainer>
                   <Button
                     type={answer ? "default" : "disabled"}
                     onClick={() => {
-                      // setTime(getTime());
-                      // if (location.state.subject_name === "คณิตศาสตร์") {
-                      //   checkMathInput(answer_type);
-                      // }
                       handleCheckAnswerClick(
                         problem_id,
                         localStorage.getItem("userId"),
