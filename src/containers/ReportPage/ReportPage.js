@@ -9,19 +9,37 @@ import { TextField } from "../../components/TextField";
 
 import { REPORT } from "../../global/const";
 
+import { useSendReport } from "./ReportPageHelper";
+
 //MOCK DATA
 const PROBLEM_TITLE = "จงทำเลขยกกำลังต่อไปนี้ให้เป็นรูปอย่างง่าย"
 const PROBLEM_CONTENT = "g^[14]*g^[-34]*g^[36]*g^[-16]"
+const PROBLEM_ID = "5fec5c4c1ba7064f71af1727"
 
 const ReportPage = () => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const [report_problem, set_report_problem] = useState();
   const [etc_problem, set_etc_problem] = useState();
+  const [report_content, set_report_content] = useState();
+  const user_id = localStorage.getItem("userId");
+  var date;
+  const { sendReport } = useSendReport(user_id, PROBLEM_ID, report_content, date);
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
   }, [ref.current]);
+
+  const handleOnclick = (content) => {
+    set_report_content(content);
+    date = new Date();
+    console.log(content)
+    sendReport();
+  }
+
+  useEffect(() => {
+    sendReport();
+  }, [report_problem]);
   
   return ( 
     <Container ref={ref}>
@@ -61,7 +79,10 @@ const ReportPage = () => {
         </TextfieldContainer>
       }
       <CenterContainer marginTop="36">
-        <Button type={((report_problem && report_problem !== REPORT.ETC) || (report_problem === REPORT.ETC && etc_problem)) ? "default" : "disabled"}>
+        <Button 
+          type={((report_problem && report_problem !== REPORT.ETC) || (report_problem === REPORT.ETC && etc_problem)) ? "default" : "disabled"}
+          onClick={() => report_problem !== REPORT.ETC ? handleOnclick(report_problem) : handleOnclick(etc_problem)}
+        >
           ตรวจ
         </Button>
       </CenterContainer>
@@ -92,6 +113,5 @@ const TextfieldContainer = styled.div.attrs(props => ({
   width: ${props => props.width}px;
   margin-left: 32px;
 `;
-
 
 export default ReportPage;
