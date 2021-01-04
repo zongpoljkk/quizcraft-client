@@ -116,8 +116,7 @@ const AllChallengePage = ({ history }) => {
           onClick={onRandomChallenge}
         >สุ่มคู่แข่ง</Button>
         {loading2
-          ? <LoadingPage/>
-          : null
+          && <LoadingPage overlay={true}/>
         }
         <RandomChallengeModal 
           isShowing={isShowingModal1}
