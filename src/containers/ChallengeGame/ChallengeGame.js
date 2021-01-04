@@ -13,25 +13,14 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { UserInfo } from "./components/UserInfo";
 
 import {
-  useGetChallengeInfo
+  useGetChallengeInfo,
+  useGetProblemByChallengeId
 } from "./ChallengeGameHelper";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils"
 
 const NUMBER_OF_QUIZ = 5;
-
-// MOCK DATA
-const PROBLEM_ID = "5fcb4ccbc53dd068520072a1";
-const TITLE = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
-const PROBLEM_CONTENT = 'โจทย์';
-const CORRECT_ANSWER = '(22^[5]*22^[2])*22^[39]';
-const CONTENT = 'You can only join the football team if you can stay late on [Mondays.&Fridays.]';
-const QUESTION = '[] should be more than 200 words.';
-const CHOICES = ["slowly", "slowled", "slows", "slowing"];
-const TYPE_ANSWER = "RADIO_CHOICE";
-const LOADING = false;
-const CURRENT_INDEX = 1;
 
 const ChallengeGame = ({ history }) => {
   
@@ -43,12 +32,24 @@ const ChallengeGame = ({ history }) => {
 
   const { 
     getChallengeInfo,
+    loading_info,
     my_info,
     challenger_info
   } = useGetChallengeInfo(
     user_id,
     location.state.challenge_id
   );
+
+  const { 
+    getProblemByChallengeId,
+    loading_problem,
+    problem_id,
+    body,
+    answer_type,
+    title,
+    correct_answer,
+    choices
+  } = useGetProblemByChallengeId();
 
   const onExit = () => {
     history.push({
@@ -75,83 +76,85 @@ const ChallengeGame = ({ history }) => {
     getChallengeInfo();
   }, []);
 
+  useEffect(() => {
+    if(my_info) {
+      getProblemByChallengeId(location.state.challenge_id, my_info.currentProblem);
+    };
+  }, [my_info]);
+
   return ( 
-    <Container>
-      <Timer
-        formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-        startImmediately={false}
-        lastUnit="h"
-        initialTime={my_info?.usedTime}
-      >
-        {({ getTime, start, stop, reset }) => (
-          <React.Fragment>
-            {PROBLEM_ID ? start() : reset()}
-            <Headline>
-              <ExitModal onExit={() => onExit()}/>
-              <div style={{ marginRight: 8 }}/>
-              <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={my_info?.currentProblem+1}/>
-              <TimeContainer>
-                <Body color={COLOR.MANDARIN}>
-                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-                </Body>
-              </TimeContainer>
-            </Headline>
-            <UserInfo
-              my_image={my_info?.photo}
-              challenger_image={challenger_info?.photo}
-              my_score={my_info?.score}
-              challenger_score={challenger_info?.score}
-              challenger_is_played={challenger_info?.isPlayed}
-            />
-            {LOADING 
-            ? <LoadingPage/>
-            : (
-              <React.Fragment>
-                <ProblemBox
-                  problem={TITLE}
-                  problem_content={TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? PROBLEM_CONTENT : null}
+    (loading_info || loading_problem)
+    ? <LoadingPage />
+    : <Container>
+        <Timer
+          formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+          startImmediately={false}
+          lastUnit="h"
+          initialTime={my_info.usedTime}
+        >
+          {({ getTime, start, stop, reset }) => (
+            <React.Fragment>
+              {problem_id ? start() : reset()}
+              <Headline>
+                <ExitModal onExit={() => onExit()}/>
+                <div style={{ marginRight: 8 }}/>
+                <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={my_info.currentProblem+1}/>
+                <TimeContainer>
+                  <Body color={COLOR.MANDARIN}>
+                    <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+                  </Body>
+                </TimeContainer>
+              </Headline>
+              <UserInfo
+                my_image={my_info.photo}
+                challenger_image={challenger_info.photo}
+                my_score={my_info.score}
+                challenger_score={challenger_info.score}
+                challenger_is_played={challenger_info.isPlayed}
+              />
+              <ProblemBox
+                problem={title}
+                problem_content={answer_type === ANSWER_TYPE.MATH_INPUT ? body : null}
+              />
+              <ContentContainer 
+                style={{ alignSelf: answer_type === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+              >
+                <GameContent 
+                  type={answer_type}
+                  correct_answer={correct_answer}
+                  question={body}
+                  choices={choices}
+                  content={body}
+                  answer={answer}
+                  set_answer={set_answer}
                 />
-                <ContentContainer 
-                  style={{ alignSelf: TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+              </ContentContainer>
+              <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                <Button
+                  type="outline"
+                  onClick={() => {
+                    set_used_time(getTime()/1000);
+                    stop();
+                    onCheck();
+                  }}
                 >
-                  <GameContent 
-                    type={TYPE_ANSWER}
-                    correct_answer={CORRECT_ANSWER}
-                    question={QUESTION}
-                    choices={CHOICES}
-                    content={CONTENT}
-                    answer={answer}
-                    set_answer={set_answer}
-                  />
-                </ContentContainer>
-                <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-                  <Button
-                    type="outline"
-                    onClick={() => {
-                      set_used_time(getTime()/1000);
-                      stop();
-                      onCheck();
-                    }}
-                  >
-                    ข้าม
-                  </Button>
-                  <Button
-                    type={answer ? "default" : "disabled"}
-                    onClick={() => {
-                      set_used_time(getTime()/1000);
-                      stop();
-                      onCheck();
-                    }}
-                  >
-                    ตรวจ
-                  </Button>
-                </ButtonContainer>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        )}
-      </Timer>
-    </Container>
+                  ข้าม
+                </Button>
+                <Button
+                  type={answer ? "default" : "disabled"}
+                  onClick={() => {
+                    set_used_time(getTime()/1000);
+                    stop();
+                    onCheck();
+                  }}
+                >
+                  ตรวจ
+                </Button>
+              </ButtonContainer>
+            </React.Fragment>
+          )}
+        </Timer>
+      </Container>
   );
 };
 
