@@ -11,7 +11,8 @@ import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import {
-  useGetFinalChallengeResult
+  useGetFinalChallengeResult,
+  useDeleteChallenge
 } from "./ChallengeResultPageHelper";
 
 import { COLOR } from "../../global/const";
@@ -39,7 +40,15 @@ const ChallengeResultPage = ( { history }) => {
     location.state.challenge_id
   );
 
+  const { 
+    deleteChallenge
+  } = useDeleteChallenge(
+    user_id,
+    location.state.challenge_id
+  );
+
   const onExit = () => {
+    deleteChallenge(user_id, location.state.challenge_id);
     history.push({
       pathname: "./all-challenges",
       state: {
@@ -96,6 +105,10 @@ const ChallengeResultPage = ( { history }) => {
     setTimeout(() => {
       setShowModal(toggle)
     }, 8750);
+  }, []);
+
+  useEffect(() => {
+    deleteChallenge();
   }, []);
 
   useEffect(() => {

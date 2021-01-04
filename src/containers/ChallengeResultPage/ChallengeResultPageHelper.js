@@ -45,3 +45,25 @@ export const useGetFinalChallengeResult = (user_id, challenge_id) => {
 
   return { getFinalChallengeResult, loading, my_result, challenger_result };
 };
+
+export const useDeleteChallenge = (challenge_id, user_id) => {
+  const deleteChallenge = async () => {
+    try {
+      const response = await axios.delete(backend+"challenge/delete-challenge", {
+        challenge_id: challenge_id,
+        user_id : user_id,
+      })
+      const { success, data } = response.data;
+      if (success) {
+        console.log(data);
+      } else {
+        console.log("delete challenge Error");
+      } 
+    } catch (e) {
+      console.log(e.response)
+      console.log("There are something wrong about delete challenge :(");
+    }
+  };
+
+  return { deleteChallenge };
+};
