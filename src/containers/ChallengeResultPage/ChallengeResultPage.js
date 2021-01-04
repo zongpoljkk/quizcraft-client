@@ -8,25 +8,15 @@ import { ExitModal } from "../../components/ExitModal";
 import { UserInfoBox } from "./components/UserInfoBox";
 import { ResultModal } from "./components/ResultModal";
 import useModal from "../../components/useModal";
+import LoadingPage from "../LoadingPage/LoadingPage";
+
+import {
+  useGetFinalChallengeResult
+} from "./ChallengeResultPageHelper";
 
 import { COLOR } from "../../global/const";
 
-//MOCK DATA
-const PROFILE_IMG = "";
-const USERNAME = "pimkunut_tee";
-const SCORE = "3";
-const RESULT = [1, 1, 0, 1, 0];
-const TIME = 1432; //unit s => if other unit change in helper
-const OPPONENT_PROFILE_IMG = "";
-const OPPONENT_USERNAME = "jinjin";
-const OPPONENT_SCORE = "2";
-const OPPONENT_RESULT = [1, 0, 1, 0, 0];
-const OPPONENT_TIME = 5500;
-
 //MOCK DATA FOR MODAL
-const LEVEL = 12;
-const XP = 876;
-const MAX_XP = 2000;
 const GAIN_COIN = 200;
 const GAIN_XP = 150;
 
@@ -37,15 +27,39 @@ const ChallengeResultPage = ( { history }) => {
   const [container_width, set_container_width] = useState();
   const [win, set_win] = useState();
   const [showModal, setShowModal] = useState();
+  const user_id = localStorage.getItem("userId");
+
+  const { 
+    getFinalChallengeResult,
+    loading,
+    my_result,
+    challenger_result
+  } = useGetFinalChallengeResult(
+    user_id,
+    location.state.challenge_id
+  );
+
+  const onExit = () => {
+    history.push({
+      pathname: "./all-challenges",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty
+      }
+    });
+  };
 
   const isWin = () => {
-    //TODO: INTEGRATE TO CHECK SCORE
-    if(SCORE > OPPONENT_SCORE) set_win(true);
-    if(SCORE === OPPONENT_SCORE){
-      if(TIME < OPPONENT_TIME) set_win(true);
+    if(my_result.score > challenger_result.score) set_win(true);
+    if(my_result.score === challenger_result.score){
+      if(my_result.time < challenger_result.time) set_win(true);
     }
     else set_win(false);
-  }
+  };
 
   const list = {
     hidden: {
@@ -78,10 +92,17 @@ const ChallengeResultPage = ( { history }) => {
   }, [ref.current]);
 
   useEffect(() => {
+    getFinalChallengeResult();
     setTimeout(() => {
       setShowModal(toggle)
     }, 8750);
   }, []);
+
+  useEffect(() => {
+    if(!loading) {
+      isWin();
+    }
+  }, [loading]);
 
   return (
     <Container 
@@ -95,7 +116,7 @@ const ChallengeResultPage = ( { history }) => {
         variants={variants}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <ExitModal onExit={() => history.push("./all-challenges")} />
+        <ExitModal onExit={() => onExit()} />
         <div
           style={{
             display: "flex",
@@ -106,41 +127,43 @@ const ChallengeResultPage = ( { history }) => {
           <Header>สรุปผลคะแนน</Header>
         </div>
       </motion.div>
-      <DetailContainer>
-        <UserInfoBox
-          container_width={container_width}
-          profile_image={PROFILE_IMG}
-          username={USERNAME}
-          challenge_result={RESULT}
-          total_score={SCORE}
-          time={TIME}
-        />
-        <motion.div 
-          custom={1} 
-          variants={variants} 
-          style={{ marginTop: "9px" }}
-        >
-          <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
-        </motion.div>
-        <UserInfoBox
-          container_width={container_width}
-          profile_image={OPPONENT_PROFILE_IMG}
-          username={OPPONENT_USERNAME}
-          challenge_result={OPPONENT_RESULT}
-          total_score={OPPONENT_SCORE}
-          time={OPPONENT_TIME}
-        />
-      </DetailContainer>
-      <ResultModal
-        isShowing={isShowing}
-        toggle={toggle}
-        win={isWin}
-        level={LEVEL}
-        xp={XP}
-        max_xp={MAX_XP}
-        gain_coin={GAIN_COIN}
-        gain_xp={GAIN_XP}
-      />
+      {loading 
+      ? <LoadingPage/>
+      : <React.Fragment>
+          <DetailContainer>
+            <UserInfoBox
+              container_width={container_width}
+              profile_image={my_result.photo}
+              username={my_result.username}
+              challenge_result={my_result.result}
+              total_score={my_result.score}
+              time={my_result.time}
+            />
+            <motion.div 
+              custom={1} 
+              variants={variants} 
+              style={{ marginTop: "9px" }}
+            >
+              <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
+            </motion.div>
+            <UserInfoBox
+              container_width={container_width}
+              profile_image={challenger_result.photo}
+              username={challenger_result.username}
+              challenge_result={challenger_result.result}
+              total_score={challenger_result.score}
+              time={challenger_result.time}
+            />
+          </DetailContainer>
+          <ResultModal
+            isShowing={isShowing}
+            toggle={toggle}
+            win={win}
+            gain_coin={my_result.gainCoin}
+            gain_xp={my_result.gainExp}
+          />
+        </React.Fragment>
+      }
     </Container>
   );
 };
