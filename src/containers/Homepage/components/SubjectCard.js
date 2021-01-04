@@ -3,10 +3,6 @@ import styled from "styled-components";
 
 // Utils
 import { convertHexToRGBA } from "../../../global/utils";
-import { useGetSubjects } from "../HomepageHelper";
-
-// Components
-import LoadingPage from "../../LoadingPage/LoadingPage";
 
 // Global
 import { COLOR } from "../../../global/const";
@@ -18,8 +14,6 @@ const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 const SubjectCard = ({ history, subjects_data }) => {
   const [subjects, set_subjects] = useState([]);
 
-  // const { getSubjects, subjects_loading, subjects } = useGetSubjects();
-
   const handleOnSubjectClick = (subject_name) => {
     history.push({
       pathname: "/" + subject_name,
@@ -30,7 +24,6 @@ const SubjectCard = ({ history, subjects_data }) => {
   };
 
   useEffect(() => {
-    console.log(`useEffect: SubjectCard`);
     set_subjects(subjects_data);
   }, []);
   return (
