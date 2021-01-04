@@ -16,13 +16,15 @@ export const secondToHour = (secs) => {
     return time;
 };
 
-export const useGetChallengeInfo = (user_id, challenge_id) => {
-  const [my_info, set_my_info] = useState();
-  const [challenger_info, set_challenger_info] = useState();
+export const useGetFinalChallengeResult = (user_id, challenge_id) => {
+  const [loading, set_loading] = useState(true);
+  const [my_result, set_my_result] = useState();
+  const [challenger_result, set_challenger_result] = useState();
 
-  const getChallengeInfo = async () => {
+  const getFinalChallengeResult = async () => {
+    set_loading(true);
     try {
-      const response = await axios.get(backend+"challenge/challenge-info", {
+      const response = await axios.get(backend+"challenge/get-final-challenge-result", {
         params: {
           userId : user_id,
           challengeId : challenge_id
@@ -30,15 +32,16 @@ export const useGetChallengeInfo = (user_id, challenge_id) => {
       });
       const { success, data } = response.data;
       if (success) {
-        set_my_info(data.me);
-        set_challenger_info(data.opponent);
+        set_my_result(data.me);
+        set_challenger_result(data.opponent);
+        set_loading(false);
       } else {
-        console.log("getChallengeInfo Error");
+        console.log("getFinalChallengeResult Error");
       } 
     } catch (e) {
-      console.log("There are something wrong about get challenge info :(");
+      console.log("There are something wrong about get final challenge result :(");
     }
   };
 
-  return { getChallengeInfo, my_info, challenger_info };
+  return { getFinalChallengeResult, loading, my_result, challenger_result };
 };
