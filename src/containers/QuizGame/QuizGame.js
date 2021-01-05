@@ -38,7 +38,7 @@ const QuizGame = ({ history }) => {
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [time_start, set_time_start] = useState(true);
-  const [answer, set_answer] = useState();
+  const [user_answer, set_user_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
@@ -116,7 +116,8 @@ const QuizGame = ({ history }) => {
     difficulty
   ) => {
     if (user_answer) {
-      // connect API check answer
+      const button = document.getElementById("button");
+      button.disabled = true;
       set_used_time(getTime / 1000);
 
       getAndCheckAnswer(
@@ -278,6 +279,7 @@ const QuizGame = ({ history }) => {
                 </ContentContainer>
                 <CenterContainer>
                   <Button
+                    id="button"
                     type={user_answer ? "default" : "disabled"}
                     onClick={() => {
                       set_used_time(getTime() / 1000);
