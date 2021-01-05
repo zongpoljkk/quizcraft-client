@@ -8,6 +8,7 @@ import { COLOR, MODE } from "../../../global/const";
 const SubtopicBox = ({
   id,
   title,
+  available_difficulty,
   subject,
   topic
 }) => {
@@ -31,6 +32,7 @@ const SubtopicBox = ({
               icon={item[1].icon} 
               type={item[1].type}
               title={title}
+              available_difficulty={available_difficulty}
               id={id}
               subject={subject}
               topic={topic}

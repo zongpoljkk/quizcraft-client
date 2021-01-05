@@ -31,6 +31,7 @@ const SubtopicPage = () => {
               key={index}
               id={subtopic.subtopic_id}
               title={subtopic.subtopic_name}
+              available_difficulty={subtopic.available_difficulty}
               subject={location.state.subject_name}
               topic={location.state.topic_name}
             />
