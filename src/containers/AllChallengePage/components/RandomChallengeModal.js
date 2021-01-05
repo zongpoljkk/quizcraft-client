@@ -10,13 +10,15 @@ import challenge from "../../../assets/lottie/challenge.json";
 
 import { COLOR } from "../../../global/const";
 
-//MOCK DATA
-const USERNAME = "pimkunut_tee";
-const OPPONENT_USERNAME = "jinjin";
-const PROFILE_IMG = "";
-const OPPONENT_PROFILE_IMG = "";
-
-export const RandomChallengeModal = ({ isShowing, toggle }) => {
+export const RandomChallengeModal = ({ 
+  isShowing, 
+  toggle, 
+  my_username, 
+  opponent_username, 
+  my_profile_img, 
+  opponent_profile_img,
+  onSubmit = () => {},
+}) => {
   const [display_lottie, set_display_lottie] = useState(false);
   const list = {
     hidden: {
@@ -71,13 +73,13 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
               variants={variants}
               style= {{alignSelf: "center"}}
             >
-              <UserImg backgroundColor={PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
-                {PROFILE_IMG ? <img src={PROFILE_IMG}/> : null}
+              <UserImg backgroundColor={my_profile_img ? null : COLOR.ISLAND_SPICE}>
+                {my_profile_img ? <img src={my_profile_img}/> : null}
               </UserImg>
             </motion.div>
             <motion.div variants={variants}>
               <Body>
-                <CropText>{USERNAME}</CropText>
+                <CropText>{my_username}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
@@ -100,13 +102,13 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
               custom={4} 
               style= {{alignSelf: "center"}}
             >
-              <UserImg backgroundColor={OPPONENT_PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
-                {OPPONENT_PROFILE_IMG ? <img src={OPPONENT_PROFILE_IMG}/> : null}
+              <UserImg backgroundColor={opponent_profile_img ? null : COLOR.ISLAND_SPICE}>
+                {opponent_profile_img ? <img src={opponent_profile_img}/> : null}
               </UserImg>
             </motion.div>
             <motion.div variants={item} custom={5}>
               <Body>
-                <CropText>{OPPONENT_USERNAME}</CropText>
+                <CropText>{opponent_username}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
@@ -115,7 +117,7 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
             custom={6} 
             style = {{display: "flex", justifyContent: "center" ,marginTop: "24px"}}
           >
-            <Button> ยืนยัน </Button>
+            <Button onClick={onSubmit}> ยืนยัน </Button>
           </motion.div>
         </Container>
       </Modal>
