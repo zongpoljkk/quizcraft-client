@@ -75,6 +75,12 @@ const ChallengeGame = ({ history }) => {
       set_current_index((index) => index + 1);
       set_user_answer();
       my_info.currentProblem++;
+
+      // TODO: Try out
+      getProblemByChallengeId(
+        location.state.challenge_id,
+        my_info.currentProblem
+      );
     }
   };
 
