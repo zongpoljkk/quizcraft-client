@@ -9,12 +9,12 @@ import { COLOR } from "../../global/const";
 import { convertHexToRGBA } from "../../global/utils";
 
 // Images
-import lightbulb from "../../assets/lightbulb.png";
-import freeze from "../../assets/freeze.png";
-import double from "../../assets/double.png";
-import skip from "../../assets/skip.png";
-import refresh from "../../assets/refresh.png";
-import blank from "../../assets/blank.png";
+import lightbulb from "../../assets/thumbnail/lightbulb.png";
+import freeze from "../../assets/thumbnail/freeze.png";
+import double from "../../assets/thumbnail/double.png";
+import skip from "../../assets/thumbnail/skip.png";
+import refresh from "../../assets/thumbnail/refresh.png";
+import blank from "../../assets/thumbnail/blank.png";
 
 // Lottie
 import hint_data from "../../assets/lottie/hint.json";
