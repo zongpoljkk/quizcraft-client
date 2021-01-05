@@ -16,6 +16,8 @@ import { Report } from "../../components/Report";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
+import Correct_Forward from "../../assets/Correct_Forward.png";
+import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -152,7 +154,11 @@ const PracticeAnswer = ({ history }) => {
         );
       }
     } else {
-      return <ShiftDiv></ShiftDiv>;
+      return (
+        <ShiftDiv>
+          {/* <img src={Correct_Forward} /> */}
+        </ShiftDiv>
+      );
     }
   };
 
