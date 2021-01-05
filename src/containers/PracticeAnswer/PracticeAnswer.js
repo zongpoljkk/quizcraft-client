@@ -69,7 +69,8 @@ const PracticeAnswer = ({ history }) => {
     });
   };
 
-  const handleFirstClick = () => {
+  const handleArrowClick = () => {
+    console.log("CLICK ARROW");
     if (solution.length === staticSolution.length) {
     } else {
       if (!firstClick) {
@@ -133,30 +134,36 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const arrowHolder = () => {
-    if (firstClick) {
-      if (solution.length === staticSolution.length) {
-        return (
-          <ShiftDiv style={{ zIndex: "1" }}>
-            <div style={{ marginTop: "20px" }}>
-              <Button
-                type="custom"
-                border="none"
-                color={COLOR.WHITE}
-                backgroundColor={
-                  correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
-                }
-                onClick={() => handleNextButtonClick()}
-              >
-                ทำต่อ
-              </Button>
-            </div>
-          </ShiftDiv>
-        );
-      }
-    } else {
+    // if (firstClick) {
+    if (solution.length === staticSolution.length) {
       return (
-        <ShiftDiv>
-          {/* <img src={Correct_Forward} /> */}
+        <ShiftDiv style={{ zIndex: "1" }}>
+          <div style={{ marginTop: "20px" }}>
+            <Button
+              type="custom"
+              border="none"
+              color={COLOR.WHITE}
+              backgroundColor={
+                correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
+              }
+              onClick={() => handleNextButtonClick()}
+            >
+              ทำต่อ
+            </Button>
+          </div>
+        </ShiftDiv>
+      );
+    }
+    // }
+    else {
+      return (
+        <ShiftDiv style={{ zIndex: "500" }}>
+          <img
+            src={correct ? Correct_Forward : Incorrect_Forward}
+            alt="arrow"
+            height={40}
+            onClick={handleArrowClick}
+          />
         </ShiftDiv>
       );
     }
@@ -165,7 +172,6 @@ const PracticeAnswer = ({ history }) => {
   return (
     <Container
       answer={correct}
-      onClick={handleFirstClick}
       minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
     >
       <Background answer={correct} />

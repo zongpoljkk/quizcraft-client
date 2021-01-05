@@ -101,28 +101,24 @@ const App = () => {
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
-            getUserData={getUserData}
           >
             <QuizResultPage />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
-            getUserData={getUserData}
           >
             <AllChallengePage />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-game"
-            getUserData={getUserData}
           >
             <ChallengeGame />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result"
-            getUserData={getUserData}
           >
             <ChallengeResultPage />
           </PrivateRoute>
