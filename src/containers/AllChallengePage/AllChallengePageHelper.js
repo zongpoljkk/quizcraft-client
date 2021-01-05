@@ -80,3 +80,35 @@ export const useReadChallenge = () => {
 
   return { readChallenge };
 };
+
+export const useRandomChallenge = (user_id, subject, subtopic_name, difficulty) => {
+  const [loading, set_loading] = useState(false);
+  const [me, set_me] = useState();
+  const [opponent, set_opponent] = useState(); 
+  const [challenge_id, set_challenge_id] = useState();
+
+  const randomChallenge = async () => {
+    set_loading(true);
+    try {
+      const response = await axios.post(backend+"challenge/random-challenge", {
+        user1Id: user_id,
+        subject: subject,
+        subtopicName: subtopic_name,
+        difficulty: difficulty,
+      })
+      const { success, data } = response.data;
+      if (success) {
+        set_challenge_id(data.challengeId);
+        set_me(data.user1);
+        set_opponent(data.user2);
+        set_loading(false);
+      } else {
+        console.log("random challenge Error");
+      } 
+    } catch (err) {
+      console.log("There are something wrong about random challenge :(");
+    }
+  }
+
+  return { randomChallenge, loading, challenge_id, me, opponent };
+}

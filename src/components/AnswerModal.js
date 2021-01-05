@@ -18,6 +18,7 @@ export const AnswerModal = ({
   onButtonClick,
   correct,
   answer,
+  overlay_clickable
 }) => {
 
   return (
@@ -25,6 +26,7 @@ export const AnswerModal = ({
       isShowing={isShowing}
       hide={toggle}
       backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+      overlay_clickable={overlay_clickable}
     >
       <Container>
         <ContentContainer>

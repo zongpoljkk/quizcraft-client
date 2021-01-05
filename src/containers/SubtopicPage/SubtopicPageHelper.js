@@ -21,7 +21,8 @@ export const useGetsubTopicName = (topic_name) => {
         data.map((subtopic, index) => (
           subtopic_lists[index] = {
             subtopic_id: subtopic._id,
-            subtopic_name: subtopic.subtopicName
+            subtopic_name: subtopic.subtopicName,
+            available_difficulty: subtopic.availableDifficulty
           }
         ))
         set_subtopics(subtopic_lists);

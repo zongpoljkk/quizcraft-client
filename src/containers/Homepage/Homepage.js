@@ -26,16 +26,16 @@ const Homepage = ({ user_id }) => {
   return (
     <React.Fragment>
       {loading ? (
-        <LoadingPage/>
+        <LoadingPage />
       ) : (
         <Container ref={ref}>
           <GroupPanel />
           <ScrollView>
             <SubjectCard />
           </ScrollView>
-          <div style = {{marginTop: 28, width: "100%"}}>
-            <ItemBox type="frame" shadow="frame" width={container_width-32}>
-              <div style = {{marginBottom: "12px"}}>
+          <div style={{ marginTop: 28, width: "100%" }}>
+            <ItemBox type="frame" shadow="frame" width={container_width - 32}>
+              <div style={{ marginBottom: "12px" }}>
                 <Header>กระดานผู้นำ</Header>
               </div>
               <Tabs data={leader_board} />
