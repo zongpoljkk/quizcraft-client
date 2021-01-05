@@ -224,6 +224,7 @@ const QuizGame = ({ history }) => {
                     correct={CORRECT}
                     answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                     buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
+                    overlay_clickable={false}
                     onButtonClick={() => {
                       onNext();
                       set_time_start(true);
