@@ -7,6 +7,8 @@ import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button";
+import { AnswerModal } from "../../components/AnswerModal";
+import useModal from "../../components/useModal";
 import { ProblemIndex } from "../../components/ProblemIndex";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -26,6 +28,11 @@ const NUMBER_OF_QUIZ = 5;
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
   const [user_answer, set_user_answer] = useState();
+  const [correct, set_correct] = useState(false);
+  const [answer_key, set_answer_key] = useState("");
+  const [current_index, set_current_index] = useState(1);
+  const [time_start, set_time_start] = useState(true);
+  const [isShowing, toggle] = useModal();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
@@ -61,6 +68,16 @@ const ChallengeGame = ({ history }) => {
     });
   };
 
+  const onNext = () => {
+    if (current_index === NUMBER_OF_QUIZ - 1) {
+      // TODO: GO to Challenge page
+    } else {
+      set_current_index((index) => index + 1);
+      set_user_answer();
+      my_info.currentProblem++;
+    }
+  };
+
   const onCheck = (
     problemId,
     userId,
@@ -71,12 +88,12 @@ const ChallengeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log(user_answer)
+    console.log(user_answer);
     if (user_answer) {
-      console.log("EXECUTEcheckanswer")
+      console.log("EXECUTEcheckanswer");
       // const button = document.getElementById("check_button");
       // button.disabled = true;
-
+      console.log(my_info.currentProblem);
       getAndCheckAnswer(
         problemId,
         userId,
@@ -87,42 +104,14 @@ const ChallengeGame = ({ history }) => {
         subtopic,
         "challenge",
         location.state.challenge_id,
-        my_info.currentProblem,
+        my_info.currentProblem
       ).then((res) => {
-        console.log(res.data)
-      })
+        console.log(res.data);
+        set_correct(res.data.correct);
+        set_answer_key(res.data.answer);
+      });
+      toggle();
     }
-    // if (user_answer) {
-    // const button = document.getElementById("button");
-    // button.disabled = true;
-    //   set_used_time(getTime / 1000);
-
-    //   getAndCheckAnswer(
-    //     problemId,
-    //     userId,
-    //     userAnswer,
-    //     getTime / 1000,
-    //     subject,
-    //     topic,
-    //     subtopic,
-    //     QUIZ_MODE
-    //   ).then((res) => {
-    //     console.log(res.data);
-
-    //     //update earned exp and coins
-    //     set_correct(res.data.correct);
-    //     set_answer_key(res.data.answer);
-    //     set_solution(res.data.solution);
-    //     if (res.data.correct) {
-    //       set_score((score) => score + 1);
-    //       set_earned_exp((earned_exp) => earned_exp + res.data.earned_exp);
-    //       set_earned_coins(
-    //         (earned_coins) => earned_coins + res.data.earned_coins
-    //       );
-    //     }
-    //     toggle();
-    //   });
-    // }
     // TODO: connect API check answer with blank answer
   };
 
@@ -151,7 +140,7 @@ const ChallengeGame = ({ history }) => {
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
-            {problem_id ? start() : reset()}
+            {problem_id && time_start ? start() : reset()}
             <Headline>
               <ExitModal onExit={() => onExit()} />
               <div style={{ marginRight: 8 }} />
@@ -207,8 +196,9 @@ const ChallengeGame = ({ history }) => {
                 id="skip_button"
                 type="outline"
                 onClick={() => {
-                  console.log("SKIPPPP kor")
+                  console.log("SKIPPPP kor");
                   stop();
+                  set_time_start(false);
                   onCheck(
                     problem_id,
                     user_id,
@@ -228,6 +218,7 @@ const ChallengeGame = ({ history }) => {
                 type={user_answer ? "default" : "disabled"}
                 onClick={() => {
                   stop();
+                  set_time_start(false);
                   onCheck(
                     problem_id,
                     user_id,
@@ -243,6 +234,24 @@ const ChallengeGame = ({ history }) => {
                 ตรวจ
               </Button>
             </ButtonContainer>
+            <AnswerModal
+              isShowing={isShowing}
+              toggle={toggle}
+              // TODO: add real data instand of CORRECT after connect API
+              correct={correct}
+              answer={correct ? null : answer_key}
+              buttonTitle={
+                current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
+              }
+              overlay_clickable={false}
+              onButtonClick={() => {
+                onNext();
+                set_time_start(true);
+                // set_problem_id();
+                // set_hint();
+                reset();
+              }}
+            />
           </React.Fragment>
         )}
       </Timer>
