@@ -79,7 +79,9 @@ export const getAndCheckAnswer = async (
   subject,
   topic,
   subtopic,
-  mode
+  mode,
+  challengeId,
+  problemIndex,
 ) => {
   try {
     const url = `${backend}problem/get-and-check-answer`;
@@ -92,6 +94,8 @@ export const getAndCheckAnswer = async (
       topic: topic,
       subtopic: subtopic,
       mode: mode,
+      challengeId: challengeId,
+      problemIndex: problemIndex,
     };
     const options = {
       method: "POST",

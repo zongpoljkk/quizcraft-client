@@ -25,8 +25,7 @@ const NUMBER_OF_QUIZ = 5;
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
-  const [used_time, set_used_time] = useState();
-  const [answer, set_answer] = useState();
+  const [user_answer, set_user_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
@@ -72,10 +71,30 @@ const ChallengeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    
+    console.log(user_answer)
+    if (user_answer) {
+      console.log("EXECUTEcheckanswer")
+      // const button = document.getElementById("check_button");
+      // button.disabled = true;
+
+      getAndCheckAnswer(
+        problemId,
+        userId,
+        userAnswer,
+        getTime / 1000,
+        subject,
+        topic,
+        subtopic,
+        "challenge",
+        location.state.challenge_id,
+        my_info.currentProblem,
+      ).then((res) => {
+        console.log(res.data)
+      })
+    }
     // if (user_answer) {
-    //   const button = document.getElementById("button");
-    //   button.disabled = true;
+    // const button = document.getElementById("button");
+    // button.disabled = true;
     //   set_used_time(getTime / 1000);
 
     //   getAndCheckAnswer(
@@ -173,8 +192,8 @@ const ChallengeGame = ({ history }) => {
                 question={body}
                 choices={choices}
                 content={body}
-                answer={answer}
-                set_answer={set_answer}
+                answer={user_answer}
+                set_answer={set_user_answer}
               />
             </ContentContainer>
             <ButtonContainer
@@ -188,20 +207,37 @@ const ChallengeGame = ({ history }) => {
                 id="skip_button"
                 type="outline"
                 onClick={() => {
-                  set_used_time(getTime() / 1000);
+                  console.log("SKIPPPP kor")
                   stop();
-                  onCheck();
+                  onCheck(
+                    problem_id,
+                    user_id,
+                    "WRONG ANSWER",
+                    getTime(),
+                    location.state.subject_name,
+                    location.state.topic_name,
+                    location.state.subtopic_name,
+                    location.state.difficulty
+                  );
                 }}
               >
                 ข้าม
               </Button>
               <Button
                 id="check_button"
-                type={answer ? "default" : "disabled"}
+                type={user_answer ? "default" : "disabled"}
                 onClick={() => {
-                  set_used_time(getTime() / 1000);
                   stop();
-                  onCheck();
+                  onCheck(
+                    problem_id,
+                    user_id,
+                    user_answer,
+                    getTime(),
+                    location.state.subject_name,
+                    location.state.topic_name,
+                    location.state.subtopic_name,
+                    location.state.difficulty
+                  );
                 }}
               >
                 ตรวจ
