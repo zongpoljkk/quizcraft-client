@@ -17,8 +17,8 @@ export const useGetAllItems = () => {
         data.map((item, index) => (
           item_lists[index] = {
             item_name: item.name,
-            src: item.image[0].filename,
-            animation_data: item.lottie[0].filename,
+            src: item.image_info.data,
+            animation_data: item.lottie_info.data,
             price: item.price,
             item_description: item.description,
           }

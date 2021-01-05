@@ -81,12 +81,12 @@ const Shop = () => {
                   <Item style={{ height: "80px" }}>
                     {in_used[item.item_name] ? (
                       <LottieFile
-                        animationData={item.animation_data}
+                        animationData={JSON.parse(atob(item.animation_data))}
                         loop={false}
                         height={100}
                       />
                     ) : (
-                      <ItemImg src={item.src} />
+                      <ItemImg src= {"data:image/png;base64,"+item.src} />
                     )}
                   </Item>
                   <div style={{ margin: "8px auto", lineHeight: "24px" }}>
