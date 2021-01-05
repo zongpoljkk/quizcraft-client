@@ -88,8 +88,8 @@ const ChallengeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log(user_answer);
-    if (user_answer) {
+    console.log(userAnswer);
+    if (userAnswer) {
       console.log("EXECUTEcheckanswer");
       // const button = document.getElementById("check_button");
       // button.disabled = true;
