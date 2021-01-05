@@ -33,13 +33,12 @@ const ReportPage = () => {
   const handleOnclick = (content) => {
     set_report_content(content);
     date = new Date();
-    console.log(content)
     sendReport();
   }
 
   useEffect(() => {
     sendReport();
-  }, [report_problem]);
+  }, [report_content]);
   
   return ( 
     <Container ref={ref}>
