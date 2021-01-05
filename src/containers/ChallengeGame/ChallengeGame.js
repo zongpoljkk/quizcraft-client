@@ -72,6 +72,7 @@ const ChallengeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
+    
     // if (user_answer) {
     //   const button = document.getElementById("button");
     //   button.disabled = true;
@@ -184,6 +185,7 @@ const ChallengeGame = ({ history }) => {
               }
             >
               <Button
+                id="skip_button"
                 type="outline"
                 onClick={() => {
                   set_used_time(getTime() / 1000);
@@ -194,6 +196,7 @@ const ChallengeGame = ({ history }) => {
                 ข้าม
               </Button>
               <Button
+                id="check_button"
                 type={answer ? "default" : "disabled"}
                 onClick={() => {
                   set_used_time(getTime() / 1000);
