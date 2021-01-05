@@ -137,9 +137,6 @@ const App = () => {
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage user_id={user_id} />
           </PrivateRoute>
-          <PrivateRoute path="/:topic">
-            <TopicPage />
-          </PrivateRoute>
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
@@ -149,10 +146,13 @@ const App = () => {
           <PrivateRoute exact path="/report" getUserData={getUserData}>
             <ReportPage />
           </PrivateRoute>
+          <PrivateRoute exact path="subject/:subject">
+            <TopicPage />
+          </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
-          <PrivateRoute path="*">
+          <PrivateRoute exact path="*">
             <ErrorPage />
           </PrivateRoute>
         </Switch>
