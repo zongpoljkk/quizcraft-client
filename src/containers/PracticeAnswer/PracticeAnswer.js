@@ -238,8 +238,8 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 0px auto 104px auto;
-  /* height: 160px; */
+  margin: 0px auto 52px auto;
+  height: 160px;
   overflow: visible;
 `;
 
@@ -254,18 +254,6 @@ const GreetingDiv = styled.div`
 const ShiftDiv = styled(CenterDiv)`
   margin-bottom: auto;
   min-height: 72px;
-`;
-
-const ShiftLeft = styled.img`
-  alt: "Correct Backward";
-  height: 40px;
-  margin-right: 32px;
-`;
-
-const ShiftRight = styled.img`
-  alt: "Correct Backward";
-  height: 40px;
-  margin-left: 32px;
 `;
 
 const ReportContainer = styled.div`
