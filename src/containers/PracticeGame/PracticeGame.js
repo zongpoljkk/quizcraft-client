@@ -205,18 +205,22 @@ const PracticeGame = ({ history }) => {
                     <ButtonContainer>
                       <Button
                         type={answer ? "default" : "disabled"}
-                        onClick={() => {
-                          handleCheckAnswerClick(
-                            problem_id,
-                            localStorage.getItem("userId"),
-                            answer,
-                            getTime(),
-                            location.state.subject_name,
-                            location.state.topic_name,
-                            location.state.subtopic_name,
-                            location.state.difficulty
-                          );
-                        }}
+                        onClick={
+                          answer
+                            ? () => {
+                                handleCheckAnswerClick(
+                                  problem_id,
+                                  localStorage.getItem("userId"),
+                                  answer,
+                                  getTime(),
+                                  location.state.subject_name,
+                                  location.state.topic_name,
+                                  location.state.subtopic_name,
+                                  location.state.difficulty
+                                );
+                              }
+                            : () => {}
+                        }
                       >
                         ตรวจ
                       </Button>
