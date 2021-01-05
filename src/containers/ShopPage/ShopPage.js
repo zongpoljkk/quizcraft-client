@@ -3,29 +3,12 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { LottieFile } from "../../components/LottieFile";
 
-// Global
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
 import { COLOR } from "../../global/const";
 import { convertHexToRGBA } from "../../global/utils";
 
-// Images
-import lightbulb from "../../assets/thumbnail/lightbulb.png";
-import freeze from "../../assets/thumbnail/freeze.png";
-import double from "../../assets/thumbnail/double.png";
-import skip from "../../assets/thumbnail/skip.png";
-import refresh from "../../assets/thumbnail/refresh.png";
-import blank from "../../assets/thumbnail/blank.png";
-
-// Lottie
-import hint_data from "../../assets/lottie/hint.json";
-import refresh_data from "../../assets/lottie/refresh.json";
-import skip_data from "../../assets/lottie/skip.json";
-import double_data from "../../assets/lottie/double.json";
-import freeze_data from "../../assets/lottie/freeze.json";
-
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { useGetAllItems } from "./ShopPageHelper";
-
 
 const Shop = () => {
   const ANIMATIONS = {
