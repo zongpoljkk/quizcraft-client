@@ -39,6 +39,7 @@ const QuizGame = ({ history }) => {
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
+  const [time_start, set_time_start] = useState(true);
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
@@ -139,7 +140,7 @@ const QuizGame = ({ history }) => {
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
-            {problem_id ? start() : reset()}
+            {(problem_id && time_start) ? start() : stop()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <div style={{ marginRight: 8 }}/>
@@ -209,6 +210,7 @@ const QuizGame = ({ history }) => {
                     type={answer ? "default" : "disabled"}
                     onClick={() => {
                       set_used_time(getTime()/1000);
+                      set_time_start(false);
                       stop();
                       onCheck();
                     }}
@@ -224,9 +226,10 @@ const QuizGame = ({ history }) => {
                     buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
                     onButtonClick={() => {
                       onNext();
-                      reset();
+                      set_time_start(true);
                       set_problem_id();
                       set_hint();
+                      reset();
                     }}
                   />
                 </CenterContainer>
