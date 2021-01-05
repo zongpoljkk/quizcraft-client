@@ -72,37 +72,37 @@ const ChallengeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    if (user_answer) {
-      const button = document.getElementById("button");
-      button.disabled = true;
-      set_used_time(getTime / 1000);
+    // if (user_answer) {
+    //   const button = document.getElementById("button");
+    //   button.disabled = true;
+    //   set_used_time(getTime / 1000);
 
-      getAndCheckAnswer(
-        problemId,
-        userId,
-        userAnswer,
-        getTime / 1000,
-        subject,
-        topic,
-        subtopic,
-        QUIZ_MODE
-      ).then((res) => {
-        console.log(res.data);
+    //   getAndCheckAnswer(
+    //     problemId,
+    //     userId,
+    //     userAnswer,
+    //     getTime / 1000,
+    //     subject,
+    //     topic,
+    //     subtopic,
+    //     QUIZ_MODE
+    //   ).then((res) => {
+    //     console.log(res.data);
 
-        //update earned exp and coins
-        set_correct(res.data.correct);
-        set_answer_key(res.data.answer);
-        set_solution(res.data.solution);
-        if (res.data.correct) {
-          set_score((score) => score + 1);
-          set_earned_exp((earned_exp) => earned_exp + res.data.earned_exp);
-          set_earned_coins(
-            (earned_coins) => earned_coins + res.data.earned_coins
-          );
-        }
-        toggle();
-      });
-    }
+    //     //update earned exp and coins
+    //     set_correct(res.data.correct);
+    //     set_answer_key(res.data.answer);
+    //     set_solution(res.data.solution);
+    //     if (res.data.correct) {
+    //       set_score((score) => score + 1);
+    //       set_earned_exp((earned_exp) => earned_exp + res.data.earned_exp);
+    //       set_earned_coins(
+    //         (earned_coins) => earned_coins + res.data.earned_coins
+    //       );
+    //     }
+    //     toggle();
+    //   });
+    // }
     // TODO: connect API check answer with blank answer
   };
 
