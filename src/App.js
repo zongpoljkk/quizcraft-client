@@ -22,6 +22,7 @@ import QuizGame from "./containers/QuizGame/QuizGame";
 import AllChallengePage from "./containers/AllChallengePage/AllChallengePage";
 import ChallengeGame from "./containers/ChallengeGame/ChallengeGame";
 import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage";
+import ShopPage from "./containers/ShopPage/ShopPage";
 import ReportPage from "./containers/ReportPage/ReportPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
@@ -149,6 +150,9 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/report" getUserData={getUserData}>
             <ReportPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/shop">
+            <ShopPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
