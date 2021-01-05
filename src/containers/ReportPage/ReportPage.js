@@ -6,6 +6,8 @@ import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button"
 import { RadioButton } from "../../components/RadioButton";
 import { TextField } from "../../components/TextField";
+import useModal from "../../components/useModal";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
 import { REPORT } from "../../global/const";
 
@@ -22,9 +24,10 @@ const ReportPage = () => {
   const [report_problem, set_report_problem] = useState();
   const [etc_problem, set_etc_problem] = useState();
   const [report_content, set_report_content] = useState();
+  const [isShowing, toggle] = useModal();
   const user_id = localStorage.getItem("userId");
   var date;
-  const { sendReport } = useSendReport(user_id, PROBLEM_ID, report_content, date);
+  const { sendReport, report_success } = useSendReport(user_id, PROBLEM_ID, report_content, date);
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
@@ -34,6 +37,7 @@ const ReportPage = () => {
     set_report_content(content);
     date = new Date();
     sendReport();
+    toggle();
   }
 
   useEffect(() => {
@@ -85,6 +89,13 @@ const ReportPage = () => {
           ตรวจ
         </Button>
       </CenterContainer>
+      <ConfirmResultModal
+        isShowing={isShowing}
+        toggle={toggle}
+        success={report_success}
+        success_description="ขอบคุณสำหรับความใส่ใจ :)"
+        fail_description="ล้มเหลว กรุณาส่งปัญหานี้ใหม่อีกครั้ง"
+      />
     </Container>
   );
 };
