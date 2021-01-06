@@ -71,6 +71,7 @@ const ChallengeGame = ({ history }) => {
   const onNext = () => {
     if (current_index === NUMBER_OF_QUIZ - 1) {
       // TODO: GO to Challenge page
+      console.log(`current_index: ${current_index}`);
     } else {
       set_current_index((index) => index + 1);
       set_user_answer();
@@ -126,7 +127,9 @@ const ChallengeGame = ({ history }) => {
   }, []);
 
   useEffect(() => {
+    // Only do once
     if (my_info) {
+      console.log(`MY INFO: ${my_info.currentProblem}`);
       getProblemByChallengeId(
         location.state.challenge_id,
         my_info.currentProblem
