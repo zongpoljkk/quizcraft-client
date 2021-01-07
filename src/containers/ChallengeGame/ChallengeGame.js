@@ -71,7 +71,7 @@ const ChallengeGame = ({ history }) => {
   const onNext = () => {
     // Check like this because current_index was increased in previous else before this function executed
     console.log(current_index);
-    if (current_index === NUMBER_OF_QUIZ - 1) {
+    if (current_index === NUMBER_OF_QUIZ) {
       // TODO: GO to Challenge page
       console.log(`current_index: ${current_index}`);
       onExit();
@@ -88,7 +88,7 @@ const ChallengeGame = ({ history }) => {
     }
   };
 
-  const onCheck = (
+  const onCheck = async (
     problemId,
     userId,
     userAnswer,
@@ -98,13 +98,18 @@ const ChallengeGame = ({ history }) => {
     subtopic,
     difficulty
   ) => {
+    const check_button = document.getElementById("check_button");
+    const skip_button = document.getElementById("skip_button");
+    check_button.disabled = true;
+    skip_button.disabled = true;
+
     console.log(userAnswer);
     if (userAnswer) {
       console.log("EXECUTEcheckanswer");
       // const button = document.getElementById("check_button");
       // button.disabled = true;
       console.log(my_info.currentProblem);
-      getAndCheckAnswer(
+      const answer_is_back = await getAndCheckAnswer(
         problemId,
         userId,
         userAnswer,
@@ -120,7 +125,9 @@ const ChallengeGame = ({ history }) => {
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
       });
-      toggle();
+      // if (answer_is_back) {
+        toggle();
+      // }
     }
     // TODO: connect API check answer with blank answer
   };
