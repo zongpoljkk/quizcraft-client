@@ -18,7 +18,8 @@ import {
   useGetALlMyChallenges,
   useReadChallenge,
   useRandomChallenge,
-  useSpecificChallenge,
+  // useSpecificChallenge,
+  specificChallenge,
 } from "./AllChallengePageHelper";
 
 import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const";
@@ -35,7 +36,9 @@ const AllChallengePage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowingModal1, toggleModal1] = useModal();
   const [isShowingModal2, toggleModal2] = useModal();
-  const [username, set_username] = useState();
+  const [username, set_username] = useState("");
+  const [specific_loading, set_specific_loading] = useState(false);
+  const [specific_challenge_id, set_specific_challenge_id] = useState(false);
   const container_width = screen_width - CONTAINER_PADDING;
   const [margin_right, set_margin_right] = useState();
   const user_id = localStorage.getItem("userId");
@@ -67,17 +70,17 @@ const AllChallengePage = ({ history }) => {
     location.state.difficulty
   );
 
-  const {
-    specificChallenge,
-    loading: specific_loading,
-    specific_challenge_id,
-  } = useSpecificChallenge(
-    user_id,
-    username,
-    location.state.subject_name,
-    location.state.subtopic_name,
-    location.state.difficulty
-  );
+  // const {
+  //   specificChallenge,
+  //   loading: specific_loading,
+  //   challenge_id: specific_challenge_id,
+  // } = useSpecificChallenge(
+  //   user_id,
+  //   username,
+  //   location.state.subject_name,
+  //   location.state.subtopic_name,
+  //   location.state.difficulty
+  // );
 
   const onChallengeBoxClick = (challenge_id, result) => {
     readChallenge(user_id, challenge_id);
@@ -101,24 +104,6 @@ const AllChallengePage = ({ history }) => {
   };
 
   const onRandomChallengeModalSubmit = (challenge_id) => {
-    if (specific_challenge_id) {
-      history.push({
-        pathname: "./challenge-game",
-        state: {
-          subject_name: location.state.subject_name,
-          topic_name: location.state.topic_name,
-          subtopic_id: location.state.subtopic_id,
-          subtopic_name: location.state.subtopic_name,
-          mode: location.state.mode,
-          difficulty: location.state.difficulty,
-          challenge_id: challenge_id,
-        },
-      });
-    }
-  };
-
-  const onSpecificChallengeModalSubmit = async () => {
-    await specificChallenge();
     if (challenge_id) {
       history.push({
         pathname: "./challenge-game",
@@ -135,9 +120,47 @@ const AllChallengePage = ({ history }) => {
     }
   };
 
+  const onSpecificChallenge = async () => {
+    set_specific_loading(true);
+    await toggleModal2();
+    const spec_id = await specificChallenge(
+      user_id,
+      username,
+      location.state.subject_name,
+      location.state.subtopic_name,
+      location.state.difficulty
+    );
+    set_specific_challenge_id(spec_id);
+    // set_specific_challenge
+    // set_specific_loading(false);
+  };
+
+  const onSpecificChallengeModalSubmit = async (specific_challenge_id) => {
+    console.log(specific_challenge_id);
+    if (specific_challenge_id) {
+      history.push({
+        pathname: "./challenge-game",
+        state: {
+          subject_name: location.state.subject_name,
+          topic_name: location.state.topic_name,
+          subtopic_id: location.state.subtopic_id,
+          subtopic_name: location.state.subtopic_name,
+          mode: location.state.mode,
+          difficulty: location.state.difficulty,
+          challenge_id: specific_challenge_id,
+        },
+      });
+    }
+  };
+
   useEffect(() => {
     getALlMyChallenges();
   }, []);
+
+  useEffect(() => {
+    // * SHOULD CALLED useSpecificChallenge * //
+    onSpecificChallengeModalSubmit(specific_challenge_id);
+  }, [specific_challenge_id]);
 
   return (
     <Container>
@@ -167,9 +190,12 @@ const AllChallengePage = ({ history }) => {
         <SpecificChallengeModal
           username={username}
           set_username={set_username}
-          onClick={() =>
-            onSpecificChallengeModalSubmit(challenge_id ? challenge_id : null)
-          }
+          onClick={() => {
+            onSpecificChallenge();
+            // onSpecificChallengeModalSubmit(
+            //   specific_challenge_id ? specific_challenge_id : null
+            // );
+          }}
           isShowing={isShowingModal2}
           toggle={toggleModal2}
         />
