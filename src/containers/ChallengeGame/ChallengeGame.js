@@ -70,7 +70,8 @@ const ChallengeGame = ({ history }) => {
 
   const onNext = () => {
     // Check like this because current_index was increased in previous else before this function executed
-    if (current_index === NUMBER_OF_QUIZ) {
+    console.log(current_index);
+    if (current_index === NUMBER_OF_QUIZ - 1) {
       // TODO: GO to Challenge page
       console.log(`current_index: ${current_index}`);
       onExit();
