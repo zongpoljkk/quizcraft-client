@@ -184,7 +184,7 @@ const AllChallengePage = ({ history }) => {
                         getMarginRightOfChallengeBox={() => 
                           getMarginRightOfChallengeBox(container_width, set_margin_right, challenger_turns.length)
                         }
-                        onClick={() => onChallengeBoxClick(challenge.challengeId)}
+                        // onClick={() => onChallengeBoxClick(challenge.challengeId)}
                       />
                     </div>
                   )}
