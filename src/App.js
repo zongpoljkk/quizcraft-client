@@ -83,70 +83,80 @@ const App = () => {
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game"
+            getUserData={getUserData}
           >
             <PracticeGame />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
+            getUserData={getUserData}
           >
             <PracticeAnswer />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
+            getUserData={getUserData}
           >
             <QuizGame />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
+            getUserData={getUserData}
           >
             <QuizResultPage />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
+            getUserData={getUserData}
           >
             <AllChallengePage />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-game"
+            getUserData={getUserData}
           >
             <ChallengeGame />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result"
+            getUserData={getUserData}
           >
             <ChallengeResultPage />
           </PrivateRoute>
-          <PublicRoute path="/oauth/mcv-callback">
+          <PublicRoute path="/oauth/mcv-callback" getUserData={getUserData}>
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/selected_subject/:subject">
+          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
             <TopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/:subject/:topic">
+          <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/report">
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
             <ReportPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage">
+          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage user_id={user_id} />
           </PrivateRoute>
-          <PrivateRoute exact path="/profile">
+          <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
-          <PrivateRoute exact path="/edit-username">
+          <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
             <EditUsernamePage />
           </PrivateRoute>
-          <PrivateRoute exact path="/report">
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
             <ReportPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/shop">
+          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+            <Homepage user_id={user_id} />
+          </PrivateRoute>
+          <PrivateRoute exact path="/shop" getUserData={getUserData}>
             <ShopPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
