@@ -70,10 +70,8 @@ const ChallengeGame = ({ history }) => {
 
   const onNext = () => {
     // Check like this because current_index was increased in previous else before this function executed
-    console.log(current_index);
     if (current_index === NUMBER_OF_QUIZ) {
       // TODO: GO to Challenge page
-      console.log(`current_index: ${current_index}`);
       onExit();
     } else {
       set_current_index((index) => index + 1);
@@ -103,13 +101,8 @@ const ChallengeGame = ({ history }) => {
     check_button.disabled = true;
     skip_button.disabled = true;
 
-    console.log(userAnswer);
     if (userAnswer) {
-      console.log("EXECUTEcheckanswer");
-      // const button = document.getElementById("check_button");
-      // button.disabled = true;
-      console.log(my_info.currentProblem);
-      const answer_is_back = await getAndCheckAnswer(
+      await getAndCheckAnswer(
         problemId,
         userId,
         userAnswer,
@@ -121,12 +114,11 @@ const ChallengeGame = ({ history }) => {
         location.state.challenge_id,
         my_info.currentProblem
       ).then((res) => {
-        console.log(res.data);
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
       });
       // if (answer_is_back) {
-        toggle();
+      toggle();
       // }
     }
     // TODO: connect API check answer with blank answer
@@ -139,7 +131,6 @@ const ChallengeGame = ({ history }) => {
   useEffect(() => {
     // Only do once
     if (my_info) {
-      console.log(`MY INFO: ${my_info.currentProblem}`);
       getProblemByChallengeId(
         location.state.challenge_id,
         my_info.currentProblem
@@ -215,7 +206,6 @@ const ChallengeGame = ({ history }) => {
                 id="skip_button"
                 type="outline"
                 onClick={() => {
-                  console.log("SKIPPPP kor");
                   stop();
                   set_time_start(false);
                   onCheck(
