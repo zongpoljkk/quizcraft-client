@@ -130,8 +130,6 @@ const QuizGame = ({ history }) => {
         subtopic,
         QUIZ_MODE
       ).then((res) => {
-        console.log(res.data);
-
         //update earned exp and coins
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
