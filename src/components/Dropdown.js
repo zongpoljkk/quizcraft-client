@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { Body } from "./Typography";
+import { Subheader, Body } from "./Typography";
 
 import chevron from "../assets/icon/chevron_mandarin.png";
 
@@ -64,6 +64,41 @@ export const Dropdown = ({
     </Container>
   );
 };
+
+export const DropdownWithLabel = ({
+  label,
+  options,
+  value,
+  set_value,
+  direction = "column",
+  marginBottom
+}) => {
+
+  return (
+    <DropdownWithLabelContainer
+      flexDirection={direction}
+      marginBottom={marginBottom}
+    >
+      <div style={direction === "column" ? { marginBottom: 8 } : { marginTop: 6, marginRight: 24 }}>
+        <Subheader>{label}</Subheader>
+      </div>
+      <Dropdown
+        options={options}
+        value={value}
+        set_value={set_value}
+      />
+    </DropdownWithLabelContainer>
+  );
+};
+
+const DropdownWithLabelContainer = styled.div.attrs(props => ({
+  flexDirection: props.flexDirection,
+  marginBottom: props.marginBottom
+}))`
+  display: flex;
+  flex-direction: ${props => props.flexDirection};
+  margin-bottom: ${props => props.marginBottom}px;
+`;
 
 const Container = styled.div`
   flex: 1;
