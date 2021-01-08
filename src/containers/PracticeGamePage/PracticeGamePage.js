@@ -16,7 +16,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { 
   useGetHintByProblemId,
   useGetProblemForUser
-} from "./PracticeGameHelper";
+} from "./PracticeGamePageHelper";
 
 import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
@@ -28,7 +28,7 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
 }
 
-const PracticeGame = ({ history }) => {
+const PracticeGamePage = ({ history }) => {
 
   const location = useLocation();
   const [used_time, set_used_time] = useState();
@@ -193,4 +193,4 @@ const ZoomItem = styled.div`
   transform: scale(1.7);
 `;
 
-export default withRouter(PracticeGame);
+export default withRouter(PracticeGamePage);

@@ -19,7 +19,7 @@ import {
   useGetHintByProblemId,
   useGetEachProblem,
   useItem
-} from "./QuizGameHelper";
+} from "./QuizGamePageHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const"
 
@@ -34,7 +34,7 @@ const ITEM_USAGE = {
 }
 const NUMBER_OF_QUIZ = 10;
 
-const QuizGame = ({ history }) => {
+const QuizGamePage = ({ history }) => {
   
   const location = useLocation();
   const [isShowing, toggle] = useModal();
@@ -274,4 +274,4 @@ const CenterContainer = styled.div`
   justify-content: center;
 `;
 
-export default withRouter(QuizGame);
+export default withRouter(QuizGamePage);

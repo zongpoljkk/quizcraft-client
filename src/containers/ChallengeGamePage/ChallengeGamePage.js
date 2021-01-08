@@ -15,7 +15,7 @@ import { UserInfo } from "./components/UserInfo";
 import {
   useGetChallengeInfo,
   useGetProblemByChallengeId
-} from "./ChallengeGameHelper";
+} from "./ChallengeGamePageHelper";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils"
