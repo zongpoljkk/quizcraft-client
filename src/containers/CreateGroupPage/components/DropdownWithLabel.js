@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Subheader } from "../../../components/Typography";
-import { TextField } from "../../../components/TextField";
+import { Dropdown } from "../../../components/Dropdown";
 
 export const DropdownWithLabel = ({
   label,
@@ -11,17 +11,18 @@ export const DropdownWithLabel = ({
   direction = "column",
   marginBottom
 }) => {
+  const options = [
+    'one', 'two', 'three', 'four', 'five', 'six'
+  ];
 
   return (
     <Container flexDirection={direction} marginBottom={marginBottom}>
-      <div style={{ display: "flex", flex: 1 }}>
         <Subheader>{label}</Subheader>
-      </div>
-      <div style={{ marginBottom: 8 }}/>
-      <TextField
+      <div style={ direction === "column" ? { marginBottom: 8 } : { marginRight: 24 }}/>
+      <Dropdown
+        options={options}
         value={value}
-        onChange={e => set_value(e.target.value)}
-        placeholder="รหัสผ่าน"
+        set_value={set_value}
       />
     </Container>
   );
