@@ -47,7 +47,6 @@ export const Dropdown = ({
                 onMouseLeave={() => set_hover(null)}
                 value={option}
                 onClick={(e) => {
-                  console.log(e.target.innerText)
                   set_value(e.target.innerText);
                   onSelectOption();
                 }}
