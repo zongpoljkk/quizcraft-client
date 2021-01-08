@@ -11,21 +11,21 @@ export const Dropdown = ({
   placeholder = "-- เลือก --",
   options,
   value,
-  set_value
+  set_value,
+  onSelect = () => {}
 }) => {
   const [is_active, set_is_active] = useState(false);
   const [hover, set_hover] = useState();
 
   const onClick = () => {
     set_is_active(!is_active);
-    console.log("click")
   };
 
   const onSelectOption = () => {
     if (is_active) {
       set_is_active(!is_active);
     };
-    console.log("select")
+    onSelect();
   };
 
   return (
@@ -38,22 +38,28 @@ export const Dropdown = ({
       </DropdownContainer>
       {is_active &&
         <OptionsContainer>
-          {options?.map((option, i) => (
-            <Option
-              key={i}
-              backgroundColor={hover === i ? COLOR.ISLAND_SPICE : null}
-              onMouseEnter={() => set_hover(i)}
-              onMouseLeave={() => set_hover(null)}
-              value={option}
-              onClick={(e) => {
-                console.log(e.target.innerText)
-                set_value(e.target.innerText);
-                onSelectOption();
-              }}
-            >
-              <Body>{option}</Body>
-            </Option>
-          ))}
+          {options ? 
+            options.map((option, i) => (
+              <Option
+                key={i}
+                backgroundColor={hover === i ? COLOR.ISLAND_SPICE : null}
+                onMouseEnter={() => set_hover(i)}
+                onMouseLeave={() => set_hover(null)}
+                value={option}
+                onClick={(e) => {
+                  console.log(e.target.innerText)
+                  set_value(e.target.innerText);
+                  onSelectOption();
+                }}
+              >
+                <Body>{option}</Body>
+              </Option>
+            ))
+            : <Option>
+                <Body color={COLOR.SILVER}>{placeholder}</Body>
+              </Option>
+          }
+
         </OptionsContainer>
       }
     </Container>
@@ -95,7 +101,7 @@ const OptionsContainer = styled.div`
   outline: none;
   margin-top: -1px;
   color: ${COLOR.MANDARIN};
-  max-height: 86px;
+  max-height: 98px;
   overflow: scroll;
   &:focus {
     border-color: ${COLOR.MANDARIN};
@@ -106,5 +112,5 @@ const Option = styled.div.attrs(props => ({
   backgroundColor: props.backgroundColor
 }))`
   background-color: ${props => props.backgroundColor};
-  padding: 2px 16px 2px 16px;
+  padding: 4px 16px 4px 16px;
 `;
