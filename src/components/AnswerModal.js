@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
-import { Button } from "./Button"
-import { Report } from "./Report"
+import { Button } from "./Button";
+import { Report } from "./Report";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";

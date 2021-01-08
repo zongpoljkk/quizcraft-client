@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
-import { useHistory } from 'react-router-dom'
-import qs from 'query-string'
-import axios from 'axios'
+import { useHistory } from 'react-router-dom';
+import qs from 'query-string';
+import axios from 'axios';
 
 import backend from '../../ip';
 import LoadingPage from '../LoadingPage/LoadingPage';

@@ -14,8 +14,8 @@ import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
-import { useWindowDimensions } from "../../global/utils"
+import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 // MOCK DATA
 const NUMBER_OF_QUIZ = 30;

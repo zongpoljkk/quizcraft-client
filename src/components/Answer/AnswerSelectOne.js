@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
-import { COLOR } from "../../global/const"
+
+import { COLOR } from "../../global/const";
 
 import { formatContent } from "./AnswertHelper";
 

@@ -4,14 +4,14 @@ import styled from "styled-components";
 import Timer from "react-compound-timer";
 
 import { Body } from "../../components/Typography";
-import { ExitModal } from "../../components/ExitModal"
+import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
-import { ProblemIndex } from "../../components/ProblemIndex"
-import { AnswerModal } from "../../components/AnswerModal"
+import { Button } from "../../components/Button";
+import { ProblemIndex } from "../../components/ProblemIndex";
+import { AnswerModal } from "../../components/AnswerModal";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-import { HeadlineItem } from "./components/HeadlineItem"
+import { HeadlineItem } from "./components/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
@@ -21,7 +21,7 @@ import {
   useItem
 } from "./QuizGamePageHelper";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const"
+import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 // MOCK DATA
 const CORRECT = false;
