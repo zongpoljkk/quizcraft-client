@@ -10,6 +10,11 @@ import { DropdownWithLabel } from "./components/DropdownWithLabel";
 import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
+// MOCK DATA
+const options = [
+  'one', 'two', 'three', 'four', 'five', 'six'
+];
+
 const CreateGroupPage = ({ history }) => {
   const [subject, set_subject] = useState();
   const [topic, set_topic] = useState();
@@ -24,6 +29,7 @@ const CreateGroupPage = ({ history }) => {
           label="วิชา"
           value={subject}
           set_value={set_subject}
+          options={options}
           marginBottom={16}
         />
         <DropdownWithLabel
