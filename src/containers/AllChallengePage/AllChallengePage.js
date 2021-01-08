@@ -18,7 +18,6 @@ import {
   useGetALlMyChallenges,
   useReadChallenge,
   useRandomChallenge,
-  // useSpecificChallenge,
   specificChallenge,
 } from "./AllChallengePageHelper";
 
@@ -70,18 +69,6 @@ const AllChallengePage = ({ history }) => {
     location.state.difficulty
   );
 
-  // const {
-  //   specificChallenge,
-  //   loading: specific_loading,
-  //   challenge_id: specific_challenge_id,
-  // } = useSpecificChallenge(
-  //   user_id,
-  //   username,
-  //   location.state.subject_name,
-  //   location.state.subtopic_name,
-  //   location.state.difficulty
-  // );
-
   const onChallengeBoxClick = (challenge_id, result) => {
     readChallenge(user_id, challenge_id);
     history.push({
@@ -131,8 +118,6 @@ const AllChallengePage = ({ history }) => {
       location.state.difficulty
     );
     set_specific_challenge_id(spec_id);
-    // set_specific_challenge
-    // set_specific_loading(false);
   };
 
   const onSpecificChallengeModalSubmit = async (specific_challenge_id) => {
@@ -192,9 +177,6 @@ const AllChallengePage = ({ history }) => {
           set_username={set_username}
           onClick={() => {
             onSpecificChallenge();
-            // onSpecificChallengeModalSubmit(
-            //   specific_challenge_id ? specific_challenge_id : null
-            // );
           }}
           isShowing={isShowingModal2}
           toggle={toggleModal2}

@@ -129,44 +129,6 @@ export const useRandomChallenge = (
   return { randomChallenge, loading, challenge_id, me, opponent };
 };
 
-// export const useSpecificChallenge = (
-//   user_id,
-//   opponent_name,
-//   subject,
-//   subtopic_name,
-//   difficulty
-// ) => {
-//   const [loading, set_loading] = useState(false);
-//   const [challenge_id, set_challenge_id] = useState();
-
-//   const specificChallenge = async () => {
-//     set_loading(true);
-//     try {
-//       const response = await axios.post(
-//         backend + "challenge/specific-challenge",
-//         {
-//           user1Id: user_id,
-//           username: opponent_name,
-//           subject: subject,
-//           subtopicName: subtopic_name,
-//           difficulty: difficulty,
-//         }
-//       );
-//       const { success, data } = response.data;
-//       if (success) {
-//         set_challenge_id(data.challengeId);
-//         set_loading(false);
-//       } else {
-//         console.log("specific challenge Error");
-//       }
-//     } catch (err) {
-//       console.log("There are something wrong about specific challenge :(");
-//     }
-//   };
-
-//   return { specificChallenge, loading, challenge_id };
-// };
-
 export const specificChallenge = async (
   user_id,
   opponent_name,
@@ -174,7 +136,6 @@ export const specificChallenge = async (
   subtopic_name,
   difficulty
 ) => {
-  // set_loading(true);
   try {
     const response = await axios.post(
       backend + "challenge/specific-challenge",
@@ -188,8 +149,6 @@ export const specificChallenge = async (
     );
     const { success, data } = response.data;
     if (success) {
-      // set_challenge_id(data.challengeId);
-      // set_loading(false);
       return data.challengeId;
     } else {
       console.log("specific challenge Error");
