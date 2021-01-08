@@ -81,7 +81,8 @@ const GroupGamePage = ({ history }) => {
           <React.Fragment>
             {is_time_out ? reset() : start()}
             <Headline>
-              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
+              {/* <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/> */}
+              <ExitModal />
               <div style={{ marginRight: 8 }}/>
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={CURRENT_INDEX}/>
               <div style={{ marginRight: 8 }}/>
