@@ -17,8 +17,8 @@ import {
   useGetProblemByChallengeId
 } from "./ChallengeGameHelper";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
-import { useWindowDimensions } from "../../global/utils"
+import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
 
