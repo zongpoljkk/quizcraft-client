@@ -53,7 +53,6 @@ const QuizResultPage = ({ history }) => {
   };
 
   const handleExit = (history) => {
-    // TODO: Return to "Select Mode Page"
     history.push({
       pathname: "/" + location.state.subject + "/" + location.state.topic,
       state: {
@@ -64,14 +63,9 @@ const QuizResultPage = ({ history }) => {
   };
 
   useEffect(() => {
-    console.log(location.state);
     setScore(location.state.score);
     setEXP(location.state.earned_exp);
     setCoin(location.state.earned_coins);
-    // TODO: Uncomment when using real data
-    // setScore(location.state.score);
-    // setEXP(location.state.exp);
-    // setCoin(location.state.coin);
   }, []);
 
   return (
