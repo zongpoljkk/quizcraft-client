@@ -58,6 +58,7 @@ const CreateGroupPage = ({ history }) => {
           label="หัวข้อย่อย"
           value={subtopic}
           set_value={set_subtopic}
+          options={options}
           marginBottom={24}
         />
         <DropdownWithLabel
@@ -65,6 +66,7 @@ const CreateGroupPage = ({ history }) => {
           label="ระดับความยาก"
           value={difficulty}
           set_value={set_difficulty}
+          options={options}
           direction="row"
           marginBottom={24}
         />
@@ -93,13 +95,20 @@ const CreateGroupPage = ({ history }) => {
         />
       </ContentContainer>
       <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-        <Button type="outline">
+        <Button
+          type="outline"
+          onClick={() => { history.push("homepage"); }}
+        >
           ยกเลิก
         </Button>
         {console.log(subject, topic, subtopic, difficulty, number_of_problems, is_play)}
         <Button
-          // type={subject && }
-          onClick={() => { history.push("waiting-room"); }}
+          type={(subject && topic && subtopic && difficulty && number_of_problems && is_play) ? "default" : "disabled"}
+          onClick={() => {
+            if(subject && topic && subtopic && difficulty && number_of_problems && is_play) {
+              history.push("waiting-room");
+            };
+          }}
         >
           สร้าง
         </Button>
