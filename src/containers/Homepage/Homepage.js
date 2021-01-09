@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 import SubjectCard from "./components/SubjectCard";
 import GroupPanel from "./components/GroupPanel";
@@ -10,7 +11,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard } from "./HomepageHelper";
 
-const Homepage = ({ user_id }) => {
+const Homepage = ({ history, user_id }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
@@ -29,7 +30,10 @@ const Homepage = ({ user_id }) => {
         <LoadingPage />
       ) : (
         <Container ref={ref}>
-          <GroupPanel />
+          <GroupPanel
+            onCreateGroupClick={() => { history.push("create-group"); }}
+            onJoinGroupClick={() => { history.push("join-group"); }}
+          />
           <ScrollView>
             <SubjectCard />
           </ScrollView>
@@ -66,4 +70,4 @@ const ScrollView = styled.div`
   margin-top: 32px;
 `;
 
-export default Homepage;
+export default withRouter(Homepage);
