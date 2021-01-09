@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { Header, Subheader } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
+import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
 
 import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -19,6 +20,8 @@ const CreateGroupPage = ({ history }) => {
   const [subject, set_subject] = useState();
   const [topic, set_topic] = useState();
   const [subtopic, set_subtopic] = useState();
+  const [difficulty, set_difficulty] = useState();
+  const [number_of_problems, set_number_of_problems] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
@@ -50,8 +53,15 @@ const CreateGroupPage = ({ history }) => {
         <DropdownWithLabel
           dropdown_ref={dropdown_ref}
           label="ระดับความยาก"
-          value={subtopic}
-          set_value={set_subtopic}
+          value={difficulty}
+          set_value={set_difficulty}
+          direction="row"
+          marginBottom={24}
+        />
+        <NumberInputSpinnerWithLabel
+          label="จำนวนคำถามทั้งหมด"
+          value={number_of_problems}
+          set_value={set_number_of_problems}
           direction="row"
         />
       </ContentContainer>

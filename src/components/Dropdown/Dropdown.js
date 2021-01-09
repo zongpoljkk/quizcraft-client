@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { Subheader, Body } from "../Typography";
@@ -61,7 +61,6 @@ export const Dropdown = ({
                 <Body color={COLOR.SILVER}>{placeholder}</Body>
               </Option>
           }
-
         </OptionsContainer>
       }
     </Container>
