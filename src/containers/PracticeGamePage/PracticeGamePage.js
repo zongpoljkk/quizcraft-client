@@ -29,7 +29,8 @@ const ITEM_USAGE = {
   IN_USE: "IN_USE",
 };
 
-const PracticeGame = ({ history }) => {
+const PracticeGamePage = ({ history }) => {
+
   const location = useLocation();
   const [answer, set_answer] = useState("");
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
@@ -262,4 +263,4 @@ const ZoomItem = styled.div`
   transform: scale(1.7);
 `;
 
-export default withRouter(PracticeGame);
+export default withRouter(PracticeGamePage);

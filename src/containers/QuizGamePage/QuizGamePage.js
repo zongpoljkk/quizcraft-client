@@ -30,10 +30,10 @@ const ITEM_USAGE = {
   USED: "USED",
 };
 const NUMBER_OF_QUIZ = 10;
-
 const QUIZ_MODE = "quiz";
 
-const QuizGame = ({ history }) => {
+const QuizGamePage = ({ history }) => {
+  
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
@@ -362,4 +362,4 @@ const CenterContainer = styled.div`
   justify-content: center;
 `;
 
-export default withRouter(QuizGame);
+export default withRouter(QuizGamePage);

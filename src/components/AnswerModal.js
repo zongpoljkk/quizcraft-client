@@ -54,20 +54,22 @@ export const AnswerModal = ({
           <div style={{ marginBottom: 8 }} />
           <Report correct={correct} />
         </ContentContainer>
-        <Button
-          onClick={() => {
-            onButtonClick();
-            toggle();
-          }}
-          type="custom"
-          size="small"
-          backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
-          border="none"
-          color={COLOR.WHITE}
-          style={{ alignSelf: "center" }}
-        >
-          {buttonTitle}
-        </Button>
+        {buttonTitle &&
+          <Button 
+            onClick={() => {
+              onButtonClick();
+              toggle();
+            }}
+            type="custom"
+            size="small"
+            backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+            border="none"
+            color={COLOR.WHITE}
+            style={{ alignSelf: "center" }}
+          >
+            {buttonTitle}
+          </Button>
+        }
       </Container>
     </FooterModal>
   );

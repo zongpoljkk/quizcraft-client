@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 import { LottieFile } from "../../components/LottieFile";
 import loadingData from "../../assets/lottie/loading.json";
 import { Body } from "../../components/Typography";
