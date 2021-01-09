@@ -29,7 +29,7 @@ export const SpecificChallengeModal = ({
             placeholder="ชื่อผู้ใช้"
           />
           {not_exist && (
-            <div style={{ marginBottom: "8px", display: "flex", justifyContent: "center" }}>
+            <div style={{ marginTop: "4px"}}>
               <Body props color={COLOR.MANDARIN}>
                 The user does not exist!
               </Body>
