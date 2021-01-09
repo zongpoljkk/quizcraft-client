@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from "styled-components";
 
-import { useWindowDimensions } from "../global/utils"
-import { COLOR } from "../global/const"
+import { useWindowDimensions } from "../global/utils";
+import { COLOR } from "../global/const";
 
 export const Modal = ({ 
   isShowing,

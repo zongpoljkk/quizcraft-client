@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
+
 import TopicBox from "./components/TopicBox";
 import LoadingPage from "../LoadingPage/LoadingPage";
 

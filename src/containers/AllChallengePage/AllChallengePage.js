@@ -20,7 +20,7 @@ import {
   useRandomChallenge
 } from "./AllChallengePageHelper";
 
-import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const"
+import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {

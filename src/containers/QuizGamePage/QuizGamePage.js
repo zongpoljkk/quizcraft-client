@@ -4,14 +4,14 @@ import styled from "styled-components";
 import Timer from "react-compound-timer";
 
 import { Body } from "../../components/Typography";
-import { ExitModal } from "../../components/ExitModal"
+import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
-import { ProblemIndex } from "../../components/ProblemIndex"
-import { AnswerModal } from "../../components/AnswerModal"
+import { Button } from "../../components/Button";
+import { ProblemIndex } from "../../components/ProblemIndex";
+import { AnswerModal } from "../../components/AnswerModal";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-import { HeadlineItem } from "./components/HeadlineItem"
+import { HeadlineItem } from "./components/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
@@ -19,9 +19,9 @@ import {
   useGetHintByProblemId,
   useGetEachProblem,
   useItem
-} from "./QuizGameHelper";
+} from "./QuizGamePageHelper";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const"
+import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 // MOCK DATA
 const CORRECT = false;
@@ -34,7 +34,7 @@ const ITEM_USAGE = {
 }
 const NUMBER_OF_QUIZ = 10;
 
-const QuizGame = ({ history }) => {
+const QuizGamePage = ({ history }) => {
   
   const location = useLocation();
   const [isShowing, toggle] = useModal();
@@ -274,4 +274,4 @@ const CenterContainer = styled.div`
   justify-content: center;
 `;
 
-export default withRouter(QuizGame);
+export default withRouter(QuizGamePage);
