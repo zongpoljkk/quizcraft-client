@@ -83,10 +83,11 @@ const MOCK_DATA = {
     },
   ],
   user_index: 5,
-  number_of_problem: 20
+  number_of_problem: 20,
+  is_created: true
 };
 
-const GroupResultPage = ({ isPlayed }) => {
+const GroupResultPage = () => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [display_first_lottie, set_display_first_lottie] = useState(false);
   const [display_lottie, set_display_lottie] = useState(false);
@@ -119,12 +120,10 @@ const GroupResultPage = ({ isPlayed }) => {
 
   const first_animation_success = () => {
     set_display_first_lottie(true);
-    console.log({display_first_lottie})
   };
 
   const animation_success = () => {
     set_display_lottie(true);
-    console.log(display_lottie)
   };
 
   return (
@@ -230,7 +229,7 @@ const GroupResultPage = ({ isPlayed }) => {
           </InfoBox>
         ))}
       </ResultContainer>
-      {isPlayed && (
+      {MOCK_DATA.is_created && (
         <ButtonContainer
           justifyContent={screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"}
           custom={9}
