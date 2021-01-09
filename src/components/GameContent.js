@@ -5,7 +5,7 @@ import { AnswerMathInput } from "./Answer/AnswerMathInput";
 import { AnswerSelectOne } from "./Answer/AnswerSelectOne";
 import { AnswerRadioChoice } from "./Answer/AnswerRadioChoice";
 
-import { ANSWER_TYPE } from "../global/const"
+import { ANSWER_TYPE } from "../global/const";
 
 const GameContent = ({
   type,

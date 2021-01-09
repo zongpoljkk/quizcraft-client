@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 import { Header, Subheader, Body } from "./Typography";
 import { ItemCard } from "./ItemCard";
-import { LottieFile } from "./LottieFile"
+import { LottieFile } from "./LottieFile";
 import { FooterModal } from "./Modal";
 import useModal from "./useModal";
 
 import hint_icon from "../assets/icon/hint.png";
-import hintData from "../assets/lottie/hint.json"
+import hintData from "../assets/lottie/hint.json";
 import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
 
 import { COLOR } from "../global/const";
