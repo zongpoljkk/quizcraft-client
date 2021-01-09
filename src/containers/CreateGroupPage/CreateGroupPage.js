@@ -6,6 +6,7 @@ import { Header, Subheader } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
+import { RadioButton } from "../../components/RadioButton";
 
 import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -15,6 +16,11 @@ const options = [
   'one', 'two', 'three', 'four', 'five', 'six'
 ];
 
+const IS_PLAY_CHOICES = [
+  "ผู้สังเกตการณ์",
+  "ผู้เล่น"
+];
+
 const CreateGroupPage = ({ history }) => {
   const dropdown_ref = useRef(null);
   const [subject, set_subject] = useState();
@@ -22,6 +28,7 @@ const CreateGroupPage = ({ history }) => {
   const [subtopic, set_subtopic] = useState();
   const [difficulty, set_difficulty] = useState();
   const [number_of_problems, set_number_of_problems] = useState();
+  const [is_play, set_is_play] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
@@ -63,6 +70,16 @@ const CreateGroupPage = ({ history }) => {
           value={number_of_problems}
           set_value={set_number_of_problems}
           direction="row"
+          marginBottom={24}
+        />
+        <RadioButton 
+          value={is_play} 
+          selected_value={set_is_play}  
+          choices={IS_PLAY_CHOICES}
+          direction="row"
+          justifyContent="flex-start"
+          marginRight={24}
+          text="subheader"
         />
       </ContentContainer>
       <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
