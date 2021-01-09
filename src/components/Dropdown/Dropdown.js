@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
-import { Subheader, Body } from "./Typography";
+import { Subheader, Body } from "../Typography";
 
-import chevron from "../assets/icon/chevron_mandarin.png";
+import chevron from "../../assets/icon/chevron_mandarin.png";
 
-import { COLOR } from "../global/const";
+import { useDetectOutsideClick } from "./DropdownHelper";
+
+import { COLOR } from "../../global/const";
 
 export const Dropdown = ({
   placeholder = "-- เลือก --",
@@ -14,7 +16,8 @@ export const Dropdown = ({
   set_value,
   onSelect = () => {}
 }) => {
-  const [is_active, set_is_active] = useState(false);
+  const dropdown_ref = useRef(null);
+  const [is_active, set_is_active] = useDetectOutsideClick(dropdown_ref, false);
   const [hover, set_hover] = useState();
 
   const onClick = () => {

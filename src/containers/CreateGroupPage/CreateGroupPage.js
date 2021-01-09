@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { Header, Subheader } from "../../components/Typography";
 import { Button } from "../../components/Button";
-import { DropdownWithLabel } from "../../components/Dropdown";
+import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 
 import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
