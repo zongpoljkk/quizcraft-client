@@ -22,6 +22,7 @@ import QuizGame from "./containers/QuizGamePage/QuizGamePage";
 import AllChallengePage from "./containers/AllChallengePage/AllChallengePage";
 import ChallengeGame from "./containers/ChallengeGamePage/ChallengeGamePage";
 import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage";
+import JoinGroupPage from "./containers/JoinGroupPage/JoinGroupPage";
 import GroupGamePage from "./containers/GroupGamePage/GroupGamePage";
 import ShopPage from "./containers/ShopPage/ShopPage";
 import ReportPage from "./containers/ReportPage/ReportPage";
@@ -136,6 +137,9 @@ const App = () => {
             getUserData={getUserData}
           >
             <GroupGamePage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/join-group" getUserData={getUserData}>
+            <JoinGroupPage />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
