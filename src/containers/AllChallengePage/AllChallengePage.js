@@ -38,6 +38,7 @@ const AllChallengePage = ({ history }) => {
   const [username, set_username] = useState("");
   const [specific_loading, set_specific_loading] = useState(false);
   const [specific_challenge_id, set_specific_challenge_id] = useState(false);
+  const [specific_not_exist, set_specific_not_exist] = useState(false);
   const container_width = screen_width - CONTAINER_PADDING;
   const [margin_right, set_margin_right] = useState();
   const user_id = localStorage.getItem("userId");
@@ -109,7 +110,6 @@ const AllChallengePage = ({ history }) => {
 
   const onSpecificChallenge = async () => {
     set_specific_loading(true);
-    await toggleModal2();
     const spec_id = await specificChallenge(
       user_id,
       username,
@@ -119,9 +119,10 @@ const AllChallengePage = ({ history }) => {
     ).catch((err) => {
       set_specific_loading(false);
       set_username("");
-      alert("No user match with the given username!");
+      set_specific_not_exist(true);
     });
     if (spec_id) {
+      await toggleModal2();
       set_specific_challenge_id(spec_id);
     }
   };
@@ -152,6 +153,10 @@ const AllChallengePage = ({ history }) => {
     onSpecificChallengeModalSubmit(specific_challenge_id);
   }, [specific_challenge_id]);
 
+  useEffect(() => {
+    set_specific_not_exist(false);
+  }, [isShowingModal2]);
+
   return (
     <Container>
       <ButtonContainer
@@ -180,11 +185,13 @@ const AllChallengePage = ({ history }) => {
         <SpecificChallengeModal
           username={username}
           set_username={set_username}
+          not_exist={specific_not_exist}
           onClick={() => {
             onSpecificChallenge();
           }}
           isShowing={isShowingModal2}
           toggle={toggleModal2}
+          style={{zIndex: "49"}}
         />
       </ButtonContainer>
       {loading ? (

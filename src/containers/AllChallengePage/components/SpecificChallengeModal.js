@@ -1,35 +1,42 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Header, Subheader } from "../../../components/Typography";
+import { Header, Subheader, Body } from "../../../components/Typography";
 import { Button } from "../../../components/Button";
 import { TextField } from "../../../components/TextField";
 import { Modal } from "../../../components/Modal";
+
+import { COLOR } from "../../../global/const";
 
 export const SpecificChallengeModal = ({
   username,
   set_username,
   onClick,
   isShowing,
-  toggle
+  toggle,
+  not_exist,
 }) => {
-
   return (
-    <Modal
-      isShowing={isShowing}
-      hide={toggle}
-    >
+    <Modal isShowing={isShowing} hide={toggle}>
       <Container>
         <Header>ท้าทายแบบเจาะจง</Header>
         <ChallengeField>
           <Subheader>ชื่อคู่แข่ง</Subheader>
-          <div style={{ marginBottom: 8 }}/>
+          <div style={{ marginBottom: 8 }} />
           <TextField
             value={username}
-            onChange={e => set_username(e.target.value)}
+            onChange={(e) => set_username(e.target.value)}
             placeholder="ชื่อผู้ใช้"
           />
+          {not_exist && (
+            <div style={{ marginBottom: "8px", display: "flex", justifyContent: "center" }}>
+              <Body props color={COLOR.MANDARIN}>
+                The user is not exist!
+              </Body>
+            </div>
+          )}
         </ChallengeField>
+
         <Button onClick={onClick}>ยืนยัน</Button>
       </Container>
     </Modal>
