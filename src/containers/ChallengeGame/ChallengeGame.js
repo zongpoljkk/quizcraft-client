@@ -102,6 +102,7 @@ const ChallengeGame = ({ history }) => {
     skip_button.disabled = true;
 
     if (userAnswer) {
+      console.log(my_info.currentProblem);
       await getAndCheckAnswer(
         problemId,
         userId,
