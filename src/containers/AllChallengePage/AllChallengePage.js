@@ -121,7 +121,6 @@ const AllChallengePage = ({ history }) => {
   };
 
   const onSpecificChallengeModalSubmit = async (specific_challenge_id) => {
-    console.log(specific_challenge_id);
     if (specific_challenge_id) {
       history.push({
         pathname: "./challenge-game",
