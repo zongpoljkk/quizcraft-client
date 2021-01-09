@@ -4,11 +4,11 @@ import styled from "styled-components";
 import Timer from "react-compound-timer";
 
 import { Body } from "../../components/Typography";
-import { ExitModal } from "../../components/ExitModal"
+import { ExitModal } from "../../components/ExitModal";
 import { ItemCard } from "../../components/ItemCard";
 import { ProblemBox } from "../../components/ProblemBox";
-import { HintItem } from "../../components/HintItem"
-import { Button } from "../../components/Button"
+import { HintItem } from "../../components/HintItem";
+import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -16,19 +16,19 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { 
   useGetHintByProblemId,
   useGetProblemForUser
-} from "./PracticeGameHelper";
+} from "./PracticeGamePageHelper";
 
 import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const"
+import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
 }
 
-const PracticeGame = ({ history }) => {
+const PracticeGamePage = ({ history }) => {
 
   const location = useLocation();
   const [used_time, set_used_time] = useState();
@@ -193,4 +193,4 @@ const ZoomItem = styled.div`
   transform: scale(1.7);
 `;
 
-export default withRouter(PracticeGame);
+export default withRouter(PracticeGamePage);
