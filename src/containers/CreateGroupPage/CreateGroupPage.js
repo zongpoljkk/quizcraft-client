@@ -101,7 +101,6 @@ const CreateGroupPage = ({ history }) => {
         >
           ยกเลิก
         </Button>
-        {console.log(subject, topic, subtopic, difficulty, number_of_problems, is_play)}
         <Button
           type={(subject && topic && subtopic && difficulty && number_of_problems && is_play) ? "default" : "disabled"}
           onClick={() => {
