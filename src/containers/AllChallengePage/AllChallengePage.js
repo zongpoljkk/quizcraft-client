@@ -116,7 +116,10 @@ const AllChallengePage = ({ history }) => {
       location.state.subject_name,
       location.state.subtopic_name,
       location.state.difficulty
-    );
+    ).catch((err) => {
+      set_specific_loading(false);
+      alert("No user match with the given username!");
+    });
     set_specific_challenge_id(spec_id);
   };
 

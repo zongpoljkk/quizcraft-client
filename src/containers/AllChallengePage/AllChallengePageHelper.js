@@ -155,5 +155,6 @@ export const specificChallenge = async (
     }
   } catch (err) {
     console.log("There are something wrong about specific challenge :(");
+    return Promise.reject(new Error("specificChallenge"))
   }
 };
