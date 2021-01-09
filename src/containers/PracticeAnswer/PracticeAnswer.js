@@ -70,7 +70,6 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const handleArrowClick = () => {
-    console.log("CLICK ARROW");
     if (solution.length === staticSolution.length) {
     } else {
       if (!firstClick) {
