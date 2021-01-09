@@ -14,8 +14,8 @@ import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import photo from "../../assets/icon/photo.png";
 
-import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const"
-import { useWindowDimensions } from "../../global/utils"
+import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;

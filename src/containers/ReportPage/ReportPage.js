@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 import { Header, Subheader } from "../../components/Typography";
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
+import { Button } from "../../components/Button";
 import { RadioButton } from "../../components/RadioButton";
 import { TextField } from "../../components/TextField";
 
 import { REPORT } from "../../global/const";
 
 //MOCK DATA
-const PROBLEM_TITLE = "จงทำเลขยกกำลังต่อไปนี้ให้เป็นรูปอย่างง่าย"
-const PROBLEM_CONTENT = "g^[14]*g^[-34]*g^[36]*g^[-16]"
+const PROBLEM_TITLE = "จงทำเลขยกกำลังต่อไปนี้ให้เป็นรูปอย่างง่าย";
+const PROBLEM_CONTENT = "g^[14]*g^[-34]*g^[36]*g^[-16]";
 
 const ReportPage = () => {
   const ref = useRef(null);

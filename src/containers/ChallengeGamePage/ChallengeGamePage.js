@@ -6,8 +6,8 @@ import Timer from "react-compound-timer";
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal"
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
-import { ProblemIndex } from "../../components/ProblemIndex"
+import { Button } from "../../components/Button";
+import { ProblemIndex } from "../../components/ProblemIndex";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { UserInfo } from "./components/UserInfo";
@@ -15,7 +15,7 @@ import { UserInfo } from "./components/UserInfo";
 import {
   useGetChallengeInfo,
   useGetProblemByChallengeId
-} from "./ChallengeGameHelper";
+} from "./ChallengeGamePageHelper";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
