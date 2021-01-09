@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -15,6 +15,7 @@ const options = [
 ];
 
 const CreateGroupPage = ({ history }) => {
+  const dropdown_ref = useRef(null);
   const [subject, set_subject] = useState();
   const [topic, set_topic] = useState();
   const [subtopic, set_subtopic] = useState();
@@ -25,6 +26,7 @@ const CreateGroupPage = ({ history }) => {
       <Header>สร้างกลุ่ม</Header>
       <ContentContainer>
         <DropdownWithLabel
+          dropdown_ref={dropdown_ref}
           label="วิชา"
           value={subject}
           set_value={set_subject}
@@ -32,18 +34,21 @@ const CreateGroupPage = ({ history }) => {
           marginBottom={16}
         />
         <DropdownWithLabel
+          dropdown_ref={dropdown_ref}
           label="หัวข้อ"
           value={topic}
           set_value={set_topic}
           marginBottom={16}
         />
         <DropdownWithLabel
+          dropdown_ref={dropdown_ref}
           label="หัวข้อย่อย"
           value={subtopic}
           set_value={set_subtopic}
           marginBottom={24}
         />
         <DropdownWithLabel
+          dropdown_ref={dropdown_ref}
           label="ระดับความยาก"
           value={subtopic}
           set_value={set_subtopic}

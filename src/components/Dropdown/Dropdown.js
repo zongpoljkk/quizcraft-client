@@ -10,13 +10,13 @@ import { useDetectOutsideClick } from "./DropdownHelper";
 import { COLOR } from "../../global/const";
 
 export const Dropdown = ({
+  dropdown_ref,
   placeholder = "-- เลือก --",
   options,
   value,
   set_value,
   onSelect = () => {}
 }) => {
-  const dropdown_ref = useRef(null);
   const [is_active, set_is_active] = useDetectOutsideClick(dropdown_ref, false);
   const [hover, set_hover] = useState();
 
@@ -32,7 +32,7 @@ export const Dropdown = ({
   };
 
   return (
-    <Container>
+    <Container ref={dropdown_ref}>
       <DropdownContainer borderRadius={is_active ? "10px 10px 0px 0px" : "10px"} onClick={onClick}>
         <Body color={value ? COLOR.CHARCOAL : COLOR.SILVER}>
           {value ? value : placeholder}
@@ -69,6 +69,7 @@ export const Dropdown = ({
 };
 
 export const DropdownWithLabel = ({
+  dropdown_ref,
   label,
   options,
   value,
@@ -86,6 +87,7 @@ export const DropdownWithLabel = ({
         <Subheader>{label}</Subheader>
       </div>
       <Dropdown
+        dropdown_ref={dropdown_ref}
         options={options}
         value={value}
         set_value={set_value}
