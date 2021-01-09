@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import SubjectCard from "./components/SubjectCard";
 import GroupPanel from "./components/GroupPanel";
+import AchievementPanel from "./components/AchievementPanel";
 import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
@@ -20,7 +21,7 @@ const Homepage = ({ user_id }) => {
   }, [ref.current]);
 
   useEffect(() => {
-    getLeaderBoard()
+    getLeaderBoard();
   }, []);
 
   return (
@@ -40,6 +41,11 @@ const Homepage = ({ user_id }) => {
               </div>
               <Tabs data={leader_board} />
             </ItemBox>
+          </div>
+          <div style={{ marginTop: 32, width: "100%" }}>
+            <AchievementPanel
+              container_width={container_width}
+            ></AchievementPanel>
           </div>
         </Container>
       )}
