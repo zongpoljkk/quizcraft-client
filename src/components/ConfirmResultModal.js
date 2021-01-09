@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Header, Body } from "./Typography";
+import { Header, Subheader, Body } from "./Typography";
 import { Button } from "./Button";
 import { Modal } from "./Modal";
 
@@ -15,6 +15,7 @@ export const ConfirmResultModal = ({
   success,
   success_description,
   fail_description,
+  pin,
   onSubmit = () => {},
 }) => {
 
@@ -26,9 +27,14 @@ export const ConfirmResultModal = ({
       <Container>
         <Icon src={success ? success_icon : fail_icon}/>
         <Header>{success ? "สำเร็จ" : "ล้มเหลว"}</Header>
-        <DescriptionContainer>
+        <DescriptionContainer marginBottom={ pin ? 8 : 16 }>
           <Body color={COLOR.SILVER}>{success ? success_description : fail_description}</Body>
         </DescriptionContainer>
+        {pin ? 
+          <PinContaniner>
+            <Subheader>Pin: {pin}</Subheader>
+          </PinContaniner>
+        :null}
         <Button
           onClick={() => {
             toggle();
@@ -56,8 +62,20 @@ const Icon = styled.img`
   margin-bottom: 16px;
 `;
 
-const DescriptionContainer = styled.div`
+const DescriptionContainer = styled.div.attrs(props => ({
+  marginBottom: props.marginBottom
+}))`
   text-align: center;
   margin-top: 4px;
+  margin-bottom: ${props => props.marginBottom}px;
+`;
+
+const PinContaniner = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 12px 0px 12px 0px;
   margin-bottom: 16px;
+  background: ${COLOR.ISLAND_SPICE};
+  border-radius: 10px;
+  justify-content: center;
 `;
