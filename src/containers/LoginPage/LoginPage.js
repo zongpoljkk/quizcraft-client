@@ -5,14 +5,14 @@ import { motion } from "framer-motion";
 
 import logo_animation from "../../assets/gif/logo_animation.gif";
 import logo from "../../assets/thumbnail/logo.png";
-import { Button } from "../../components/Button"
+import { Button } from "../../components/Button";
 import config from "../../config";
 
 const LoginPage = ({ history }) => {
   const user_id = localStorage.getItem("userId");
-  const redirect_uri = 'http://localhost:3000/oauth/mcv-callback'
+  const redirect_uri = 'http://localhost:3000/oauth/mcv-callback';
   const URL = `https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=${config.client_id}&redirect_uri=${redirect_uri}`;
-  const [display_login, set_display_login] = useState(false)
+  const [display_login, set_display_login] = useState(false);
   const variants = {
     visible: {
       opacity: 1,
@@ -33,18 +33,18 @@ const LoginPage = ({ history }) => {
 
   const onComplete = () => {
     set_display_login(true)
-  }
+  };
 
   const onClickLogin = () => {
     window.location.assign(URL);
-  }
+  };
 
   useEffect(() => {
     if(user_id) {
       history.push("/homepage");
       history.go(0);
     }
-  }, [])
+  }, []);
 
   return (
     <Container>
