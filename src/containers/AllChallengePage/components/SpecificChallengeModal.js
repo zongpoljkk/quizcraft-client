@@ -31,7 +31,7 @@ export const SpecificChallengeModal = ({
           {not_exist && (
             <div style={{ marginBottom: "8px", display: "flex", justifyContent: "center" }}>
               <Body props color={COLOR.MANDARIN}>
-                The user is not exist!
+                The user does not exist!
               </Body>
             </div>
           )}
