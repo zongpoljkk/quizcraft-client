@@ -118,9 +118,12 @@ const AllChallengePage = ({ history }) => {
       location.state.difficulty
     ).catch((err) => {
       set_specific_loading(false);
+      set_username("");
       alert("No user match with the given username!");
     });
-    set_specific_challenge_id(spec_id);
+    if (spec_id) {
+      set_specific_challenge_id(spec_id);
+    }
   };
 
   const onSpecificChallengeModalSubmit = async (specific_challenge_id) => {
