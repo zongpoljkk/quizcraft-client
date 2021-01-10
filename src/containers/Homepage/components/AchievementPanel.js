@@ -9,7 +9,6 @@ import MoreData from "../../../assets/icon/more.png";
 
 // global
 import { COLOR } from "../../../global/const";
-import { useEffect } from "react";
 
 const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
 
