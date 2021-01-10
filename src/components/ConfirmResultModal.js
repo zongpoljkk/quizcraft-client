@@ -30,11 +30,11 @@ export const ConfirmResultModal = ({
         <DescriptionContainer marginBottom={ pin ? 8 : 16 }>
           <Body color={COLOR.SILVER}>{success ? success_description : fail_description}</Body>
         </DescriptionContainer>
-        {pin ? 
+        {(pin && success) && (
           <PinContaniner>
             <Subheader>Pin: {pin}</Subheader>
           </PinContaniner>
-        :null}
+        )}
         <Button
           onClick={() => {
             toggle();
