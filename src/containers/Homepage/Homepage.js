@@ -10,11 +10,13 @@ import { Header } from "../../components/Typography";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard } from "./HomepageHelper";
+import { useGetAchievements } from "./HomepageHelper";
 
 const Homepage = ({ user_id }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
+  // const {useGetAchievements, loading}
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
