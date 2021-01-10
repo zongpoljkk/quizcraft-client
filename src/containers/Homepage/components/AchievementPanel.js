@@ -13,7 +13,7 @@ import CoinData from "../../../assets/lottie/coin.json";
 // global
 import { COLOR } from "../../../global/const";
 
-const MOCK_ACHIEVEMENTS = [
+const MOCK_ACHIEVEMENTS_DATA = [
   {
     image: BronzeImg,
     lottie: CoinData,
@@ -24,15 +24,24 @@ const MOCK_ACHIEVEMENTS = [
   },
 ];
 
-var foo = Array.from(Array(10).keys());
+const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
+
+var foo = Array.from(Array(12).keys());
 
 const AchievementPanel = (props) => {
-  const test = foo.map((n) => {
+  const entry = foo.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
+  entry.push("ENTRY");
+
+  const mock_achievements = entry.map((n) => {
     return (
       <Achievement key={n}>
         <AchievementImg>
           <img
-            src={MOCK_ACHIEVEMENTS[1].image}
+            src={
+              n === "ENTRY"
+                ? MOCK_ACHIEVEMENTS_DATA[0].image
+                : MOCK_ACHIEVEMENTS_DATA[1].image
+            }
             height={40}
             alt={`img-${n}`}
           />
@@ -44,7 +53,7 @@ const AchievementPanel = (props) => {
   return (
     <ItemBox type="frame" shadow="frame" width={props.container_width - 32}>
       <Header>ความสำเร็จ</Header>
-      <AchievementsBox>{test}</AchievementsBox>
+      <AchievementsBox>{mock_achievements}</AchievementsBox>
     </ItemBox>
   );
 };
