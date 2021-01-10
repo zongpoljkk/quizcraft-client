@@ -1,11 +1,15 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 
 import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
+import { LottieFile } from "../../../components/LottieFile";
 
 // Image
 import MoreData from "../../../assets/icon/more.png";
+
+// Lottie
 
 // global
 import { COLOR } from "../../../global/const";
@@ -13,6 +17,8 @@ import { COLOR } from "../../../global/const";
 const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
 
 const AchievementPanel = ({ container_width, achievements }) => {
+  const [achievement_display, set_achievement_display] = useState({});
+
   const history = useHistory();
   let limited_achievements = achievements;
 
@@ -29,24 +35,71 @@ const AchievementPanel = ({ container_width, achievements }) => {
     });
   };
 
+  const handleOnMouseEnter = (achievement) => {
+    console.log(achievement_display);
+    set_achievement_display((achievement_display) => {
+      return {
+        ...achievement_display,
+        [achievement.name]: true,
+      };
+    });
+  };
+
+  const handleOnMouseLeave = (achievement) => {
+    console.log(achievement_display);
+    set_achievement_display((achievement_display) => {
+      return {
+        ...achievement_display,
+        [achievement.name]: false,
+      };
+    });
+  };
+
   const testResp = limited_achievements.map((achievement) => {
     return (
       <Achievement key={achievement.name}>
-        <AchievementImg>
-          <img
-            src={
-              achievement.name !== "ENTRY"
-                ? "data:image/png;base64," + achievement.image_info.data
-                : MoreData
-            }
-            height={40}
-            alt={`img-${achievement}`}
-            onClick={
-              achievement.name === "ENTRY"
-                ? () => handleOnclick(history)
-                : () => {}
-            }
-          />
+        <AchievementImg
+          onClick={
+            achievement.name === "ENTRY"
+              ? () => handleOnclick(history)
+              : () => {}
+          }
+          onMouseEnter={() =>
+            achievement.name !== "ENTRY"
+              ? handleOnMouseEnter(achievement)
+              : () => {
+                  console.log("...");
+                }
+          }
+          onMouseLeave={() =>
+            achievement.name !== "ENTRY"
+              ? handleOnMouseLeave(achievement)
+              : () => {
+                  console.log("...");
+                }
+          }
+        >
+          {achievement_display[achievement.name] ? (
+            <LottieFile
+              animationData={
+                achievement.name !== "ENTRY"
+                  ? JSON.parse(atob(achievement.lottie_info.data))
+                  : null
+              }
+              loop={false}
+              height={100}
+            />
+          ) : (
+            <img
+              src={
+                achievement.name !== "ENTRY"
+                  ? "data:image/png;base64," + achievement.image_info.data
+                  : MoreData
+              }
+              height={40}
+              alt={`img-${achievement}`}
+            />
+          )}
         </AchievementImg>
       </Achievement>
     );
