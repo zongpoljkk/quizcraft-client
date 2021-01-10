@@ -50,7 +50,7 @@ const AchievementsBox = styled.div`
   width: 100%;
   justify-content: flex-start;
   align-items: center;
-  margin: 12px auto;
+  margin: 16px auto;
   overflow-x: scroll;
 `;
 
