@@ -16,7 +16,11 @@ const Homepage = ({ user_id }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
-  // const {useGetAchievements, loading}
+  const {
+    getAchievements,
+    achievements_loading,
+    achievements,
+  } = useGetAchievements(user_id);
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
@@ -24,11 +28,12 @@ const Homepage = ({ user_id }) => {
 
   useEffect(() => {
     getLeaderBoard();
+    getAchievements();
   }, []);
 
   return (
     <React.Fragment>
-      {loading ? (
+      {loading || achievements_loading ? (
         <LoadingPage />
       ) : (
         <Container ref={ref}>
@@ -47,7 +52,7 @@ const Homepage = ({ user_id }) => {
           <div style={{ marginTop: 32, width: "100%" }}>
             <AchievementPanel
               container_width={container_width}
-              user_id={user_id}
+              achievements={achievements}
             ></AchievementPanel>
           </div>
         </Container>

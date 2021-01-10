@@ -14,8 +14,6 @@ import CoinData from "../../../assets/lottie/coin.json";
 // global
 import { COLOR } from "../../../global/const";
 
-import { useGetAchievements } from "../HomepageHelper";
-
 const MOCK_ACHIEVEMENTS = [
   {
     image: BronzeImg,
@@ -29,16 +27,7 @@ const MOCK_ACHIEVEMENTS = [
 
 var foo = Array.from(Array(10).keys());
 
-const AchievementPanel = ({ container_width, user_id }) => {
-  const { getAchievements, loading, achievements } = useGetAchievements(
-    user_id
-  );
-
-  useEffect(() => {
-    getAchievements();
-    console.log(achievements);
-  }, []);
-
+const AchievementPanel = ({ container_width, achievements }) => {
   const test = foo.map((n) => {
     return (
       <Achievement key={n}>
@@ -51,9 +40,14 @@ const AchievementPanel = ({ container_width, user_id }) => {
 
   const testResp = achievements.map((achievement) => {
     return (
-      <Achievement key={achievement}>
+      <Achievement key={achievement.name}>
         <AchievementImg>
-          <img src={achievement.image_info} height={40} alt={`img-${achievement}`} />
+          <img
+            //  src= {"data:image/png;base64,"+item.src}
+            src={"data:image/png;base64," + achievement.image_info.data}
+            height={40}
+            alt={`img-${achievement}`}
+          />
         </AchievementImg>
       </Achievement>
     );

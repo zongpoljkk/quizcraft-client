@@ -45,7 +45,7 @@ export const useGetLeaderBoard = (user_id) => {
 };
 
 export const useGetAchievements = (user_id) => {
-  const [loading, set_loading] = useState(true);
+  const [achievements_loading, set_achievements_loading] = useState(true);
   const [achievements, set_achievements] = useState();
 
   const getAchievements = async () => {
@@ -61,7 +61,7 @@ export const useGetAchievements = (user_id) => {
       const { success, data } = response.data;
       if (success) {
         set_achievements(data);
-        set_loading(false);
+        set_achievements_loading(false);
       } else {
         console.log("getAchievements Error");
       }
@@ -69,5 +69,5 @@ export const useGetAchievements = (user_id) => {
       console.log("There are something wrong about getAchievements :(");
     }
   };
-  return { getAchievements, loading, achievements };
+  return { getAchievements, achievements_loading, achievements };
 };
