@@ -16,11 +16,12 @@ const AchievementPanel = ({ container_width, achievements }) => {
   const history = useHistory();
   let limited_achievements = achievements;
 
+  // Limit number of achievements shown on the homepage
   if (achievements.length >= HOMEPAGE_ACHIEVEMENTS_NUMBER) {
     limited_achievements = achievements.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
   }
+  // Add entry to achievements page
   limited_achievements = [...limited_achievements, { name: "ENTRY" }];
-  console.log(limited_achievements);
 
   const handleOnclick = (history) => {
     history.push({
