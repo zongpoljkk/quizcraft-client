@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Header, Subheader } from "../../components/Typography";
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
+import { Button } from "../../components/Button";
 import { RadioButton } from "../../components/RadioButton";
 import { TextField } from "../../components/TextField";
 import useModal from "../../components/useModal";

@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import { Header } from "../Typography";
-import { COLOR } from "../../global/const"
+
+import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 

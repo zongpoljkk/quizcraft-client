@@ -13,7 +13,7 @@ import coin from "../assets/icon/coin.png";
 import streak from "../assets/icon/streak.png";
 import shop from "../assets/icon/shop.png";
 
-import { COLOR, RANK } from "../global/const"
+import { COLOR, RANK } from "../global/const";
 
 const Navbar = ({
   history,
