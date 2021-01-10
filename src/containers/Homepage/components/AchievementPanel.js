@@ -1,52 +1,51 @@
-import { useEffect } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router";
 
 import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
 
 // Image
-import BronzeImg from "../../../assets/icon/bronze.png";
-import ChevronImg from "../../../assets/icon/chevron.png";
-
-// Lottie
-import CoinData from "../../../assets/lottie/coin.json";
+import MoreData from "../../../assets/icon/more.png";
 
 // global
 import { COLOR } from "../../../global/const";
+import { useEffect } from "react";
 
-const MOCK_ACHIEVEMENTS = [
-  {
-    image: BronzeImg,
-    lottie: CoinData,
-  },
-  {
-    image: ChevronImg,
-    lottie: CoinData,
-  },
-];
-
-var foo = Array.from(Array(10).keys());
+const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
 
 const AchievementPanel = ({ container_width, achievements }) => {
-  const test = foo.map((n) => {
-    return (
-      <Achievement key={n}>
-        <AchievementImg>
-          <img src={MOCK_ACHIEVEMENTS[1].image} height={40} alt={`img-${n}`} />
-        </AchievementImg>
-      </Achievement>
-    );
-  });
+  const history = useHistory();
+  let limited_achievements = achievements;
 
-  const testResp = achievements.map((achievement) => {
+  if (achievements.length >= HOMEPAGE_ACHIEVEMENTS_NUMBER) {
+    limited_achievements = achievements.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
+  }
+  limited_achievements = [...limited_achievements, { name: "ENTRY" }];
+  console.log(limited_achievements);
+
+  const handleOnclick = (history) => {
+    history.push({
+      pathname: "/achievement",
+    });
+  };
+
+  const testResp = limited_achievements.map((achievement) => {
     return (
       <Achievement key={achievement.name}>
         <AchievementImg>
           <img
-            //  src= {"data:image/png;base64,"+item.src}
-            src={"data:image/png;base64," + achievement.image_info.data}
+            src={
+              achievement.name !== "ENTRY"
+                ? "data:image/png;base64," + achievement.image_info.data
+                : MoreData
+            }
             height={40}
             alt={`img-${achievement}`}
+            onClick={
+              achievement.name === "ENTRY"
+                ? () => handleOnclick(history)
+                : () => {}
+            }
           />
         </AchievementImg>
       </Achievement>
