@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import { useHistory, useLocation } from "react-router";
 
 import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
 
 // Image
-import BronzeImg from "../../../assets/icon/bronze.png";
+import MoreImg from "../../../assets/icon/more.png";
 import ChevronImg from "../../../assets/icon/chevron.png";
 
 // Lottie
@@ -15,7 +16,7 @@ import { COLOR } from "../../../global/const";
 
 const MOCK_ACHIEVEMENTS_DATA = [
   {
-    image: BronzeImg,
+    image: MoreImg,
     lottie: CoinData,
   },
   {
@@ -29,8 +30,16 @@ const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
 var foo = Array.from(Array(12).keys());
 
 const AchievementPanel = (props) => {
+  const history = useHistory();
+
   const entry = foo.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
   entry.push("ENTRY");
+
+  const handleOnclick = (history) => {
+    history.push({
+      pathname: "/achievement",
+    });
+  };
 
   const mock_achievements = entry.map((n) => {
     return (
@@ -44,6 +53,7 @@ const AchievementPanel = (props) => {
             }
             height={40}
             alt={`img-${n}`}
+            onClick={n === "ENTRY" ? () => handleOnclick(history) : () => {}}
           />
         </AchievementImg>
       </Achievement>

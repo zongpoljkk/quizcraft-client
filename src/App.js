@@ -25,6 +25,7 @@ import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResul
 import JoinGroupPage from "./containers/JoinGroupPage/JoinGroupPage";
 import GroupGamePage from "./containers/GroupGamePage/GroupGamePage";
 import ShopPage from "./containers/ShopPage/ShopPage";
+import AchievementPage from "./containers/AchievementPage/AchievementPage";
 import ReportPage from "./containers/ReportPage/ReportPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
@@ -165,6 +166,9 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/shop" getUserData={getUserData}>
             <ShopPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/achievement" getUserData={getUserData}>
+            <AchievementPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />
