@@ -90,7 +90,8 @@ const MOCK_DATA = {
 const GroupResultPage = () => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [display_first_lottie, set_display_first_lottie] = useState(false);
-  const [display_lottie, set_display_lottie] = useState(false);
+  const [display_second_lottie, set_display_second_lottie] = useState(false);
+  const [display_third_lottie, set_display_third_lottie] = useState(false);
 
   const list = {
     hidden: {
@@ -122,8 +123,12 @@ const GroupResultPage = () => {
     set_display_first_lottie(true);
   };
 
-  const animation_success = () => {
-    set_display_lottie(true);
+  const second_animation_success = () => {
+    set_display_second_lottie(true);
+  };
+
+  const third_animation_success = () => {
+    set_display_third_lottie(true);
   };
 
   return (
@@ -174,15 +179,15 @@ const GroupResultPage = () => {
               animate="visible"
               custom={5} 
               variants={item} 
-              onAnimationComplete={() => animation_success()}
+              onAnimationComplete={() => second_animation_success()}
             >
               <LottieFile
                 animationData={silver}
                 width="80px"
                 height="80px"
                 loop={false}
-                isPaused={!display_lottie}
-                isStopped={!display_lottie}
+                isPaused={!display_second_lottie}
+                isStopped={!display_second_lottie}
               />
             </motion.div>
             <motion.div custom={6} variants={item}>
@@ -196,29 +201,29 @@ const GroupResultPage = () => {
             <motion.div 
               initial="hidden"
               animate="visible"
-              custom={5} 
+              custom={8} 
               variants={item} 
-              onAnimationComplete={() => animation_success()}
+              onAnimationComplete={() => third_animation_success()}
             >
               <LottieFile
                 animationData={bronze}
                 width="80px"
                 height="80px"
                 loop={false}
-                isPaused={!display_lottie}
-                isStopped={!display_lottie}
+                isPaused={!display_third_lottie}
+                isStopped={!display_third_lottie}
               />
             </motion.div>
-            <motion.div custom={6} variants={item}>
+            <motion.div custom={9} variants={item}>
               <Body>{MOCK_DATA.scoreboard[2].username}</Body>
             </motion.div>
-            <motion.div custom={7} variants={item}>
+            <motion.div custom={10} variants={item}>
               <Body props color={COLOR.MANDARIN}>{MOCK_DATA.scoreboard[2].point}</Body>
             </motion.div>
           </TrophyWithInfo>
         </div>
       </Top3Container>
-      <ResultContainer custom={8} variants={item}>
+      <ResultContainer custom={11} variants={item}>
         {MOCK_DATA.scoreboard.map((list, index) => index > 2 && (
           <InfoBox key={index} backgroundColor={index + 1 === MOCK_DATA.user_index ? COLOR.ISLAND_SPICE : null}>
             <div style={{ marginRight: "12px" }}>
@@ -232,7 +237,7 @@ const GroupResultPage = () => {
       {MOCK_DATA.is_created && (
         <ButtonContainer
           justifyContent={screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"}
-          custom={9}
+          custom={12}
           variants={item}
         >
           <Button type="outline">ลบกลุ่ม</Button>
