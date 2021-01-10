@@ -29,9 +29,13 @@ var foo = Array.from(Array(10).keys());
 const AchievementPanel = (props) => {
   const test = foo.map((n) => {
     return (
-      <Achievement>
+      <Achievement key={n}>
         <AchievementImg>
-          <img src={MOCK_ACHIEVEMENTS[1].image} height={40} />
+          <img
+            src={MOCK_ACHIEVEMENTS[1].image}
+            height={40}
+            alt={`img-${n}`}
+          />
         </AchievementImg>
       </Achievement>
     );
