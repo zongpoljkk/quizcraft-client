@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 import { ItemBox } from "../../../components/ItemBox";
@@ -13,6 +14,8 @@ import CoinData from "../../../assets/lottie/coin.json";
 // global
 import { COLOR } from "../../../global/const";
 
+import { useGetAchievements } from "../HomepageHelper";
+
 const MOCK_ACHIEVEMENTS = [
   {
     image: BronzeImg,
@@ -26,25 +29,40 @@ const MOCK_ACHIEVEMENTS = [
 
 var foo = Array.from(Array(10).keys());
 
-const AchievementPanel = (props) => {
+const AchievementPanel = ({ container_width, user_id }) => {
+  const { getAchievements, loading, achievements } = useGetAchievements(
+    user_id
+  );
+
+  useEffect(() => {
+    getAchievements();
+    console.log(achievements);
+  }, []);
+
   const test = foo.map((n) => {
     return (
       <Achievement key={n}>
         <AchievementImg>
-          <img
-            src={MOCK_ACHIEVEMENTS[1].image}
-            height={40}
-            alt={`img-${n}`}
-          />
+          <img src={MOCK_ACHIEVEMENTS[1].image} height={40} alt={`img-${n}`} />
+        </AchievementImg>
+      </Achievement>
+    );
+  });
+
+  const testResp = achievements.map((achievement) => {
+    return (
+      <Achievement key={achievement}>
+        <AchievementImg>
+          <img src={achievement.image_info} height={40} alt={`img-${achievement}`} />
         </AchievementImg>
       </Achievement>
     );
   });
 
   return (
-    <ItemBox type="frame" shadow="frame" width={props.container_width - 32}>
+    <ItemBox type="frame" shadow="frame" width={container_width - 32}>
       <Header>ความสำเร็จ</Header>
-      <AchievementsBox>{test}</AchievementsBox>
+      <AchievementsBox>{testResp}</AchievementsBox>
     </ItemBox>
   );
 };

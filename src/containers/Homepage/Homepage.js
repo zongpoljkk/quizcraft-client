@@ -45,6 +45,7 @@ const Homepage = ({ user_id }) => {
           <div style={{ marginTop: 32, width: "100%" }}>
             <AchievementPanel
               container_width={container_width}
+              user_id={user_id}
             ></AchievementPanel>
           </div>
         </Container>
