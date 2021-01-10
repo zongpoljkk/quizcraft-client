@@ -16,9 +16,9 @@ export const useSendReport = (user_id, problem_id, report_content, date) => {
       })
       const { success, data } = response.data;
       if (success) {
-        console.log("hooray!");
         set_report_success(success);
       } else {
+        set_report_success(false);
         console.log("send report Error");
       } 
     } catch (error) {
