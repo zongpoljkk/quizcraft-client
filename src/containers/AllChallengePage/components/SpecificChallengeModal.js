@@ -29,15 +29,27 @@ export const SpecificChallengeModal = ({
             placeholder="ชื่อผู้ใช้"
           />
           {not_exist && (
-            <div style={{ marginTop: "4px"}}>
+            <div style={{ marginTop: "4px" }}>
               <Body props color={COLOR.MANDARIN}>
-                The user does not exist!
+                ไม่มีชื่อผู้ใช้นี้อยู่ในระบบ!
               </Body>
             </div>
           )}
         </ChallengeField>
 
-        <Button onClick={onClick}>ยืนยัน</Button>
+        <Button
+          onClick={
+            username
+              ? () => {
+                  onClick();
+                  set_username("");
+                }
+              : () => {}
+          }
+          type={username ? "default" : "disabled"}
+        >
+          ยืนยัน
+        </Button>
       </Container>
     </Modal>
   );

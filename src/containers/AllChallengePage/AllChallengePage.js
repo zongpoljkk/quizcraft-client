@@ -109,20 +109,21 @@ const AllChallengePage = ({ history }) => {
   };
 
   const onSpecificChallenge = async () => {
-    set_specific_loading(true);
+    // TODO: Right now, I cannot toggle the modal back in catch, don't know why
+    // set_specific_loading(true);
     const spec_id = await specificChallenge(
       user_id,
       username,
       location.state.subject_name,
       location.state.subtopic_name,
       location.state.difficulty
-    ).catch((err) => {
+    ).catch(async (err) => {
+      console.log(err);
       set_specific_loading(false);
       set_username("");
       set_specific_not_exist(true);
     });
     if (spec_id) {
-      await toggleModal2();
       set_specific_challenge_id(spec_id);
     }
   };
@@ -191,7 +192,6 @@ const AllChallengePage = ({ history }) => {
           }}
           isShowing={isShowingModal2}
           toggle={toggleModal2}
-          style={{zIndex: "49"}}
         />
       </ButtonContainer>
       {loading ? (
