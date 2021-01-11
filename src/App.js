@@ -163,7 +163,7 @@ const App = () => {
             <ReportPage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage user_id={user_id} />
+            <Homepage user_id={user_id} user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute exact path="/shop" getUserData={getUserData}>
             <ShopPage />
