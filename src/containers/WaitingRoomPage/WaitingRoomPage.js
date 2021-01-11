@@ -11,10 +11,51 @@ import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const MOCK_DATA = {
-  all_member: ["ajinn", "pimkunut_tee", "สมหญิงอิอิ", "สมชายรักพ่อ", "mingmimg", "zongpol", "อยากนอนแล้ว", "สมปองรักแม่", "จินจินจิน", "ณัชเองจ้า", "ขี้เกียจจัง", "ง่วงนอนมั่ก", "testtest"],
+  member: [
+    {
+      username: "ajinn"
+    },
+    {
+      username: "pimkunut_tee"
+    },
+    {
+      username: "สมหญิงอิอิ"
+    },
+    {
+      username: "สมชายรักพ่อ"
+    },
+    {
+      username: "mingmimg"
+    },
+    {
+      username: "zongpol"
+    },
+    {
+      username: "อยากนอนแล้ว"
+    },
+    {
+      username: "สมปองรักแม่"
+    }, 
+    {
+      username: "จินจินจิน"
+    }, 
+    {
+      username: "ณัชเองจ้า"
+    }, 
+    {
+      username: "ขี้เกียจจัง"
+    }, 
+    {
+      username: "ง่วงนอนมั่ก"
+    }, 
+    {
+      username: "testtest"
+    } 
+  ],
   number_of_member: 13,
-  is_created: true
-}
+};
+
+const IS_CREATED = true;
 
 const WaitingRoomPage = () => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -33,18 +74,18 @@ const WaitingRoomPage = () => {
           />
         </div>
       </div>
-      {MOCK_DATA.is_created && (
+      {IS_CREATED && (
         <GroupMemberBox>
           <div style={{display: "flex", flexFlow: "wrap", justifyContent: "space-between", padding: "16px"}}>
-            {MOCK_DATA.all_member.slice(0).reverse().map((list, index) => (
+            {MOCK_DATA.member.slice(0).reverse().map((list, index) => (
               <div style={{width: "110px", marginBottom: "4px"}}>
-                <Body key={index}> {list} </Body>
+                <Body key={index}> {list.username} </Body>
               </div>
             ))}
           </div>
         </GroupMemberBox>
       )}
-      {MOCK_DATA.is_created ?
+      {IS_CREATED ?
         <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
           <Button type="outline">ยกเลิก</Button>
           <Button>เริ่ม</Button>
