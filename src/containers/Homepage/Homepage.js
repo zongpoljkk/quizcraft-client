@@ -34,7 +34,11 @@ const Homepage = ({ user_id, user_info }) => {
 
   useEffect(() => {
     if (user_info) {
-      checkStreaksAchievement(user_id, user_info.streak);
+      // setTimeout because currently it call checkStreaks twice (don't know why)
+      // this way, we can wait for item in db to update because we don't add duplicate achievement
+      setTimeout(() => {
+        checkStreaksAchievement(user_id, user_info.streak);
+      }, 1000);
     }
   }, [user_info]);
 
