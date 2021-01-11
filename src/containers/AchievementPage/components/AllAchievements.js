@@ -1,26 +1,57 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 // Components
 import { Subheader, Overline } from "../../../components/Typography";
+import { LottieFile } from "../../../components/LottieFile";
+
+// Global
 import { COLOR } from "../../../global/const";
 import { convertHexToRGBA } from "../../../global/utils";
 
-// Media
-import BronzeImg from "../../../assets/icon/bronze.png";
-
 const AllAchievements = ({ achievements }) => {
   console.log(achievements);
+  const [achievement_display, set_achievement_display] = useState({});
+
+  const handleOnMouseEnter = (achievement) => {
+    set_achievement_display((achievement_display) => {
+      return {
+        ...achievement_display,
+        [achievement.name]: true,
+      };
+    });
+  };
+
+  const handleOnMouseLeave = (achievement) => {
+    set_achievement_display((achievement_display) => {
+      return {
+        ...achievement_display,
+        [achievement.name]: false,
+      };
+    });
+  };
+
   const all_achievements = achievements.map((achievement) => {
     return (
       <AchievementContainer key={achievement.name}>
-        <AchievementImageContainer>
+        <AchievementImageContainer
+          onMouseEnter={() => handleOnMouseEnter(achievement)}
+          onMouseLeave={() => handleOnMouseLeave(achievement)}
+        >
           <AchievementImageDiv>
-            <img
-              src={"data:image/png;base64," + achievement.image_info.data}
-              alt="test"
-              width={60}
-              height={60}
-            />
+            {achievement_display[achievement.name] ? (
+              <LottieFile
+                animationData={JSON.parse(atob(achievement.lottie_info.data))}
+                loop={false}
+                height={100}
+              />
+            ) : (
+              <img
+                src={"data:image/png;base64," + achievement.image_info.data}
+                height={60}
+                alt={`img-${achievement}`}
+              />
+            )}
           </AchievementImageDiv>
         </AchievementImageContainer>
         <AchievementTextContainer>
@@ -30,7 +61,6 @@ const AllAchievements = ({ achievements }) => {
       </AchievementContainer>
     );
   });
-  console.log(all_achievements);
 
   return <div>{all_achievements};</div>;
 };
