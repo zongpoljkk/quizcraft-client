@@ -7,11 +7,17 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 // Components
 import { Header } from "../../components/Typography";
 import AllAchievements from "./components/AllAchievements";
+import AchievementModal from "../../components/Achievement/AchievementModal";
 
 // Helper
 import { useGetAllAchievements } from "./AchievementPageHelper";
 
+// Hook
+import useModal from "../../components/useModal";
+
 const AchievementPage = ({ user_id }) => {
+  const [isShowing, toggle] = useModal();
+
   const {
     getAllAchievements,
     achievements_loading,
@@ -21,6 +27,7 @@ const AchievementPage = ({ user_id }) => {
 
   useEffect(() => {
     getAllAchievements();
+    toggle();
   }, []);
 
   return (
@@ -29,6 +36,11 @@ const AchievementPage = ({ user_id }) => {
         <LoadingPage />
       ) : (
         <Container>
+          <AchievementModal
+            isShowing={isShowing}
+            toggle={toggle}
+            content="Hello A"
+          />
           <Header>ความสำเร็จ</Header>
           <AllAchievements achievements={my_achievements} />
         </Container>
