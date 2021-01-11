@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import backend from '../ip';
 
 export const convertHexToRGBA = (hexCode, opacity) => {
   let hex = hexCode.replace('#', '');
@@ -35,4 +37,23 @@ export function useWindowDimensions() {
   }, []);
 
   return windowDimensions;
+}
+
+export const checkSolveProblem = async (user_id, subtopic) => {
+  try {
+    const response = await axios.get(backend + "achievement/check-achievement/", {
+      params: {
+        userId: user_id,
+        subtopic: subtopic
+      },
+    });
+    const { success, data } = response.data;
+    if (success) {
+      console.log(data)
+    } else {
+      console.log("getUserInfo Error");
+    }
+  } catch (error) {
+    console.log("There are something wrong when checking for achievement :(")
+  }
 }
