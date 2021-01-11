@@ -16,6 +16,7 @@ const AchievementPage = ({ user_id }) => {
     getAllAchievements,
     achievements_loading,
     all_achievements,
+    my_achievements,
   } = useGetAllAchievements(user_id);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const AchievementPage = ({ user_id }) => {
       ) : (
         <Container>
           <Header>ความสำเร็จ</Header>
-          <AllAchievements achievements={all_achievements} />
+          <AllAchievements achievements={my_achievements} />
         </Container>
       )}
     </React.Fragment>

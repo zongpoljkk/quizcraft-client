@@ -169,7 +169,7 @@ const App = () => {
             <ShopPage />
           </PrivateRoute>
           <PrivateRoute exact path="/achievement" getUserData={getUserData}>
-            <AchievementPage />
+            <AchievementPage user_id={user_id} />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />

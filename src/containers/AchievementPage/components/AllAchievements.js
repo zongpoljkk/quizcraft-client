@@ -10,7 +10,6 @@ import { COLOR } from "../../../global/const";
 import { convertHexToRGBA } from "../../../global/utils";
 
 const AllAchievements = ({ achievements }) => {
-  console.log(achievements);
   const [achievement_display, set_achievement_display] = useState({});
 
   const handleOnMouseEnter = (achievement) => {
