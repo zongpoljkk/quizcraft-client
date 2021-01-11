@@ -7,9 +7,11 @@ import { Button } from "../Button";
 
 // Media
 import CoinImg from "../../assets/icon/coin.png";
+import CoinData from "../../assets/lottie/coin.json";
 
 // Global
 import { COLOR } from "../../global/const";
+import { LottieFile } from "../LottieFile";
 
 const AchievementModal = ({
   isShowing,
@@ -26,7 +28,8 @@ const AchievementModal = ({
             <Body color={COLOR.SILVER}>{`คุณทำบลาบลาบลา`}</Body>
           </HeaderContainer>
           <AchievementImageDiv>
-            <img src={CoinImg} width={60} />
+            {/* <img src={CoinImg} width={60} /> */}
+            <LottieFile animationData={CoinData} loop={false} height={100} />
           </AchievementImageDiv>
           <div style={{ marginBottom: "4px" }}>
             <Body color={COLOR.CHARCOAL}>นักแก้โจทย์ดึงตัวร่วมปรมาจารย์</Body>
