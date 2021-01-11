@@ -11,8 +11,9 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard } from "./HomepageHelper";
 import { useGetAchievements } from "./HomepageHelper";
+import { checkStreaksAchievement } from "../../global/utils";
 
-const Homepage = ({ user_id }) => {
+const Homepage = ({ user_id, user_info }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
@@ -30,6 +31,12 @@ const Homepage = ({ user_id }) => {
     getLeaderBoard();
     getAchievements();
   }, []);
+
+  useEffect(() => {
+    if (user_info) {
+      checkStreaksAchievement(user_id, user_info.streak);
+    }
+  }, [user_info]);
 
   return (
     <React.Fragment>
