@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
+// Components
 import { Modal } from "../Modal";
-import useModal from "../useModal";
-
-import { Header } from "../Typography";
+import { Header, Body, Overline } from "../Typography";
 import { Button } from "../Button";
+
+// Media
+import CoinImg from "../../assets/icon/coin.png";
+
+// Global
+import { COLOR } from "../../global/const";
+import { convertHexToRGBA } from "../../global/utils";
 
 const AchievementModal = ({
   isShowing,
@@ -15,32 +21,51 @@ const AchievementModal = ({
   return (
     <div>
       <Modal isShowing={isShowing} hide={toggle}>
-        <HeaderContainer>
-          <Header>{content}</Header>
-        </HeaderContainer>
-        <ButtonContainer>
-          <Button type="outline" size="small" onClick={toggle}>
-            ยกเลิก
-          </Button>
-          <Button
-            size="small"
-            onClick={() => {
-              toggle();
-              onSubmit();
-            }}
-          >
-            ยืนยัน
-          </Button>
-        </ButtonContainer>
+        <Container>
+          <HeaderContainer>
+            <Header color={COLOR.CHARCOAL}>ยินดีด้วย!</Header>
+            <Body color={COLOR.SILVER}>{`คุณทำบลาบลาบลา`}</Body>
+          </HeaderContainer>
+          <AchievementImageDiv>
+            <img src={CoinImg} width={60} />
+          </AchievementImageDiv>
+          <div style={{ marginBottom: "4px" }}>
+            <Body color={COLOR.CHARCOAL}>นักแก้โจทย์ดึงตัวร่วมปรมาจารย์</Body>
+          </div>
+          <div style={{ marginBottom: "16px" }}>
+            <Overline color={COLOR.MANDARIN}>+20 XP +20 coins</Overline>
+          </div>
+          <ButtonContainer>
+            <Button onClick={toggle}>ยืนยัน</Button>
+          </ButtonContainer>
+        </Container>
       </Modal>
     </div>
   );
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const HeaderContainer = styled.div`
   display: flex;
-  text-align: center;
-  margin-bottom: 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+`;
+
+const AchievementImageDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 8px;
 `;
 
 const ButtonContainer = styled.div`
