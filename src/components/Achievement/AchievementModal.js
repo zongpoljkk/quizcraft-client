@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import motion from "framer-motion";
+import { motion } from "framer-motion";
 
 // Components
 import { Modal } from "../Modal";
@@ -33,10 +33,14 @@ const AchievementModal = ({
             <Header color={COLOR.CHARCOAL}>ยินดีด้วย!</Header>
             <Body color={COLOR.SILVER}>{`คุณทำบลาบลาบลา`}</Body>
           </HeaderContainer>
-          <AchievementImageDiv>
-            {/* <img src={CoinImg} width={60} /> */}
-            <LottieFile animationData={CoinData} loop={false} height={100} />
-          </AchievementImageDiv>
+          <AchievementLottieDiv>
+            <LottieFile
+              animationData={CoinData}
+              loop={false}
+              height={100}
+              resizeMode="cover"
+            />
+          </AchievementLottieDiv>
           <div style={{ marginBottom: "4px" }}>
             <Body color={COLOR.CHARCOAL}>นักแก้โจทย์ดึงตัวร่วมปรมาจารย์</Body>
           </div>
@@ -48,7 +52,12 @@ const AchievementModal = ({
           >
             <Overline color={COLOR.MANDARIN}>+20 XP +20 coins</Overline>
           </RewardDiv>
-          <ButtonContainer>
+          <ButtonContainer
+            initial="hidden"
+            animate="visible"
+            variants={variants}
+            transition={{ delay: 3 }}
+          >
             <Button onClick={toggle}>ยืนยัน</Button>
           </ButtonContainer>
         </Container>
@@ -72,7 +81,7 @@ const HeaderContainer = styled.div`
   margin-bottom: 12px;
 `;
 
-const AchievementImageDiv = styled.div`
+const AchievementLottieDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,7 +94,7 @@ const RewardDiv = styled(motion.div)`
   margin-bottom: 16px;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled(motion.div)`
   display: flex;
   justify-content: space-between;
 `;
