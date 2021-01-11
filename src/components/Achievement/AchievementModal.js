@@ -10,7 +10,6 @@ import CoinImg from "../../assets/icon/coin.png";
 
 // Global
 import { COLOR } from "../../global/const";
-import { convertHexToRGBA } from "../../global/utils";
 
 const AchievementModal = ({
   isShowing,

@@ -61,7 +61,7 @@ const AllAchievements = ({ achievements }) => {
     );
   });
 
-  return <div>{all_achievements};</div>;
+  return <div>{all_achievements}</div>;
 };
 
 const AchievementContainer = styled.div`
