@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import motion from "framer-motion";
 
 // Components
 import { Modal } from "../Modal";
@@ -34,9 +35,14 @@ const AchievementModal = ({
           <div style={{ marginBottom: "4px" }}>
             <Body color={COLOR.CHARCOAL}>นักแก้โจทย์ดึงตัวร่วมปรมาจารย์</Body>
           </div>
-          <div style={{ marginBottom: "16px" }}>
+          <RewardDiv
+            initial="hidden"
+            animate="visible"
+            variants={variants}
+            transition={{ delay: 2 }}
+          >
             <Overline color={COLOR.MANDARIN}>+20 XP +20 coins</Overline>
-          </div>
+          </RewardDiv>
           <ButtonContainer>
             <Button onClick={toggle}>ยืนยัน</Button>
           </ButtonContainer>
@@ -68,6 +74,10 @@ const AchievementImageDiv = styled.div`
   width: 80px;
   height: 80px;
   margin-bottom: 8px;
+`;
+
+const RewardDiv = styled(motion.div)`
+  margin-bottom: 16px;
 `;
 
 const ButtonContainer = styled.div`
