@@ -36,7 +36,6 @@ const AchievementPanel = ({ container_width, achievements }) => {
   };
 
   const handleOnMouseEnter = (achievement) => {
-    console.log(achievement_display);
     set_achievement_display((achievement_display) => {
       return {
         ...achievement_display,
@@ -46,7 +45,6 @@ const AchievementPanel = ({ container_width, achievements }) => {
   };
 
   const handleOnMouseLeave = (achievement) => {
-    console.log(achievement_display);
     set_achievement_display((achievement_display) => {
       return {
         ...achievement_display,
