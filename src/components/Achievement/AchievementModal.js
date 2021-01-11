@@ -14,6 +14,11 @@ import CoinData from "../../assets/lottie/coin.json";
 import { COLOR } from "../../global/const";
 import { LottieFile } from "../LottieFile";
 
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
+
 const AchievementModal = ({
   isShowing,
   toggle,
