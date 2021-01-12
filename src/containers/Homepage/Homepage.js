@@ -7,15 +7,21 @@ import AchievementPanel from "./components/AchievementPanel";
 import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
+import AchievementModal from "../../components/Achievement/AchievementModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard } from "./HomepageHelper";
 import { useGetAchievements } from "./HomepageHelper";
 import { checkStreaksAchievement } from "../../global/utils";
 
+// Hook
+import useModal from "../../components/useModal";
+
 const Homepage = ({ user_id, user_info }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
+  const [isShowing, toggle] = useModal();
+  const [modal_data, set_modal_data] = useState();
   const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
   const {
     getAchievements,
@@ -30,18 +36,33 @@ const Homepage = ({ user_id, user_info }) => {
   useEffect(() => {
     getLeaderBoard();
     getAchievements();
+    if (isShowing) {
+      toggle();
+    }
   }, []);
 
   useEffect(() => {
     console.log(user_info);
     // This get called twice (why?)
     // So wait 1 sec for the first call to update db then if there is a second call there''ll be no problem
-    setTimeout(() => {
-      if (user_info) {
-        checkStreaksAchievement(user_id, user_info.streak);
-      }
-    }, 1000);
+    // setTimeout(() => {
+    if (user_info) {
+      // TODO: Show achievement modal if the condition met
+      checkStreaksAchievement(user_id, user_info.streak).then((data) => {
+        console.log(data);
+        set_modal_data(data[0]);
+      });
+    }
+    // }, 1000);
   }, [user_info]);
+
+  useEffect(() => {
+    console.log("useEffect modal");
+    if (modal_data && !isShowing) {
+      console.log("toggle");
+      toggle();
+    }
+  }, [modal_data]);
 
   return (
     <React.Fragment>
@@ -49,6 +70,11 @@ const Homepage = ({ user_id, user_info }) => {
         <LoadingPage />
       ) : (
         <Container ref={ref}>
+          <AchievementModal
+            isShowing={isShowing}
+            toggle={toggle}
+            content={modal_data ? modal_data : {}}
+          />
           <GroupPanel />
           <ScrollView>
             <SubjectCard />

@@ -36,11 +36,6 @@ const AchievementPage = ({ user_id }) => {
         <LoadingPage />
       ) : (
         <Container>
-          <AchievementModal
-            isShowing={isShowing}
-            toggle={toggle}
-            content="Hello A"
-          />
           <Header>ความสำเร็จ</Header>
           <AllAchievements achievements={my_achievements} />
         </Container>

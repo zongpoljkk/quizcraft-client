@@ -76,7 +76,7 @@ export const checkStreaksAchievement = async (user_id, streaks) => {
     );
     const { success, data } = response.data;
     if (success) {
-      console.log(data);
+      return data;
     } else {
       console.log("checkAchievement Error");
     }
