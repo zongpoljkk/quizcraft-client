@@ -12,7 +12,10 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard } from "./HomepageHelper";
 import { useGetAchievements } from "./HomepageHelper";
-import { checkStreaksAchievement } from "../../global/utils";
+import {
+  checkStreaksAchievement,
+  checkReportAchievement,
+} from "../../global/achievement";
 
 // Hook
 import useModal from "../../components/useModal";
@@ -21,7 +24,9 @@ const Homepage = ({ user_id, user_info }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const [isShowing, toggle] = useModal();
+  const [isShowing2, toggle2] = useModal();
   const [modal_data, set_modal_data] = useState();
+  const [modal2_data, set_modal2_data] = useState();
   const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
   const {
     getAchievements,
@@ -46,14 +51,22 @@ const Homepage = ({ user_id, user_info }) => {
     // This get called twice (why?)
     // So wait 1 sec for the first call to update db then if there is a second call there''ll be no problem
     // setTimeout(() => {
-    if (user_info) {
+    if (user_info && !modal_data) {
       // TODO: Show achievement modal if the condition met
-      checkStreaksAchievement(user_id, user_info.streak).then((data) => {
-        console.log(data);
-        set_modal_data(data[0]);
-      });
+      checkStreaksAchievement(user_id, user_info.streak, "streak").then(
+        (data) => {
+          console.log(data);
+          set_modal_data(data[0]);
+        }
+      );
     }
     // }, 1000);
+    // if (user_id && !modal2_data) {
+    //   checkReportAchievement(user_id, "report").then((data) => {
+    //     console.log(data);
+    //     set_modal2_data(data[0]);
+    //   });
+    // }
   }, [user_info]);
 
   useEffect(() => {
@@ -75,6 +88,11 @@ const Homepage = ({ user_id, user_info }) => {
             toggle={toggle}
             content={modal_data ? modal_data : {}}
           />
+          {/* <AchievementModal
+            isShowing={isShowing}
+            toggle={toggle2}
+            content={modal2_data ? modal2_data : {}}
+          /> */}
           <GroupPanel />
           <ScrollView>
             <SubjectCard />
