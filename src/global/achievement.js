@@ -3,14 +3,12 @@ import backend from "../ip";
 
 export const checkStreaksAchievement = async (user_id, streaks, type) => {
   try {
-    const response = await axios.get(
+    const response = await axios.put(
       backend + "achievement/check-achievement/",
       {
-        params: {
-          userId: user_id,
-          streaks: streaks,
-          type: type,
-        },
+        userId: user_id,
+        streaks: streaks,
+        type: type,
       }
     );
     const { success, data } = response.data;
@@ -29,13 +27,11 @@ export const checkStreaksAchievement = async (user_id, streaks, type) => {
 
 export const checkReportAchievement = async (user_id, type) => {
   try {
-    const response = await axios.get(
+    const response = await axios.put(
       backend + "achievement/check-achievement/",
       {
-        params: {
-          userId: user_id,
-          type: type,
-        },
+        userId: user_id,
+        type: type,
       }
     );
     const { success, data } = response.data;

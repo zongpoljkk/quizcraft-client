@@ -56,7 +56,9 @@ const Homepage = ({ user_id, user_info }) => {
       checkStreaksAchievement(user_id, user_info.streak, "streak").then(
         (data) => {
           console.log(data);
-          set_modal_data(data[0]);
+          if (!modal_data) {
+            set_modal_data(data[0]);
+          }
         }
       );
     }

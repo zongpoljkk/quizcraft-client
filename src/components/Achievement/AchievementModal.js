@@ -36,7 +36,7 @@ const AchievementModal = ({
           </HeaderContainer>
           <AchievementLottieDiv>
             <LottieFile
-              animationData={CoinData}
+              animationData={JSON.parse(atob(content.lottie_info.data))}
               loop={false}
               height={100}
               resizeMode="cover"
