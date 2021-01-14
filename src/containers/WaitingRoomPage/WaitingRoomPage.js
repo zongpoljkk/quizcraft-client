@@ -78,7 +78,7 @@ const WaitingRoomPage = () => {
         <GroupMemberBox>
           <div style={{display: "flex", flexFlow: "wrap", justifyContent: "space-between", padding: "16px"}}>
             {MOCK_DATA.member.slice(0).reverse().map((list, index) => (
-              <div style={{width: "110px", marginBottom: "4px"}}>
+              <div style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === MOCK_DATA.member.length-1 ? "16px" : null}}>
                 <Body key={index}> {list.username} </Body>
               </div>
             ))}
