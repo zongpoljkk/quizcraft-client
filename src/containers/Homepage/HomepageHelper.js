@@ -60,6 +60,7 @@ export const useGetAchievements = (user_id) => {
       );
       const { success, data } = response.data;
       if (success) {
+        console.log(data);
         set_achievements(data);
         set_achievements_loading(false);
       } else {

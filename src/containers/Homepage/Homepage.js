@@ -12,10 +12,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard } from "./HomepageHelper";
 import { useGetAchievements } from "./HomepageHelper";
-import {
-  checkStreaksAchievement,
-  checkReportAchievement,
-} from "../../global/achievement";
+import { checkAchievement } from "../../global/achievement";
 
 // Hook
 import useModal from "../../components/useModal";
@@ -53,14 +50,18 @@ const Homepage = ({ user_id, user_info }) => {
     // setTimeout(() => {
     if (user_info && !modal_data) {
       // TODO: Show achievement modal if the condition met
-      checkStreaksAchievement(user_id, user_info.streak, "streak").then(
-        (data) => {
-          console.log(data);
-          if (!modal_data) {
-            set_modal_data(data[0]);
-          }
+      checkAchievement(user_id, "streak", user_info.streak).then((data) => {
+        console.log(data);
+        if (!modal_data) {
+          set_modal_data(data[0]);
         }
-      );
+      });
+      checkAchievement(user_id, "report", user_info.streak).then((data) => {
+        console.log(data);
+        if (!modal_data) {
+          set_modal_data(data[0]);
+        }
+      });
     }
     // }, 1000);
     // if (user_id && !modal2_data) {
@@ -90,11 +91,6 @@ const Homepage = ({ user_id, user_info }) => {
             toggle={toggle}
             content={modal_data ? modal_data : {}}
           />
-          {/* <AchievementModal
-            isShowing={isShowing}
-            toggle={toggle2}
-            content={modal2_data ? modal2_data : {}}
-          /> */}
           <GroupPanel />
           <ScrollView>
             <SubjectCard />
