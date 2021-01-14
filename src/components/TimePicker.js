@@ -92,4 +92,7 @@ const TimePickerComponent = styled.input.attrs(props => ({
   border: none;
   background-color: ${COLOR.WHITE};
   color: ${props => props.color};
+  & .without_ampm::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }
 `;
