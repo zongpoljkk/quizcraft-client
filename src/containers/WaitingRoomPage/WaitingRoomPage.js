@@ -55,7 +55,7 @@ const MOCK_DATA = {
   number_of_member: 13,
 };
 
-const IS_CREATOR = false;
+const IS_CREATOR = true;
 
 const WaitingRoomPage = () => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
