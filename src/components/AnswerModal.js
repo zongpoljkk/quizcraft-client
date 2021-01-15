@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
-import { Button } from "./Button"
-import { Report } from "./Report"
+import { Button } from "./Button";
+import { Report } from "./Report";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
@@ -56,20 +56,22 @@ export const AnswerModal = ({
           <div style={{ marginBottom: 8 }}/>
           <Report correct={correct}/>
         </ContentContainer>
-        <Button 
-          onClick={() => {
-            onButtonClick();
-            toggle();
-          }}
-          type="custom"
-          size="small"
-          backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
-          border="none"
-          color={COLOR.WHITE}
-          style={{ alignSelf: "center" }}
-        >
-          {buttonTitle}
-        </Button>
+        {buttonTitle &&
+          <Button 
+            onClick={() => {
+              onButtonClick();
+              toggle();
+            }}
+            type="custom"
+            size="small"
+            backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+            border="none"
+            color={COLOR.WHITE}
+            style={{ alignSelf: "center" }}
+          >
+            {buttonTitle}
+          </Button>
+        }
       </Container>
     </FooterModal>
   );

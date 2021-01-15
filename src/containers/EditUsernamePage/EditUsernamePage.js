@@ -6,7 +6,7 @@ import { Subheader, Body } from "../../components/Typography";
 import { TextField } from "../../components/TextField";
 import { Button } from "../../components/Button";
 
-import { COLOR } from "../../global/const"
+import { COLOR } from "../../global/const";
 
 import { useEditUsername, engToThai } from "./EditUsernameHelper";
 

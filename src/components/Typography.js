@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../global/const"
+import { COLOR } from "../global/const";
 
 export const Header = ({
   className,
