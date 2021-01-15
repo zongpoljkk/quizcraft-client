@@ -4,14 +4,14 @@ import styled from "styled-components";
 import Timer from "react-compound-timer";
 
 import { Body } from "../../components/Typography";
-import { ExitModal } from "../../components/ExitModal"
+import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
-import { ProblemIndex } from "../../components/ProblemIndex"
-import { AnswerModal } from "../../components/AnswerModal"
+import { Button } from "../../components/Button";
+import { ProblemIndex } from "../../components/ProblemIndex";
+import { AnswerModal } from "../../components/AnswerModal";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
-import { HeadlineItem } from "./components/HeadlineItem"
+import { HeadlineItem } from "./components/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { 
@@ -19,9 +19,9 @@ import {
   useGetHintByProblemId,
   useGetEachProblem,
   useItem
-} from "./QuizGameHelper";
+} from "./QuizGamePageHelper";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const"
+import { ANSWER_TYPE, COLOR } from "../../global/const";
 
 // MOCK DATA
 const CORRECT = false;
@@ -34,11 +34,12 @@ const ITEM_USAGE = {
 }
 const NUMBER_OF_QUIZ = 10;
 
-const QuizGame = ({ history }) => {
+const QuizGamePage = ({ history }) => {
   
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
+  const [time_start, set_time_start] = useState(true);
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
@@ -139,7 +140,7 @@ const QuizGame = ({ history }) => {
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
-            {problem_id ? start() : reset()}
+            {(problem_id && time_start) ? start() : stop()}
             <Headline>
               <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
               <div style={{ marginRight: 8 }}/>
@@ -209,6 +210,7 @@ const QuizGame = ({ history }) => {
                     type={answer ? "default" : "disabled"}
                     onClick={() => {
                       set_used_time(getTime()/1000);
+                      set_time_start(false);
                       stop();
                       onCheck();
                     }}
@@ -222,11 +224,13 @@ const QuizGame = ({ history }) => {
                     correct={CORRECT}
                     answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                     buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
+                    overlay_clickable={false}
                     onButtonClick={() => {
                       onNext();
-                      reset();
+                      set_time_start(true);
                       set_problem_id();
                       set_hint();
+                      reset();
                     }}
                   />
                 </CenterContainer>
@@ -270,4 +274,4 @@ const CenterContainer = styled.div`
   justify-content: center;
 `;
 
-export default withRouter(QuizGame);
+export default withRouter(QuizGamePage);

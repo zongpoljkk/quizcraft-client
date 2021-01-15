@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from "styled-components";
 
-import { useWindowDimensions } from "../global/utils"
-import { COLOR } from "../global/const"
+import { useWindowDimensions } from "../global/utils";
+import { COLOR } from "../global/const";
 
 export const Modal = ({ 
   isShowing,
@@ -27,6 +27,7 @@ export const FooterModal = ({
   isShowing,
   hide,
   backgroundColor = COLOR.WHITE,
+  overlay_clickable = true,
   children
 }) => {
 
@@ -35,7 +36,7 @@ export const FooterModal = ({
   return(
     isShowing ? ReactDOM.createPortal(
       <React.Fragment>
-        <Overlay onClick={hide}/>
+        <Overlay onClick={overlay_clickable ? hide : null}/>
         <FooterModalContainer width={width}>
           <ContainerBackground width={width} backgroundColor={backgroundColor}/>
           <div style={{ position: "relative" }}>

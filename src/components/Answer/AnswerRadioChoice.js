@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
-import { RadioButton } from "../RadioButton"
+import { RadioButton } from "../RadioButton";
 
-import { COLOR, CONTAINER_PADDING } from "../../global/const"
-import { useWindowDimensions } from "../../global/utils"
+import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 import { splitQuestion } from "./AnswertHelper";
 

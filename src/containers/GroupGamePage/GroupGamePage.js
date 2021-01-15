@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
-import { Body } from "../../components/Typography";
+import { Subheader } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal"
 import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button"
 import { ProblemIndex } from "../../components/ProblemIndex"
+import { AnswerModal } from "../../components/AnswerModal"
+import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
-import { UserInfo } from "./components/UserInfo";
+import { PointBox } from "./components/PointBox";
 
-import {
-  useGetChallengeInfo
-} from "./ChallengeGameHelper";
-
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
-import { useWindowDimensions } from "../../global/utils"
-
-const NUMBER_OF_QUIZ = 5;
+import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 // MOCK DATA
-const PROBLEM_ID = "5fcb4ccbc53dd068520072a1";
+const NUMBER_OF_QUIZ = 30;
 const TITLE = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
 const PROBLEM_CONTENT = 'โจทย์';
 const CORRECT_ANSWER = '(22^[5]*22^[2])*22^[39]';
@@ -30,49 +26,46 @@ const CONTENT = 'You can only join the football team if you can stay late on [Mo
 const QUESTION = '[] should be more than 200 words.';
 const CHOICES = ["slowly", "slowled", "slows", "slowing"];
 const TYPE_ANSWER = "RADIO_CHOICE";
+const CORRECT = false;
+const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
 const LOADING = false;
 const CURRENT_INDEX = 1;
+const POINT = 999;
+const TIME = 180;
 
-const ChallengeGame = ({ history }) => {
+const GroupGamePage = ({ history }) => {
   
   const location = useLocation();
+  const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
+  const [is_time_out, set_is_time_out] = useState(false);
   const [answer, set_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const user_id = localStorage.getItem("userId");
 
-  const { 
-    getChallengeInfo,
-    my_info,
-    challenger_info
-  } = useGetChallengeInfo(
-    user_id,
-    location.state.challenge_id
-  );
-
-  useEffect(() => {
-    getChallengeInfo();
-  }, []);
-
-  const onExit = () => {
+  const onExit = (subject_name, topic_name) => {
     history.push({
-      pathname: "./all-challenges", 
+      pathname: "/" + subject_name + "/" + topic_name, 
       state: {
-        subject_name: location.state.subject_name,
-        topic_name: location.state.topic_name,
-        subtopic_id: location.state.subtopic_id,
-        subtopic_name: location.state.subtopic_name,
-        mode: location.state.mode,
-        difficulty: location.state.difficulty
+        subject_name: subject_name,
+        topic_name: topic_name,
       }
     });
   };
 
-  const onCheck = () => {
+  const onSkip = () => {
+    // TODO: connect API send no answer
+  };
+
+  const onSend = () => {
     if(answer) {
-      // TODO: connect API check answer
-    }
-    // TODO: connect API check answer with blank answer
+      toggle();
+      // TODO: connect API send answer
+    };
+  };
+
+  const onTimeOut = () => {
+    set_is_time_out(true);
+    // TODO: connect API get new problem
   };
 
   return ( 
@@ -81,27 +74,25 @@ const ChallengeGame = ({ history }) => {
         formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
         startImmediately={false}
         lastUnit="h"
+        initialTime={TIME*1000}
+        direction="backward"
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
-            {PROBLEM_ID ? start() : reset()}
+            {is_time_out ? reset() : start()}
             <Headline>
-              <ExitModal onExit={() => onExit()}/>
+              {/* <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/> */}
+              <ExitModal />
               <div style={{ marginRight: 8 }}/>
               <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={CURRENT_INDEX}/>
-              <TimeContainer>
-                <Body color={COLOR.MANDARIN}>
-                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-                </Body>
-              </TimeContainer>
+              <div style={{ marginRight: 8 }}/>
+              <PointBox points={POINT}/>
             </Headline>
-            <UserInfo
-              my_image={my_info?.photo}
-              challenger_image={challenger_info?.photo}
-              my_score={my_info?.score}
-              challenger_score={challenger_info?.score}
-              challenger_is_played={challenger_info?.isPlayed}
-            />
+            <TimeContainer>
+              <Subheader color={COLOR.MANDARIN}>
+                <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+              </Subheader>
+            </TimeContainer>
             {LOADING 
             ? <LoadingPage/>
             : (
@@ -128,8 +119,7 @@ const ChallengeGame = ({ history }) => {
                     type="outline"
                     onClick={() => {
                       set_used_time(getTime()/1000);
-                      stop();
-                      onCheck();
+                      onSkip();
                     }}
                   >
                     ข้าม
@@ -138,13 +128,21 @@ const ChallengeGame = ({ history }) => {
                     type={answer ? "default" : "disabled"}
                     onClick={() => {
                       set_used_time(getTime()/1000);
-                      stop();
-                      onCheck();
+                      onSend();
                     }}
                   >
-                    ตรวจ
+                    ส่ง
                   </Button>
                 </ButtonContainer>
+                <AnswerModal
+                  isShowing={isShowing}
+                  toggle={toggle}
+                  // TODO: add real data instand of CORRECT after connect API
+                  correct={CORRECT}
+                  answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
+                  overlay_clickable={false}
+                />
+                {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
             )}
           </React.Fragment>
@@ -177,8 +175,10 @@ const ContentContainer = styled.div`
 `;
 
 const TimeContainer = styled.div`
+  display: flex;
+  align-self: center;
   width: 68px;
-  margin-left: 8px;
+  margin-bottom: 16px;
 `;
 
 const ButtonContainer = styled.div.attrs(props => ({
@@ -188,4 +188,4 @@ const ButtonContainer = styled.div.attrs(props => ({
   justify-content: ${props => props.justifyContent};
 `;
 
-export default withRouter(ChallengeGame);
+export default withRouter(GroupGamePage);
