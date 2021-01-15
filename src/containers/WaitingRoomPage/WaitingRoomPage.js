@@ -76,25 +76,25 @@ const WaitingRoomPage = () => {
           />
         </div>
       </div>
-      {IS_CREATOR && (
-        <GroupMemberBox>
-            <DisplayGroupMember columns={COLUMNS} gap={GAP}>
-              {MOCK_DATA.member.slice(0).reverse().map((list, index) => (
-                <div 
-                  key={index} 
-                  style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === MOCK_DATA.member.length-1 ? "16px" : null}}
-                >
-                  <Body> {list.username} </Body>
-                </div>
-              ))}
-            </DisplayGroupMember>
-        </GroupMemberBox>
-      )}
       {IS_CREATOR ?
-        <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-          <Button type="outline">ยกเลิก</Button>
-          <Button>เริ่ม</Button>
-        </ButtonContainer>
+        <div>
+          <GroupMemberBox>
+              <DisplayGroupMember columns={COLUMNS} gap={GAP}>
+                {MOCK_DATA.member.slice(0).reverse().map((list, index) => (
+                  <div 
+                    key={index} 
+                    style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === MOCK_DATA.member.length-1 ? "16px" : null}}
+                  >
+                    <Body> {list.username} </Body>
+                  </div>
+                ))}
+              </DisplayGroupMember>
+          </GroupMemberBox>
+          <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+            <Button type="outline">ยกเลิก</Button>
+            <Button>เริ่ม</Button>
+          </ButtonContainer>
+        </div>
       :
         <div style={{alignSelf: "center", marginTop: "64px"}}>
           <Button type="outline">ออก</Button>
