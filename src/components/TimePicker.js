@@ -84,8 +84,6 @@ const TimePickerContainer = styled.div.attrs(props => ({
 
 const TimePickerComponent = styled.input.attrs(props => ({
   type: "time",
-  // min: "12:00",
-  // max: "18:00",
   color: props.color,
 }))`
   display: flex;
