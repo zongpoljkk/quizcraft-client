@@ -7,13 +7,16 @@ import { useWindowDimensions } from "../global/utils";
 import { COLOR, LARGE_DEVICE_SIZE } from "../global/const";
 
 export const TimePicker = ({
+  hour = false,
   value,
   set_value = () => {}
 }) => {
 
   return (
-    <TimePickerContainer width={value ? 82 : 64}>
+    <TimePickerContainer width={value ? ( hour ? 108 : 82) : 64}>
       <TimePickerComponent
+        min="00:00" max="23:59"
+        step={hour ? "2" : "60"}
         value={value}
         onChange={e => set_value(e.target.value)}
         color={value ? COLOR.CHARCOAL : COLOR.SILVER }
@@ -81,6 +84,8 @@ const TimePickerContainer = styled.div.attrs(props => ({
 
 const TimePickerComponent = styled.input.attrs(props => ({
   type: "time",
+  // min: "12:00",
+  // max: "18:00",
   color: props.color,
 }))`
   display: flex;

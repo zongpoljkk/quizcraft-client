@@ -112,6 +112,7 @@ const CollapsContainer = styled.div`
 `;
 
 const NumberInput = styled.input.attrs(props => ({
+  type: "number",
   color: props.color,
   width: props.width
 }))`
