@@ -19,10 +19,11 @@ import {
   useGetHintByProblemId,
   useGetEachProblem,
   useItem,
-  getAndCheckAnswer
+  getAndCheckAnswer,
 } from "./QuizGamePageHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
+import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -33,7 +34,6 @@ export const NUMBER_OF_QUIZ = 10;
 const QUIZ_MODE = "quiz";
 
 const QuizGamePage = ({ history }) => {
-  
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
@@ -278,71 +278,52 @@ const QuizGamePage = ({ history }) => {
                 <CenterContainer>
                   <Button
                     id="button"
-                    // type={
-                    //   answer_type === ANSWER_TYPE.MATH_INPUT
-                    //     ? hasNumber(answer)
-                    //       ? "default"
-                    //       : "disabled"
-                    //     : answer
-                    //     ? "default"
-                    //     : "disabled"
-                    // }
-                    // onClick={
-                    //   answer_type === ANSWER_TYPE.MATH_INPUT
-                    //     ? hasNumber(answer)
-                    //       ? () => {
-                    //           handleCheckAnswerClick(
-                    //             problem_id,
-                    //             localStorage.getItem("userId"),
-                    //             answer,
-                    //             getTime(),
-                    //             location.state.subject_name,
-                    //             location.state.topic_name,
-                    //             location.state.subtopic_name,
-                    //             location.state.difficulty
-                    //           );
-                    //         }
-                    //       : () => {}
-                    //     : answer
-                    //     ? () => {
-                    //         handleCheckAnswerClick(
-                    //           problem_id,
-                    //           localStorage.getItem("userId"),
-                    //           answer,
-                    //           getTime(),
-                    //           location.state.subject_name,
-                    //           location.state.topic_name,
-                    //           location.state.subtopic_name,
-                    //           location.state.difficulty
-                    //         );
-                    //       }
-                    //     : () => {}
-                    // }
                     type={
                       answer_type === ANSWER_TYPE.MATH_INPUT
-                        ? hasNumber(user_answer)
+                        ? hasStringOrNumber(user_answer)
                           ? "default"
                           : "disabled"
                         : user_answer
                         ? "default"
                         : "disabled"
                     }
-                    type={user_answer ? "default" : "disabled"}
-                    onClick={() => {
-                      set_used_time(getTime() / 1000);
-                      set_time_start(false);
-                      stop();
-                      onCheck(
-                        problem_id,
-                        localStorage.getItem("userId"),
-                        user_answer,
-                        getTime(),
-                        location.state.subject_name,
-                        location.state.topic_name,
-                        location.state.subtopic_name,
-                        location.state.difficulty
-                      );
-                    }}
+                    onClick={
+                      answer_type === ANSWER_TYPE.MATH_INPUT
+                        ? hasStringOrNumber(user_answer)
+                          ? () => {
+                              set_used_time(getTime() / 1000);
+                              set_time_start(false);
+                              stop();
+                              onCheck(
+                                problem_id,
+                                localStorage.getItem("userId"),
+                                user_answer,
+                                getTime(),
+                                location.state.subject_name,
+                                location.state.topic_name,
+                                location.state.subtopic_name,
+                                location.state.difficulty
+                              );
+                            }
+                          : () => {}
+                        : user_answer
+                        ? () => {
+                            set_used_time(getTime() / 1000);
+                            set_time_start(false);
+                            stop();
+                            onCheck(
+                              problem_id,
+                              localStorage.getItem("userId"),
+                              user_answer,
+                              getTime(),
+                              location.state.subject_name,
+                              location.state.topic_name,
+                              location.state.subtopic_name,
+                              location.state.difficulty
+                            );
+                          }
+                        : () => {}
+                    }
                   >
                     ตรวจ
                   </Button>
