@@ -159,7 +159,7 @@ const App = () => {
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
-          <PrivateRoute exact path="/edit-username">
+          <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
             <EditUsernamePage />
           </PrivateRoute>
           <PrivateRoute exact path="/report" getUserData={getUserData}>

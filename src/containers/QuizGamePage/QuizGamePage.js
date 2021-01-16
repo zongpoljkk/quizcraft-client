@@ -19,17 +19,17 @@ import {
   useGetHintByProblemId,
   useGetEachProblem,
   useItem,
-} from "./QuizGameHelper";
+  getAndCheckAnswer
+} from "./QuizGamePageHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
-import { getAndCheckAnswer } from "./QuizGameHelper";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
   USED: "USED",
 };
-const NUMBER_OF_QUIZ = 10;
+export const NUMBER_OF_QUIZ = 10;
 const QUIZ_MODE = "quiz";
 
 const QuizGamePage = ({ history }) => {

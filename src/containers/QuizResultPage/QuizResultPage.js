@@ -17,6 +17,8 @@ import { COLOR } from "../../global/const";
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
 
+import { NUMBER_OF_QUIZ } from "../QuizGamePage/QuizGamePage";
+
 // const MOCK_SCORE = 8;
 
 const variants = {
@@ -77,7 +79,7 @@ const QuizResultPage = ({ history }) => {
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle initial="hidden" animate="visible" variants={variants}>
           <RunningNum score={score} />
-          <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
+          <Subheader color={COLOR.SILVER}>`Out of ${NUMBER_OF_QUIZ}`</Subheader>
         </Circle>
       </CenterDiv>
 
