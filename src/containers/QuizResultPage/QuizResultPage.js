@@ -79,7 +79,7 @@ const QuizResultPage = ({ history }) => {
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle initial="hidden" animate="visible" variants={variants}>
           <RunningNum score={score} />
-          <Subheader color={COLOR.SILVER}>`Out of ${NUMBER_OF_QUIZ}`</Subheader>
+          <Subheader color={COLOR.SILVER}>`เต็ม ${NUMBER_OF_QUIZ}`</Subheader>
         </Circle>
       </CenterDiv>
 
