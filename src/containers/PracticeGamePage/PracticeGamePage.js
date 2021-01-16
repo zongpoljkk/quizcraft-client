@@ -23,7 +23,7 @@ import skip_data from "../../assets/lottie/skip.json";
 import { LottieFile } from "../../components/LottieFile";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
-import { hasNumber } from "../../global/utils";
+import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -207,7 +207,7 @@ const PracticeGamePage = ({ history }) => {
                       <Button
                         type={
                           answer_type === ANSWER_TYPE.MATH_INPUT
-                            ? hasNumber(answer)
+                            ? hasStringOrNumber(answer)
                               ? "default"
                               : "disabled"
                             : answer
@@ -216,7 +216,7 @@ const PracticeGamePage = ({ history }) => {
                         }
                         onClick={
                           answer_type === ANSWER_TYPE.MATH_INPUT
-                            ? hasNumber(answer)
+                            ? hasStringOrNumber(answer)
                               ? () => {
                                   handleCheckAnswerClick(
                                     problem_id,

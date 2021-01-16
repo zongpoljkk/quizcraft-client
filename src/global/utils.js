@@ -37,6 +37,7 @@ export function useWindowDimensions() {
   return windowDimensions;
 }
 
-export const hasNumber = (myString) => {
-  return /\d/.test(myString);
-}
+export const hasStringOrNumber = (myString) => {
+  var regExp = /[a-zA-Z]/g;
+  return /\d/.test(myString) || regExp.test(myString);
+};
