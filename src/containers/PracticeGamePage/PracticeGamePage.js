@@ -16,13 +16,14 @@ import {
   useGetHintByProblemId,
   useGetProblemForUser,
   getAndCheckAnswer,
-} from "./PracticeGameHelper";
+} from "./PracticeGamePageHelper";
 
 import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
 import { LottieFile } from "../../components/LottieFile";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
+import {hasNumber} from "../../global/utils";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -30,7 +31,6 @@ const ITEM_USAGE = {
 };
 
 const PracticeGamePage = ({ history }) => {
-
   const location = useLocation();
   const [answer, set_answer] = useState("");
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
@@ -119,6 +119,10 @@ const PracticeGamePage = ({ history }) => {
     getProblemForUser();
   }, []);
 
+  useEffect(() => {
+    console.log(answer);
+  }, [answer]);
+
   return (
     <React.Fragment>
       {answer_loading ? (
@@ -205,7 +209,7 @@ const PracticeGamePage = ({ history }) => {
                     </ContentContainer>
                     <ButtonContainer>
                       <Button
-                        type={answer ? "default" : "disabled"}
+                        type={answer || (answer_type === ANSWER_TYPE.MATH_INPUT && hasNumber(answer))? "default" : "disabled"}
                         onClick={
                           answer
                             ? () => {
