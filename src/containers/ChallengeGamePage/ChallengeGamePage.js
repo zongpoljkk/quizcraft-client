@@ -18,7 +18,7 @@ import {
   useGetChallengeInfo,
   useGetProblemByChallengeId,
   getAndCheckAnswer,
-} from "./ChallengeGameHelper";
+} from "./ChallengeGamePageHelper";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -54,7 +54,15 @@ const ChallengeGame = ({ history }) => {
     choices,
   } = useGetProblemByChallengeId();
 
-  const onExit = () => {
+  const onExit = async () => {
+    console.log(current_index)
+    if (current_index === NUMBER_OF_QUIZ) {
+      console.log("KAO LAST CHECK")
+      await getProblemByChallengeId(
+        location.state.challenge_id,
+        my_info.currentProblem
+      );
+    }
     history.push({
       pathname: "./all-challenges",
       state: {
@@ -68,22 +76,24 @@ const ChallengeGame = ({ history }) => {
     });
   };
 
-  const onNext = () => {
+  const onNext = async () => {
     // Check like this because current_index was increased in previous else before this function executed
-    if (current_index === NUMBER_OF_QUIZ) {
-      // TODO: GO to Challenge page
-      onExit();
-    } else {
-      set_current_index((index) => index + 1);
-      set_user_answer();
-      my_info.currentProblem++;
-
-      // TODO: Try out
-      getProblemByChallengeId(
-        location.state.challenge_id,
-        my_info.currentProblem
-      );
-    }
+    // if (current_index === NUMBER_OF_QUIZ) {
+    //   console.log("KAO CURRENT_INDEX === 5")
+    //   await getProblemByChallengeId(
+    //     location.state.challenge_id,
+    //     my_info.currentProblem
+    //   );
+    //   onExit();
+    // } else {
+    set_current_index((index) => index + 1);
+    set_user_answer();
+    my_info.currentProblem++;
+    getProblemByChallengeId(
+      location.state.challenge_id,
+      my_info.currentProblem
+    );
+    // }
   };
 
   const onCheck = async (

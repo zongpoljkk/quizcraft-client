@@ -16,7 +16,7 @@ import {
   useGetHintByProblemId,
   useGetProblemForUser,
   getAndCheckAnswer,
-} from "./PracticeGameHelper";
+} from "./PracticeGamePageHelper";
 
 import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
