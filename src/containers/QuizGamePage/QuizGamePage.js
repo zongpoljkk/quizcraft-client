@@ -278,6 +278,55 @@ const QuizGamePage = ({ history }) => {
                 <CenterContainer>
                   <Button
                     id="button"
+                    // type={
+                    //   answer_type === ANSWER_TYPE.MATH_INPUT
+                    //     ? hasNumber(answer)
+                    //       ? "default"
+                    //       : "disabled"
+                    //     : answer
+                    //     ? "default"
+                    //     : "disabled"
+                    // }
+                    // onClick={
+                    //   answer_type === ANSWER_TYPE.MATH_INPUT
+                    //     ? hasNumber(answer)
+                    //       ? () => {
+                    //           handleCheckAnswerClick(
+                    //             problem_id,
+                    //             localStorage.getItem("userId"),
+                    //             answer,
+                    //             getTime(),
+                    //             location.state.subject_name,
+                    //             location.state.topic_name,
+                    //             location.state.subtopic_name,
+                    //             location.state.difficulty
+                    //           );
+                    //         }
+                    //       : () => {}
+                    //     : answer
+                    //     ? () => {
+                    //         handleCheckAnswerClick(
+                    //           problem_id,
+                    //           localStorage.getItem("userId"),
+                    //           answer,
+                    //           getTime(),
+                    //           location.state.subject_name,
+                    //           location.state.topic_name,
+                    //           location.state.subtopic_name,
+                    //           location.state.difficulty
+                    //         );
+                    //       }
+                    //     : () => {}
+                    // }
+                    type={
+                      answer_type === ANSWER_TYPE.MATH_INPUT
+                        ? hasNumber(user_answer)
+                          ? "default"
+                          : "disabled"
+                        : user_answer
+                        ? "default"
+                        : "disabled"
+                    }
                     type={user_answer ? "default" : "disabled"}
                     onClick={() => {
                       set_used_time(getTime() / 1000);
