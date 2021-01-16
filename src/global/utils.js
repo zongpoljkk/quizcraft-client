@@ -37,6 +37,6 @@ export function useWindowDimensions() {
   return windowDimensions;
 }
 
-const hasNumber = (myString) => {
+export const hasNumber = (myString) => {
   return /\d/.test(myString);
 }
