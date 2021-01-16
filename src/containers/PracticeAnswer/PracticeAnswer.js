@@ -104,7 +104,7 @@ const PracticeAnswer = ({ history }) => {
   const { height, width: screen_width } = useWindowDimensions();
 
   const greetingHolder = () => {
-    if (firstClick && correct) {
+    if (firstClick && correct && solution.length === staticSolution.length) {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
@@ -133,7 +133,6 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const arrowHolder = () => {
-    // if (firstClick) {
     if (solution.length === staticSolution.length) {
       return (
         <ShiftDiv style={{ zIndex: "1" }}>
