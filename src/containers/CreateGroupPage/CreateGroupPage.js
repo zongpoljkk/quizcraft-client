@@ -31,7 +31,7 @@ const CreateGroupPage = ({ history }) => {
   const [subtopic, set_subtopic] = useState('');
   const [difficulty, set_difficulty] = useState('');
   const [number_of_problems, set_number_of_problems] = useState(0);
-  const [time_per_problem, set_time_per_problem] = useState("00:00");
+  const [time_per_problem, set_time_per_problem] = useState('');
   const [is_play, set_is_play] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
