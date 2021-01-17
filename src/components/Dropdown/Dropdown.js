@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Subheader, Body } from "../Typography";
@@ -19,6 +19,7 @@ export const Dropdown = ({
 }) => {
   const [is_active, set_is_active] = useDetectOutsideClick(dropdown_ref, false);
   const [hover, set_hover] = useState();
+  const [last_options, set_last_options] = useState(options);
 
   const onClick = () => {
     set_is_active(!is_active);
@@ -30,6 +31,15 @@ export const Dropdown = ({
     };
     onSelect();
   };
+
+  useEffect(() => {
+    if(last_options){
+      if(options[0] !== last_options[0]){
+        set_value('');
+      }
+    };
+    set_last_options(options);
+  }, [options]);
 
   return (
     <Container ref={dropdown_ref}>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -12,10 +12,12 @@ import { TimePickerWithLabel } from "../../components/TimePicker";
 import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-// MOCK DATA
-const options = [
-  'one', 'two', 'three', 'four', 'five', 'six'
-];
+import {
+  useGetAllSubjects,
+  useGetAllTopicsBySubjectName,
+  useGetAllSubtopicsByTopicName,
+  useGetAvailableDifficultyBySubtopicName
+} from "./CreateGroupPageHelper";
 
 const IS_PLAY_CHOICES = [
   "ผู้สังเกตการณ์",
@@ -24,14 +26,31 @@ const IS_PLAY_CHOICES = [
 
 const CreateGroupPage = ({ history }) => {
   const dropdown_ref = useRef(null);
-  const [subject, set_subject] = useState();
-  const [topic, set_topic] = useState();
-  const [subtopic, set_subtopic] = useState();
-  const [difficulty, set_difficulty] = useState();
-  const [number_of_problems, set_number_of_problems] = useState();
-  const [time_per_problem, set_time_per_problem] = useState(null);
+  const [subject, set_subject] = useState('');
+  const [topic, set_topic] = useState('');
+  const [subtopic, set_subtopic] = useState('');
+  const [difficulty, set_difficulty] = useState('');
+  const [number_of_problems, set_number_of_problems] = useState(0);
+  const [time_per_problem, set_time_per_problem] = useState("00:00");
   const [is_play, set_is_play] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
+
+  const { getAllSubjects, subjects } = useGetAllSubjects();
+  const { getAllTopicsBySubjectName, topics } = useGetAllTopicsBySubjectName();
+  const { getAllSubtopicsByTopicName, subtopics } = useGetAllSubtopicsByTopicName();
+  const { getAvailableDifficultyBySubtopicName, available_difficulty } = useGetAvailableDifficultyBySubtopicName();
+  
+  useEffect(() => {
+    getAllSubjects();
+    getAllTopicsBySubjectName(subject);
+    getAllSubtopicsByTopicName(topic);
+    if (subtopic) {
+      getAvailableDifficultyBySubtopicName(subtopic);
+    };
+    if (!subtopic) {
+      set_difficulty();
+    };
+  }, [subject, topic, subtopic]);
 
   return (
     <Container>
@@ -42,7 +61,7 @@ const CreateGroupPage = ({ history }) => {
           label="วิชา"
           value={subject}
           set_value={set_subject}
-          options={options}
+          options={subjects}
           marginBottom={16}
         />
         <DropdownWithLabel
@@ -50,7 +69,7 @@ const CreateGroupPage = ({ history }) => {
           label="หัวข้อ"
           value={topic}
           set_value={set_topic}
-          options={options}
+          options={topics}
           marginBottom={16}
         />
         <DropdownWithLabel
@@ -58,7 +77,7 @@ const CreateGroupPage = ({ history }) => {
           label="หัวข้อย่อย"
           value={subtopic}
           set_value={set_subtopic}
-          options={options}
+          options={subtopics}
           marginBottom={24}
         />
         <DropdownWithLabel
@@ -66,7 +85,7 @@ const CreateGroupPage = ({ history }) => {
           label="ระดับความยาก"
           value={difficulty}
           set_value={set_difficulty}
-          options={options}
+          options={available_difficulty}
           direction="row"
           marginBottom={24}
         />
