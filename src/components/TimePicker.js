@@ -13,7 +13,7 @@ export const TimePicker = ({
 }) => {
 
   return (
-    <TimePickerContainer width={value ? ( hour ? 108 : 82) : 64}>
+    <TimePickerContainer width={value ? ( hour ? 108 : 82 ) : 64}>
       <TimePickerComponent
         min="00:00" max="23:59"
         step={hour ? "2" : "60"}
