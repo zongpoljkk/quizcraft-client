@@ -21,7 +21,14 @@ const JoinGroupPage = ({ history }) => {
           placeholder="รหัสผ่าน"
         />
       </ContentContainer>
-      <Button onClick={() => { history.push("waiting-room"); }}>
+      <Button
+        type={pin ? "default" : "disabled"}
+        onClick={() => {
+          if(pin) {
+            history.push("waiting-room");
+          };
+        }}
+      >
         ยืนยัน
       </Button>
     </Container>
