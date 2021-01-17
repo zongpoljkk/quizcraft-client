@@ -15,7 +15,6 @@ export const useJoinGroup = () => {
       const { success, data } = response.data;
       if (success) {
         set_group_id(data.groupId);
-        console.log(data.groupId)
       } else {
         console.log("joinGroup Error");
       } 
