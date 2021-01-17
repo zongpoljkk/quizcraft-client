@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -24,7 +24,6 @@ const GAIN_COIN = 200;
 const GAIN_XP = 150;
 
 const ChallengeResultPage = ( { history }) => {
-  const ref = useRef(null);
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -115,7 +114,6 @@ const ChallengeResultPage = ( { history }) => {
       initial="hidden" 
       animate="visible" 
       variants={list} 
-      ref={ref}
     >
       <motion.div
         custom={0}

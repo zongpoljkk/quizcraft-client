@@ -50,8 +50,10 @@ export const useDeleteChallenge = (user_id, challenge_id) => {
   const deleteChallenge = async () => {
     try {
       const response = await axios.delete(backend+"challenge/delete-challenge", {
-        user_id : user_id,
-        challenge_id: challenge_id,
+        data: {
+          user_id : user_id,
+          challenge_id: challenge_id,
+        }
       })
       const { success, data } = response.data;
       if (success) {
