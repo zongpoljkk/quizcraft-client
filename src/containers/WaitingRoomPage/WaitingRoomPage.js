@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useLocation, withRouter } from "react-router-dom";
 
 import { Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
@@ -58,6 +59,7 @@ const MOCK_DATA = {
 const IS_CREATOR = true;
 
 const WaitingRoomPage = () => {
+  const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const COLUMNS = Math.floor((screen_width-96)/110);
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
@@ -166,4 +168,4 @@ const ButtonContainer = styled.div.attrs(props => ({
   margin-top: 32px;
 `;
 
-export default WaitingRoomPage;
+export default withRouter(WaitingRoomPage);

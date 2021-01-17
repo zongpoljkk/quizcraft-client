@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -6,8 +6,27 @@ import { Header, Subheader } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { TextField } from "../../components/TextField";
 
+import { useJoinGroup } from "./JoinGroupPageHelper";
+
 const JoinGroupPage = ({ history }) => {
-  const [pin, set_pin] = useState();
+  const [pin, set_pin] = useState('');
+  const user_id = localStorage.getItem("userId");
+
+  const {
+    joinGroup,
+    group_id
+  } = useJoinGroup();
+
+  useEffect(() => {
+    if(group_id) {
+      history.push({
+        pathname: "waiting-room", 
+        state: {
+          group_id: group_id
+        }
+      });
+    };
+  }, [group_id]);
 
   return (
     <Container>
@@ -25,7 +44,7 @@ const JoinGroupPage = ({ history }) => {
         type={pin ? "default" : "disabled"}
         onClick={() => {
           if(pin) {
-            history.push("waiting-room");
+            joinGroup(user_id, pin);
           };
         }}
       >
