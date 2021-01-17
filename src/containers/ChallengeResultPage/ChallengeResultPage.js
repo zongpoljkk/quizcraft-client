@@ -16,6 +16,8 @@ import {
 } from "./ChallengeResultPageHelper";
 
 import { COLOR } from "../../global/const";
+import { CONTAINER_PADDING } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 //MOCK DATA FOR MODAL
 const GAIN_COIN = 200;
@@ -25,9 +27,8 @@ const ChallengeResultPage = ( { history }) => {
   const ref = useRef(null);
   const location = useLocation();
   const [isShowing, toggle] = useModal();
-  const [container_width, set_container_width] = useState();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [win, set_win] = useState();
-  const [showModal, setShowModal] = useState();
   const user_id = localStorage.getItem("userId");
 
   const { 
@@ -97,18 +98,10 @@ const ChallengeResultPage = ( { history }) => {
   };
 
   useEffect(() => {
-    set_container_width(ref.current ? ref.current.offsetWidth : 0);
-  }, [ref.current]);
-
-  useEffect(() => {
     getFinalChallengeResult();
     setTimeout(() => {
-      setShowModal(toggle)
-    }, 8750);
-  }, []);
-
-  useEffect(() => {
-    deleteChallenge();
+      toggle()
+    }, 8850);
   }, []);
 
   useEffect(() => {
@@ -134,7 +127,7 @@ const ChallengeResultPage = ( { history }) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            width: container_width - 16,
+            width: screen_width - CONTAINER_PADDING - 16,
           }}
         >
           <Header>สรุปผลคะแนน</Header>
@@ -145,7 +138,6 @@ const ChallengeResultPage = ( { history }) => {
       : <React.Fragment>
           <DetailContainer>
             <UserInfoBox
-              container_width={container_width}
               profile_image={my_result.photo}
               username={my_result.username}
               challenge_result={my_result.result}
@@ -160,7 +152,6 @@ const ChallengeResultPage = ( { history }) => {
               <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
             </motion.div>
             <UserInfoBox
-              container_width={container_width}
               profile_image={challenger_result.photo}
               username={challenger_result.username}
               challenge_result={challenger_result.result}
