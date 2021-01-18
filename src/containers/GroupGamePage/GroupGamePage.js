@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
@@ -17,21 +17,12 @@ import { PointBox } from "./components/PointBox";
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
+import { useGetGroupGame } from "./GroupGamePageHelper";
+
 // MOCK DATA
-const NUMBER_OF_QUIZ = 30;
-const TITLE = 'แบบทดสอบความรู้ทั่วไปมากๆ มากแบบมากๆจริงนะจ๊ะ';
-const PROBLEM_CONTENT = 'โจทย์';
-const CORRECT_ANSWER = '(22^[5]*22^[2])*22^[39]';
-const CONTENT = 'You can only join the football team if you can stay late on [Mondays.&Fridays.]';
-const QUESTION = '[] should be more than 200 words.';
-const CHOICES = ["slowly", "slowled", "slows", "slowing"];
-const TYPE_ANSWER = "RADIO_CHOICE";
+const GROUP_ID = "5ffd4b96d8dcb02748bac714";
 const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-const LOADING = false;
-const CURRENT_INDEX = 1;
-const POINT = 999;
-const TIME = 180;
 
 const GroupGamePage = ({ history }) => {
   
@@ -41,6 +32,17 @@ const GroupGamePage = ({ history }) => {
   const [is_time_out, set_is_time_out] = useState(false);
   const [answer, set_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const user_id = localStorage.getItem("userId");
+
+  const {
+    getGroupGame,
+    loading,
+    current_index,
+    number_of_problem,
+    time_per_problem,
+    user,
+    problem
+  } = useGetGroupGame(user_id, GROUP_ID);
 
   const onExit = (subject_name, topic_name) => {
     history.push({
@@ -68,48 +70,52 @@ const GroupGamePage = ({ history }) => {
     // TODO: connect API get new problem
   };
 
+  useEffect(() => {
+    getGroupGame();
+  }, []);
+
   return ( 
     <Container>
-      <Timer
-        formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-        startImmediately={false}
-        lastUnit="h"
-        initialTime={TIME*1000}
-        direction="backward"
-      >
-        {({ getTime, start, stop, reset }) => (
-          <React.Fragment>
-            {is_time_out ? reset() : start()}
-            <Headline>
-              {/* <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/> */}
-              <ExitModal />
-              <div style={{ marginRight: 8 }}/>
-              <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={CURRENT_INDEX}/>
-              <div style={{ marginRight: 8 }}/>
-              <PointBox points={POINT}/>
-            </Headline>
-            <TimeContainer>
-              <Subheader color={COLOR.MANDARIN}>
-                <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-              </Subheader>
-            </TimeContainer>
-            {LOADING 
-            ? <LoadingPage/>
-            : (
+      {loading 
+        ? <LoadingPage/>
+        : (
+        <Timer
+          formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+          startImmediately={false}
+          lastUnit="h"
+          initialTime={time_per_problem*1000}
+          direction="backward"
+        >
+          {({ getTime, start, reset }) => (
+            <React.Fragment>
+              {is_time_out ? reset() : start()}
+              <Headline>
+                {/* <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/> */}
+                <ExitModal />
+                <div style={{ marginRight: 8 }}/>
+                <ProblemIndex indexes={number_of_problem} current_index={current_index}/>
+                <div style={{ marginRight: 8 }}/>
+                <PointBox points={user.point}/>
+              </Headline>
+              <TimeContainer>
+                <Subheader color={COLOR.MANDARIN}>
+                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+                </Subheader>
+              </TimeContainer>
               <React.Fragment>
                 <ProblemBox
-                  problem={TITLE}
-                  problem_content={TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? PROBLEM_CONTENT : null}
+                  problem={problem.title}
+                  problem_content={problem.answerType === ANSWER_TYPE.MATH_INPUT ? problem.body : null}
                 />
                 <ContentContainer 
-                  style={{ alignSelf: TYPE_ANSWER === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+                  style={{ alignSelf: problem.answerType === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
                 >
                   <GameContent 
-                    type={TYPE_ANSWER}
-                    correct_answer={CORRECT_ANSWER}
-                    question={QUESTION}
-                    choices={CHOICES}
-                    content={CONTENT}
+                    type={problem.answerType}
+                    correct_answer={problem.correctAnswer}
+                    question={problem.body}
+                    choices={problem.choices}
+                    content={problem.body}
                     answer={answer}
                     set_answer={set_answer}
                   />
@@ -144,10 +150,10 @@ const GroupGamePage = ({ history }) => {
                 />
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
-            )}
-          </React.Fragment>
-        )}
-      </Timer>
+            </React.Fragment>
+          )}
+        </Timer>
+      )}
     </Container>
   );
 };
