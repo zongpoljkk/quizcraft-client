@@ -1,105 +1,82 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import loading_circle from "../../assets/lottie/loading_circle.json";
 
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-const MOCK_DATA = {
-  member: [
-    {
-      username: "ajinn"
-    },
-    {
-      username: "pimkunut_tee"
-    },
-    {
-      username: "สมหญิงอิอิ"
-    },
-    {
-      username: "สมชายรักพ่อ"
-    },
-    {
-      username: "mingming"
-    },
-    {
-      username: "zongpol"
-    },
-    {
-      username: "อยากนอนแล้ว"
-    },
-    {
-      username: "สมปองรักแม่"
-    }, 
-    {
-      username: "จินจินจิน"
-    }, 
-    {
-      username: "ณัชเองจ้า"
-    }, 
-    {
-      username: "ขี้เกียจจัง"
-    }, 
-    {
-      username: "ง่วงนอนมั่ก"
-    }, 
-    {
-      username: "testtest"
-    } 
-  ],
-  number_of_member: 13,
-};
+import { useGetGroupMembers } from "./WaitingRoomPageHelper";
 
-const IS_CREATOR = true;
+// MOCK DATA
+const GROUP_ID = "5ffd4b96d8dcb02748bac714";
 
 const WaitingRoomPage = () => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const COLUMNS = Math.floor((screen_width-96)/110);
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
+
+  const {
+    getGroupMembers,
+    loading,
+    members,
+    number_of_members,
+    is_creator
+  } = useGetGroupMembers(GROUP_ID);
+
+  useEffect(() => {
+    getGroupMembers();
+  }, []);
   
   return (
-    <Container isCreator = {IS_CREATOR}>
-      <div style={{width: "300px", position: "relative"}}>
-        <NumberText>
-          {MOCK_DATA.number_of_member}
-        </NumberText>
-        <div style={{ position: 'relative', zIndex: '1' }}>
-          <LottieFile 
-            animationData={loading_circle} 
-            width={300}
-            height={300}
-          />
-        </div>
-      </div>
-      {IS_CREATOR ?
-        <div>
-          <GroupMemberBox>
-              <DisplayGroupMember columns={COLUMNS} gap={GAP}>
-                {MOCK_DATA.member.slice(0).reverse().map((list, index) => (
-                  <div 
-                    key={index} 
-                    style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === MOCK_DATA.member.length-1 ? "16px" : null}}
-                  >
-                    <Body> {list.username} </Body>
-                  </div>
-                ))}
-              </DisplayGroupMember>
-          </GroupMemberBox>
-          <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-            <Button type="outline">ยกเลิก</Button>
-            <Button>เริ่ม</Button>
-          </ButtonContainer>
-        </div>
-      :
-        <div style={{alignSelf: "center", marginTop: "64px"}}>
-          <Button type="outline">ออก</Button>
-        </div>
-      }
+    <Container isCreator = {is_creator}>
+      {loading
+        ? <LoadingPage />
+        : (
+          <React.Fragment>
+            <div style={{width: "300px", position: "relative"}}>
+              <NumberText>
+                {number_of_members}
+              </NumberText>
+              <div style={{ position: 'relative', zIndex: '1' }}>
+                <LottieFile 
+                  animationData={loading_circle} 
+                  width={300}
+                  height={300}
+                />
+              </div>
+            </div>
+            {is_creator ?
+              <div>
+                <GroupMemberBox>
+                    <DisplayGroupMember columns={COLUMNS} gap={GAP}>
+                      {members?.slice(0).reverse().map((list, index) => (
+                        <div 
+                          key={index} 
+                          style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === members.length-1 ? "16px" : null}}
+                        >
+                          <Body> {list.username} </Body>
+                        </div>
+                      ))}
+                    </DisplayGroupMember>
+                </GroupMemberBox>
+                <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                  <Button type="outline">ยกเลิก</Button>
+                  <Button>เริ่ม</Button>
+                </ButtonContainer>
+              </div>
+            :
+              <div style={{alignSelf: "center", marginTop: "64px"}}>
+                <Button type="outline">ออก</Button>
+              </div>
+            }
+          </React.Fragment>
+      )}
     </Container>
   );
 };
