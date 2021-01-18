@@ -3,7 +3,7 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-export const useGetGroupMembers = (group_id) => {
+export const useGetGroupMembers = (group_id, user_id) => {
   const [members, set_members] = useState();
   const [number_of_members, set_number_of_members] = useState();
   const [is_creator, set_is_creator] = useState();
@@ -14,7 +14,8 @@ export const useGetGroupMembers = (group_id) => {
     try {
       const response = await axios.get(backend + "group/get-all-group-members", {
         params: {
-          groupId: group_id
+          groupId: group_id,
+          userId: user_id
         }
       });
       const { succes, data } = response.data;

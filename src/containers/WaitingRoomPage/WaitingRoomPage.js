@@ -22,6 +22,7 @@ const WaitingRoomPage = ({ history }) => {
   const COLUMNS = Math.floor((screen_width-96)/110);
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
   const [get_all_members_loading, set_get_all_members_loading] = useState(true);
+  const user_id = localStorage.getItem("userId");
 
   const {
     getGroupMembers,
@@ -29,7 +30,7 @@ const WaitingRoomPage = ({ history }) => {
     members,
     number_of_members,
     is_creator
-  } = useGetGroupMembers(GROUP_ID);
+  } = useGetGroupMembers(GROUP_ID, user_id);
 
   useEffect(() => {
     set_get_all_members_loading(loading);
