@@ -55,9 +55,7 @@ const ChallengeGame = ({ history }) => {
   } = useGetProblemByChallengeId();
 
   const onExit = async () => {
-    console.log(current_index)
     if (current_index === NUMBER_OF_QUIZ) {
-      console.log("KAO LAST CHECK")
       await getProblemByChallengeId(
         location.state.challenge_id,
         my_info.currentProblem
@@ -77,15 +75,6 @@ const ChallengeGame = ({ history }) => {
   };
 
   const onNext = async () => {
-    // Check like this because current_index was increased in previous else before this function executed
-    // if (current_index === NUMBER_OF_QUIZ) {
-    //   console.log("KAO CURRENT_INDEX === 5")
-    //   await getProblemByChallengeId(
-    //     location.state.challenge_id,
-    //     my_info.currentProblem
-    //   );
-    //   onExit();
-    // } else {
     set_current_index((index) => index + 1);
     set_user_answer();
     my_info.currentProblem++;
