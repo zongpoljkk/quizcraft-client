@@ -111,22 +111,22 @@ const AllChallengePage = ({ history }) => {
   };
 
   const onSpecificChallenge = async () => {
+    set_specific_loading(true);
     // TODO: Right now, I cannot toggle the modal back in catch, don't know why
-    // set_specific_loading(true);
     const spec_id = await specificChallenge(
       user_id,
       username,
       location.state.subject_name,
       location.state.subtopic_name,
       location.state.difficulty
-    ).catch(async (err) => {
-      console.log(err);
-      set_specific_loading(false);
-      set_username("");
-      set_specific_not_exist(true);
-    });
-    if (spec_id) {
-      set_specific_challenge_id(spec_id);
+      ).catch(async (err) => {
+        console.log(err);
+        set_specific_loading(false);
+        set_username("");
+        set_specific_not_exist(true);
+      });
+      if (spec_id) {
+        set_specific_challenge_id(spec_id);
     }
   };
 
@@ -152,13 +152,17 @@ const AllChallengePage = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    // * SHOULD CALLED useSpecificChallenge * //
     onSpecificChallengeModalSubmit(specific_challenge_id);
   }, [specific_challenge_id]);
 
   useEffect(() => {
     set_specific_not_exist(false);
   }, [isShowingModal2]);
+
+  // Turn specific challenge modal into loading modal 
+  // useEffect(() => {
+  //   set_specific_loading(true);
+  // }, [onSpecificChallenge])
 
   return (
     <Container>
@@ -194,6 +198,7 @@ const AllChallengePage = ({ history }) => {
           }}
           isShowing={isShowingModal2}
           toggle={toggleModal2}
+          executed={specific_loading}
         />
       </ButtonContainer>
       {loading
