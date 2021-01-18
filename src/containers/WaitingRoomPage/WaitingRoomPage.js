@@ -18,6 +18,7 @@ import { useGetGroupMembers } from "./WaitingRoomPageHelper";
 const GROUP_ID = "5ffd4b96d8dcb02748bac714";
 
 const WaitingRoomPage = ({ history }) => {
+  const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const COLUMNS = Math.floor((screen_width-96)/110);
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
