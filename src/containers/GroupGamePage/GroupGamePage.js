@@ -44,16 +44,6 @@ const GroupGamePage = ({ history }) => {
     problem
   } = useGetGroupGame(user_id, GROUP_ID);
 
-  const onExit = (subject_name, topic_name) => {
-    history.push({
-      pathname: "/" + subject_name + "/" + topic_name, 
-      state: {
-        subject_name: subject_name,
-        topic_name: topic_name,
-      }
-    });
-  };
-
   const onSkip = () => {
     // TODO: connect API send no answer
   };
@@ -90,8 +80,7 @@ const GroupGamePage = ({ history }) => {
             <React.Fragment>
               {is_time_out ? reset() : start()}
               <Headline>
-                {/* <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/> */}
-                <ExitModal />
+                <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index}/>
                 <div style={{ marginRight: 8 }}/>
