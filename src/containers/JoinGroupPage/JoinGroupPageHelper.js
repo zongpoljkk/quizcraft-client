@@ -5,6 +5,7 @@ import backend from "../../ip";
 
 export const useJoinGroup = () => {
   const [group_id, set_group_id] = useState();
+  const [join_fail, set_join_fail] = useState();
 
   const joinGroup = async (user_id, pin) => {
     try {
@@ -18,10 +19,13 @@ export const useJoinGroup = () => {
       } else {
         console.log("joinGroup Error");
       } 
-    } catch (e) {
+    } catch (error) {
+      if(error.response.status === 400){
+        set_join_fail(error.response.data.error);
+      }
       console.log("There are something wrong about joining group  :(");
     }
   };
 
-  return { joinGroup, group_id };
+  return { joinGroup, group_id, join_fail };
 };
