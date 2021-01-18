@@ -143,7 +143,7 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute
             exact
-            path="/group-result"
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/group-result"
             getUserData={getUserData}
           >
             <GroupResultPage />
