@@ -66,6 +66,6 @@ export const useDeleteChallenge = (user_id, challenge_id) => {
       console.log("There are something wrong about delete challenge :(");
     }
   };
-
+  
   return { deleteChallenge };
 };

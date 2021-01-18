@@ -23,7 +23,7 @@ import { useWindowDimensions } from "../../global/utils";
 const GAIN_COIN = 200;
 const GAIN_XP = 150;
 
-const ChallengeResultPage = ( { history }) => {
+const ChallengeResultPage = ({ history }) => {
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
