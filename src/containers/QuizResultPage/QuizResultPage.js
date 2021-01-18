@@ -32,6 +32,7 @@ const QuizResultPage = ({ history }) => {
   const location = useLocation();
 
   const handleOnPlayAgain = () => {
+    // TODO: In integrate quiz-result-page
     // history.push({
     //   pathname:
     //     location.state.selected_topic_name +
