@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useLocation, withRouter } from "react-router-dom";
 
 import { Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
@@ -16,10 +17,11 @@ import { useGetGroupMembers } from "./WaitingRoomPageHelper";
 // MOCK DATA
 const GROUP_ID = "5ffd4b96d8dcb02748bac714";
 
-const WaitingRoomPage = () => {
+const WaitingRoomPage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const COLUMNS = Math.floor((screen_width-96)/110);
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
+  const [get_all_members_loading, set_get_all_members_loading] = useState(true);
 
   const {
     getGroupMembers,
@@ -30,12 +32,22 @@ const WaitingRoomPage = () => {
   } = useGetGroupMembers(GROUP_ID);
 
   useEffect(() => {
-    getGroupMembers();
+    set_get_all_members_loading(loading);
+    const interval = setInterval(() => {
+      getGroupMembers();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if(get_all_members_loading) {
+      set_get_all_members_loading(loading);
+    };
+  }, [loading]);
   
   return (
     <Container isCreator = {is_creator}>
-      {loading
+      {get_all_members_loading
         ? <LoadingPage />
         : (
           <React.Fragment>
@@ -52,18 +64,18 @@ const WaitingRoomPage = () => {
               </div>
             </div>
             {is_creator ?
-              <div>
+              <div style={{ width: "100%" }}>
                 <GroupMemberBox>
-                    <DisplayGroupMember columns={COLUMNS} gap={GAP}>
-                      {members?.slice(0).reverse().map((list, index) => (
-                        <div 
-                          key={index} 
-                          style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === members.length-1 ? "16px" : null}}
-                        >
-                          <Body> {list.username} </Body>
-                        </div>
-                      ))}
-                    </DisplayGroupMember>
+                  <DisplayGroupMember columns={COLUMNS} gap={GAP}>
+                    {members?.slice(0).reverse().map((list, index) => (
+                      <div 
+                        key={index} 
+                        style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === members.length-1 ? "16px" : null}}
+                      >
+                        <Body> {list.username} </Body>
+                      </div>
+                    ))}
+                  </DisplayGroupMember>
                 </GroupMemberBox>
                 <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                   <Button type="outline">ยกเลิก</Button>
@@ -72,7 +84,12 @@ const WaitingRoomPage = () => {
               </div>
             :
               <div style={{alignSelf: "center", marginTop: "64px"}}>
-                <Button type="outline">ออก</Button>
+                <Button
+                  type="outline"
+                  onClick={() => history.push("/")}
+                >
+                  ออก
+                </Button>
               </div>
             }
           </React.Fragment>
@@ -89,8 +106,9 @@ const Container = styled.div.attrs((props) => ({
   flex: 1;
   justify-content: center;
   align-items: center;
-
-  ${(props) => props.isCreator ? null 
+  width: 100%;
+  ${(props) => props.isCreator
+    ? null 
     : `
       position: fixed;
       left: 50%;
@@ -115,6 +133,7 @@ const DisplayGroupMember  = styled.div.attrs(props => ({
 }))`
   display: grid;
   padding: 16px;
+  width: 100%;
   grid-template-columns: repeat(${props => props.columns}, 1fr);
   grid-column-gap: ${props => props.gap}px;
 `;
@@ -143,4 +162,4 @@ const ButtonContainer = styled.div.attrs(props => ({
   margin-top: 32px;
 `;
 
-export default WaitingRoomPage;
+export default withRouter(WaitingRoomPage);
