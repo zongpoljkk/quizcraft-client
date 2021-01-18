@@ -29,10 +29,10 @@ export const useGetGroupGame = (user_id, group_id) => {
         set_problem(data.problem);
         set_loading(false);
       } else {
-        console.log("joinGroup Error");
+        console.log("getGroupGame Error");
       } 
     } catch (error) {
-      console.log("There are something wrong about joining group  :(");
+      console.log("There are something wrong about get group game :(");
     }
   };
 
