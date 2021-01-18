@@ -22,7 +22,10 @@ import QuizGame from "./containers/QuizGamePage/QuizGamePage";
 import AllChallengePage from "./containers/AllChallengePage/AllChallengePage";
 import ChallengeGame from "./containers/ChallengeGamePage/ChallengeGamePage";
 import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage";
+import CreateGroupPage from "./containers/CreateGroupPage/CreateGroupPage";
+import GroupResultPage from "./containers/GroupResultPage/GroupResultPage";
 import JoinGroupPage from "./containers/JoinGroupPage/JoinGroupPage";
+import WaitingRoomPage from "./containers/WaitingRoomPage/WaitingRoomPage";
 import GroupGamePage from "./containers/GroupGamePage/GroupGamePage";
 import ShopPage from "./containers/ShopPage/ShopPage";
 import ReportPage from "./containers/ReportPage/ReportPage";
@@ -138,8 +141,21 @@ const App = () => {
           >
             <GroupGamePage />
           </PrivateRoute>
+          <PrivateRoute
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/group-result"
+            getUserData={getUserData}
+          >
+            <GroupResultPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/create-group" getUserData={getUserData}>
+            <CreateGroupPage />
+          </PrivateRoute>
           <PrivateRoute exact path="/join-group" getUserData={getUserData}>
             <JoinGroupPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/waiting-room" getUserData={getUserData}>
+            <WaitingRoomPage />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
