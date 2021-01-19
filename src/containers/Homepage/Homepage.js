@@ -9,24 +9,30 @@ import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { useGetLeaderBoard } from "./HomepageHelper";
+import { useGetSubjects, useGetLeaderBoard } from "./HomepageHelper";
 
 const Homepage = ({ history, user_id }) => {
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
-  const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
+  const { getSubjects, subjects_loading, subjects } = useGetSubjects();
+  const {
+    getLeaderBoard,
+    leader_board_loading,
+    leader_board,
+  } = useGetLeaderBoard(user_id);
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
   }, [ref.current]);
 
   useEffect(() => {
-    getLeaderBoard()
+    getLeaderBoard();
+    getSubjects();
   }, []);
 
   return (
     <React.Fragment>
-      {loading ? (
+      {leader_board_loading || subjects_loading ? (
         <LoadingPage />
       ) : (
         <Container ref={ref}>
@@ -35,7 +41,7 @@ const Homepage = ({ history, user_id }) => {
             onJoinGroupClick={() => { history.push("join-group"); }}
           />
           <ScrollView>
-            <SubjectCard />
+            <SubjectCard subjects_data={subjects} />
           </ScrollView>
           <div style={{ marginTop: 28, width: "100%" }}>
             <ItemBox type="frame" shadow="frame" width={container_width - 32}>

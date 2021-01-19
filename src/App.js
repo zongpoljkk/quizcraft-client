@@ -160,11 +160,17 @@ const App = () => {
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
+          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
+            <TopicPage />
+          </PrivateRoute>
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/topic" getUserData={getUserData}>
-            <TopicPage />
+          <PrivateRoute exact path="/report" getUserData={getUserData}>
+            <ReportPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+            <Homepage user_id={user_id} />
           </PrivateRoute>
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
@@ -184,7 +190,7 @@ const App = () => {
           <PublicRoute exact path="/">
             <LoginPage />
           </PublicRoute>
-          <PrivateRoute path="*" getUserData={getUserData}>
+          <PrivateRoute exact path="*">
             <ErrorPage />
           </PrivateRoute>
         </Switch>
