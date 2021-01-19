@@ -114,3 +114,70 @@ export const useGetAvailableDifficultyBySubtopicName = () => {
 
   return { getAvailableDifficultyBySubtopicName, available_difficulty };
 };
+
+export const useCreateGroup = () => {
+  const [loading, set_loading] = useState(false);
+  const [group_id, set_group_id] = useState();
+  const [create_fail, set_create_fail] = useState();
+  const [success, set_success] = useState(false);
+
+  const createGroup = async (
+    user_id,
+    subject,
+    topic,
+    subtopic,
+    difficulty,
+    number_of_problem,
+    time_per_problem,
+    is_play
+  ) => {
+    set_loading(true);
+    set_success(false);
+    try {
+      const response = await axios.post(backend+"group/create-group", {
+        creatorId : user_id,
+        subject : subject,
+        topic : topic,
+        subtopic : subtopic,
+        difficulty : difficulty,
+        numberOfProblem : number_of_problem,
+        timePerProblem : time_per_problem,
+        isPlay : is_play
+      });
+      const { succes, data } = response.data;
+      if (succes) {
+        set_group_id(data.groupId);
+        set_loading(false);
+        set_success(true);
+      } else {
+        console.log("createGroup Error");
+      } 
+    } catch (error) {
+      if(error.response.status === 400){
+        set_create_fail(error.response.data.error);
+        set_loading(false);
+      };
+      console.log("There are something wrong about create group :(");
+    }
+  };
+
+  return { createGroup, loading, group_id, create_fail, success };
+};
+
+export const translateError = (message) => {
+  switch (message) {
+    case "The number of problems should be from 1 to 30":
+      return "จำนวนคำถามทั้งหมดต้องมีจำนวนอย่างน้อย 1 ข้อ และไม่เกิน 30 ข้อ"
+    case "Wrong creatorId, cannot find the user":
+      return "มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+    default:
+      return "มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+  };
+};
+
+export const timeConvertor = (time) => {
+  var ms = time.split(':');
+  var seconds = (+ms[0]) * 60 + (+ms[1]);
+
+  return seconds;
+};
