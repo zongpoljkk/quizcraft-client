@@ -7,6 +7,8 @@ export const LottieFile = ({
   width,
   loop = true,
   autoplay =true,
+  isStopped,
+  isPaused,
 }) => {
 
   const defaultOptions = {
@@ -23,6 +25,8 @@ export const LottieFile = ({
       options={defaultOptions}
       height={height}
       width={width}
+      isStopped={isStopped}
+      isPaused={isPaused}
     />
   );
 };
