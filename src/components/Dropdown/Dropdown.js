@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 import { Subheader, Body } from "../Typography";
@@ -17,8 +17,11 @@ export const Dropdown = ({
   set_value,
   onSelect = () => {}
 }) => {
+  const ref = useRef(null);
   const [is_active, set_is_active] = useDetectOutsideClick(dropdown_ref, false);
   const [hover, set_hover] = useState();
+  const [last_options, set_last_options] = useState(options);
+  const [container_width, set_container_width] = useState();
 
   const onClick = () => {
     set_is_active(!is_active);
@@ -31,16 +34,33 @@ export const Dropdown = ({
     onSelect();
   };
 
+  useEffect(() => {
+    if(last_options){
+      if(options[0] !== last_options[0]){
+        set_value('');
+      };
+    };
+    set_last_options(options);
+  }, [options]);
+
+  useEffect(() => {
+    set_container_width(ref.current ? ref.current.offsetWidth : 0);
+  }, [ref.current]);
+
   return (
     <Container ref={dropdown_ref}>
-      <DropdownContainer borderRadius={is_active ? "10px 10px 0px 0px" : "10px"} onClick={onClick}>
+      <DropdownContainer
+        ref={ref}
+        borderRadius={is_active ? "10px 10px 0px 0px" : "10px"}
+        onClick={onClick}
+      >
         <Body color={value ? COLOR.CHARCOAL : COLOR.SILVER}>
           {value ? value : placeholder}
         </Body>
         <Collaps src={chevron} width={16} rotate={is_active ? null : 180}/>
       </DropdownContainer>
       {is_active &&
-        <OptionsContainer>
+        <OptionsContainer width={container_width-2}>
           {options ? 
             options.map((option, i) => (
               <Option
@@ -114,6 +134,7 @@ const DropdownContainer = styled.div.attrs(props => ({
   borderRadius: props.borderRadius
 }))`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   border: 1px solid ${COLOR.SILVER};
@@ -133,17 +154,20 @@ const Collaps = styled.img.attrs(props => ({
   transform: rotate(${props => props.rotate}deg);
 `;
 
-const OptionsContainer = styled.div`
+const OptionsContainer = styled.div.attrs(props => ({
+  width: props.width
+}))`
+  background-color: ${COLOR.WHITE};
   border: 1px solid ${COLOR.SILVER};
   border-radius: 0px 0px 10px 10px;
   outline: none;
   margin-top: -1px;
   color: ${COLOR.MANDARIN};
+  width: ${props => props.width}px;
   max-height: 98px;
   overflow: scroll;
-  &:focus {
-    border-color: ${COLOR.MANDARIN};
-  }
+  position: absolute;
+  z-index: 100;
 `;
 
 const Option = styled.div.attrs(props => ({
