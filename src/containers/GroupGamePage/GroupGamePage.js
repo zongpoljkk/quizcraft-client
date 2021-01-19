@@ -82,7 +82,7 @@ const GroupGamePage = ({ history }) => {
               <Headline>
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
-                <ProblemIndex indexes={number_of_problem} current_index={current_index}/>
+                <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
                 <div style={{ marginRight: 8 }}/>
                 <PointBox points={user.point}/>
               </Headline>
