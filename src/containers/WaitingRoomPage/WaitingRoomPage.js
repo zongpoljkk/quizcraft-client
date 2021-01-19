@@ -14,9 +14,6 @@ import { useWindowDimensions } from "../../global/utils";
 
 import { useGetGroupMembers } from "./WaitingRoomPageHelper";
 
-// MOCK DATA
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
-
 const WaitingRoomPage = ({ history }) => {
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -31,7 +28,7 @@ const WaitingRoomPage = ({ history }) => {
     members,
     number_of_members,
     is_creator
-  } = useGetGroupMembers(GROUP_ID, user_id);
+  } = useGetGroupMembers(location.state.group_id, user_id);
 
   useEffect(() => {
     set_get_all_members_loading(loading);
