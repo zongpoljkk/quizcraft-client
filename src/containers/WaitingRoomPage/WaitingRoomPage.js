@@ -12,7 +12,11 @@ import loading_circle from "../../assets/lottie/loading_circle.json";
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupMembers } from "./WaitingRoomPageHelper";
+import {
+  useGetGroupMembers,
+  useDeleteGroup,
+  useLeaveGroup,
+} from "./WaitingRoomPageHelper";
 
 // MOCK DATA
 const GROUP_ID = "5ffd4b96d8dcb02748bac714";
@@ -33,6 +37,19 @@ const WaitingRoomPage = ({ history }) => {
     is_creator
   } = useGetGroupMembers(GROUP_ID, user_id);
 
+  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
+  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
+
+  const handleDeleteGroup = () => {
+    deleteGroup(GROUP_ID, user_id);
+    history.push("/homepage");
+  }
+
+  const handleLeaveGroup = () => {
+    leaveGroup(GROUP_ID, user_id);
+    history.push("/homepage");
+  }
+
   useEffect(() => {
     set_get_all_members_loading(loading);
     const interval = setInterval(() => {
@@ -46,6 +63,12 @@ const WaitingRoomPage = ({ history }) => {
       set_get_all_members_loading(loading);
     };
   }, [loading]);
+
+  useEffect(() => {
+    if (leave_failed) {
+      history.push("/homepage");
+    }
+  }, [leave_failed]);
   
   return (
     <Container isCreator = {is_creator}>
@@ -80,7 +103,12 @@ const WaitingRoomPage = ({ history }) => {
                   </DisplayGroupMember>
                 </GroupMemberBox>
                 <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-                  <Button type="outline">ยกเลิก</Button>
+                  <Button 
+                    type="outline"
+                    onClick={() => handleDeleteGroup()}
+                  >
+                    ยกเลิก
+                  </Button>
                   <Button>เริ่ม</Button>
                 </ButtonContainer>
               </div>
@@ -88,7 +116,7 @@ const WaitingRoomPage = ({ history }) => {
               <div style={{alignSelf: "center", marginTop: "64px"}}>
                 <Button
                   type="outline"
-                  onClick={() => history.push("/")}
+                  onClick={() => handleLeaveGroup()}
                 >
                   ออก
                 </Button>

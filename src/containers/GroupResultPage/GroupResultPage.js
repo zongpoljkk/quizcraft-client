@@ -17,7 +17,11 @@ import export_icon from "../../assets/icon/export.png";
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupScoreBoard, useDeleteGroup, useLeaveGroup } from "./GroupResultPageHelper";
+import {
+  useGetGroupScoreBoard,
+  useDeleteGroup,
+  useLeaveGroup,
+} from "./GroupResultPageHelper";
 
 const GROUP_ID = "5ffd4b96d8dcb02748bac714";
 const USER_ID = "60002df26860a84c2f87a6ed"
@@ -39,7 +43,7 @@ const GroupResultPage = ({ history }) => {
   } = useGetGroupScoreBoard(GROUP_ID, user_id);
 
   const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
-  const { leaveGroup } = useLeaveGroup(GROUP_ID, user_id);
+  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
 
   const headers = [
     {label: "username", key: "username"},
@@ -97,13 +101,19 @@ const GroupResultPage = ({ history }) => {
   }
 
   const handleLeaveGroup = () => {
-    leaveGroup(GROUP_ID, USER_ID);
+    leaveGroup(GROUP_ID, user_id);
     history.push("/homepage");
   }
 
   useEffect(() => {
     getGroupScoreBoard();
   }, []);
+
+  useEffect(() => {
+    if (leave_failed) {
+      history.push("/homepage");
+    }
+  }, [leave_failed]);
 
   return (
     <React.Fragment>

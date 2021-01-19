@@ -69,6 +69,8 @@ export const useDeleteGroup = (group_id, user_id) => {
 };
 
 export const useLeaveGroup = (group_id, user_id) => {
+  const [leave_failed, set_leave_failed] = useState(false);
+
   const leaveGroup = async () => {
     try {
       const response = await axios.put(backend+"group/leave-group", {
@@ -82,9 +84,13 @@ export const useLeaveGroup = (group_id, user_id) => {
         console.log("leave group Error");
       } 
     } catch (error) {
-      console.log("There are something wrong about leave username :(");
+      if (error.response.status === 400) {
+        set_leave_failed(true);
+      } else {
+        console.log("There are something wrong about leave group :(");
+      }
     }
   };
   
-  return { leaveGroup };
+  return { leaveGroup, leave_failed };
 };
