@@ -15,13 +15,8 @@ import {
   useDeleteChallenge
 } from "./ChallengeResultPageHelper";
 
-import { COLOR } from "../../global/const";
-import { CONTAINER_PADDING } from "../../global/const";
+import { COLOR, CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-
-//MOCK DATA FOR MODAL
-const GAIN_COIN = 200;
-const GAIN_XP = 150;
 
 const ChallengeResultPage = ({ history }) => {
   const location = useLocation();
