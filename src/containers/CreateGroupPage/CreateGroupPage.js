@@ -69,7 +69,11 @@ const CreateGroupPage = ({ history }) => {
       history.push({
         pathname: "waiting-room", 
         state: {
-          group_id: group_id
+          group_id : group_id,
+          subject_name : subject,
+          topic_name : topic,
+          subtopic_name : subtopic,
+          difficulty : difficulty
         }
       });
     };
