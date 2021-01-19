@@ -60,6 +60,7 @@ const ChallengeResultPage = ({ history }) => {
         difficulty: location.state.difficulty
       }
     });
+    window.location.reload();
   };
 
   const isWin = () => {

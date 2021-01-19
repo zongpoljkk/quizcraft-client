@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Header, Subheader } from "../../../components/Typography";
 import { Modal } from "../../../components/Modal";
 import { LottieFile } from "../../../components/LottieFile";
-import levelUp from "../../../assets/lottie/levelUp.json";
+import reward from "../../../assets/lottie/reward.json";
 
 export const ResultModal = ({
   isShowing,
@@ -54,7 +54,7 @@ export const ResultModal = ({
           style = {{marginTop: "4px", marginBottom:"4px" }}
         >
           <LottieFile 
-            animationData={levelUp} 
+            animationData={reward} 
             width="118px" 
             height="121px" 
             loop={false}
