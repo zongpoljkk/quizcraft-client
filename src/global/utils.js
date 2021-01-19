@@ -20,7 +20,7 @@ function getWindowDimensions() {
     width,
     height
   };
-}
+};
 
 export function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
@@ -28,7 +28,7 @@ export function useWindowDimensions() {
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
-    }
+    };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -36,3 +36,8 @@ export function useWindowDimensions() {
 
   return windowDimensions;
 }
+
+export const hasStringOrNumber = (myString) => {
+  var regExp = /[a-zA-Z]/g;
+  return /\d/.test(myString) || regExp.test(myString);
+};

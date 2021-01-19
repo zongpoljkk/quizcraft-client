@@ -37,7 +37,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
 
   const handleUpload = () => {
     inputFile.current.click();
-  }
+  };
 
   return (
     (!user_info)

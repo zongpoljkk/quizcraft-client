@@ -23,6 +23,7 @@ import skip_data from "../../assets/lottie/skip.json";
 import { LottieFile } from "../../components/LottieFile";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
+import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
@@ -30,7 +31,6 @@ const ITEM_USAGE = {
 };
 
 const PracticeGamePage = ({ history }) => {
-
   const location = useLocation();
   const [answer, set_answer] = useState("");
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
@@ -205,9 +205,32 @@ const PracticeGamePage = ({ history }) => {
                     </ContentContainer>
                     <ButtonContainer>
                       <Button
-                        type={answer ? "default" : "disabled"}
+                        type={
+                          answer_type === ANSWER_TYPE.MATH_INPUT
+                            ? hasStringOrNumber(answer)
+                              ? "default"
+                              : "disabled"
+                            : answer
+                            ? "default"
+                            : "disabled"
+                        }
                         onClick={
-                          answer
+                          answer_type === ANSWER_TYPE.MATH_INPUT
+                            ? hasStringOrNumber(answer)
+                              ? () => {
+                                  handleCheckAnswerClick(
+                                    problem_id,
+                                    localStorage.getItem("userId"),
+                                    answer,
+                                    getTime(),
+                                    location.state.subject_name,
+                                    location.state.topic_name,
+                                    location.state.subtopic_name,
+                                    location.state.difficulty
+                                  );
+                                }
+                              : () => {}
+                            : answer
                             ? () => {
                                 handleCheckAnswerClick(
                                   problem_id,
