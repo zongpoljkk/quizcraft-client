@@ -75,21 +75,23 @@ const ChallengeGame = ({ history }) => {
   };
 
   const onNext = async () => {
-    console.log(current_index)
-    if (current_index === NUMBER_OF_QUIZ) {
-      await getProblemByChallengeId(
+    console.log(current_index);
+    if (my_info.currentProblem === NUMBER_OF_QUIZ - 1) {
+      console.log("YA");
+      // await getProblemByChallengeId(
+      //   location.state.challenge_id,
+      //   my_info.currentProblem
+      // );
+      onExit();
+    } else {
+      console.log(`my_info: ${my_info.currentProblem}`);
+      set_current_index((index) => index + 1);
+      set_user_answer();
+      my_info.currentProblem++;
+      getProblemByChallengeId(
         location.state.challenge_id,
         my_info.currentProblem
       );
-      onExit();
-    } else {
-    set_current_index((index) => index + 1);
-    set_user_answer();
-    my_info.currentProblem++;
-    getProblemByChallengeId(
-      location.state.challenge_id,
-      my_info.currentProblem
-    );
     }
   };
 
