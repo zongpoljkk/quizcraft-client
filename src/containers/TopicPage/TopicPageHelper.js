@@ -9,25 +9,26 @@ export const useGetTopicName = (subject_name) => {
 
   const getTopicName = async () => {
     try {
-      const response = await axios.get(backend+"subtopic/get-topics/", {
+      const response = await axios.get(backend + "subtopic/get-topics/", {
         params: {
-          subject: subject_name
-        }
+          subject: subject_name,
+        },
       });
       const { success, data } = response.data;
       if (success) {
         var topic_lists = [];
-        data.map((topic, index) => (
-          topic_lists[index] = {
-            topic_name: topic._id,
-            topic_image: topic.topicImg
-          }
-        ))
+        data.map(
+          (topic, index) =>
+            (topic_lists[index] = {
+              topic_name: topic._id,
+              topic_image: topic.topicImg,
+            })
+        );
         set_topics(topic_lists);
         set_loading(false);
       } else {
         console.log("getTopicName Error");
-      } 
+      }
     } catch (e) {
       console.log("There are something wrong about get topic name :(");
     }
