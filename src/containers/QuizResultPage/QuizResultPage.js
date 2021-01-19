@@ -11,7 +11,8 @@ import rewardData from "../../assets/lottie/reward.json";
 import { Header, Subheader, Body } from "../../components/Typography";
 
 // Color
-import { COLOR } from "../../global/const";
+import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 // Components
 import { Button } from "../../components/Button";
@@ -27,6 +28,7 @@ const variants = {
 };
 
 const QuizResultPage = ({ history }) => {
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [exp, setEXP] = useState(0);
   const [coin, setCoin] = useState(0);
   const [score, setScore] = useState(0);
@@ -115,6 +117,9 @@ const QuizResultPage = ({ history }) => {
         animate="visible"
         variants={variants}
         transition={{ delay: 3 }}
+        justifyContent={
+          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
+        }
       >
         <Button type="outline" onClick={() => handleExit(history)}>
           ออก
@@ -158,9 +163,11 @@ const RewardDiv = styled(motion.div)`
   margin-bottom: 24px;
 `;
 
-const ButtonDiv = styled(motion.div)`
+const ButtonDiv = styled(motion.div).attrs((props) => ({
+  justifyContent: props.justifyContent,
+}))`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => props.justifyContent};
   flex: 1;
   width: 100%;
 `;
