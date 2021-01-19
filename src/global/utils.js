@@ -20,7 +20,7 @@ function getWindowDimensions() {
     width,
     height,
   };
-}
+};
 
 export function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
@@ -30,7 +30,7 @@ export function useWindowDimensions() {
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
-    }
+    };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

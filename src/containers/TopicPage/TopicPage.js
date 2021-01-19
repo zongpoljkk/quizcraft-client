@@ -7,12 +7,8 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetTopicName } from "./TopicPageHelper";
 
-// TODO: Remove mock after integrate subject
-// const MOCK_SUBJECT = "คณิตศาสตร์";
-
 const TopicPage = ({ history }) => {
   const location = useLocation();
-  // const { getTopicName, loading, topics } = useGetTopicName(location.state.subject_name);
   const { getTopicName, loading, topics } = useGetTopicName(
     location.state.subject_name
   );

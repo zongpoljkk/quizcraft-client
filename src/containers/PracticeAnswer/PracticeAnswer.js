@@ -16,6 +16,8 @@ import { Report } from "../../components/Report";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
+import Correct_Forward from "../../assets/Correct_Forward.png";
+import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -44,8 +46,6 @@ const PracticeAnswer = ({ history }) => {
 
   const location = useLocation();
 
-  const stringToArrayOfString = (v) => [].concat(v).map((name) => name);
-
   const handleNextButtonClick = () => {
     history.push({
       pathname:
@@ -69,7 +69,7 @@ const PracticeAnswer = ({ history }) => {
     });
   };
 
-  const handleFirstClick = () => {
+  const handleArrowClick = () => {
     if (solution.length === staticSolution.length) {
     } else {
       if (!firstClick) {
@@ -104,7 +104,7 @@ const PracticeAnswer = ({ history }) => {
   const { height, width: screen_width } = useWindowDimensions();
 
   const greetingHolder = () => {
-    if (firstClick && correct) {
+    if (firstClick && correct && solution.length === staticSolution.length) {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
@@ -133,35 +133,43 @@ const PracticeAnswer = ({ history }) => {
   };
 
   const arrowHolder = () => {
-    if (firstClick) {
-      if (solution.length === staticSolution.length) {
-        return (
-          <ShiftDiv style={{ zIndex: "1" }}>
-            <div style={{ marginTop: "20px" }}>
-              <Button
-                type="custom"
-                border="none"
-                color={COLOR.WHITE}
-                backgroundColor={
-                  correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
-                }
-                onClick={() => handleNextButtonClick()}
-              >
-                ทำต่อ
-              </Button>
-            </div>
-          </ShiftDiv>
-        );
-      }
-    } else {
-      return <ShiftDiv></ShiftDiv>;
+    if (solution.length === staticSolution.length) {
+      return (
+        <ShiftDiv style={{ zIndex: "1" }}>
+          <div style={{ marginTop: "20px" }}>
+            <Button
+              type="custom"
+              border="none"
+              color={COLOR.WHITE}
+              backgroundColor={
+                correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
+              }
+              onClick={() => handleNextButtonClick()}
+            >
+              ทำต่อ
+            </Button>
+          </div>
+        </ShiftDiv>
+      );
+    }
+    // }
+    else {
+      return (
+        <ShiftDiv style={{ zIndex: "500" }}>
+          <img
+            src={correct ? Correct_Forward : Incorrect_Forward}
+            alt="arrow"
+            height={40}
+            onClick={handleArrowClick}
+          />
+        </ShiftDiv>
+      );
     }
   };
 
   return (
     <Container
       answer={correct}
-      onClick={handleFirstClick}
       minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
     >
       <Background answer={correct} />
@@ -185,7 +193,9 @@ const PracticeAnswer = ({ history }) => {
               return (
                 <li key={Math.random()}>
                   <Solution answer={correct}>
-                    {i > 0 ? "= " : null}
+                    {i > 0 || location.state.subject === "คณิตศาสตร์"
+                      ? "= "
+                      : null}
                     {line}
                   </Solution>
                 </li>
@@ -226,8 +236,8 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 0px auto 104px auto;
-  /* height: 160px; */
+  margin: 0px auto 52px auto;
+  height: 160px;
   overflow: visible;
 `;
 
@@ -242,18 +252,6 @@ const GreetingDiv = styled.div`
 const ShiftDiv = styled(CenterDiv)`
   margin-bottom: auto;
   min-height: 72px;
-`;
-
-const ShiftLeft = styled.img`
-  alt: "Correct Backward";
-  height: 40px;
-  margin-right: 32px;
-`;
-
-const ShiftRight = styled.img`
-  alt: "Correct Backward";
-  height: 40px;
-  margin-left: 32px;
 `;
 
 const ReportContainer = styled.div`
