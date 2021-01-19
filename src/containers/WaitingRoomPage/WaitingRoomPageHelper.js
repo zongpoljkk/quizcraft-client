@@ -59,5 +59,5 @@ export const useGetGenerateProblem = () => {
     }
   };
 
-  return { getGenerateProblem, start_loading, problems, number_of_problems };
+  return { getGenerateProblem, start_loading, problems };
 };
