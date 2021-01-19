@@ -20,7 +20,7 @@ import { useWindowDimensions } from "../../global/utils";
 import { useGetGroupGame } from "./GroupGamePageHelper";
 
 // MOCK DATA
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
+const GROUP_ID = "6006f7f25345742076335b61";
 const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
 
