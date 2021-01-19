@@ -12,7 +12,10 @@ import loading_circle from "../../assets/lottie/loading_circle.json";
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupMembers } from "./WaitingRoomPageHelper";
+import {
+  useGetGroupMembers,
+  useGetGenerateProblem
+} from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
   const location = useLocation();
@@ -29,6 +32,14 @@ const WaitingRoomPage = ({ history }) => {
     number_of_members,
     is_creator
   } = useGetGroupMembers(location.state.group_id, user_id);
+  const {
+    getGenerateProblem,
+    start_loading
+  } = useGetGenerateProblem();
+
+  const onStart = () => {
+    getGenerateProblem(location.state.group_id);
+  };
 
   useEffect(() => {
     set_get_all_members_loading(loading);
@@ -46,7 +57,7 @@ const WaitingRoomPage = ({ history }) => {
   
   return (
     <Container isCreator = {is_creator}>
-      {get_all_members_loading
+      {get_all_members_loading || start_loading
         ? <LoadingPage />
         : (
           <React.Fragment>
@@ -78,7 +89,7 @@ const WaitingRoomPage = ({ history }) => {
                 </GroupMemberBox>
                 <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                   <Button type="outline">ยกเลิก</Button>
-                  <Button>เริ่ม</Button>
+                  <Button onClick={() => onStart()}>เริ่ม</Button>
                 </ButtonContainer>
               </div>
             :
