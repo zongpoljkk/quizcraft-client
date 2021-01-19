@@ -39,6 +39,16 @@ const WaitingRoomPage = ({ history }) => {
 
   const onStart = () => {
     getGenerateProblem(location.state.group_id);
+    history.push({
+      pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
+      state: {
+        group_id : location.state.group_id,
+        subject_name : location.state.subject_name,
+        topic_name : location.state.topic_name,
+        subtopic_name : location.state.subtopic_name,
+        difficulty : location.state.difficulty
+      }
+    });
   };
 
   useEffect(() => {
