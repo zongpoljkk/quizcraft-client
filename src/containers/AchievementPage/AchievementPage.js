@@ -41,7 +41,9 @@ const AchievementPage = ({ user_id }) => {
             toggle={toggle}
             content="Hello A"
           />
-          <Header>ความสำเร็จ</Header>
+          <div style={{marginBottom: "32px"}}>
+            <Header>เหรียญรางวัล</Header>
+          </div>
           <AllAchievements achievements={my_achievements} />
         </Container>
       )}
