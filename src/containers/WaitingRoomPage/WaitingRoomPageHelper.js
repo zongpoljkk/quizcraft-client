@@ -8,6 +8,7 @@ export const useGetGroupMembers = (group_id, user_id) => {
   const [number_of_members, set_number_of_members] = useState();
   const [is_creator, set_is_creator] = useState();
   const [loading, set_loading] = useState(true);
+  const [group_failed, set_group_failed] = useState(false);
 
   const getGroupMembers = async () => {
     set_loading(true);
@@ -26,13 +27,17 @@ export const useGetGroupMembers = (group_id, user_id) => {
         set_loading(false);
       } else {
         console.log("getGroupMembers Error");
-      } 
+      }
     } catch (error) {
-      console.log("There are something wrong about get group members :(");
+      if (error.response.status === 500) {
+        set_group_failed(true);
+      } else {
+        console.log("There are something wrong about leave group :(");
+      }
     }
-  };
+  }; 
 
-  return { getGroupMembers, loading, members, number_of_members, is_creator };
+  return { getGroupMembers, loading, members, number_of_members, is_creator, group_failed };
 };
 
 export const useDeleteGroup = (group_id, user_id) => {
@@ -60,7 +65,6 @@ export const useDeleteGroup = (group_id, user_id) => {
 };
 
 export const useLeaveGroup = (group_id, user_id) => {
-  const [leave_failed, set_leave_failed] = useState(false);
 
   const leaveGroup = async () => {
     try {
@@ -75,15 +79,11 @@ export const useLeaveGroup = (group_id, user_id) => {
         console.log("leave group Error");
       } 
     } catch (error) {
-      if (error.response.status === 400) {
-        set_leave_failed(true);
-      } else {
-        console.log("There are something wrong about leave group :(");
-      }
+      console.log("There are something wrong about leave group :(");
     }
   };
   
-  return { leaveGroup, leave_failed };
+  return { leaveGroup };
 };
 
 export const useGetGenerateProblem = () => {

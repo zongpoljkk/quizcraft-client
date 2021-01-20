@@ -19,9 +19,6 @@ import {
   useGetGenerateProblem
 } from "./WaitingRoomPageHelper";
 
-// MOCK DATA
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
-
 const WaitingRoomPage = ({ history }) => {
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -35,7 +32,8 @@ const WaitingRoomPage = ({ history }) => {
     loading,
     members,
     number_of_members,
-    is_creator
+    is_creator,
+    group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
   const {
     getGenerateProblem,
@@ -43,16 +41,16 @@ const WaitingRoomPage = ({ history }) => {
     problems
   } = useGetGenerateProblem();
 
-  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
-  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
 
   const handleDeleteGroup = () => {
-    deleteGroup(GROUP_ID, user_id);
+    deleteGroup(location.state.group_id, user_id);
     history.push("/homepage");
   }
 
   const handleLeaveGroup = () => {
-    leaveGroup(GROUP_ID, user_id);
+    leaveGroup(location.state.group_id, user_id);
     history.push("/homepage");
   }
 
@@ -87,10 +85,10 @@ const WaitingRoomPage = ({ history }) => {
   }, [start_loading]);
 
   useEffect(() => {
-    if (leave_failed) {
-      history.push("/homepage");
+    if (group_failed) {
+      history.push("*");
     }
-  }, [leave_failed]);
+  }, [group_failed]);
   
   return (
     <Container isCreator = {is_creator}>
