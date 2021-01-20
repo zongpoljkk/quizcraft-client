@@ -121,7 +121,7 @@ export const RandomChallengeModal = ({
                       height: "80px",
                       borderRadius: "50%",
                     }}
-                    src={"data:image/png;base64," + opponent_profile_img}
+                    src={"data:image/png;base64," + opponent_profile_img.data}
                   />
                 ) : null}
               </UserImg>
