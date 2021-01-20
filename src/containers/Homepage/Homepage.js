@@ -10,7 +10,11 @@ import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { useGetSubjects, useGetLeaderBoard, useGetAchievements } from "./HomepageHelper";
+import {
+  useGetSubjects,
+  useGetLeaderBoard,
+  useGetAchievements,
+} from "./HomepageHelper";
 
 const Homepage = ({ history, user_id }) => {
   const ref = useRef(null);
@@ -32,9 +36,9 @@ const Homepage = ({ history, user_id }) => {
   }, [ref.current]);
 
   useEffect(() => {
+    getSubjects();
     getLeaderBoard();
     getAchievements();
-    getSubjects();
   }, []);
 
   return (
@@ -44,8 +48,12 @@ const Homepage = ({ history, user_id }) => {
       ) : (
         <Container ref={ref}>
           <GroupPanel
-            onCreateGroupClick={() => { history.push("create-group"); }}
-            onJoinGroupClick={() => { history.push("join-group"); }}
+            onCreateGroupClick={() => {
+              history.push("create-group");
+            }}
+            onJoinGroupClick={() => {
+              history.push("join-group");
+            }}
           />
           <ScrollView>
             <SubjectCard subjects_data={subjects} />
