@@ -33,6 +33,7 @@ const CreateGroupPage = ({ history }) => {
   const [subject, set_subject] = useState('');
   const [topic, set_topic] = useState('');
   const [subtopic, set_subtopic] = useState('');
+  const [selected_subtopic, set_selected_subtopic] = useState('');
   const [difficulty, set_difficulty] = useState('');
   const [number_of_problems, set_number_of_problems] = useState(0);
   const [time_per_problem, set_time_per_problem] = useState('');
@@ -59,8 +60,9 @@ const CreateGroupPage = ({ history }) => {
     if(subtopic) {
       getAvailableDifficultyBySubtopicName(subtopic);
     };
-    if(!subtopic) {
-      set_difficulty();
+    if(!subtopic || selected_subtopic !== subtopic) {
+      set_difficulty('');
+      set_selected_subtopic(subtopic);
     };
   }, [subject, topic, subtopic]);
 
