@@ -22,7 +22,7 @@ import { useWindowDimensions } from "../../global/utils";
 import { COLOR, CONTAINER_PADDING, QUOTE } from "../../global/const";
 
 // Lottie
-import no_achievement from "../../assets/lottie/no_achievement.json";
+import no_data from "../../assets/lottie/no_data.json";
 
 const AchievementPage = ({ user_id }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -59,7 +59,7 @@ const AchievementPage = ({ user_id }) => {
           ) : (
             <NoAchievement>
               <LottieFile
-                animationData={no_achievement}
+                animationData={no_data}
                 width={screen_width - CONTAINER_PADDING}
               />
               <Subheader color={COLOR.MANDARIN}>
