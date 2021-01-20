@@ -126,7 +126,7 @@ export const useRandomChallenge = (
     }
   };
 
-  return { randomChallenge, loading, challenge_id, me, opponent };
+  return { randomChallenge, random_loading, challenge_id, me, opponent };
 };
 
 export const specificChallenge = async (
