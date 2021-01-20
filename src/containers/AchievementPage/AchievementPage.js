@@ -38,7 +38,6 @@ const AchievementPage = ({ user_id }) => {
   useEffect(() => {
     getAllAchievements();
     toggle();
-    console.log(my_achievements);
   }, []);
 
   return (
