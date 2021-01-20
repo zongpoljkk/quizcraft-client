@@ -12,10 +12,10 @@ import loading_circle from "../../assets/lottie/loading_circle.json";
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupMembers } from "./WaitingRoomPageHelper";
-
-// MOCK DATA
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
+import {
+  useGetGroupMembers,
+  useGetGenerateProblem
+} from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
   const location = useLocation();
@@ -31,7 +31,12 @@ const WaitingRoomPage = ({ history }) => {
     members,
     number_of_members,
     is_creator
-  } = useGetGroupMembers(GROUP_ID, user_id);
+  } = useGetGroupMembers(location.state.group_id, user_id);
+  const {
+    getGenerateProblem,
+    start_loading,
+    problems
+  } = useGetGenerateProblem();
 
   useEffect(() => {
     set_get_all_members_loading(loading);
@@ -46,10 +51,26 @@ const WaitingRoomPage = ({ history }) => {
       set_get_all_members_loading(loading);
     };
   }, [loading]);
+
+  useEffect(() => {
+    if(problems) {
+      console.log(problems)
+      history.push({
+        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
+        state: {
+          group_id : location.state.group_id,
+          subject_name : location.state.subject_name,
+          topic_name : location.state.topic_name,
+          subtopic_name : location.state.subtopic_name,
+          difficulty : location.state.difficulty
+        }
+      });
+    };
+  }, [start_loading]);
   
   return (
     <Container isCreator = {is_creator}>
-      {get_all_members_loading
+      {get_all_members_loading || start_loading
         ? <LoadingPage />
         : (
           <React.Fragment>
@@ -81,7 +102,7 @@ const WaitingRoomPage = ({ history }) => {
                 </GroupMemberBox>
                 <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                   <Button type="outline">ยกเลิก</Button>
-                  <Button>เริ่ม</Button>
+                  <Button onClick={() => getGenerateProblem(location.state.group_id)}>เริ่ม</Button>
                 </ButtonContainer>
               </div>
             :
