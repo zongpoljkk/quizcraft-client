@@ -13,11 +13,11 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import no_data from "../../assets/lottie/no_data.json";
 
-import { 
+import {
   getMarginRightOfChallengeBox,
   useGetALlMyChallenges,
   useReadChallenge,
-  useRandomChallenge
+  useRandomChallenge,
 } from "./AllChallengePageHelper";
 
 import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const";
@@ -26,47 +26,47 @@ import { useWindowDimensions } from "../../global/utils";
 const CHALLENGE_BOX_TYPE = {
   MY_TURN: "MY_TURN",
   CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT"
+  RESULT: "RESULT",
 };
 
 const AllChallengePage = ({ history }) => {
-
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowingModal1, toggleModal1] = useModal();
   const [isShowingModal2, toggleModal2] = useModal();
   const [username, set_username] = useState();
   const container_width = screen_width-CONTAINER_PADDING;
+  const [disabled_random, set_disabled_random] = useState(false);
   const [my_turns_margin_right, set_my_turns_margin_right] = useState();
   const [challenger_turns_margin_right, set_challenger_turns_margin_right] = useState();
   const [results_margin_right, set_results_margin_right] = useState();
   const user_id = localStorage.getItem("userId");
-  
-  const { 
+
+  const {
     getALlMyChallenges,
     loading,
     my_turns,
     challenger_turns,
-    results
+    results,
   } = useGetALlMyChallenges(
-    user_id, 
-    location.state.subtopic_name, 
-    location.state.difficulty,
+    user_id,
+    location.state.subtopic_name,
+    location.state.difficulty
   );
 
   const { readChallenge } = useReadChallenge();
 
   const {
     randomChallenge,
-    loading: loading2,
+    random_loading,
     challenge_id,
     me,
-    opponent
+    opponent,
   } = useRandomChallenge(
     user_id,
     location.state.subject_name,
-    location.state.subtopic_name, 
-    location.state.difficulty,
+    location.state.subtopic_name,
+    location.state.difficulty
   );
 
   const onChallengeBoxClick = (challenge_id, result) => {
@@ -80,15 +80,16 @@ const AllChallengePage = ({ history }) => {
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty,
-        challenge_id: challenge_id
-      }
+        challenge_id: challenge_id,
+      },
     });
   };
 
   const onRandomChallenge = async () => {
+    set_disabled_random(true);
     await randomChallenge();
     await toggleModal1();
-  }
+  };
 
   const onRandomChallengeModalSubmit = (challenge_id) => {
     if (challenge_id) {
@@ -101,37 +102,51 @@ const AllChallengePage = ({ history }) => {
           subtopic_name: location.state.subtopic_name,
           mode: location.state.mode,
           difficulty: location.state.difficulty,
-          challenge_id: challenge_id
-        }
+          challenge_id: challenge_id,
+        },
       });
-    };
+    }
   };
 
   useEffect(() => {
     getALlMyChallenges();
   }, []);
-  
+
+  useEffect(() => {
+    if (disabled_random) {
+      set_disabled_random(false);
+    }
+  }, [disabled_random]);
+
   return (
     <Container>
-      <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-        <Button type="outline" 
-          onClick={onRandomChallenge}
-        >สุ่มคู่แข่ง</Button>
-        {loading2
-          && <LoadingPage overlay={true}/>
+      <ButtonContainer
+        justifyContent={
+          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
         }
-        <RandomChallengeModal 
+      >
+        <Button
+          type="outline"
+          onClick={onRandomChallenge}
+          disabled={disabled_random}
+        >
+          สุ่มคู่แข่ง
+        </Button>
+        {random_loading && <LoadingPage overlay={true} />}
+        <RandomChallengeModal
           isShowing={isShowingModal1}
           toggle={toggleModal1}
-          my_username={me? me.username: ""}
-          opponent_username={opponent? opponent.username: ""}
-          my_profile_img={me? me.photo : ""} 
-          opponent_profile_img={opponent? opponent.photo : ""}
-          challenge_id={challenge_id? challenge_id : ""}
-          onSubmit={() => onRandomChallengeModalSubmit(challenge_id? challenge_id : null)}
+          my_username={me ? me.username : ""}
+          opponent_username={opponent ? opponent.username : ""}
+          my_profile_img={me ? me.photo : ""}
+          opponent_profile_img={opponent ? opponent.photo : ""}
+          challenge_id={challenge_id ? challenge_id : ""}
+          onSubmit={() =>
+            onRandomChallengeModalSubmit(challenge_id ? challenge_id : null)
+          }
         />
         <Button onClick={toggleModal2}>เจาะจงคู่แข่ง</Button>
-        <SpecificChallengeModal 
+        <SpecificChallengeModal
           username={username}
           set_username={set_username}
           isShowing={isShowingModal2}
@@ -252,13 +267,13 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const ButtonContainer = styled.div.attrs(props => ({
-  justifyContent: props.justifyContent
+const ButtonContainer = styled.div.attrs((props) => ({
+  justifyContent: props.justifyContent,
 }))`
   display: flex;
   flex: 1;
   flex-direction: row;
-  justify-content: ${props => props.justifyContent};
+  justify-content: ${(props) => props.justifyContent};
   width: 100%;
 `;
 
@@ -277,7 +292,7 @@ const ChallengeBoxContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-self: flex-start;
-  max-width: ${props => props.maxWidth}px;
+  max-width: ${(props) => props.maxWidth}px;
 `;
 
 const NoDataContainer = styled.div`
