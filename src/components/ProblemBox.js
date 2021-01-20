@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Tex2SVG, { MathJaxProvider } from "react-hook-mathjax";
-import { MathParser } from "mathlex"
+// import * as MathLex from "./mathlex";
 
 import { Subheader } from "./Typography";
 
@@ -19,15 +19,15 @@ export const ProblemBox = ({
   const tex4 = "0.0000000058552"
   const math = "((-7/6)^[-31]*(-7/6)^[-18]*(-7/6)^[-21]*(-7/6)^[20]*(-7/6)^[19])/((-7/6)^[-18]*(-7/6)^[-18]*(-7/6)^[45])"
 
-  const MathToLetex = (math) => {
-    console.log(math)
-    var syntaxTree = MathParser.parse(math);
-    // var latexCode = MathParser.render(syntaxTree, 'latex');
-    // console.log({syntaxTree});
-    // console.log({latexCode});
-    // return latexCode;
-    return math;
-  };
+  // const MathToLetex = (math) => {
+  //   console.log(math)
+  //   var syntaxTree = MathLex.parse(math).val();
+  //   // var latexCode = MathParser.render(syntaxTree, 'latex');
+  //   // console.log({syntaxTree});
+  //   // console.log({latexCode});
+  //   // return latexCode;
+  //   return syntaxTree;
+  // };
 
   return (
     <ProblemContainer>
@@ -35,12 +35,12 @@ export const ProblemBox = ({
       {problem_content
         ? <Problem>
             {/* <Subheader>{problem_content}</Subheader> */}
-            {/* <Subheader>
+            <Subheader>
               <Tex2SVG display="inline" latex={tex3} />
-            </Subheader> */}
-            <div>
+            </Subheader>
+            {/* <div>
               {MathToLetex(math)}
-            </div>
+            </div> */}
           </Problem>
         : null
       }
