@@ -20,7 +20,7 @@ const SubtopicPage = () => {
   return (
     <React.Fragment>
       {loading ? (
-        <LoadingPage/>
+        <LoadingPage />
       ) : (
         <Container>
           <TopicStyle>
