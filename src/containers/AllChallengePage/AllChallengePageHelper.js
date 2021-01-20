@@ -95,13 +95,13 @@ export const useRandomChallenge = (
   subtopic_name,
   difficulty
 ) => {
-  const [loading, set_loading] = useState(false);
+  const [random_loading, set_random_loading] = useState(false);
   const [me, set_me] = useState();
   const [opponent, set_opponent] = useState();
   const [challenge_id, set_challenge_id] = useState();
 
   const randomChallenge = async () => {
-    set_loading(true);
+    set_random_loading(true);
     try {
       const response = await axios.post(
         backend + "challenge/random-challenge",
@@ -117,7 +117,7 @@ export const useRandomChallenge = (
         set_challenge_id(data.challengeId);
         set_me(data.user1);
         set_opponent(data.user2);
-        set_loading(false);
+        set_random_loading(false);
       } else {
         console.log("random challenge Error");
       }

@@ -40,6 +40,7 @@ const AllChallengePage = ({ history }) => {
   const [specific_challenge_id, set_specific_challenge_id] = useState(false);
   const [specific_not_exist, set_specific_not_exist] = useState(false);
   const container_width = screen_width-CONTAINER_PADDING;
+  const [disabled_random, set_disabled_random] = useState(false);
   const [my_turns_margin_right, set_my_turns_margin_right] = useState();
   const [challenger_turns_margin_right, set_challenger_turns_margin_right] = useState();
   const [results_margin_right, set_results_margin_right] = useState();
@@ -61,7 +62,7 @@ const AllChallengePage = ({ history }) => {
 
   const {
     randomChallenge,
-    loading: loading2,
+    random_loading,
     challenge_id,
     me,
     opponent,
@@ -89,6 +90,7 @@ const AllChallengePage = ({ history }) => {
   };
 
   const onRandomChallenge = async () => {
+    set_disabled_random(true);
     await randomChallenge();
     await toggleModal1();
   };
@@ -159,10 +161,11 @@ const AllChallengePage = ({ history }) => {
     set_specific_not_exist(false);
   }, [isShowingModal2]);
 
-  // Turn specific challenge modal into loading modal 
-  // useEffect(() => {
-  //   set_specific_loading(true);
-  // }, [onSpecificChallenge])
+  useEffect(() => {
+    if (disabled_random) {
+      set_disabled_random(false);
+    }
+  }, [disabled_random]);
 
   return (
     <Container>
@@ -171,10 +174,14 @@ const AllChallengePage = ({ history }) => {
           screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
         }
       >
-        <Button type="outline" onClick={onRandomChallenge}>
+        <Button
+          type="outline"
+          onClick={onRandomChallenge}
+          disabled={disabled_random}
+        >
           สุ่มคู่แข่ง
         </Button>
-        {loading2 && <LoadingPage overlay={true} />}
+        {random_loading && <LoadingPage overlay={true} />}
         <RandomChallengeModal
           isShowing={isShowingModal1}
           toggle={toggleModal1}
