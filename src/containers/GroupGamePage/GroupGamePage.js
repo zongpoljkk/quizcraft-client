@@ -20,7 +20,6 @@ import { useWindowDimensions } from "../../global/utils";
 import { useGetGroupGame } from "./GroupGamePageHelper";
 
 // MOCK DATA
-const GROUP_ID = "6006f7f25345742076335b61";
 const CORRECT = false;
 const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
 
@@ -40,9 +39,10 @@ const GroupGamePage = ({ history }) => {
     current_index,
     number_of_problem,
     time_per_problem,
+    is_creator,
     user,
     problem
-  } = useGetGroupGame(user_id, GROUP_ID);
+  } = useGetGroupGame(user_id, location.state.group_id);
 
   const onSkip = () => {
     // TODO: connect API send no answer
@@ -83,8 +83,11 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                <div style={{ marginRight: 8 }}/>
-                <PointBox points={user.point}/>
+                {!is_creator &&
+                  <div style={{ marginRight: 8 }}>
+                    <PointBox points={user?.point}/>
+                  </div>
+                }
               </Headline>
               <TimeContainer>
                 <Subheader color={COLOR.MANDARIN}>
@@ -109,26 +112,28 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-                  <Button
-                    type="outline"
-                    onClick={() => {
-                      set_used_time(getTime()/1000);
-                      onSkip();
-                    }}
-                  >
-                    ข้าม
-                  </Button>
-                  <Button
-                    type={answer ? "default" : "disabled"}
-                    onClick={() => {
-                      set_used_time(getTime()/1000);
-                      onSend();
-                    }}
-                  >
-                    ส่ง
-                  </Button>
-                </ButtonContainer>
+                {!is_creator &&
+                  <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                    <Button
+                      type="outline"
+                      onClick={() => {
+                        set_used_time(getTime()/1000);
+                        onSkip();
+                      }}
+                    >
+                      ข้าม
+                    </Button>
+                    <Button
+                      type={answer ? "default" : "disabled"}
+                      onClick={() => {
+                        set_used_time(getTime()/1000);
+                        onSend();
+                      }}
+                    >
+                      ส่ง
+                    </Button>
+                  </ButtonContainer>
+                }
                 <AnswerModal
                   isShowing={isShowing}
                   toggle={toggle}
