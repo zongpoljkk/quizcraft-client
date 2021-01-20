@@ -36,7 +36,6 @@ export const useGetLeaderBoard = (user_id) => {
         }
       );
       const { success, data } = response.data;
-      console.log(data)
       if (success) {
         set_leader_board(data);
         set_leader_board_loading(false);
