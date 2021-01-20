@@ -75,16 +75,9 @@ const ChallengeGame = ({ history }) => {
   };
 
   const onNext = async () => {
-    console.log(current_index);
     if (my_info.currentProblem === NUMBER_OF_QUIZ - 1) {
-      console.log("YA");
-      // await getProblemByChallengeId(
-      //   location.state.challenge_id,
-      //   my_info.currentProblem
-      // );
       onExit();
     } else {
-      console.log(`my_info: ${my_info.currentProblem}`);
       set_current_index((index) => index + 1);
       set_user_answer();
       my_info.currentProblem++;
@@ -126,9 +119,7 @@ const ChallengeGame = ({ history }) => {
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
       });
-      // if (answer_is_back) {
       toggle();
-      // }
     }
     // TODO: connect API check answer with blank answer
   };
