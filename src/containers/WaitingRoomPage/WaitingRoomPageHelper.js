@@ -35,53 +35,29 @@ export const useGetGroupMembers = (group_id, user_id) => {
   return { getGroupMembers, loading, members, number_of_members, is_creator };
 };
 
-export const useDeleteGroup = (group_id, user_id) => {
-  const deleteGroup = async () => {
+export const useGetGenerateProblem = () => {
+  const [start_loading, set_start_loading] = useState(false);
+  const [problems, set_problems] = useState();
+  const [number_of_problems, set_number_of_problems] = useState();
+
+  const getGenerateProblem = async ( group_id ) => {
+    set_start_loading(true);
     try {
-      const response = await axios.delete(backend+"group/delete-group", {
-        data: {
-          groupId: group_id,
-          userId : user_id,
-        }
-      })
+      const response = await axios.post(backend+"group/gen-problems-when-group-start", {
+        groupId : group_id
+      });
       const { success, data } = response.data;
       if (success) {
-        console.log(data);
+        set_problems(data.problems);
+        set_number_of_problems(data.numberOfProblem);
+        set_start_loading(false);
       } else {
-        console.log("delete group Error");
-      } 
-    } catch (e) {
-      console.log(e)
-      console.log("There are something wrong about delete group :(");
-    }
-  };
-  
-  return { deleteGroup };
-};
-
-export const useLeaveGroup = (group_id, user_id) => {
-  const [leave_failed, set_leave_failed] = useState(false);
-
-  const leaveGroup = async () => {
-    try {
-      const response = await axios.put(backend+"group/leave-group", {
-        groupId: group_id,
-        userId : user_id,
-      })
-      const { success, data } = response.data;
-      if (success) {
-        console.log(data);
-      } else {
-        console.log("leave group Error");
+        console.log("getGenerateProblem Error");
       } 
     } catch (error) {
-      if (error.response.status === 400) {
-        set_leave_failed(true);
-      } else {
-        console.log("There are something wrong about leave group :(");
-      }
+      console.log("There are something wrong about generate problem :(");
     }
   };
-  
-  return { leaveGroup, leave_failed };
+
+  return { getGenerateProblem, start_loading, problems };
 };
