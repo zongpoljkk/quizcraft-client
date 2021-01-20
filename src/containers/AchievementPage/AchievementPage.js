@@ -8,6 +8,8 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { Header } from "../../components/Typography";
 import AllAchievements from "./components/AllAchievements";
 import AchievementModal from "../../components/Achievement/AchievementModal";
+import { Subheader, Body } from "../../components/Typography";
+import { LottieFile } from "../../components/LottieFile";
 
 // Helper
 import { useGetAllAchievements } from "./AchievementPageHelper";
@@ -15,7 +17,15 @@ import { useGetAllAchievements } from "./AchievementPageHelper";
 // Hook
 import useModal from "../../components/useModal";
 
+// Global
+import { useWindowDimensions } from "../../global/utils";
+import { COLOR, CONTAINER_PADDING, QUOTE } from "../../global/const";
+
+// Lottie
+import no_achievement from "../../assets/lottie/no_achievement.json";
+
 const AchievementPage = ({ user_id }) => {
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowing, toggle] = useModal();
 
   const {
@@ -28,6 +38,7 @@ const AchievementPage = ({ user_id }) => {
   useEffect(() => {
     getAllAchievements();
     toggle();
+    console.log(my_achievements);
   }, []);
 
   return (
@@ -41,10 +52,27 @@ const AchievementPage = ({ user_id }) => {
             toggle={toggle}
             content="Hello A"
           />
-          <div style={{marginBottom: "32px"}}>
+          <div style={{ marginBottom: "32px" }}>
             <Header>เหรียญรางวัล</Header>
           </div>
-          <AllAchievements achievements={my_achievements} />
+          {my_achievements.length > 0 ? (
+            <AllAchievements achievements={my_achievements} />
+          ) : (
+            <NoAchievement>
+              <LottieFile
+                animationData={no_achievement}
+                width={screen_width - CONTAINER_PADDING}
+              />
+              <Subheader color={COLOR.MANDARIN}>
+                คุณยังไม่มีเหรียญรางวัล
+              </Subheader>
+              <div style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
+                <Body color={COLOR.MANDARIN}>
+                  `{QUOTE[Math.floor(Math.random() * QUOTE.length)]}`
+                </Body>
+              </div>
+            </NoAchievement>
+          )}
         </Container>
       )}
     </React.Fragment>
@@ -57,6 +85,18 @@ const Container = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+`;
+
+const NoAchievement = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default AchievementPage;
