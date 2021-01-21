@@ -40,7 +40,7 @@ const TopicPage = ({ history }) => {
               key={index}
               title={topic._id}
               image= {topic.topic_image_info ? "data:image/png;base64,"+topic.topic_image_info.data : default_topic}
-              onClick={() => handleClick(topic.topic_name)}
+              onClick={() => handleClick(topic._id)}
             />
           ))}
         </Container>
