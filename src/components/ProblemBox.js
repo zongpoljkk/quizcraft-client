@@ -5,7 +5,7 @@ import Tex2SVG from "react-hook-mathjax";
 import { Subheader } from "./Typography";
 
 import { COLOR, CONTAINER_PADDING } from "../global/const";
-import { useWindowDimensions } from "../global/utils";
+import { convertHexToRGBA, useWindowDimensions } from "../global/utils";
 
 export const ProblemBox = ({
   problem = '',
@@ -53,10 +53,10 @@ const Problem = styled.image.attrs(props => ({
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;
-    height: 4px;
+    height: 3px;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: ${COLOR.SILVER};
+    background-color: ${convertHexToRGBA(COLOR.CHARCOAL, 40)};
   }
 `;
