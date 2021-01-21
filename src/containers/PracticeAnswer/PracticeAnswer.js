@@ -187,21 +187,17 @@ const PracticeAnswer = ({ history }) => {
       </CenterDiv>
       {firstClick ? (
         <SolutionDiv>
-          <ul style={{ listStyle: "none", padding: 0 }}>
             {solution.map((line, i) => {
               // TODO: Replace Math.random() with line.id after it has one
               return (
-                <li key={Math.random()}>
                   <Solution answer={correct}>
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
                     {line}
                   </Solution>
-                </li>
               );
             })}
-          </ul>
         </SolutionDiv>
       ) : (
         <SolutionDiv></SolutionDiv>
@@ -236,9 +232,14 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 0px auto 52px auto;
-  height: 160px;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: stretch;
+  margin: 16px auto 52px auto;
+  height: 280px;
+  width: 100%;
+  overflow: scroll;
 `;
 
 const GreetingDiv = styled.div`
