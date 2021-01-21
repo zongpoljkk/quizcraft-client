@@ -10,8 +10,8 @@ let mainCurlyBraces = [];
 let powerExists = false;
 
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
-  const [mainAns, setMainAns] = useState("");
-  const [powerAns, setPowerAns] = useState("");
+  const [mainAns, setMainAns] = useState([]);
+  const [powerAns, setPowerAns] = useState([]);
   const [userAns, setUserAns] = useState([]);
 
   const outputBoxes = (item) => {
@@ -54,11 +54,31 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
       return (
         <MainInputAnswer
           width={item.width}
+          // TODO: SetMainAns by appending to array
           onChange={(e) => setMainAns(e.target.value)}
         />
       );
     }
   };
+
+  const outputAnswer = (item) => {
+    if (item.type === "(") {
+      return "(";
+    } else if (item.type === ")") {
+      return ")";
+    } else if (item.type === "main") {
+      return "main";
+    } else if (item.type === "power") {
+      return "power";
+    }
+  };
+
+  useEffect(() => {
+    const ans_template = mathAnswerBox(correct_answer).map((box, i) => {
+      return outputAnswer(box);
+    });
+    console.log(ans_template)
+  }, []);
 
   useEffect(() => {
     let tempAns;
@@ -90,6 +110,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     <Container>
       {mathAnswerBox(correct_answer).map((box, i) => (
         <div key={i} id={`answerBox_${i}`}>
+          {/* {console.log(box)} */}
           {outputBoxes(box)}
         </div>
       ))}
