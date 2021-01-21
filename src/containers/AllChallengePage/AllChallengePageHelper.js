@@ -115,8 +115,8 @@ export const useRandomChallenge = (
       const { success, data } = response.data;
       if (success) {
         set_challenge_id(data.challengeId);
-        set_me(data.user1);
-        set_opponent(data.user2);
+        set_me(data.user1[0]);
+        set_opponent(data.user2[0]);
         set_random_loading(false);
       } else {
         console.log("random challenge Error");
