@@ -38,19 +38,6 @@ const WaitingRoomPage = ({ history }) => {
     problems
   } = useGetGenerateProblem();
 
-  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
-  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
-
-  const handleDeleteGroup = () => {
-    deleteGroup(GROUP_ID, user_id);
-    history.push("/homepage");
-  }
-
-  const handleLeaveGroup = () => {
-    leaveGroup(GROUP_ID, user_id);
-    history.push("/homepage");
-  }
-
   useEffect(() => {
     set_get_all_members_loading(loading);
     const interval = setInterval(() => {
@@ -122,7 +109,6 @@ const WaitingRoomPage = ({ history }) => {
               <div style={{alignSelf: "center", marginTop: "64px"}}>
                 <Button
                   type="outline"
-                  onClick={() => handleLeaveGroup()}
                 >
                   ออก
                 </Button>
