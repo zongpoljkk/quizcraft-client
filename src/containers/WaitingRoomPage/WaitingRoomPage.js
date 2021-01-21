@@ -109,6 +109,7 @@ const WaitingRoomPage = ({ history }) => {
               <div style={{alignSelf: "center", marginTop: "64px"}}>
                 <Button
                   type="outline"
+                  onClick={() => history.push("/")}
                 >
                   ออก
                 </Button>

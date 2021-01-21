@@ -173,3 +173,43 @@ export const useItem = (user_id) => {
 
   return { putUseItem };
 };
+
+export const useSkipItem = () => {
+  const postSkipItem = async (problem_id) => {
+    try {
+      const response = await axios.post(backend + "item/use-skip-item-for-quiz", {
+        problemId: problem_id
+      });
+      const { success, data } = response.data;
+      if (success) {
+        console.log("skip");
+      } else {
+        console.log("postSkipItem Error");
+      }
+    } catch (e) {
+      console.log("There are something wrong about use skip item :(");
+    }
+  };
+
+  return { postSkipItem };
+};
+
+export const useRefreshItem = () => {
+  const postRefreshItem = async (problem_id) => {
+    try {
+      const response = await axios.post(backend + "item/use-refresh-item", {
+        problemId: problem_id
+      });
+      const { success, data } = response.data;
+      if (success) {
+        console.log("refresh");
+      } else {
+        console.log("postRefreshItem Error");
+      }
+    } catch (e) {
+      console.log("There are something wrong about use refresh item :(");
+    }
+  };
+
+  return { postRefreshItem };
+};

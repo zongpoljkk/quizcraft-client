@@ -12,7 +12,7 @@ import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
-import photo from "../../assets/icon/photo.png";
+import edit_photo from "../../assets/icon/photo.png";
 
 import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -48,21 +48,21 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {hover 
-              ? <div
-                  style={{ marginTop: 8 }}
-                  onClick={handleUpload}
-                >
-                  <input 
-                    type="file"
-                    ref={inputFile}
-                    onChange={e => set_selected_image(e.target.files[0])}
-                    style={{ display: 'none' }}
-                  />
-                  <img src={photo} height={100} width={100}/>
-                </div>
-              : user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null
+            {hover &&
+              <div
+                style={{ marginTop: 8, position: 'absolute' }}
+                onClick={handleUpload}
+              >
+                <input 
+                  type="file"
+                  ref={inputFile}
+                  onChange={e => set_selected_image(e.target.files[0])}
+                  style={{ display: 'none' }}
+                />
+                <img src={edit_photo} height={100} width={100} style={{ opacity: 0.7 }}/>
+              </div>
             }
+            {user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null}
           </ProfileImage>
           <UsernameContainer>
             <Header>{user_info.username}</Header>
