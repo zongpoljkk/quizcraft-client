@@ -16,18 +16,8 @@ export const useGetTopicName = (subject_name) => {
       });
       const { success, data } = response.data;
       if (success) {
-        console.log(data);
         var topic_lists = [];
-        data.map(
-          (topic, index) =>
-            (topic_lists[index] =
-              //   {
-              //   topic_name: topic._id,
-              //   topic_image: topic.topic_image_info.data,
-              //   // topic_image: topic.topic_image_info,
-              // }
-              topic)
-        );
+        data.map((topic, index) => (topic_lists[index] = topic));
         set_topics(topic_lists);
         set_loading(false);
       } else {

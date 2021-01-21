@@ -36,7 +36,7 @@ const SubjectCard = ({ history, subjects_data }) => {
               handleOnSubjectClick(subject._id);
             }}
           >
-            <SubjectImg src={subject.subjectImg} />
+            <SubjectImg src= {"data:image/png;base64,"+subject.subject_image_info.data} />
             <Header>{subject._id}</Header>
           </SubjectBox>
         );

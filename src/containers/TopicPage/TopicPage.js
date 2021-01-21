@@ -27,11 +27,6 @@ const TopicPage = ({ history }) => {
     getTopicName();
   }, []);
 
-  useEffect(() => {
-    console.log(`useEffect subtopics`);
-    console.log(topics);
-  }, [topics]);
-
   return (
     <React.Fragment>
       {loading ? (
