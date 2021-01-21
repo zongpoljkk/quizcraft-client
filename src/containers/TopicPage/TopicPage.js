@@ -27,6 +27,11 @@ const TopicPage = ({ history }) => {
     getTopicName();
   }, []);
 
+  useEffect(() => {
+    console.log(`useEffect subtopics`);
+    console.log(topics);
+  }, [topics]);
+
   return (
     <React.Fragment>
       {loading ? (
@@ -36,8 +41,8 @@ const TopicPage = ({ history }) => {
           {topics?.map((topic, index) => (
             <TopicBox
               key={index}
-              title={topic.topic_name}
-              image={topic.topic_image}
+              title={topic._id}
+              image= {"data:image/png;base64,"+topic.topic_image_info.data}
               onClick={() => handleClick(topic.topic_name)}
             />
           ))}
