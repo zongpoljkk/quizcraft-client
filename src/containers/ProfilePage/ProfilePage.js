@@ -62,7 +62,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
                 <img src={edit_photo} height={100} width={100}/>
               </div>
             }
-            {user_info.photo ? <Image src={user_info.photo}/> : null}
+            {user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null}
           </ProfileImage>
           <UsernameContainer>
             <Header>{user_info.username}</Header>
