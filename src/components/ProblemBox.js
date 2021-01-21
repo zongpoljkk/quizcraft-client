@@ -21,10 +21,9 @@ export const ProblemBox = ({
         <Subheader>{problem}</Subheader>
         {problem_content ? (
           <Problem width={screen_width - CONTAINER_PADDING - 48}>
-            <Tex2SVG
-              display="inline"
-              latex={asciimath2latex(problem_content)}
-            />
+            <Subheader>
+              <Tex2SVG display="inline" latex={asciimath2latex(problem_content)} />
+            </Subheader>
           </Problem>
         ) : null}
       </ProblemComponent>
@@ -49,4 +48,15 @@ const Problem = styled.image.attrs(props => ({
   max-width: ${props => props.width}px;
   margin-top: 16px;
   align-self: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: ${COLOR.SILVER};
+  }
 `;
