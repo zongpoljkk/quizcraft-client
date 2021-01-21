@@ -7,6 +7,8 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetTopicName } from "./TopicPageHelper";
 
+import default_topic from "../../assets/thumbnail/default_topic.png";
+
 const TopicPage = ({ history }) => {
   const location = useLocation();
   const { getTopicName, loading, topics } = useGetTopicName(
@@ -37,7 +39,7 @@ const TopicPage = ({ history }) => {
             <TopicBox
               key={index}
               title={topic._id}
-              image= {"data:image/png;base64,"+topic.topic_image_info.data}
+              image= {topic.topic_image_info ? "data:image/png;base64,"+topic.topic_image_info.data : default_topic}
               onClick={() => handleClick(topic.topic_name)}
             />
           ))}
