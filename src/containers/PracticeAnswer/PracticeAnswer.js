@@ -86,10 +86,12 @@ const PracticeAnswer = ({ history }) => {
   };
 
   useEffect(() => {
+    // ! DELETE LATER, use for debugging
+    console.log(location.state)
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
-    if (location.state.solution === "") {
+    if (!location.state.solution) {
       set_static_solution([location.state.correct_answer]);
     } else {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
