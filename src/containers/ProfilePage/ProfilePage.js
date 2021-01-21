@@ -59,7 +59,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
                   onChange={e => set_selected_image(e.target.files[0])}
                   style={{ display: 'none' }}
                 />
-                <img src={edit_photo} height={100} width={100}/>
+                <img src={edit_photo} height={100} width={100} style={{ opacity: 0.7 }}/>
               </div>
             }
             {user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null}
