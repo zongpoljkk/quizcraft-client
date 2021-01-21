@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Tex2SVG from "react-hook-mathjax";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
@@ -20,6 +21,8 @@ export const AnswerModal = ({
   answer,
   overlay_clickable
 }) => {
+  const asciimath2latex = require("asciimath-to-latex");
+
   return (
     <FooterModal
       isShowing={isShowing}
@@ -43,7 +46,7 @@ export const AnswerModal = ({
                   {answer?.split("\n").map((item, key) => {
                     return (
                       <Body key={key} color={COLOR.TRINIDAD}>
-                        {item}
+                        <Tex2SVG display="inline" latex={asciimath2latex(item)} />
                       </Body>
                     );
                   })}

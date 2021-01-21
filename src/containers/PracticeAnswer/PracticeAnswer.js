@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Tex2SVG from "react-hook-mathjax";
 import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -45,6 +46,7 @@ const PracticeAnswer = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
+  const asciimath2latex = require("asciimath-to-latex");
 
   const handleNextButtonClick = () => {
     history.push({
@@ -196,7 +198,7 @@ const PracticeAnswer = ({ history }) => {
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
-                    {line}
+                    <Tex2SVG display="inline" latex={asciimath2latex(line)} />
                   </Solution>
                 </li>
               );
