@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useLocation, withRouter } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CSVLink } from "react-csv";
 
@@ -16,12 +17,16 @@ import export_icon from "../../assets/icon/export.png";
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupScoreBoard } from "./GroupResultPageHelper";
+import {
+  useGetGroupScoreBoard,
+  useDeleteGroup,
+  useLeaveGroup,
+} from "./GroupResultPageHelper";
 
-const GROUP_ID = "5ffd5881734113e0acdbaaa5";
+const GROUP_ID = "5ffd4b96d8dcb02748bac714";
 const USER_ID = "60002df26860a84c2f87a6ed"
 
-const GroupResultPage = () => {
+const GroupResultPage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [display_first_lottie, set_display_first_lottie] = useState(false);
   const [display_second_lottie, set_display_second_lottie] = useState(false);
@@ -36,6 +41,9 @@ const GroupResultPage = () => {
     user_index,
     is_creator,
   } = useGetGroupScoreBoard(GROUP_ID, user_id);
+
+  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
+  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
 
   const headers = [
     {label: "username", key: "username"},
@@ -87,9 +95,25 @@ const GroupResultPage = () => {
     set_display_third_lottie(true);
   };
 
+  const handleDeleteGroup = () => {
+    deleteGroup(GROUP_ID, user_id);
+    history.push("/homepage");
+  }
+
+  const handleLeaveGroup = () => {
+    leaveGroup(GROUP_ID, user_id);
+    history.push("/homepage");
+  }
+
   useEffect(() => {
     getGroupScoreBoard();
   }, []);
+
+  useEffect(() => {
+    if (leave_failed) {
+      history.push("/homepage");
+    }
+  }, [leave_failed]);
 
   return (
     <React.Fragment>
@@ -246,7 +270,12 @@ const GroupResultPage = () => {
               custom={15}
               variants={item}
             >
-              <Button type="outline">ลบกลุ่ม</Button>
+              <Button 
+                type="outline"
+                onClick ={() => handleDeleteGroup()}
+              >
+                ลบกลุ่ม
+              </Button>
               <Button>เล่นใหม่อีกครั้ง</Button>
             </ButtonContainer>
           ) : (
@@ -255,7 +284,7 @@ const GroupResultPage = () => {
               variants={item}
               style={{ alignSelf: "center" }}
             >
-              <Button>ออก</Button>
+              <Button onClick ={() => handleLeaveGroup()}>ออก</Button>
             </motion.div>
           )}
         </Container>
@@ -316,4 +345,4 @@ const PointText = styled.div`
   justify-content: flex-end;
 `;
 
-export default GroupResultPage;
+export default withRouter(GroupResultPage);

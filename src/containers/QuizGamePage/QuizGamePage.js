@@ -20,6 +20,8 @@ import {
   useGetEachProblem,
   useItem,
   getAndCheckAnswer,
+  useSkipItem,
+  useRefreshItem
 } from "./QuizGamePageHelper";
 
 import { ANSWER_TYPE, COLOR, DIFFICULTY } from "../../global/const";
@@ -66,19 +68,18 @@ const QuizGamePage = ({ history }) => {
     location.state.subtopic_name,
     location.state.difficulty
   );
-
   const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
     problem_id
   );
-
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
     amount_of_refreshs,
   } = useGetAmountOfItems(user_id);
-
   const { putUseItem } = useItem(user_id);
+  const { postSkipItem } = useSkipItem();
+  const { postRefreshItem } = useRefreshItem();
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
@@ -192,7 +193,6 @@ const QuizGamePage = ({ history }) => {
       set_current_index((index) => index + 1);
       set_user_answer();
       getEachProblem();
-      // TODO: check amount of item -> set item
     }
   };
 
@@ -266,16 +266,19 @@ const QuizGamePage = ({ history }) => {
               skip={skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
-                  putUseItem("Skip");
+                  postSkipItem(problem_id);
+                  // TODO: handle quiz result for za
                   onSkip();
                   reset();
                 } else {
-                  putUseItem("Skip");
+                  postSkipItem(problem_id);
+                  // TODO: handle quiz result for za
+                  // onNext();
                 }
               }}
               refresh={refresh}
               onRefresh={() => {
-                putUseItem("Refresh");
+                postRefreshItem(problem_id);
                 onRefresh();
                 reset();
               }}
@@ -373,7 +376,6 @@ const QuizGamePage = ({ history }) => {
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
-                    // TODO: add real data instand of CORRECT after connect API
                     correct={correct}
                     answer={correct ? null : answer_key}
                     buttonTitle={
