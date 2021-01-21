@@ -264,7 +264,7 @@ const AllChallengePage = ({ history }) => {
                             challenger_turns.length
                           )
                         }
-                        onClick={() => onChallengeBoxClick(challenge.challengeId)}
+                        // onClick={() => onChallengeBoxClick(challenge.challengeId)}
                       />
                     </div>
                   )}
