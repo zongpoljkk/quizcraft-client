@@ -23,6 +23,7 @@ export const ConfirmResultModal = ({
     <Modal
       isShowing={isShowing}
       hide={toggle}
+      overlay_clickable={false}
     >
       <Container>
         <Icon src={success ? success_icon : fail_icon}/>
