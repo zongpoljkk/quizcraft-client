@@ -54,7 +54,6 @@ const WaitingRoomPage = ({ history }) => {
 
   useEffect(() => {
     if(problems) {
-      console.log(problems)
       history.push({
         pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
         state: {
