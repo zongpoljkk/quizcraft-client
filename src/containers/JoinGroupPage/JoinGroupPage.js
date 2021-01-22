@@ -5,6 +5,9 @@ import { withRouter } from "react-router-dom";
 import { Body, Header, Subheader } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { TextField } from "../../components/TextField";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import useModal from "../../components/useModal";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { COLOR } from "../../global/const";
 
@@ -13,23 +16,23 @@ import { useJoinGroup } from "./JoinGroupPageHelper";
 const JoinGroupPage = ({ history }) => {
   const [pin, set_pin] = useState('');
   const user_id = localStorage.getItem("userId");
+  const [isShowing, toggle] = useModal();
 
   const {
     joinGroup,
+    loading,
     group_id,
     join_fail
   } = useJoinGroup();
 
-  useEffect(() => {
-    if(group_id) {
-      history.push({
-        pathname: "waiting-room", 
-        state: {
-          group_id: group_id
-        }
-      });
-    };
-  }, [group_id]);
+  const onSuccess = () => {
+    history.push({
+      pathname: "waiting-room", 
+      state: {
+        group_id: group_id
+      }
+    });
+  };
 
   useEffect(() => {
     if(join_fail) {
@@ -40,6 +43,7 @@ const JoinGroupPage = ({ history }) => {
   return (
     <Container>
       <Header>เข้าร่วมกลุ่ม</Header>
+      {loading && <LoadingPage overlay={true}/>}
       <ContentContainer>
         <Subheader>รหัสเข้าร่วมกลุ่ม</Subheader>
         <div style={{ marginBottom: 8 }}/>
@@ -58,12 +62,24 @@ const JoinGroupPage = ({ history }) => {
         type={pin ? "default" : "disabled"}
         onClick={() => {
           if(pin) {
-            joinGroup(user_id, pin);
+            joinGroup(user_id, pin, toggle);
           };
         }}
       >
         ยืนยัน
       </Button>
+      <ConfirmResultModal
+        isShowing={isShowing}
+        toggle={toggle}
+        success={group_id}
+        success_description="คุณเป็นสมาชิกของกลุ่มแล้ว ยินดีต้อนรับ :)"
+        fail_description="มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+        onSubmit={() => {
+          if(group_id) {
+            onSuccess();
+          };
+        }}
+      />
     </Container>
   );
 };

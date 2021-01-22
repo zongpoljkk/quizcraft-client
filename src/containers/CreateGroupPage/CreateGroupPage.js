@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-import { Header, Body } from "../../components/Typography";
+import { Header } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
@@ -12,7 +12,7 @@ import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -83,13 +83,6 @@ const CreateGroupPage = ({ history }) => {
       }
     });
   };
-
-  // useEffect(() => {
-  //   console.log(success)
-  //   if(success !== undefined) {
-  //     console.log("toggle", isShowing)
-  //   };
-  // }, [success]);
 
   return (
     <Container>
