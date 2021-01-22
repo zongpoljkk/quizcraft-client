@@ -16,9 +16,9 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
 
   const outputBoxes = (item) => {
     if (item.type === "(" && item.last_type === "main") {
-      if (mainCurlyBraces.length === 0) {
-        mainCurlyBraces.push("(");
-      }
+      // if (mainCurlyBraces.length === 0) {
+      //   mainCurlyBraces.push("(");
+      // }
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
@@ -31,7 +31,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </div>
       );
     } else if (item.type === "power") {
-      powerExists = true;
+      // powerExists = true;
       return (
         <PowerInputAnswer
           width={item.width}
@@ -81,30 +81,34 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   }, []);
 
   useEffect(() => {
-    let tempAns;
-    let curlyMain = mainAns;
-    let curlyPower = powerAns;
-    let tempAnsString;
-    if (mainCurlyBraces.length > 0) {
-      // There are curly braces at main Ans
-      curlyMain = "(" + mainAns + ")";
-    }
-    if (powerExists) {
-      curlyPower = "[" + powerAns + "]";
-    }
-    tempAns = [curlyMain, curlyPower];
-    if (curlyPower !== "") {
-      tempAnsString = tempAns.join("^");
-    } else {
-      tempAnsString = curlyMain;
-    }
-    setUserAns(tempAnsString);
-    set_answer(tempAnsString);
+    
+  }, [mainAns, powerAns])
 
-    // Cleanup
-    mainCurlyBraces = [];
-    powerExists = false;
-  }, [mainAns, powerAns]);
+  // useEffect(() => {
+  //   let tempAns;
+  //   let curlyMain = mainAns;
+  //   let curlyPower = powerAns;
+  //   let tempAnsString;
+  //   if (mainCurlyBraces.length > 0) {
+  //     // There are curly braces at main Ans
+  //     curlyMain = "(" + mainAns + ")";
+  //   }
+  //   if (powerExists) {
+  //     curlyPower = "[" + powerAns + "]";
+  //   }
+  //   tempAns = [curlyMain, curlyPower];
+  //   if (curlyPower !== "") {
+  //     tempAnsString = tempAns.join("^");
+  //   } else {
+  //     tempAnsString = curlyMain;
+  //   }
+  //   setUserAns(tempAnsString);
+  //   set_answer(tempAnsString);
+
+  //   // Cleanup
+  //   mainCurlyBraces = [];
+  //   powerExists = false;
+  // }, [mainAns, powerAns]);
 
   return (
     <Container>
