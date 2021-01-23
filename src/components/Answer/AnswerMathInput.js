@@ -6,19 +6,13 @@ import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 
-let mainCurlyBraces = [];
-let powerExists = false;
-
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
-  const [mainAns, setMainAns] = useState("");
-  const [powerAns, setPowerAns] = useState("");
-  const [userAns, setUserAns] = useState([]);
+  const [mainAns, setMainAns] = useState([]);
+  const [powerAns, setPowerAns] = useState([]);
+  const [ans_template, set_ans_template] = useState([]);
 
   const outputBoxes = (item) => {
     if (item.type === "(" && item.last_type === "main") {
-      if (mainCurlyBraces.length === 0) {
-        mainCurlyBraces.push("(");
-      }
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
@@ -31,7 +25,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </div>
       );
     } else if (item.type === "power") {
-      powerExists = true;
       return (
         <PowerInputAnswer
           width={item.width}
@@ -54,37 +47,50 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
       return (
         <MainInputAnswer
           width={item.width}
+          // TODO: SetMainAns by appending to array
           onChange={(e) => setMainAns(e.target.value)}
         />
       );
     }
   };
 
-  useEffect(() => {
-    let tempAns;
-    let curlyMain = mainAns;
-    let curlyPower = powerAns;
-    let tempAnsString;
-    if (mainCurlyBraces.length > 0) {
-      // There are curly braces at main Ans
-      curlyMain = "(" + mainAns + ")";
+  const outputAnswer = (item, index) => {
+    if (item.type === "(") {
+      return "(";
+    } else if (item.type === ")") {
+      return ")";
+    } else if (item.type === "main") {
+      return "main";
+    } else if (item.type === "power") {
+      return "power";
     }
-    if (powerExists) {
-      curlyPower = "[" + powerAns + "]";
+    else {
+      return "main";
     }
-    tempAns = [curlyMain, curlyPower];
-    if (curlyPower !== "") {
-      tempAnsString = tempAns.join("^");
-    } else {
-      tempAnsString = curlyMain;
-    }
-    setUserAns(tempAnsString);
-    set_answer(tempAnsString);
+  };
 
-    // Cleanup
-    mainCurlyBraces = [];
-    powerExists = false;
-  }, [mainAns, powerAns]);
+  useEffect(() => {
+    const ans_template = mathAnswerBox(correct_answer).map((box, index) => {
+      return outputAnswer(box, index);
+    });
+    console.log(ans_template);
+    set_ans_template(ans_template);
+  }, []);
+
+  useEffect(() => {
+    console.log(ans_template);
+    const tempAns = [...ans_template]
+    if (tempAns.includes("main")) {
+      tempAns[tempAns.indexOf("main")] = mainAns;
+    }
+    if (tempAns.includes("power")) {
+      tempAns[tempAns.indexOf("power")] = `^[${powerAns}]`;
+    }
+    console.log(tempAns)
+    const join_ans = tempAns.join("");
+    set_answer(join_ans);
+    console.log(`join_ans: ${join_ans}`);
+  }, [mainAns, powerAns, set_ans_template]);
 
   return (
     <Container>

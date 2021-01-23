@@ -50,7 +50,9 @@ const GroupGamePage = ({ history }) => {
   };
 
   const onSend = () => {
+    console.log(answer)
     if(answer) {
+      console.log(answer)
       toggle();
       // TODO: connect API send answer
       checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((data) => {
