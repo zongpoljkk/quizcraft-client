@@ -88,8 +88,9 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     }
     console.log(tempAns)
     const join_ans = tempAns.join("");
-    set_answer(join_ans);
-    console.log(`join_ans: ${join_ans}`);
+    const handle_multiple_braces = join_ans.replace("*", "{*}")
+    set_answer(handle_multiple_braces);
+    console.log(`join_ans: ${handle_multiple_braces}`);
   }, [mainAns, powerAns, set_ans_template]);
 
   return (
