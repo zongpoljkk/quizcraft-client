@@ -90,3 +90,5 @@ export const REPORT = {
 export const LARGE_DEVICE_SIZE = 768;
 
 export const CONTAINER_PADDING = 64;
+
+export const WRONG_ANSWER = "jg9034jf0wjof0";

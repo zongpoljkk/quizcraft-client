@@ -14,14 +14,10 @@ import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import { useGetGroupGame, checkGroupAnswer } from "./GroupGamePageHelper";
-
-// MOCK DATA
-const CORRECT = false;
-const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
 
 const GroupGamePage = ({ history }) => {
   
@@ -47,7 +43,8 @@ const GroupGamePage = ({ history }) => {
   } = useGetGroupGame(user_id, location.state.group_id);
 
   const onSkip = () => {
-    // TODO: connect API send no answer
+    set_answer(WRONG_ANSWER);
+    set_used_time(time_per_problem);
   };
 
   const onSend = () => {
@@ -69,7 +66,7 @@ const GroupGamePage = ({ history }) => {
 
   const onTimeOut = () => {
     set_is_time_out(true);
-    // TODO: connect API get new problem
+    onSkip();
   };
 
   useEffect(() => {
@@ -89,14 +86,6 @@ const GroupGamePage = ({ history }) => {
       set_answer_modal_loading(false);
     }
   }, [correct_answer])
-
-  // ! USED FOR DEBUGGING
-  useEffect(() => {
-    console.log("PROBLEM")
-    console.log(problem)
-    console.log("USER")
-    console.log(user)
-  }, [problem, user]);
 
   return ( 
     <Container>
@@ -151,7 +140,7 @@ const GroupGamePage = ({ history }) => {
                     <Button
                       type="outline"
                       onClick={() => {
-                        set_used_time(time_per_problem);
+                        onSkip();
                       }}
                     >
                       ข้าม
