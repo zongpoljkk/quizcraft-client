@@ -2,21 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { Header, Subheader, Body, Overline } from "../../../components/Typography";
+import { Header, Subheader } from "../../../components/Typography";
 import { Modal } from "../../../components/Modal";
 import { LottieFile } from "../../../components/LottieFile";
 import levelUp from "../../../assets/lottie/levelUp.json";
-import { ProgressBar } from "../../../components/ProgressBar";
-
-import { COLOR } from "../../../global/const";
 
 export const ResultModal = ({
   isShowing,
   toggle,
   win,
-  level,
-  xp,
-  max_xp,
   gain_coin,
   gain_xp
 }) => {
@@ -69,20 +63,6 @@ export const ResultModal = ({
         <motion.div variants={list}>
           <Subheader>+{gain_coin} coins +{gain_xp} XP</Subheader>
         </motion.div>
-        <ProgressBarContainer variants={list}>
-            <LevelTitleContainer>
-              <LevelTitle marginBottom={6}>
-                <Body>เลเวล</Body>
-                <div style={{ marginRight: 8 }}/>
-                <Body color={COLOR.MANDARIN}>{level}</Body>
-              </LevelTitle>
-              <LevelTitle marginBottom={2}>
-                <Overline color={COLOR.MANDARIN}>{xp}</Overline>
-                <Overline color={COLOR.SILVER}>/{max_xp}</Overline>
-              </LevelTitle>
-            </LevelTitleContainer>
-            <ProgressBar percent={(xp/max_xp)*100}/>
-          </ProgressBarContainer>
       </Container>
     </Modal>
   );
@@ -94,32 +74,5 @@ const Container = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const ProgressBarContainer = styled(motion.div)`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
-`;
-
-const LevelTitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
-`;
-
-const LevelTitle = styled.div.attrs(props => ({
-  marginBottom: props.marginBottom
-}))`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: ${props => props.marginBottom}px;
 `;
 

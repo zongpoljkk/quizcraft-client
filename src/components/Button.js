@@ -10,7 +10,7 @@ export const Button = styled.button.attrs((props) => ({
   border: props.border,
   color: props.color
 }))`
-  width: ${(props) => {
+  min-width: ${(props) => {
     switch (props.size) {
       case "custom":
         return `${props.width}`;
@@ -20,7 +20,7 @@ export const Button = styled.button.attrs((props) => ({
         return "160px";
     }
   }};
-  height: ${(props) => {
+  min-height: ${(props) => {
     switch (props.size) {
       case "custom":
         return `${props.height}`;

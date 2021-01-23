@@ -10,13 +10,15 @@ import challenge from "../../../assets/lottie/challenge.json";
 
 import { COLOR } from "../../../global/const";
 
-//MOCK DATA
-const USERNAME = "pimkunut_tee";
-const OPPONENT_USERNAME = "jinjin";
-const PROFILE_IMG = "";
-const OPPONENT_PROFILE_IMG = "";
-
-export const RandomChallengeModal = ({ isShowing, toggle }) => {
+export const RandomChallengeModal = ({ 
+  isShowing, 
+  toggle, 
+  my_username, 
+  opponent_username, 
+  my_profile_img, 
+  opponent_profile_img,
+  onSubmit = () => {},
+}) => {
   const [display_lottie, set_display_lottie] = useState(false);
   const item = {
     visible: (index) => ({
@@ -38,25 +40,28 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
 
   return (
     <div>
-      <Modal
-        isShowing={isShowing}
-        hide={toggle}
-      >
-        <Container
-          initial="hidden"
-          animate="visible"
-        >
+      <Modal isShowing={isShowing} hide={toggle}>
+        <Container initial="hidden" animate="visible">
           <ImgWithCaption>
-            <motion.div 
+            <motion.div
               variants={item}
               custom={0}
-              style= {{alignSelf: "center"}}
+              style={{ alignSelf: "center" }}
             >
-              <UserImg backgroundColor={PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
-                {PROFILE_IMG ? <img src={PROFILE_IMG}/> : null}
+              <UserImg backgroundColor={my_profile_img ? null : COLOR.ISLAND_SPICE}>
+                {my_profile_img ? (
+                  <img
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "50%",
+                    }}
+                    src={"data:image/png;base64," + my_profile_img.data}
+                  />
+                ) : null}
               </UserImg>
             </motion.div>
-            <motion.div 
+            <motion.div
               variants={item}
               custom={1}
               initial="hidden"
@@ -64,48 +69,65 @@ export const RandomChallengeModal = ({ isShowing, toggle }) => {
               onAnimationComplete={() => animation_success()}
             >
               <Body>
-                <CropText>{USERNAME}</CropText>
+                <CropText>{my_username}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
-          <motion.div 
+          <motion.div
             variants={item}
             custom={0}
-            style = {{marginTop: "8px", marginBottom:"8px" }}
+            style={{ marginTop: "8px", marginBottom: "8px" }}
             onAnimationComplete={() => animation_success()}
           >
-            <LottieFile 
-              animationData={challenge} 
-              width="150px" 
-              height="75px" 
+            <LottieFile
+              animationData={challenge}
+              width="150px"
+              height="75px"
               loop={false}
               autoplay={true}
               isPaused={!display_lottie}
               isStopped={!display_lottie}
             />
-          </motion.div> 
+          </motion.div>
           <ImgWithCaption alignSelf={"flex-end"}>
-            <motion.div 
+            <motion.div
               variants={item}
-              custom={4} 
-              style= {{alignSelf: "center"}}
+              custom={4}
+              style={{ alignSelf: "center" }}
             >
-              <UserImg backgroundColor={OPPONENT_PROFILE_IMG ? null : COLOR.ISLAND_SPICE}>
-                {OPPONENT_PROFILE_IMG ? <img src={OPPONENT_PROFILE_IMG}/> : null}
+              <UserImg
+                backgroundColor={
+                  opponent_profile_img ? null : COLOR.ISLAND_SPICE
+                }
+              >
+                {opponent_profile_img ? (
+                  <img
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "50%",
+                    }}
+                    src={"data:image/png;base64," + opponent_profile_img.data}
+                  />
+                ) : null}
               </UserImg>
             </motion.div>
             <motion.div variants={item} custom={5}>
               <Body>
-                <CropText>{OPPONENT_USERNAME}</CropText>
+                <CropText>{opponent_username}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
-          <motion.div 
+          <motion.div
             variants={item}
-            custom={6} 
-            style = {{display: "flex", justifyContent: "center" ,marginTop: "24px"}}
+            custom={6}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "24px",
+            }}
           >
-            <Button> ยืนยัน </Button>
+            <Button onClick={onSubmit}> ยืนยัน </Button>
           </motion.div>
         </Container>
       </Modal>

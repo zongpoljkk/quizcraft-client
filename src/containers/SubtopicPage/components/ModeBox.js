@@ -6,12 +6,15 @@ import { motion } from "framer-motion";
 import { Subheader } from "../../../components/Typography";
 import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
 import chevron from "../../../assets/icon/chevron.png";
+import useModal from "../../../components/useModal";
+import { NotAvailableModal } from "./NotAvailableModal";
 
 const ModeBox = ({ 
   icon, 
   type, 
   id,
   title,
+  available_difficulty,
   subject,
   topic,
   history,
@@ -19,9 +22,10 @@ const ModeBox = ({
 }) => {
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
+  const [isShowing, toggle] = useModal();
 
   const handleClick = (
-    selected_subject, 
+    selected_subject,
     selected_subtopic_id,
     selected_subtopic_name, 
     selected_topic_name,
@@ -38,8 +42,8 @@ const ModeBox = ({
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
-        difficulty: selected_difficulty
-      }
+        difficulty: selected_difficulty,
+      },
     });
   };
 
@@ -52,7 +56,7 @@ const ModeBox = ({
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
-        dragConstraints={{ left: -(box_width+16), right: 0 }}
+        dragConstraints={{ left: -(box_width + 16), right: 0 }}
         dragMomentum={true}
         size="100%"
         background={COLOR.MANDARIN}
@@ -68,17 +72,21 @@ const ModeBox = ({
         </Container>
       </motion.div>
       <DifficultyBox ref={ref}>
-        {Object.entries(DIFFICULTY).map((item, index) => (
+        {available_difficulty.map((item, index) => (
           <Icon
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleClick(subject, id, title, topic, type, item[1].type)
+              item.isAvailable ? handleClick(subject, id, title, topic, type, item.difficulty) : toggle()
             }}
-            src={item[1].icon}
+            src={item.isAvailable ? DIFFICULTY[item.difficulty].icon : DIFFICULTY[item.difficulty].disable_icon}
           />
         ))}
       </DifficultyBox>
+      <NotAvailableModal 
+        isShowing={isShowing} 
+        toggle={toggle} 
+      />
     </Background>
   );
 };

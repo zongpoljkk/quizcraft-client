@@ -1,17 +1,50 @@
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Utils
 import { convertHexToRGBA } from "../../../global/utils";
 
-// Media
-import math_logo from "../../../assets/math_logo.png";
-import eng_logo from "../../../assets/english_logo.png";
-
 // Global
 import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
+import default_topic from "../../../assets/thumbnail/default_topic.png";
+import { withRouter } from "react-router-dom";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
+
+const SubjectCard = ({ history, subjects_data }) => {
+  const [subjects, set_subjects] = useState([]);
+
+  const handleOnSubjectClick = (subject_name) => {
+    history.push({
+      pathname: "/selected_subject/" + subject_name,
+      state: {
+        subject_name: subject_name,
+      },
+    });
+  };
+
+  useEffect(() => {
+    set_subjects(subjects_data);
+  }, []);
+  return (
+    <SubjectDiv>
+      {subjects.map((subject) => {
+        return (
+          <SubjectBox
+            key={subject._id}
+            onClick={() => {
+              handleOnSubjectClick(subject._id);
+            }}
+          >
+            <SubjectImg src= {subject.subject_image_info ? "data:image/png;base64,"+subject.subject_image_info.data : default_topic} />
+            <Header>{subject._id}</Header>
+          </SubjectBox>
+        );
+      })}
+    </SubjectDiv>
+  );
+};
 
 const SubjectDiv = styled.div`
   display: flex;
@@ -41,19 +74,4 @@ const SubjectImg = styled.img`
   margin-right: 32px;
 `;
 
-const SubjectCard = () => {
-  return (
-    <SubjectDiv>
-      <SubjectBox>
-        <SubjectImg src={math_logo} />
-        <Header>คณิตศาสตร์</Header>
-      </SubjectBox>
-      <SubjectBox>
-        <SubjectImg src={eng_logo} />
-        <Header>ภาษาอังกฤษ</Header>
-      </SubjectBox>
-    </SubjectDiv>
-  );
-};
-
-export default SubjectCard;
+export default withRouter(SubjectCard);

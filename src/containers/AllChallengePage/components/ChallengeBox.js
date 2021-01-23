@@ -5,6 +5,7 @@ import { ItemBox } from "../../../components/ItemBox";
 import { Body, Overline } from "../../../components/Typography";
 
 import { COLOR } from "../../../global/const";
+import { convertHexToRGBA } from "../../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {
   MY_TURN: "MY_TURN",
@@ -17,11 +18,11 @@ export const ChallengeBox = ({
   username,
   my_scores,
   challenger_score,
+  is_read = true,
   type,
   margin_right,
   getMarginRightOfChallengeBox = () => {},
-  onClick = () => {},
-  read = true
+  onClick = () => {}
 }) => {
   
   useEffect(() => {
@@ -30,9 +31,9 @@ export const ChallengeBox = ({
 
   return (
     <div style={{ marginTop: 12, marginRight: margin_right }} onClick={onClick}>
-      <ItemBox type = "small" color={read ? COLOR.WHITE : COLOR.ISLAND_SPICE} width={96}>
+      <ItemBox type = "small" color={is_read ? COLOR.WHITE : convertHexToRGBA(COLOR.ISLAND_SPICE, 45)} width={96}>
         <ProfileImage backgroundColor={image ? null : COLOR.ISLAND_SPICE}>
-          {image ? <Image src={image}/> : null}
+          {image ? <Image src={"data:image/png;base64,"+image.data}/> : null}
         </ProfileImage>
         <div style={{ marginTop: 4 }}>
           <Overline>{username}</Overline>

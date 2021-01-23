@@ -9,7 +9,9 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 const SubtopicPage = () => {
   const location = useLocation();
-  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(location.state.topic_name);
+  const { getSubtopicName, loading, subtopics } = useGetsubTopicName(
+    location.state.topic_name
+  );
 
   useEffect(() => {
     getSubtopicName();
@@ -18,17 +20,18 @@ const SubtopicPage = () => {
   return (
     <React.Fragment>
       {loading ? (
-        <LoadingPage/>
+        <LoadingPage />
       ) : (
         <Container>
           <TopicStyle>
             <Header> {location.state.topic_name} </Header>
           </TopicStyle>
           {subtopics?.map((subtopic, index) => (
-            <SubtopicBox 
+            <SubtopicBox
               key={index}
               id={subtopic.subtopic_id}
               title={subtopic.subtopic_name}
+              available_difficulty={subtopic.available_difficulty}
               subject={location.state.subject_name}
               topic={location.state.topic_name}
             />

@@ -9,14 +9,15 @@ export const UserInfo = ({
   my_image,
   challenger_image,
   my_score,
-  challenger_score
+  challenger_score,
+  challenger_is_played
 }) => {
 
   return (
     <ProfileImageContainer>
       <UserInfoContainer>
         <ProfileImage backgroundColor={my_image ? null : COLOR.ISLAND_SPICE}>
-          {my_image ? <Image src={my_image}/> : null}
+          {my_image ? <Image src={"data:image/png;base64,"+my_image.data}/> : null}
         </ProfileImage>
         <div style={{ marginBottom: 4 }}/>
         <Body color={COLOR.MANDARIN}>{my_score}</Body>
@@ -26,10 +27,10 @@ export const UserInfo = ({
       </VSContainer>
       <UserInfoContainer>
         <ProfileImage backgroundColor={challenger_image ? null : COLOR.ISLAND_SPICE}>
-          {challenger_image ? <Image src={challenger_image}/> : null}
+          {challenger_image ? <Image src={"data:image/png;base64,"+challenger_image.data}/> : null}
         </ProfileImage>
         <div style={{ marginBottom: 4 }}/>
-        {challenger_score
+        {challenger_is_played
           ? <Body color={COLOR.MANDARIN}>{challenger_score}</Body>
           : <Body color={COLOR.SILVER}>รอเล่น</Body>
         }

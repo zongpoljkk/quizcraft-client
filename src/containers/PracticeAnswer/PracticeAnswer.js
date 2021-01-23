@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Tex2SVG from "react-hook-mathjax";
+import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 // Components
-// import CenterDiv from "../../components/CenterDiv/CenterDiv";
 import {
   Container,
   correct_background_color,
@@ -15,14 +16,9 @@ import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
 
 // Media
-import Correct_Backward from "../../assets/Correct_Backward.png";
-import Correct_Forward from "../../assets/Correct_Forward.png";
-import Incorrect_Backward from "../../assets/Incorrect_Backward.png";
-import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 import coin_data from "../../assets/lottie/coin.json";
-
-// Helper
-import { backward, forward } from "./PracticeAnswerHelper";
+import Correct_Forward from "../../assets/Correct_Forward.png";
+import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -37,28 +33,80 @@ const TITLE = {
   INCORRECT: "คำตอบที่ถูกต้องคือ",
 };
 
-const MOCKDATA = {
-  STATIC_SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
-  SOL: ["2 x 6 = 2 x 2 x 3", "= 4 x 3 ", "= 12"],
-};
-
-const PracticeAnswer = () => {
+const PracticeAnswer = ({ history }) => {
   const [correct, set_correct] = useState(true);
-  // title is an enum ("ถูกต้อง", "วิธีทำที่ถูกต้อง")
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
   // So you can always refer to this state
-  const [staticSolution, set_static_solution] = useState(MOCKDATA.STATIC_SOL);
+  const [staticSolution, set_static_solution] = useState("");
   // solution is an array of string. Each string represents one line of solution
-  // At first, the array will have just one string but after forward click, we'll
-  // add one more line to the array and remove one line after backward click
-  const [solution, set_solution] = useState(MOCKDATA.SOL);
+  // At first, the array will have just one string but after click next line will be added to the solution
+  const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const location = useLocation();
+  const asciimath2latex = require("asciimath-to-latex");
+
+  const handleNextButtonClick = () => {
+    history.push({
+      pathname:
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.topic +
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.difficulty +
+        "/practice-game",
+      state: {
+        userId: location.state.userId,
+        problemId: location.state.problemId,
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+        subtopic_name: location.state.subtopic,
+        difficulty: location.state.difficulty,
+      },
+    });
+  };
+
+  const handleArrowClick = () => {
+    if (solution.length === staticSolution.length) {
+    } else {
+      if (!firstClick) {
+        setFirstClick(true);
+      }
+      // Get first value that is not already in solution
+      const nextVal = staticSolution.filter((sol) => {
+        return !solution.includes(sol);
+      });
+      let tmpSol = solution.slice();
+      tmpSol.push(nextVal[0]);
+      set_solution([...tmpSol]);
+    }
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    set_correct(location.state.correct);
+    set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
+    if (location.state.solution === "") {
+      set_static_solution([location.state.correct_answer]);
+    } else {
+      set_static_solution(location.state.solution.split(/[\r\n]+/));
+    }
+    set_solution([]);
+    setIsLoading(false);
+  }, []);
+
+  // rerender when solution change
+  useEffect(() => {}, [solution]);
 
   const { height, width: screen_width } = useWindowDimensions();
 
   const greetingHolder = () => {
-    if (firstClick && correct) {
+    if (firstClick && correct && solution.length === staticSolution.length) {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
@@ -87,79 +135,49 @@ const PracticeAnswer = () => {
   };
 
   const arrowHolder = () => {
-    if (firstClick) {
-      if (solution.length === staticSolution.length) {
-        return (
-          <ShiftDiv>
-            <div style={{ marginTop: "20px" }}>
-              <Button
-                type="custom"
-                border="none"
-                color={COLOR.WHITE}
-                backgroundColor={
-                  correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
-                }
-              >
-                ทำต่อ
-              </Button>
-            </div>
-          </ShiftDiv>
-        );
-      } else {
-        if (correct) {
-          return (
-            <ShiftDiv>
-              <ShiftLeft
-                src={Correct_Backward}
-                onClick={() => backward(solution)}
-              />
-              <ShiftRight
-                src={Correct_Forward}
-                onClick={() => forward(solution, staticSolution)}
-              />
-            </ShiftDiv>
-          );
-        } else {
-          return (
-            <ShiftDiv>
-              <ShiftLeft
-                src={Incorrect_Backward}
-                onClick={() => backward(solution)}
-              />
-              <ShiftRight
-                src={Incorrect_Forward}
-                onClick={() => forward(solution, staticSolution)}
-              />
-            </ShiftDiv>
-          );
-        }
-      }
-    } else {
-      return <ShiftDiv></ShiftDiv>;
+    if (solution.length === staticSolution.length) {
+      return (
+        <ShiftDiv style={{ zIndex: "1" }}>
+          <div style={{ marginTop: "20px" }}>
+            <Button
+              type="custom"
+              border="none"
+              color={COLOR.WHITE}
+              backgroundColor={
+                correct ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`
+              }
+              onClick={() => handleNextButtonClick()}
+            >
+              ทำต่อ
+            </Button>
+          </div>
+        </ShiftDiv>
+      );
+    }
+    // }
+    else {
+      return (
+        <ShiftDiv style={{ zIndex: "500" }}>
+          <img
+            src={correct ? Correct_Forward : Incorrect_Forward}
+            alt="arrow"
+            height={40}
+            onClick={handleArrowClick}
+          />
+        </ShiftDiv>
+      );
     }
   };
-
-  const handleFirstClick = () => {
-    setFirstClick(true);
-  };
-
-  useEffect(() => {
-    // TODO: Get the solution and store each line in staticSolution
-    //   axios.get().then((res) => {
-    //       setStaticSolution(res)
-    //     })
-  });
 
   return (
     <Container
       answer={correct}
-      onClick={handleFirstClick}
       minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
     >
       <Background answer={correct} />
-      {/* <div style={{display: "flex", flexDirection: "column" ,alignContent: "space-between"}}> */}
-      <CenterDiv style={{ marginTop: 32, marginBottom: 16, position: "relative" }}>
-        {/* {correct ? <Sign src={Correct} /> : <Sign src={Incorrect} />} */}
+      <CenterDiv
+        style={{ marginTop: 32, marginBottom: 16, position: "relative" }}
+      >
         <Sign answer={correct} />
       </CenterDiv>
       <CenterDiv>
@@ -172,11 +190,16 @@ const PracticeAnswer = () => {
       {firstClick ? (
         <SolutionDiv>
           <ul style={{ listStyle: "none", padding: 0 }}>
-            {solution.map((line) => {
-              // TODO: Replace Math.random() with solution.id after it has one
+            {solution.map((line, i) => {
+              // TODO: Replace Math.random() with line.id after it has one
               return (
                 <li key={Math.random()}>
-                  <Solution answer={correct}>{line}</Solution>
+                  <Solution answer={correct}>
+                    {i > 0 || location.state.subject === "คณิตศาสตร์"
+                      ? "= "
+                      : null}
+                    <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                  </Solution>
                 </li>
               );
             })}
@@ -191,7 +214,7 @@ const PracticeAnswer = () => {
       {arrowHolder()}
 
       <ReportContainer>
-        <Report correct={correct}/>
+        <Report correct={correct} />
       </ReportContainer>
     </Container>
   );
@@ -206,6 +229,7 @@ const Background = styled.div`
   left: 0px;
   position: fixed;
   overflow-y: scroll;
+  z-index: 0;
 `;
 
 const CenterDiv = styled.div`
@@ -214,9 +238,9 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 64px auto 104px auto;
+  margin: 0px auto 52px auto;
   height: 160px;
-  overflow: scroll;
+  overflow: visible;
 `;
 
 const GreetingDiv = styled.div`
@@ -232,21 +256,9 @@ const ShiftDiv = styled(CenterDiv)`
   min-height: 72px;
 `;
 
-const ShiftLeft = styled.img`
-  alt: "Correct Backward";
-  height: 40px;
-  margin-right: 32px;
-`;
-
-const ShiftRight = styled.img`
-  alt: "Correct Backward";
-  height: 40px;
-  margin-left: 32px;
-`;
-
 const ReportContainer = styled.div`
   display: flex;
   justify-content: flex-start;
 `;
 
-export default PracticeAnswer;
+export default withRouter(PracticeAnswer);

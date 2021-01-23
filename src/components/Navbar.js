@@ -13,7 +13,7 @@ import coin from "../assets/icon/coin.png";
 import streak from "../assets/icon/streak.png";
 import shop from "../assets/icon/shop.png";
 
-import { COLOR, RANK } from "../global/const"
+import { COLOR, RANK } from "../global/const";
 
 const Navbar = ({
   history,
@@ -73,7 +73,7 @@ const Navbar = ({
           backgroundColor={user_info.photo ? null : COLOR.ISLAND_SPICE} 
           onClick={handleClickProfileImage}
         >
-          {user_info.photo ? <Image src={user_info.photo}/> : null}
+          {user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null}
         </ProfileImage>
       </InfoContainer>
     </Container>
