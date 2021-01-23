@@ -137,6 +137,7 @@ const GroupGamePage = ({ history }) => {
                   isShowing={isShowing}
                   toggle={toggle}
                   // TODO: add real data instand of CORRECT after connect API
+                  subject={location.state.subject}
                   correct={CORRECT}
                   answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                   overlay_clickable={false}
