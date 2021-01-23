@@ -57,12 +57,11 @@ const GroupGamePage = ({ history }) => {
       toggle();
       // TODO: connect API send answer
       set_answer_modal_loading(true);
-      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((res) => {
+      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, time_per_problem - used_time).then((res) => {
         console.log(res)
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
-      // set_answer_modal_loading(false);
     };
   };
 
@@ -79,7 +78,6 @@ const GroupGamePage = ({ history }) => {
     console.log("useEffect get data back from BE")
     console.log(correct_answer);
     if (correct_answer) {
-      console.log("YES!")
       set_answer_modal_loading(false);
     }
   }, [correct_answer])
