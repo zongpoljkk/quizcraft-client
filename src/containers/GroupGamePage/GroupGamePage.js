@@ -51,13 +51,15 @@ const GroupGamePage = ({ history }) => {
   };
 
   const onSend = () => {
-    console.log(answer)
+    console.log(answer);
+    console.log(time_per_problem);
+    console.log(used_time);
     if(answer) {
       console.log(answer)
       toggle();
       // TODO: connect API send answer
       set_answer_modal_loading(true);
-      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, time_per_problem - used_time).then((res) => {
+      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((res) => {
         console.log(res)
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
@@ -74,6 +76,12 @@ const GroupGamePage = ({ history }) => {
     getGroupGame();
   }, []);
 
+  // Wait until user time has been updated, then call onSend
+  useEffect(() => {
+    onSend();
+  }, [used_time])
+
+  // close loading modal after getting correct_answer from backend
   useEffect(() => {
     console.log("useEffect get data back from BE")
     console.log(correct_answer);
@@ -143,8 +151,7 @@ const GroupGamePage = ({ history }) => {
                     <Button
                       type="outline"
                       onClick={() => {
-                        set_used_time(getTime()/1000);
-                        onSkip();
+                        set_used_time(time_per_problem);
                       }}
                     >
                       ข้าม
@@ -152,8 +159,7 @@ const GroupGamePage = ({ history }) => {
                     <Button
                       type={answer ? "default" : "disabled"}
                       onClick={() => {
-                        set_used_time(getTime()/1000);
-                        onSend();
+                        set_used_time((time_per_problem - getTime()/1000));
                       }}
                     >
                       ส่ง
@@ -165,9 +171,7 @@ const GroupGamePage = ({ history }) => {
                   isShowing={isShowing}
                   toggle={toggle}
                   // TODO: add real data instand of CORRECT after connect API
-                  // correct={CORRECT}
                   correct={correct}
-                  // answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                   answer={correct ? null : correct_answer}
                   overlay_clickable={false}
                 /> : null}
