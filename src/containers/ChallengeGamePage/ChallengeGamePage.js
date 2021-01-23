@@ -247,6 +247,7 @@ const ChallengeGame = ({ history }) => {
               isShowing={isShowing}
               toggle={toggle}
               // TODO: add real data instand of CORRECT after connect API
+              subject={location.state.subject_name}
               correct={correct}
               answer={correct ? null : answer_key}
               buttonTitle={
