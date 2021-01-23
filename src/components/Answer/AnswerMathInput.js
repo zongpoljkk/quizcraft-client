@@ -7,11 +7,12 @@ import { COLOR } from "../../global/const";
 import { mathAnswerBox } from "./AnswertHelper";
 
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
-  const [mainAns, setMainAns] = useState([]);
+  // const [mainAns, setMainAns] = useState([]);
+  const [mainAns, setMainAns] = useState({});
   const [powerAns, setPowerAns] = useState([]);
   const [ans_template, set_ans_template] = useState([]);
 
-  const outputBoxes = (item) => {
+  const outputBoxes = (item, index) => {
     if (item.type === "(" && item.last_type === "main") {
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
@@ -47,11 +48,22 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
       return (
         <MainInputAnswer
           width={item.width}
+          key={item.type + index}
           // TODO: SetMainAns by appending to array
-          onChange={(e) => setMainAns(e.target.value)}
+          // onChange={(e) => setMainAns(e.target.value)}
+          onChange={(e) => handleMainAns(e.target.value, index)}
         />
       );
     }
+  };
+
+  const handleMainAns = (text, index) => {
+    setMainAns((mainAns) => {
+      return {
+        ...mainAns,
+        [index]: text,
+      };
+    });
   };
 
   const outputAnswer = (item, index) => {
@@ -60,12 +72,11 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     } else if (item.type === ")") {
       return ")";
     } else if (item.type === "main") {
-      return "main";
+      return "main" + index;
     } else if (item.type === "power") {
       return "power";
-    }
-    else {
-      return "main";
+    } else {
+      return "main" + index;
     }
   };
 
@@ -79,14 +90,21 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
 
   useEffect(() => {
     console.log(ans_template);
-    const tempAns = [...ans_template]
-    if (tempAns.includes("main")) {
-      tempAns[tempAns.indexOf("main")] = mainAns;
+    console.log(`mainAns`);
+    console.log(mainAns);
+    const tempAns = [...ans_template];
+    // if (tempAns.includes("main")) {
+    //   tempAns[tempAns.indexOf("main")] = mainAns;
+    // }
+    for (var key in mainAns) {
+      if (tempAns.includes("main" + key)) {
+        tempAns[tempAns.indexOf("main" + key)] = mainAns[key];
+      }
     }
     if (tempAns.includes("power")) {
       tempAns[tempAns.indexOf("power")] = `^[${powerAns}]`;
     }
-    console.log(tempAns)
+    console.log(tempAns);
     const join_ans = tempAns.join("");
     set_answer(join_ans);
     console.log(`join_ans: ${join_ans}`);
@@ -96,7 +114,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     <Container>
       {mathAnswerBox(correct_answer).map((box, i) => (
         <div key={i} id={`answerBox_${i}`}>
-          {outputBoxes(box)}
+          {outputBoxes(box, i)}
         </div>
       ))}
     </Container>

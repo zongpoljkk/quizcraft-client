@@ -112,7 +112,6 @@ const PracticeAnswer = ({ history }) => {
           <Body style={{ lineHeight: "1.2em" }}>
             {`ยินดีด้วย! คุณได้รับ ${location.state.earned_coins} เหรียญ`}
           </Body>
-          {/* <Coin /> */}
           <div style={{ display: "inline-block", marginTop: "8px" }}>
             <LottieFile
               animationData={coin_data}
