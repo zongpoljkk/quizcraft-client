@@ -19,19 +19,37 @@ export const RandomChallengeModal = ({
   opponent_profile_img,
   onSubmit = () => {},
 }) => {
+
   const [display_lottie, set_display_lottie] = useState(false);
+  
+  const list = {
+    hidden: {
+      opacity: 0,
+      transition: {
+        when: "afterChildren",
+      },
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 1.25,
+      },
+    },
+  };
+
   const item = {
     visible: (index) => ({
       opacity: 1,
       transition: {
-        delay: index * 1.25,
+        delay: index * 1.15,
       },
     }),
     hidden: { opacity: 0 },
   };
 
   const animation_success = () => {
-      set_display_lottie(true);
+    set_display_lottie(true);
   }
 
   useEffect(() => {
@@ -41,7 +59,7 @@ export const RandomChallengeModal = ({
   return (
     <div>
       <Modal isShowing={isShowing} hide={toggle}>
-        <Container initial="hidden" animate="visible">
+        <Container initial="hidden" animate="visible" variants={list}>
           <ImgWithCaption>
             <motion.div
               variants={item}
@@ -61,21 +79,17 @@ export const RandomChallengeModal = ({
                 ) : null}
               </UserImg>
             </motion.div>
-            <motion.div
-              variants={item}
-              custom={1}
-              initial="hidden"
-              animate="visible"
-              onAnimationComplete={() => animation_success()}
-            >
+            <motion.div variants={item} custom={1}>
               <Body>
                 <CropText>{my_username}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
           <motion.div
+            initial="hidden"
+            animate="visible"
             variants={item}
-            custom={0}
+            custom={2}
             style={{ marginTop: "8px", marginBottom: "8px" }}
             onAnimationComplete={() => animation_success()}
           >
@@ -84,7 +98,6 @@ export const RandomChallengeModal = ({
               width="150px"
               height="75px"
               loop={false}
-              autoplay={true}
               isPaused={!display_lottie}
               isStopped={!display_lottie}
             />
