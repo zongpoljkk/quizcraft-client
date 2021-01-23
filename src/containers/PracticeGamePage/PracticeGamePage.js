@@ -110,6 +110,7 @@ const PracticeGamePage = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
+          earned_coins: res.data.earned_coins,
         },
       });
     });
