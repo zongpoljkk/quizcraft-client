@@ -39,7 +39,6 @@ const GroupGamePage = ({ history }) => {
     current_index,
     number_of_problem,
     time_per_problem,
-    is_creator,
     user,
     problem
   } = useGetGroupGame(user_id, location.state.group_id);
@@ -83,8 +82,8 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                {!is_creator &&
-                  <div style={{ marginRight: 8 }}>
+                {user &&
+                  <div style={{ marginLeft: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
                 }
@@ -112,7 +111,7 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {!is_creator &&
+                {user &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"

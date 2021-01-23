@@ -8,13 +8,14 @@ import { COLOR } from "../global/const";
 export const Modal = ({ 
   isShowing,
   hide,
+  overlay_clickable = true,
   children
 }) => {
 
   return(
     isShowing ? ReactDOM.createPortal(
       <React.Fragment>
-        <Overlay onClick={hide}/>
+        <Overlay onClick={overlay_clickable ? hide : null}/>
         <ModalContainer>
           {children}
         </ModalContainer>
