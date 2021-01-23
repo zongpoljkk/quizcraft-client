@@ -88,8 +88,6 @@ const PracticeAnswer = ({ history }) => {
   };
 
   useEffect(() => {
-    // ! DELETE LATER, use for debugging
-    console.log(location.state)
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
@@ -192,9 +190,8 @@ const PracticeAnswer = ({ history }) => {
       {firstClick ? (
         <SolutionDiv>
             {solution.map((line, i) => {
-              // TODO: Replace Math.random() with line.id after it has one
               return (
-                  <Solution answer={correct}>
+                  <Solution answer={correct} key={i}>
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}

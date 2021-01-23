@@ -267,13 +267,10 @@ const QuizGamePage = ({ history }) => {
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
                   postSkipItem(problem_id);
-                  // TODO: handle quiz result for za
                   onSkip();
                   reset();
                 } else {
                   postSkipItem(problem_id);
-                  // TODO: handle quiz result for za
-                  // onNext();
                 }
               }}
               refresh={refresh}
