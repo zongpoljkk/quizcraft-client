@@ -17,7 +17,7 @@ import { PointBox } from "./components/PointBox";
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupGame } from "./GroupGamePageHelper";
+import { useGetGroupGame, checkGroupAnswer } from "./GroupGamePageHelper";
 
 // MOCK DATA
 const CORRECT = false;
@@ -32,6 +32,8 @@ const GroupGamePage = ({ history }) => {
   const [answer, set_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
+  const [correct, set_correct] = useState(false);
+  const [correct_answer, set_correct_answer] = useState("");
 
   const {
     getGroupGame,
@@ -39,7 +41,6 @@ const GroupGamePage = ({ history }) => {
     current_index,
     number_of_problem,
     time_per_problem,
-    is_creator,
     user,
     problem
   } = useGetGroupGame(user_id, location.state.group_id);
@@ -52,6 +53,10 @@ const GroupGamePage = ({ history }) => {
     if(answer) {
       toggle();
       // TODO: connect API send answer
+      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((data) => {
+        set_correct(data.correct);
+        set_correct_answer(data.correct_answer);
+      })
     };
   };
 
@@ -63,6 +68,14 @@ const GroupGamePage = ({ history }) => {
   useEffect(() => {
     getGroupGame();
   }, []);
+
+  // ! USED FOR DEBUGGING
+  useEffect(() => {
+    console.log("PROBLEM")
+    console.log(problem)
+    console.log("USER")
+    console.log(user)
+  }, [problem, user]);
 
   return ( 
     <Container>
@@ -83,7 +96,7 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                {!is_creator &&
+                {user &&
                   <div style={{ marginRight: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
@@ -112,7 +125,7 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {!is_creator &&
+                {user &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
@@ -138,8 +151,10 @@ const GroupGamePage = ({ history }) => {
                   isShowing={isShowing}
                   toggle={toggle}
                   // TODO: add real data instand of CORRECT after connect API
-                  correct={CORRECT}
-                  answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
+                  // correct={CORRECT}
+                  correct={correct}
+                  // answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
+                  answer={correct ? null : correct_answer}
                   overlay_clickable={false}
                 />
                 {getTime() <= 0 && onTimeOut()}

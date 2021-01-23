@@ -23,6 +23,7 @@ export const useGetGroupGame = (user_id, group_id) => {
       });
       const { success, data } = response.data;
       if (success) {
+        console.log(data)
         set_current_index(data.currentIndex);
         set_number_of_problem(data.numberOfProblem);
         set_time_per_problem(data.timePerProblem);
@@ -40,3 +41,21 @@ export const useGetGroupGame = (user_id, group_id) => {
 
   return { getGroupGame, loading, current_index, number_of_problem, time_per_problem, is_creator, user, problem };
 };
+
+export const checkGroupAnswer = async (user_id, problem_id, user_answer, mode, group_id, used_time) => {
+  try {
+    const response = await axios.post(backend + "practice/check-answer", {
+      userId: user_id,
+      problemId: problem_id,
+      userAnswer: user_answer,
+      mode: mode,
+      groupId: group_id,
+      usedTime: used_time,
+
+    })
+    console.log(response);
+    return response.data
+  } catch (error) {
+    console.log("There are something wrong when checking for answer :(");
+  }
+}
