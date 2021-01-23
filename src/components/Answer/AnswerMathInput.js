@@ -6,9 +6,6 @@ import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 
-let mainCurlyBraces = [];
-let powerExists = false;
-
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   const [mainAns, setMainAns] = useState([]);
   const [powerAns, setPowerAns] = useState([]);
@@ -16,9 +13,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
 
   const outputBoxes = (item) => {
     if (item.type === "(" && item.last_type === "main") {
-      // if (mainCurlyBraces.length === 0) {
-      //   mainCurlyBraces.push("(");
-      // }
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>(</Header>
@@ -31,7 +25,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </div>
       );
     } else if (item.type === "power") {
-      // powerExists = true;
       return (
         <PowerInputAnswer
           width={item.width}
@@ -61,7 +54,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     }
   };
 
-  const outputAnswer = (item) => {
+  const outputAnswer = (item, index) => {
     if (item.type === "(") {
       return "(";
     } else if (item.type === ")") {
@@ -77,8 +70,8 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   };
 
   useEffect(() => {
-    const ans_template = mathAnswerBox(correct_answer).map((box, i) => {
-      return outputAnswer(box);
+    const ans_template = mathAnswerBox(correct_answer).map((box, index) => {
+      return outputAnswer(box, index);
     });
     console.log(ans_template);
     set_ans_template(ans_template);
@@ -99,37 +92,10 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     console.log(`join_ans: ${join_ans}`);
   }, [mainAns, powerAns, set_ans_template]);
 
-  // useEffect(() => {
-  //   let tempAns;
-  //   let curlyMain = mainAns;
-  //   let curlyPower = powerAns;
-  //   let tempAnsString;
-  //   if (mainCurlyBraces.length > 0) {
-  //     // There are curly braces at main Ans
-  //     curlyMain = "(" + mainAns + ")";
-  //   }
-  //   if (powerExists) {
-  //     curlyPower = "[" + powerAns + "]";
-  //   }
-  //   tempAns = [curlyMain, curlyPower];
-  //   if (curlyPower !== "") {
-  //     tempAnsString = tempAns.join("^");
-  //   } else {
-  //     tempAnsString = curlyMain;
-  //   }
-  //   setUserAns(tempAnsString);
-  //   set_answer(tempAnsString);
-
-  //   // Cleanup
-  //   mainCurlyBraces = [];
-  //   powerExists = false;
-  // }, [mainAns, powerAns]);
-
   return (
     <Container>
       {mathAnswerBox(correct_answer).map((box, i) => (
         <div key={i} id={`answerBox_${i}`}>
-          {/* {console.log(box)} */}
           {outputBoxes(box)}
         </div>
       ))}
