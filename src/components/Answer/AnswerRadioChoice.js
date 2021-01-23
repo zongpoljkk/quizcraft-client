@@ -13,6 +13,7 @@ const MIN_BLANK_WIDTH = 40;
 const MAX_BLANK_WIDTH = 140;
 
 export const AnswerRadioChoice = ({
+  subject,
   question = '',
   choices = {},
   set_answer,
@@ -57,8 +58,12 @@ export const AnswerRadioChoice = ({
 
   return ( 
     <Container width={screen_width-CONTAINER_PADDING}>
-      <div style={{ marginBottom: 16 }}>
-        {outputQuestion(splitQuestion(question))}
+      <div style={{ marginBottom: 12 }}>
+        {subject === "คณิตศาสตร์" ?
+          <Body>{question}</Body>
+          : (
+          outputQuestion(splitQuestion(question))
+        )}
       </div>
       <div style={{ marginLeft: 16 }}>
         <RadioButton 

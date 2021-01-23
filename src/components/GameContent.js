@@ -8,6 +8,7 @@ import { AnswerRadioChoice } from "./Answer/AnswerRadioChoice";
 import { ANSWER_TYPE } from "../global/const";
 
 const GameContent = ({
+  subject,
   type,
   correct_answer = "",
   content = "",
@@ -29,6 +30,7 @@ const GameContent = ({
       )}
       {type === ANSWER_TYPE.RADIO_CHOICE && (
         <AnswerRadioChoice
+          subject={subject}
           question={question}
           choices={choices}
           set_answer={set_answer}
