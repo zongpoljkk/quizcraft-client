@@ -16,6 +16,11 @@ const GameContent = ({
   answer,
   set_answer,
 }) => {
+
+  useEffect(() => {
+    console.log(correct_answer)
+  }, [correct_answer])
+
   return (
     <Container>
       {type === ANSWER_TYPE.MATH_INPUT && (

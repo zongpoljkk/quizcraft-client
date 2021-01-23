@@ -12,7 +12,7 @@ let powerExists = false;
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   const [mainAns, setMainAns] = useState([]);
   const [powerAns, setPowerAns] = useState([]);
-  const [userAns, setUserAns] = useState([]);
+  const [ans_template, set_ans_template] = useState([]);
 
   const outputBoxes = (item) => {
     if (item.type === "(" && item.last_type === "main") {
@@ -71,18 +71,33 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     } else if (item.type === "power") {
       return "power";
     }
+    else {
+      return "main";
+    }
   };
 
   useEffect(() => {
     const ans_template = mathAnswerBox(correct_answer).map((box, i) => {
       return outputAnswer(box);
     });
-    console.log(ans_template)
+    console.log(ans_template);
+    set_ans_template(ans_template);
   }, []);
 
   useEffect(() => {
-    
-  }, [mainAns, powerAns])
+    console.log(ans_template);
+    const tempAns = [...ans_template]
+    if (tempAns.includes("main")) {
+      tempAns[tempAns.indexOf("main")] = mainAns;
+    }
+    if (tempAns.includes("power")) {
+      tempAns[tempAns.indexOf("power")] = `^[${powerAns}]`;
+    }
+    console.log(tempAns)
+    const join_ans = tempAns.join("");
+    set_answer(join_ans);
+    console.log(`join_ans: ${join_ans}`);
+  }, [mainAns, powerAns, set_ans_template]);
 
   // useEffect(() => {
   //   let tempAns;

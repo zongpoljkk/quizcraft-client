@@ -49,7 +49,9 @@ const GroupGamePage = ({ history }) => {
   };
 
   const onSend = () => {
+    console.log(answer)
     if(answer) {
+      console.log(answer)
       toggle();
       // TODO: connect API send answer
     };
@@ -83,7 +85,7 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                {!is_creator &&
+                {user &&
                   <div style={{ marginRight: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
@@ -112,7 +114,7 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {!is_creator &&
+                {user &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
