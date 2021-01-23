@@ -32,7 +32,8 @@ const GroupGamePage = ({ history }) => {
   const [answer, set_answer] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
-  const [correct, set_correct] = useState(false);
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
 
   const {
@@ -55,10 +56,13 @@ const GroupGamePage = ({ history }) => {
       console.log(answer)
       toggle();
       // TODO: connect API send answer
-      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((data) => {
-        set_correct(data.correct);
-        set_correct_answer(data.correct_answer);
-      })
+      set_answer_modal_loading(true);
+      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((res) => {
+        console.log(res)
+        set_correct(res.data.correct);
+        set_correct_answer(res.data.correctAnswer);
+      });
+      // set_answer_modal_loading(false);
     };
   };
 
@@ -70,6 +74,15 @@ const GroupGamePage = ({ history }) => {
   useEffect(() => {
     getGroupGame();
   }, []);
+
+  useEffect(() => {
+    console.log("useEffect get data back from BE")
+    console.log(correct_answer);
+    if (correct_answer) {
+      console.log("YES!")
+      set_answer_modal_loading(false);
+    }
+  }, [correct_answer])
 
   // ! USED FOR DEBUGGING
   useEffect(() => {
@@ -149,7 +162,8 @@ const GroupGamePage = ({ history }) => {
                     </Button>
                   </ButtonContainer>
                 }
-                <AnswerModal
+                {answer_modal_loading && <LoadingPage overlay={true} />}
+                {!answer_modal_loading ? <AnswerModal
                   isShowing={isShowing}
                   toggle={toggle}
                   // TODO: add real data instand of CORRECT after connect API
@@ -158,7 +172,7 @@ const GroupGamePage = ({ history }) => {
                   // answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                   answer={correct ? null : correct_answer}
                   overlay_clickable={false}
-                />
+                /> : null}
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
             </React.Fragment>
