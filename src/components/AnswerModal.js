@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Tex2SVG from "react-hook-mathjax";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
@@ -20,6 +21,7 @@ export const AnswerModal = ({
   answer,
   overlay_clickable
 }) => {
+  const asciimath2latex = require("asciimath-to-latex");
 
   return (
     <FooterModal
@@ -32,29 +34,28 @@ export const AnswerModal = ({
         <ContentContainer>
           <Container>
             <IconContainer>
-              <img src={correct ? correct_icon : incorrect_icon} height={48}/>
+              <img src={correct ? correct_icon : incorrect_icon} height={48} />
             </IconContainer>
             <AnswerContainer>
-              {correct
-                ? (
-                  <Header color={COLOR.CELERY}>ถูกต้อง</Header>
-                )
-                : (
-                  <div>
-                    <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
-                    <div style={{ marginBottom: 8 }}/>
-                    {answer?.split('\n').map((item, key) => {
-                      return (
-                        <Body key={key} color={COLOR.TRINIDAD}>{item}</Body>
-                      );
-                    })}
-                  </div>
-                )
-              }
+              {correct ? (
+                <Header color={COLOR.CELERY}>ถูกต้อง</Header>
+              ) : (
+                <div>
+                  <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                  <div style={{ marginBottom: 8 }} />
+                  {answer?.split("\n").map((item, key) => {
+                    return (
+                      <Body key={key} color={COLOR.TRINIDAD}>
+                        <Tex2SVG display="inline" latex={asciimath2latex(item)} />
+                      </Body>
+                    );
+                  })}
+                </div>
+              )}
             </AnswerContainer>
           </Container>
-          <div style={{ marginBottom: 8 }}/>
-          <Report correct={correct}/>
+          <div style={{ marginBottom: 8 }} />
+          <Report correct={correct} />
         </ContentContainer>
         {buttonTitle &&
           <Button 

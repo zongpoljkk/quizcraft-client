@@ -10,7 +10,10 @@ export const mathAnswerBox = (correct_answer) => {
   var skip = false;
   for (let index = 0; index < correct_answer.length; index++) {
     if (!skip) { 
-      if (correct_answer.charAt(index) === "(") {
+      if (correct_answer.length === 1) {
+        list[0] = MIN_BOX_WIDTH;
+      }
+      else if (correct_answer.charAt(index) === "(") {
         list[list_id] = [last_type, lcount, last_type];
         list_id += 1;
         lcount = 0;

@@ -14,39 +14,45 @@ import GameContent from "../../components/GameContent";
 import { HeadlineItem } from "./components/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { 
+import {
   useGetAmountOfItems,
   useGetHintByProblemId,
   useGetEachProblem,
-  useItem
+  useItem,
+  getAndCheckAnswer,
+  useSkipItem,
+  useRefreshItem
 } from "./QuizGamePageHelper";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
-
-// MOCK DATA
-const CORRECT = false;
-const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
+import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
   UN_USE: "UN_USE",
   IN_USE: "IN_USE",
   USED: "USED",
-}
-const NUMBER_OF_QUIZ = 10;
+};
+export const NUMBER_OF_QUIZ = 10;
+const QUIZ_MODE = "quiz";
 
 const QuizGamePage = ({ history }) => {
-  
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [time_start, set_time_start] = useState(true);
-  const [answer, set_answer] = useState();
+  const [user_answer, set_user_answer] = useState();
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
   const user_id = localStorage.getItem("userId");
-  
-  const { 
+  const [correct, set_correct] = useState(false);
+  const [solution, set_solution] = useState("");
+  const [answer_key, set_answer_key] = useState("");
+  const [score, set_score] = useState(0);
+  const [earned_exp, set_earned_exp] = useState(0);
+  const [earned_coins, set_earned_coins] = useState(0);
+
+  const {
     getEachProblem,
     loading,
     problem_id,
@@ -55,33 +61,30 @@ const QuizGamePage = ({ history }) => {
     answer_type,
     title,
     correct_answer,
-    choices
+    choices,
   } = useGetEachProblem(
-    user_id, 
-    location.state.subject_name, 
-    location.state.subtopic_name, 
-    location.state.difficulty,
+    user_id,
+    location.state.subject_name,
+    location.state.subtopic_name,
+    location.state.difficulty
   );
-
-  const {
-    getHintByProblemId,
-    hint,
-    set_hint
-  } = useGetHintByProblemId(problem_id);
-
+  const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
+    problem_id
+  );
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
-    amount_of_refreshs
+    amount_of_refreshs,
   } = useGetAmountOfItems(user_id);
-
   const { putUseItem } = useItem(user_id);
+  const { postSkipItem } = useSkipItem();
+  const { postRefreshItem } = useRefreshItem();
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
     getEachProblem(set_skip);
-    set_current_index((index) => index+1);
+    set_current_index((index) => index + 1);
     set_problem_id();
     set_hint();
   };
@@ -95,30 +98,84 @@ const QuizGamePage = ({ history }) => {
 
   const onExit = (subject_name, topic_name) => {
     history.push({
-      pathname: "/" + subject_name + "/" + topic_name, 
+      pathname: "/" + subject_name + "/" + topic_name,
       state: {
         subject_name: subject_name,
         topic_name: topic_name,
-      }
+      },
     });
   };
 
-  const onCheck = () => {
-    if(answer) {
-      toggle();
-      // TODO: connect API check answer
+  const onCheck = (
+    problemId,
+    userId,
+    userAnswer,
+    getTime,
+    subject,
+    topic,
+    subtopic,
+    difficulty
+  ) => {
+    if (user_answer) {
+      const button = document.getElementById("button");
+      button.disabled = true;
+      set_used_time(getTime / 1000);
+
+      getAndCheckAnswer(
+        problemId,
+        userId,
+        userAnswer,
+        getTime / 1000,
+        subject,
+        topic,
+        subtopic,
+        QUIZ_MODE
+      ).then((res) => {
+        //update earned exp and coins
+        set_correct(res.data.correct);
+        set_answer_key(res.data.answer);
+        set_solution(res.data.solution);
+        if (res.data.correct) {
+          set_score((score) => score + 1);
+          set_earned_exp((earned_exp) => earned_exp + res.data.earned_exp);
+          set_earned_coins(
+            (earned_coins) => earned_coins + res.data.earned_coins
+          );
+        }
+        toggle();
+      });
     }
   };
 
-  const onNext = () => {
-    if(current_index === NUMBER_OF_QUIZ) {
-      // TODO: push to result page
-    }
-    else {
-      set_current_index((index) => index+1);
-      set_answer();
+  const onNext = (userId, subject, topic, subtopic, difficulty) => {
+    if (current_index === NUMBER_OF_QUIZ) {
+      //push to result page
+      history.push({
+        pathname:
+          "/" +
+          subject +
+          "/" +
+          topic +
+          "/" +
+          subtopic +
+          "/" +
+          difficulty +
+          "/quiz-result",
+        state: {
+          userId: userId,
+          subject: subject,
+          topic: topic,
+          subtopic: subtopic,
+          difficulty: difficulty,
+          score: score,
+          earned_exp: earned_exp,
+          earned_coins: earned_coins,
+        },
+      });
+    } else {
+      set_current_index((index) => index + 1);
+      set_user_answer();
       getEachProblem();
-      // TODO: check amount of item -> set item
     }
   };
 
@@ -131,22 +188,29 @@ const QuizGamePage = ({ history }) => {
     getEachProblem();
   }, []);
 
-  return ( 
+  return (
     <Container>
       <Timer
-        formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+        formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
         startImmediately={false}
         lastUnit="h"
       >
         {({ getTime, start, stop, reset }) => (
           <React.Fragment>
-            {(problem_id && time_start) ? start() : stop()}
+            {problem_id && time_start ? start() : stop()}
             <Headline>
-              <ExitModal onExit={() => onExit(location.state.subject_name, location.state.topic_name)}/>
-              <div style={{ marginRight: 8 }}/>
-              <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={current_index}/>
+              <ExitModal
+                onExit={() =>
+                  onExit(location.state.subject_name, location.state.topic_name)
+                }
+              />
+              <div style={{ marginRight: 8 }} />
+              <ProblemIndex
+                indexes={NUMBER_OF_QUIZ}
+                current_index={current_index}
+              />
             </Headline>
-            <HeadlineItem 
+            <HeadlineItem
               onGetHint={() => {
                 getHintByProblemId();
                 if (!hint) {
@@ -154,22 +218,22 @@ const QuizGamePage = ({ history }) => {
                 }
               }}
               hintContent={hint}
-              skip={skip} 
+              skip={skip}
               onSkip={() => {
-                if(current_index < NUMBER_OF_QUIZ) {
-                  putUseItem("Skip");
+                if (current_index < NUMBER_OF_QUIZ) {
+                  postSkipItem(problem_id);
+                  // TODO: handle quiz result for za
                   onSkip();
                   reset();
-                }
-                else {
-                  // TODO: push to result page and check with empty answer
-                  putUseItem("Skip");
-                  history.push("/result-page");
+                } else {
+                  postSkipItem(problem_id);
+                  // TODO: handle quiz result for za
+                  onNext();
                 }
               }}
               refresh={refresh}
               onRefresh={() => {
-                putUseItem("Refresh");
+                postRefreshItem(problem_id);
                 onRefresh();
                 reset();
               }}
@@ -178,55 +242,109 @@ const QuizGamePage = ({ history }) => {
               amount_of_refreshs={amount_of_refreshs}
               getNewAmount={getNewAmount}
             >
-            <TimeContainer>
-              <Body color={COLOR.MANDARIN}>
-                <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-              </Body>
-            </TimeContainer>
+              <TimeContainer>
+                <Body color={COLOR.MANDARIN}>
+                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+                </Body>
+              </TimeContainer>
             </HeadlineItem>
-            {loading 
-            ? <LoadingPage/>
-            : (
+            {loading ? (
+              <LoadingPage />
+            ) : (
               <React.Fragment>
                 <ProblemBox
                   problem={title}
-                  problem_content={answer_type === ANSWER_TYPE.MATH_INPUT ? body : null}
+                  problem_content={
+                    answer_type === ANSWER_TYPE.MATH_INPUT ? body : null
+                  }
                 />
-                <ContentContainer 
-                  style={{ alignSelf: answer_type === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+                <ContentContainer
+                  style={{
+                    alignSelf:
+                      answer_type === ANSWER_TYPE.MATH_INPUT
+                        ? "center"
+                        : "flex-start",
+                  }}
                 >
-                  <GameContent 
+                  <GameContent
                     type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
                     choices={choices}
                     content={body}
-                    answer={answer}
-                    set_answer={set_answer}
+                    answer={user_answer}
+                    set_answer={set_user_answer}
                   />
                 </ContentContainer>
                 <CenterContainer>
                   <Button
-                    type={answer ? "default" : "disabled"}
-                    onClick={() => {
-                      set_used_time(getTime()/1000);
-                      set_time_start(false);
-                      stop();
-                      onCheck();
-                    }}
+                    id="button"
+                    type={
+                      answer_type === ANSWER_TYPE.MATH_INPUT
+                        ? hasStringOrNumber(user_answer)
+                          ? "default"
+                          : "disabled"
+                        : user_answer
+                        ? "default"
+                        : "disabled"
+                    }
+                    onClick={
+                      answer_type === ANSWER_TYPE.MATH_INPUT
+                        ? hasStringOrNumber(user_answer)
+                          ? () => {
+                              set_used_time(getTime() / 1000);
+                              set_time_start(false);
+                              stop();
+                              onCheck(
+                                problem_id,
+                                localStorage.getItem("userId"),
+                                user_answer,
+                                getTime(),
+                                location.state.subject_name,
+                                location.state.topic_name,
+                                location.state.subtopic_name,
+                                location.state.difficulty
+                              );
+                            }
+                          : () => {}
+                        : user_answer
+                        ? () => {
+                            set_used_time(getTime() / 1000);
+                            set_time_start(false);
+                            stop();
+                            onCheck(
+                              problem_id,
+                              localStorage.getItem("userId"),
+                              user_answer,
+                              getTime(),
+                              location.state.subject_name,
+                              location.state.topic_name,
+                              location.state.subtopic_name,
+                              location.state.difficulty
+                            );
+                          }
+                        : () => {}
+                    }
                   >
                     ตรวจ
                   </Button>
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
-                    // TODO: add real data instand of CORRECT after connect API
-                    correct={CORRECT}
-                    answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
-                    buttonTitle={current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"}
+                    correct={correct}
+                    answer={correct ? null : answer_key}
+                    buttonTitle={
+                      current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
+                    }
                     overlay_clickable={false}
                     onButtonClick={() => {
-                      onNext();
+                      onNext(
+                        user_id,
+                        location.state.subject_name,
+                        location.state.topic_name,
+                        location.state.subtopic_name,
+                        location.state.difficulty
+                      );
                       set_time_start(true);
                       set_problem_id();
                       set_hint();

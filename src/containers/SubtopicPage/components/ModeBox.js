@@ -25,7 +25,7 @@ const ModeBox = ({
   const [isShowing, toggle] = useModal();
 
   const handleClick = (
-    selected_subject, 
+    selected_subject,
     selected_subtopic_id,
     selected_subtopic_name, 
     selected_topic_name,
@@ -42,8 +42,8 @@ const ModeBox = ({
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
-        difficulty: selected_difficulty
-      }
+        difficulty: selected_difficulty,
+      },
     });
   };
 
@@ -56,7 +56,7 @@ const ModeBox = ({
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
-        dragConstraints={{ left: -(box_width+16), right: 0 }}
+        dragConstraints={{ left: -(box_width + 16), right: 0 }}
         dragMomentum={true}
         size="100%"
         background={COLOR.MANDARIN}
