@@ -5,7 +5,7 @@ import { LottieFile } from "../../components/LottieFile";
 
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
 import { COLOR } from "../../global/const";
-import { convertHexToRGBA } from "../../global/utils";
+import { convertHexToRGBA, useWindowDimensions } from "../../global/utils";
 
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { useGetAllItems } from "./ShopPageHelper";
@@ -25,8 +25,12 @@ const Shop = () => {
     ดับเบิ้ล: false,
     หยุดเวลา: false,
   });
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const COLUMNS = Math.floor((screen_width-112)/132);
+  const GAP = Math.floor((screen_width-(132*COLUMNS)-112)/COLUMNS);
 
   const { getAllItems, loading, items } = useGetAllItems();
+
   const handleItemClick = (item) => {
     // TODO: Buy item logic
     console.log(item);
@@ -45,7 +49,7 @@ const Shop = () => {
           <HeaderContainer>
             <Header>ร้านค้า</Header>
           </HeaderContainer>
-          <ShopContainer>
+          <ShopContainer columns={COLUMNS} gap={GAP}>
             {items.map((item, index) => {
               return (
                 <ItemContainer
@@ -78,7 +82,7 @@ const Shop = () => {
                     opacity: item.item_name === "ไอเทม" ? 0.3 : 1,
                   }}
                 >
-                  <Item style={{ height: "80px" }}>
+                  <Item>
                     {in_used[item.item_name] ? (
                       <LottieFile
                         animationData={JSON.parse(atob(item.animation_data))}
@@ -95,7 +99,6 @@ const Shop = () => {
                   <div
                     style={{
                       margin: "8px auto",
-                      padding: "0px 20px",
                       textAlign: "center",
                       height: "96px",
                     }}
@@ -135,38 +138,37 @@ const HeaderContainer = styled.div`
   margin-bottom: 32px;
 `;
 
-const ShopContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  justify-content: space-around;
+const ShopContainer  = styled.div.attrs(props => ({
+  columns: props.columns,
+  gap: props.gap
+}))`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(${props => props.columns}, 1fr);
+  grid-column-gap: ${props => props.gap}px;
+  grid-row-gap: 24px;
+  align-items: center;
+  justify-items: center;
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 16px;
+  width: 100px;
   justify-content: center;
   align-items: center;
-  padding: 24px 0px;
-  margin-bottom: 32px;
-  margin-left: 8px;
-  margin-right: 8px;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
-  @media screen and (min-width: 411px) {
-    flex: 1 1 25%;
-  }
-  @media screen and (min-width: 301px) and (max-width: 410px) {
-    flex: 1 1 35%;
-  }
-  @media screen and (max-width: 300px) {
-    flex: 1 1 50%;
-  }
 `;
 
 const ItemImg = styled.img`
-  height: 80px;
+  max-height: 80px;
+  max-width: 80px;
 `;
 const Item = styled(motion.div)`
+  display: flex;
+  height: 80px;
+  align-items: center;
   margin-bottom: 12px;
 `;
 
