@@ -19,6 +19,7 @@ const GameContent = ({
 
   useEffect(() => {
     console.log(correct_answer)
+    console.log(`answer: ${answer}`)
   }, [correct_answer])
 
   return (
@@ -27,6 +28,7 @@ const GameContent = ({
         <AnswerMathInput
           correct_answer={correct_answer}
           set_answer={set_answer}
+          answer={answer}
         />
       )}
       {type === ANSWER_TYPE.SELECT_ONE && (

@@ -6,7 +6,11 @@ import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 
-export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
+export const AnswerMathInput = ({
+  correct_answer = "",
+  set_answer,
+  answer,
+}) => {
   // const [mainAns, setMainAns] = useState([]);
   const [mainAns, setMainAns] = useState({});
   const [powerAns, setPowerAns] = useState([]);
@@ -81,21 +85,29 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   };
 
   useEffect(() => {
-    const ans_template = mathAnswerBox(correct_answer).map((box, index) => {
-      return outputAnswer(box, index);
-    });
-    console.log(ans_template);
-    set_ans_template(ans_template);
+    const temp_ans_template = mathAnswerBox(correct_answer).map(
+      (box, index) => {
+        return outputAnswer(box, index);
+      }
+    );
+    console.log(temp_ans_template);
+    console.log(`temp_ans_template_length: ${temp_ans_template.length}`);
+    // TODO: DO NOT SET IF ALREADY ANSWER
+    if (!answer) {
+      set_ans_template(temp_ans_template);
+    }
   }, []);
 
   useEffect(() => {
     console.log(ans_template);
-    console.log(`mainAns`);
+    console.log(`mainAns:`);
     console.log(mainAns);
     const tempAns = [...ans_template];
     // if (tempAns.includes("main")) {
     //   tempAns[tempAns.indexOf("main")] = mainAns;
     // }
+    console.log(`tempAns before replacement:`);
+    console.log(tempAns);
     for (var key in mainAns) {
       if (tempAns.includes("main" + key)) {
         tempAns[tempAns.indexOf("main" + key)] = mainAns[key];
@@ -104,11 +116,15 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     if (tempAns.includes("power")) {
       tempAns[tempAns.indexOf("power")] = `^[${powerAns}]`;
     }
+    console.log(`tempAns after replacement`);
     console.log(tempAns);
     const join_ans = tempAns.join("");
-    set_answer(join_ans);
+    // If user type in input then we set answer
+    if (!join_ans.includes("main")) {
+      set_answer(join_ans);
+    }
     console.log(`join_ans: ${join_ans}`);
-  }, [mainAns, powerAns, set_ans_template]);
+  }, [mainAns, powerAns, ans_template]);
 
   return (
     <Container>
