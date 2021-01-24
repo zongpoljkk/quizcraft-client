@@ -26,11 +26,11 @@ const Shop = ({ history }) => {
 
   const [animation, set_animation] = useState(ANIMATIONS.rest);
   const [in_used, set_in_used] = useState({
-    คำใบ้: false,
-    รีเฟรช: false,
-    ข้าม: false,
-    ดับเบิ้ล: false,
-    หยุดเวลา: false,
+    Hint: false,
+    Refresh: false,
+    Skip: false,
+    Double: false,
+    Freeze: false,
   });
 
   const [clicked_item, set_clicked_item] = useState();
@@ -101,14 +101,44 @@ const Shop = ({ history }) => {
                   }}
                 >
                   <Item>
-                    {in_used[item.item_name] ? (
-                      <LottieFile
-                        animationData={JSON.parse(atob(item.animation_data))}
-                        loop={false}
-                        height={100}
-                      />
-                    ) : (
-                      <ItemImg src= {"data:image/png;base64,"+item.src} />
+                    {item.item_name === "Skip" && (
+                      in_used["Skip"] ? (
+                        <SkipContainer>
+                        <ZoomItem>
+                          <LottieFile
+                            animationData={JSON.parse(atob(item.animation_data))}
+                            loop={false}
+                            height={64}
+                          />
+                        </ZoomItem>
+                      </SkipContainer>
+                      ): (
+                        <ItemImg src= {"data:image/png;base64,"+item.src} />
+                      )
+                    )}
+                    {item.item_name === "Double" && (
+                      in_used["Double"] ? (
+                        <ZoomItem>
+                          <LottieFile
+                            animationData={JSON.parse(atob(item.animation_data))}
+                            loop={false}
+                            height={64}
+                          />
+                        </ZoomItem>
+                      ): (
+                        <ItemImg src= {"data:image/png;base64,"+item.src} />
+                      )
+                    )}
+                    {item.item_name !== "Skip" && item.item_name !== "Double" && (
+                      in_used[item.item_name] ? (
+                        <LottieFile
+                          animationData={JSON.parse(atob(item.animation_data))}
+                          loop={false}
+                          height={100}
+                        />
+                      ) : (
+                        <ItemImg src= {"data:image/png;base64,"+item.src} />
+                      )
                     )}
                   </Item>
                   <div style={{ margin: "8px auto", lineHeight: "24px" }}>
@@ -214,7 +244,7 @@ const SkipContainer = styled.div`
 `;
 
 const ZoomItem = styled.div`
-  transform: scale(1.7);
+  transform: scale(3.0);
 `;
 
 export default withRouter(Shop);
