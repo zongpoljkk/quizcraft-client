@@ -39,7 +39,6 @@ const GroupGamePage = ({ history }) => {
     current_index,
     number_of_problem,
     time_per_problem,
-    is_creator,
     user,
     problem
   } = useGetGroupGame(user_id, location.state.group_id);

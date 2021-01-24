@@ -23,6 +23,7 @@ export const ConfirmResultModal = ({
     <Modal
       isShowing={isShowing}
       hide={toggle}
+      overlay_clickable={false}
     >
       <Container>
         <Icon src={success ? success_icon : fail_icon}/>
@@ -32,7 +33,7 @@ export const ConfirmResultModal = ({
         </DescriptionContainer>
         {(pin && success) && (
           <PinContaniner>
-            <Subheader>Pin: {pin}</Subheader>
+            <Subheader>PIN: {pin}</Subheader>
           </PinContaniner>
         )}
         <Button

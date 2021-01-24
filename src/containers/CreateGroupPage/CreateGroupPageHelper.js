@@ -118,8 +118,9 @@ export const useGetAvailableDifficultyBySubtopicName = () => {
 export const useCreateGroup = () => {
   const [loading, set_loading] = useState(false);
   const [group_id, set_group_id] = useState();
+  const [pin, set_pin] = useState();
   const [create_fail, set_create_fail] = useState();
-  const [success, set_success] = useState(false);
+  const [success, set_success] = useState();
 
   const createGroup = async (
     user_id,
@@ -129,10 +130,10 @@ export const useCreateGroup = () => {
     difficulty,
     number_of_problem,
     time_per_problem,
-    is_play
+    is_play,
+    toggle
   ) => {
     set_loading(true);
-    set_success(false);
     try {
       const response = await axios.post(backend+"group/create-group", {
         creatorId : user_id,
@@ -147,8 +148,10 @@ export const useCreateGroup = () => {
       const { succes, data } = response.data;
       if (succes) {
         set_group_id(data.groupId);
+        set_pin(data.pin);
         set_loading(false);
         set_success(true);
+        toggle();
       } else {
         console.log("createGroup Error");
       } 
@@ -156,12 +159,14 @@ export const useCreateGroup = () => {
       if(error.response.status === 400){
         set_create_fail(error.response.data.error);
         set_loading(false);
+        set_success(false);
+        toggle();
       };
       console.log("There are something wrong about create group :(");
     }
   };
 
-  return { createGroup, loading, group_id, create_fail, success };
+  return { createGroup, loading, group_id, pin, create_fail, success };
 };
 
 export const translateError = (message) => {
