@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { LottieFile } from "../../components/LottieFile";
 
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
+import { LottieFile } from "../../components/LottieFile";
+import { ConfirmModal } from "../../components/ConfirmModal";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import useModal from "../../components/useModal";
+
 import { COLOR } from "../../global/const";
 import { convertHexToRGBA, useWindowDimensions } from "../../global/utils";
 
-import LoadingPage from "../LoadingPage/LoadingPage";
-import { useGetAllItems } from "./ShopPageHelper";
+import { useGetAllItems, useBuyItem } from "./ShopPageHelper";
 
-const Shop = () => {
+const Shop = ({ history }) => {
+  const user_id = localStorage.getItem("userId");
+
   const ANIMATIONS = {
     rest: 1,
     hover: 1.1,
@@ -25,15 +32,28 @@ const Shop = () => {
     ดับเบิ้ล: false,
     หยุดเวลา: false,
   });
+
+  const [clicked_item, set_clicked_item] = useState();
+  
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const COLUMNS = Math.floor((screen_width-112)/132);
   const GAP = Math.floor((screen_width-(132*COLUMNS)-112)/COLUMNS);
-
+  
+  const [isShowing, toggle] = useModal();
+  const [isShowingResult, toggleResult] = useModal();
+  
   const { getAllItems, loading, items } = useGetAllItems();
+  const { buyItem, buy_success } = useBuyItem(user_id, clicked_item);
 
+  
   const handleItemClick = (item) => {
-    // TODO: Buy item logic
-    console.log(item);
+    toggle();
+    set_clicked_item(item);
+  };
+
+  const onConfirmModalSubmit = async () => {
+    await buyItem(user_id, clicked_item);
+    await toggleResult();
   };
 
   useEffect(() => {
@@ -73,10 +93,8 @@ const Shop = () => {
                   onMouseUp={() => {
                     set_animation(ANIMATIONS.hover);
                   }}
-                  onClick={
-                    item.item_name !== "ไอเทม"
-                      ? () => handleItemClick(item.item_name)
-                      : () => {}
+                  onClick={() => 
+                    handleItemClick(item.item_name)
                   }
                   style={{
                     opacity: item.item_name === "ไอเทม" ? 0.3 : 1,
@@ -118,6 +136,24 @@ const Shop = () => {
                 </ItemContainer>
               );
             })}
+            <ConfirmModal
+              isShowing={isShowing}
+              toggle={toggle}
+              content="คุณยืนยันที่จะซื้อไอเทมนี้ใช่หรือไม่" 
+              onSubmit={() => onConfirmModalSubmit()} 
+            />
+            <ConfirmResultModal 
+              isShowing={isShowingResult}
+              toggle={toggleResult}
+              success={buy_success}
+              success_description="การซื้อไอเทมสำเร็จ สามารถตรวจสอบไอเทมที่มีได้ที่โปรไฟล์ของคุณ"
+              fail_description="คุณมีเงินไม่เพียงพอในการซื้อไอเทมนี้"
+              onSubmit={() => {
+                if(buy_success){
+                  history.push("/profile");
+                }
+              }}
+            />
           </ShopContainer>
         </Container>
       )}
@@ -172,4 +208,13 @@ const Item = styled(motion.div)`
   margin-bottom: 12px;
 `;
 
-export default Shop;
+const SkipContainer = styled.div`
+  margin-left: -18px;
+  transform: rotate(90deg);
+`;
+
+const ZoomItem = styled.div`
+  transform: scale(1.7);
+`;
+
+export default withRouter(Shop);

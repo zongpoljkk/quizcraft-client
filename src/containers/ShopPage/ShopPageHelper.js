@@ -35,3 +35,26 @@ export const useGetAllItems = () => {
 
   return { getAllItems, loading, items };
 };
+
+export const useBuyItem = (user_id, item) => {
+  const [buy_success, set_buy_success] = useState(false);
+  const buyItem = async () => {
+    try {
+      const response = await axios.put(backend+"user/buy-item", {
+        userId : user_id,
+        itemName: item,
+      })
+      const { success, data } = response.data;
+      if (success) {
+        set_buy_success(success)
+      } else {
+        console.log("buy item Error");
+      } 
+    } catch (error) {
+      console.log(error.response)
+      console.log("There are something wrong about buy item :(");
+    }
+  };
+
+  return { buyItem, buy_success };
+};
