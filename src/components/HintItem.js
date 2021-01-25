@@ -1,34 +1,39 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Header, Body } from "./Typography";
+import { Header, Subheader, Body } from "./Typography";
 import { ItemCard } from "./ItemCard";
-import { LottieFile } from "./LottieFile"
+import { LottieFile } from "./LottieFile";
 import { FooterModal } from "./Modal";
 import useModal from "./useModal";
 
 import hint_icon from "../assets/icon/hint.png";
-import hintData from "../assets/lottie/hint.json"
+import hintData from "../assets/lottie/hint.json";
 import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
 
 import { COLOR } from "../global/const";
 
 export const HintItem = ({
+  amount_of_hints,
   onGetHint,
   content
 }) => {
 
-  const {isShowing, toggle} = useModal();
+  const [isShowing, toggle] = useModal();
 
   return (
     <div>
-      <ItemCard 
+      <ItemCard
         onClick={() => {
-          onGetHint();
-          toggle();
+          if(amount_of_hints !== 0) {
+            onGetHint();
+            toggle();
+          }
         }}
+        disable={amount_of_hints === 0 ? true : false}
       >
-        <img src={hint_icon}  height={22}/>
+        <ItemContainer src={hint_icon} marginRight={amount_of_hints >= 0 ? 8 : null}/>
+        <Subheader>{amount_of_hints}</Subheader>
       </ItemCard>
       <FooterModal
         isShowing={content ? isShowing : null}
@@ -73,4 +78,11 @@ const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+`;
+
+const ItemContainer = styled.img.attrs(props => ({
+  marginRight: props.marginRight
+}))`
+  height: 22px;
+  margin-right: ${props => props.marginRight}px;
 `;

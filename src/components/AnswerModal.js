@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
-import { Button } from "./Button"
-import { Report } from "./Report"
+import { Button } from "./Button";
+import { Report } from "./Report";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
@@ -18,56 +18,58 @@ export const AnswerModal = ({
   onButtonClick,
   correct,
   answer,
+  overlay_clickable
 }) => {
-
   return (
     <FooterModal
       isShowing={isShowing}
       hide={toggle}
       backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+      overlay_clickable={overlay_clickable}
     >
       <Container>
         <ContentContainer>
           <Container>
             <IconContainer>
-              <img src={correct ? correct_icon : incorrect_icon} height={48}/>
+              <img src={correct ? correct_icon : incorrect_icon} height={48} />
             </IconContainer>
             <AnswerContainer>
-              {correct
-                ? (
-                  <Header color={COLOR.CELERY}>ถูกต้อง</Header>
-                )
-                : (
-                  <div>
-                    <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
-                    <div style={{ marginBottom: 8 }}/>
-                    {answer?.split('\n').map((item, key) => {
-                      return (
-                        <Body key={key} color={COLOR.TRINIDAD}>{item}</Body>
-                      );
-                    })}
-                  </div>
-                )
-              }
+              {correct ? (
+                <Header color={COLOR.CELERY}>ถูกต้อง</Header>
+              ) : (
+                <div>
+                  <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                  <div style={{ marginBottom: 8 }} />
+                  {answer?.split("\n").map((item, key) => {
+                    return (
+                      <Body key={key} color={COLOR.TRINIDAD}>
+                        {item}
+                      </Body>
+                    );
+                  })}
+                </div>
+              )}
             </AnswerContainer>
           </Container>
-          <div style={{ marginBottom: 8 }}/>
-          <Report correct={correct}/>
+          <div style={{ marginBottom: 8 }} />
+          <Report correct={correct} />
         </ContentContainer>
-        <Button 
-          onClick={() => {
-            onButtonClick();
-            toggle();
-          }}
-          type="custom"
-          size="small"
-          backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
-          border="none"
-          color={COLOR.WHITE}
-          style={{ alignSelf: "center" }}
-        >
-          {buttonTitle}
-        </Button>
+        {buttonTitle &&
+          <Button 
+            onClick={() => {
+              onButtonClick();
+              toggle();
+            }}
+            type="custom"
+            size="small"
+            backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+            border="none"
+            color={COLOR.WHITE}
+            style={{ alignSelf: "center" }}
+          >
+            {buttonTitle}
+          </Button>
+        }
       </Container>
     </FooterModal>
   );

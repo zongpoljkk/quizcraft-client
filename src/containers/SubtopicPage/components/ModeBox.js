@@ -5,12 +5,16 @@ import { motion } from "framer-motion";
 
 import { Subheader } from "../../../components/Typography";
 import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
+import chevron from "../../../assets/icon/chevron.png";
+import useModal from "../../../components/useModal";
+import { NotAvailableModal } from "./NotAvailableModal";
 
 const ModeBox = ({ 
   icon, 
   type, 
   id,
   title,
+  available_difficulty,
   subject,
   topic,
   history,
@@ -18,28 +22,28 @@ const ModeBox = ({
 }) => {
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
+  const [isShowing, toggle] = useModal();
 
   const handleClick = (
-    selected_subject, 
+    selected_subject,
     selected_subtopic_id,
     selected_subtopic_name, 
     selected_topic_name,
     selected_mode, 
     selected_difficulty 
   ) => {
-    console.log(selected_mode, MODE.PRACTICE.type )
     history.push({
       pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+
         (selected_mode === MODE.PRACTICE.type ? "/practice-game" 
-        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/challenge-game"), 
+        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/all-challenges"), 
       state: {
         subject_name: selected_subject,
         topic_name: selected_topic_name,
         subtopic_id: selected_subtopic_id,
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
-        difficulty: selected_difficulty
-      }
+        difficulty: selected_difficulty,
+      },
     });
   };
 
@@ -52,7 +56,7 @@ const ModeBox = ({
       <motion.div
         style={{ display: "flex", flex: 1 }}
         drag="x"
-        dragConstraints={{ left: -(box_width+16), right: 0 }}
+        dragConstraints={{ left: -(box_width + 16), right: 0 }}
         dragMomentum={true}
         size="100%"
         background={COLOR.MANDARIN}
@@ -63,21 +67,26 @@ const ModeBox = ({
             <Subheader props color={COLOR.WHITE}>
               {type}
             </Subheader>
+              <ChevronIcon src={chevron} /> 
           </Box>
         </Container>
       </motion.div>
       <DifficultyBox ref={ref}>
-        {Object.entries(DIFFICULTY).map((item, index) => (
+        {available_difficulty.map((item, index) => (
           <Icon
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleClick(subject, id, title, topic, type, item[1].type)
+              item.isAvailable ? handleClick(subject, id, title, topic, type, item.difficulty) : toggle()
             }}
-            src={item[1].icon}
+            src={item.isAvailable ? DIFFICULTY[item.difficulty].icon : DIFFICULTY[item.difficulty].disable_icon}
           />
         ))}
       </DifficultyBox>
+      <NotAvailableModal 
+        isShowing={isShowing} 
+        toggle={toggle} 
+      />
     </Background>
   );
 };
@@ -89,6 +98,7 @@ const Background = styled.div`
   background: ${COLOR.GOLDEN_TAINOI};
   z-index: 3;
 `;
+
 const Container = styled.div`
   display: flex;
   flex: 1;
@@ -118,6 +128,14 @@ const Icon = styled.img`
   width: 40px;
   height: 40px;
   margin-right: 16px;
+`;
+
+const ChevronIcon = styled.img`
+  alt: "swipe icon";
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  opacity: 0.3;
 `;
 
 export default withRouter(ModeBox);

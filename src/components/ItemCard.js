@@ -1,15 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../global/const"
+import { COLOR } from "../global/const";
 
 export const ItemCard = ({
   onClick = () => {},
+  disable = false,
   children
 }) => {
 
   return (
-    <CardContainer onClick={onClick}>{children}</CardContainer>
+    disable
+    ? <DisableCard onClick={onClick}>{children}</DisableCard>
+    : <CardContainer onClick={onClick}>{children}</CardContainer>
   );
 };
 
@@ -21,4 +24,19 @@ const CardContainer = styled.div`
   height: 32px;
   width: 56px;
   border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+`;
+
+const DisableCard = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${COLOR.BLACK};
+  opacity: 0.4;
+  height: 32px;
+  width: 56px;
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
 `;
