@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
 
-import { Body } from "../../components/Typography";
+import { Header, Subheader, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -35,6 +35,7 @@ const WaitingRoomPage = ({ history }) => {
     is_creator,
     group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
+  
   const {
     getGenerateProblem,
     start_loading,
@@ -70,7 +71,6 @@ const WaitingRoomPage = ({ history }) => {
 
   useEffect(() => {
     if(problems) {
-      console.log(problems)
       history.push({
         pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
         state: {
@@ -110,6 +110,11 @@ const WaitingRoomPage = ({ history }) => {
             </div>
             {is_creator ?
               <div style={{ width: "100%" }}>
+                {location.state.pin &&
+                  <Pin>
+                    <Header color={COLOR.MANDARIN}>PIN: {location.state.pin}</Header>
+                  </Pin>
+                }
                 <GroupMemberBox>
                   <DisplayGroupMember columns={COLUMNS} gap={GAP}>
                     {members?.slice(0).reverse().map((list, index) => (
@@ -210,6 +215,12 @@ const ButtonContainer = styled.div.attrs(props => ({
   justify-content: ${props => props.justifyContent};
   width: 100%;
   margin-top: 32px;
+`;
+
+const Pin = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
 `;
 
 export default withRouter(WaitingRoomPage);

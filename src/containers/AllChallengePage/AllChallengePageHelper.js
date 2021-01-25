@@ -115,8 +115,8 @@ export const useRandomChallenge = (
       const { success, data } = response.data;
       if (success) {
         set_challenge_id(data.challengeId);
-        set_me(data.user1);
-        set_opponent(data.user2);
+        set_me(data.user1[0]);
+        set_opponent(data.user2[0]);
         set_random_loading(false);
       } else {
         console.log("random challenge Error");
@@ -127,4 +127,34 @@ export const useRandomChallenge = (
   };
 
   return { randomChallenge, random_loading, challenge_id, me, opponent };
+};
+
+export const specificChallenge = async (
+  user_id,
+  opponent_name,
+  subject,
+  subtopic_name,
+  difficulty
+) => {
+  try {
+    const response = await axios.post(
+      backend + "challenge/specific-challenge",
+      {
+        user1Id: user_id,
+        username: opponent_name,
+        subject: subject,
+        subtopicName: subtopic_name,
+        difficulty: difficulty,
+      }
+    );
+    const { success, data } = response.data;
+    if (success) {
+      return data.challengeId;
+    } else {
+      console.log("specific challenge Error");
+    }
+  } catch (err) {
+    console.log("There are something wrong about specific challenge :(");
+    return Promise.reject(new Error("specificChallenge"))
+  }
 };

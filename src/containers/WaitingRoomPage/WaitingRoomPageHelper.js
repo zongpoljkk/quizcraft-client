@@ -65,7 +65,6 @@ export const useDeleteGroup = (group_id, user_id) => {
 };
 
 export const useLeaveGroup = (group_id, user_id) => {
-
   const leaveGroup = async () => {
     try {
       const response = await axios.put(backend+"group/leave-group", {
