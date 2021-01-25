@@ -7,7 +7,6 @@ export const useGetGroupGame = (user_id, group_id) => {
   const [current_index, set_current_index] = useState();
   const [number_of_problem, set_number_of_problem] = useState();
   const [time_per_problem, set_time_per_problem] = useState();
-  const [is_creator, set_is_creator] = useState();
   const [user, set_user] = useState();
   const [problem, set_problem] = useState();
   const [loading, set_loading] = useState(true);
@@ -26,7 +25,6 @@ export const useGetGroupGame = (user_id, group_id) => {
         set_current_index(data.currentIndex);
         set_number_of_problem(data.numberOfProblem);
         set_time_per_problem(data.timePerProblem);
-        set_is_creator(data.isCreator);
         set_user(data.user);
         set_problem(data.problem);
         set_loading(false);
@@ -38,5 +36,5 @@ export const useGetGroupGame = (user_id, group_id) => {
     }
   };
 
-  return { getGroupGame, loading, current_index, number_of_problem, time_per_problem, is_creator, user, problem };
+  return { getGroupGame, loading, current_index, number_of_problem, time_per_problem, user, problem };
 };

@@ -166,9 +166,6 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/report" getUserData={getUserData}>
-            <ReportPage />
-          </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage user_id={user_id} />
           </PrivateRoute>
