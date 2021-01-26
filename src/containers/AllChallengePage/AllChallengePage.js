@@ -148,6 +148,12 @@ const AllChallengePage = ({ history }) => {
     }
   };
 
+  const readTheirTurnChallenge = (isRead, challenge_id) => {
+    if(!isRead) {
+      readChallenge(user_id, challenge_id);
+    };
+  };
+
   useEffect(() => {
     getALlMyChallenges();
   }, []);
@@ -247,7 +253,7 @@ const AllChallengePage = ({ history }) => {
               {challenger_turns.length !== 0 ? 
                 <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
                   {challenger_turns?.map((challenge, index) => 
-                    <div key={index}>
+                    <div key={index} onChange={readTheirTurnChallenge(challenge.isRead, challenge.challengeId)}>
                       <ChallengeBox
                         image={challenge.photo}
                         username={challenge.username}
@@ -263,7 +269,6 @@ const AllChallengePage = ({ history }) => {
                             challenger_turns.length
                           )
                         }
-                        // onClick={() => onChallengeBoxClick(challenge.challengeId)}
                       />
                     </div>
                   )}

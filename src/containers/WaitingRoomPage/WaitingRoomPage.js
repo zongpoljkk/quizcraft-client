@@ -10,10 +10,12 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import loading_circle from "../../assets/lottie/loading_circle.json";
 
 import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
-import { useWindowDimensions, convertHexToRGBA } from "../../global/utils";
+import { useWindowDimensions } from "../../global/utils";
 
 import {
   useGetGroupMembers,
+  useDeleteGroup,
+  useLeaveGroup,
   useGetGenerateProblem
 } from "./WaitingRoomPageHelper";
 
@@ -30,13 +32,28 @@ const WaitingRoomPage = ({ history }) => {
     loading,
     members,
     number_of_members,
-    is_creator
+    is_creator,
+    group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
+  
   const {
     getGenerateProblem,
     start_loading,
     problems
   } = useGetGenerateProblem();
+
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
+
+  const handleDeleteGroup = () => {
+    deleteGroup(location.state.group_id, user_id);
+    history.push("/homepage");
+  }
+
+  const handleLeaveGroup = () => {
+    leaveGroup(location.state.group_id, user_id);
+    history.push("/homepage");
+  }
 
   useEffect(() => {
     set_get_all_members_loading(loading);
@@ -66,6 +83,12 @@ const WaitingRoomPage = ({ history }) => {
       });
     };
   }, [start_loading]);
+
+  useEffect(() => {
+    if (group_failed) {
+      history.push("*");
+    }
+  }, [group_failed]);
   
   return (
     <Container isCreator = {is_creator}>
@@ -105,7 +128,12 @@ const WaitingRoomPage = ({ history }) => {
                   </DisplayGroupMember>
                 </GroupMemberBox>
                 <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-                  <Button type="outline">ยกเลิก</Button>
+                  <Button 
+                    type="outline"
+                    onClick={() => handleDeleteGroup()}
+                  >
+                    ยกเลิก
+                  </Button>
                   <Button onClick={() => getGenerateProblem(location.state.group_id)}>เริ่ม</Button>
                 </ButtonContainer>
               </div>
@@ -113,7 +141,7 @@ const WaitingRoomPage = ({ history }) => {
               <div style={{alignSelf: "center", marginTop: "64px"}}>
                 <Button
                   type="outline"
-                  onClick={() => history.push("/")}
+                  onClick={() => handleLeaveGroup()}
                 >
                   ออก
                 </Button>

@@ -17,8 +17,8 @@ import { Report } from "../../components/Report";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
-import Correct_Forward from "../../assets/Correct_Forward.png";
-import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
+import Correct_Forward from "../../assets/icon/correct_forward.png";
+import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -188,21 +188,16 @@ const PracticeAnswer = ({ history }) => {
       </CenterDiv>
       {firstClick ? (
         <SolutionDiv>
-          <ul style={{ listStyle: "none", padding: 0 }}>
             {solution.map((line, i) => {
-              // TODO: Replace Math.random() with line.id after it has one
               return (
-                <li key={Math.random()}>
-                  <Solution answer={correct}>
+                  <Solution answer={correct} key={i}>
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
                     <Tex2SVG display="inline" latex={asciimath2latex(line)} />
                   </Solution>
-                </li>
               );
             })}
-          </ul>
         </SolutionDiv>
       ) : (
         <SolutionDiv></SolutionDiv>
@@ -237,9 +232,14 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 0px auto 52px auto;
-  height: 160px;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: stretch;
+  margin: 16px auto 52px auto;
+  height: 280px;
+  width: 100%;
+  overflow: scroll;
 `;
 
 const GreetingDiv = styled.div`
