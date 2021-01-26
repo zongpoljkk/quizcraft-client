@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import Correct from "../../../assets/Correct.png";
-import Incorrect from "../../../assets/Incorrect.png";
+import Correct from "../../../assets/icon/correct.png";
+import Incorrect from "../../../assets/icon/incorrect.png";
 
 const Sign = ({ isVisible, answer }) => {
   let source;
