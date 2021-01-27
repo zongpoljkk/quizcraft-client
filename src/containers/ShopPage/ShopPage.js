@@ -108,6 +108,7 @@ const Shop = ({ history }) => {
                             animationData={JSON.parse(atob(item.animation_data))}
                             loop={false}
                             height={64}
+                            width={64}
                           />
                         </ZoomItem>
                       ): (
@@ -139,7 +140,7 @@ const Shop = ({ history }) => {
                       )
                     )}
                   </Item>
-                  <div style={{ margin: "8px auto", lineHeight: "24px" }}>
+                  <div style={{ margin: "8px auto", lineHeight: "24px", position: "relative", zIndex: 2 }}>
                     <Subheader>{item.item_name}</Subheader>
                   </div>
                   <div
@@ -147,6 +148,8 @@ const Shop = ({ history }) => {
                       margin: "8px auto",
                       textAlign: "center",
                       height: "96px",
+                      position: "relative",
+                      zIndex: 2,
                     }}
                   >
                     <Overline>{item.item_description}</Overline>
@@ -156,6 +159,8 @@ const Shop = ({ history }) => {
                       marginTop: "16px",
                       lineHeight: "20px",
                       display: "flex",
+                      position: "relative",
+                      zIndex: 2,
                     }}
                   >
                     <Body color={COLOR.CELERY}>{item.price} </Body>
@@ -243,8 +248,11 @@ const ZoomItem = styled.div.attrs((props) => ({
   ${(props) =>
     props.isItemSkip
       ? `
-    margin-left: -18px;
-    transform: scale(3) rotate(90deg);
+      width: 100px;
+      margin-left: -65px;
+      transform: scale(3.0) rotate(90deg);
+      position: absolute;
+      z-index: 1;
     `
       : `
     transform: scale(3.0);
