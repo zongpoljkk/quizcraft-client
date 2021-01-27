@@ -87,7 +87,8 @@ const PracticeGamePage = ({ history }) => {
       userAnswer,
       getTime / 1000,
       topic,
-      subtopic
+      subtopic,
+      "practice",
     ).then((res) => {
       set_answer_loading(false);
       history.push({

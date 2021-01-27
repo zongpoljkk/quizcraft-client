@@ -17,10 +17,10 @@ const GameContent = ({
   set_answer,
 }) => {
 
-  useEffect(() => {
-    console.log(correct_answer)
-    console.log(`answer: ${answer}`)
-  }, [correct_answer])
+  // useEffect(() => {
+  //   console.log(correct_answer)
+  //   console.log(`answer: ${answer}`)
+  // }, [correct_answer])
 
   return (
     <Container>
