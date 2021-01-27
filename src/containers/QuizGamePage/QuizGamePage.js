@@ -133,7 +133,6 @@ const QuizGamePage = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    console.log(user_answer)
     if (user_answer) {
       const button = document.getElementById("button");
       button.disabled = true;

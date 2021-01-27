@@ -23,7 +23,7 @@ import {
   useLeaveGroup,
 } from "./GroupResultPageHelper";
 
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
+const GROUP_ID = "600a57e778092ffa602ea581";
 
 const GroupResultPage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
