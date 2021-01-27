@@ -43,7 +43,7 @@ const Homepage = ({ history, user_id }) => {
 
   return (
     <React.Fragment>
-      {leader_board_loading || subjects_loading || achievements_loading ? (
+      {leader_board_loading || subjects_loading ? (
         <LoadingPage />
       ) : (
         <Container ref={ref}>

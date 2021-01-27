@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 
@@ -17,13 +17,14 @@ import { COLOR } from "../../../global/const";
 const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
 
 const AchievementPanel = ({ container_width, achievements }) => {
+  const [panel_achievements, set_panel_achievements] = useState([]);
   const [achievement_display, set_achievement_display] = useState({});
 
   const history = useHistory();
-  let limited_achievements = achievements;
+  let limited_achievements = panel_achievements;
 
   // Limit number of achievements shown on the homepage
-  if (achievements.length >= HOMEPAGE_ACHIEVEMENTS_NUMBER) {
+  if (panel_achievements.length >= HOMEPAGE_ACHIEVEMENTS_NUMBER) {
     limited_achievements = achievements.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
   }
   // Add entry to achievements page
@@ -102,6 +103,12 @@ const AchievementPanel = ({ container_width, achievements }) => {
       </Achievement>
     );
   });
+
+  useEffect(() => {
+    if (achievements) {
+      set_panel_achievements(achievements)
+    }
+  }, [achievements])
 
   return (
     <ItemBox type="frame" shadow="frame" width={container_width - 32}>
