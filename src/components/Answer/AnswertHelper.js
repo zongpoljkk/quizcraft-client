@@ -1,82 +1,6 @@
 const MIN_BOX_WIDTH = 32;
 const WIDTH_PER_CHAR = 11;
 
-export const oldMathAnswerBox = (correct_answer) => {
-  var list = [];
-  var current_type = "numerator";
-  var last_type = "numerator";
-  var lcount = 0;
-  var list_id = 0;
-  var skip = false;
-  for (let index = 0; index < correct_answer.length; index++) {
-    if (!skip) { 
-      if (correct_answer.length === 1) {
-        list[0] = MIN_BOX_WIDTH;
-      }
-      else if (correct_answer.charAt(index) === "(") {
-        list[list_id] = [last_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = "(";
-        list[list_id] = [current_type, 1, last_type];
-        list_id += 1;
-        current_type = last_type;
-      }
-      else if (correct_answer.charAt(index) === ")") {
-        list[list_id] = [last_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = ")";
-        list[list_id] = [current_type, 1, last_type];
-        list_id += 1;
-        current_type = "numerator";
-      }
-      else if (correct_answer.charAt(index) === "^") {
-        list[list_id] = [last_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = "power";
-      }
-      else if (correct_answer.charAt(index) === "]") {
-        list[list_id] = [current_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = "main";
-      }
-      else if (current_type === "power") {
-        if (correct_answer.charAt(index) !== "[") {
-          lcount += 1;
-        }
-      }
-      else {
-        if(index === correct_answer.length - 1){
-          list[list_id] = [current_type, lcount, last_type];
-        }
-        lcount += 1;
-      }
-    }
-    else {
-      skip = false;
-    }
-    last_type = current_type;
-  }
-
-  var boxes = [];
-  var index = 0;
-  list.map((item) => {
-    if(item[1] !== 0) {
-      boxes[index] = {
-        type: item[0], 
-        width: item[1] === 1 ? MIN_BOX_WIDTH : MIN_BOX_WIDTH + ((item[1] - 1) * WIDTH_PER_CHAR),
-        last_type: item[2]
-      };
-      index = index + 1;
-    }
-  });
-  console.log(boxes)
-  return boxes;
-};
-
 export const mathAnswerBox = (correct_answer) => {
   var list = [];
   var current_type = "numerator";
@@ -163,6 +87,13 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "/") {
+      if(current_index != index) {
+        text = correct_answer.substring(start_index, end_index);
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
+      }
+      list[list_index] = ["/", correct_answer.substring(0, index).length, "/", last_type];
+      list_index += 1;
       last_type = current_type;
       current_type = "denumerator";
       start_index = index + 1;
@@ -187,14 +118,14 @@ export const mathAnswerBox = (correct_answer) => {
   list.map((item) => {
     if(item[1] !== 0) {
       boxes[index] = {
-        type: item[2],
+        text: item[0],
         width: item[1] === 1 ? MIN_BOX_WIDTH : MIN_BOX_WIDTH + ((item[1] - 1) * WIDTH_PER_CHAR),
+        type: item[2],
         last_type: item[3]
       };
       index = index + 1;
     }
   });
-  console.log(list, boxes)
   return boxes;
 };
 
