@@ -102,26 +102,30 @@ const Shop = ({ history }) => {
                 >
                   <Item>
                     {item.item_name === "Skip" && (
-                      in_used["Skip"] ? (
+                      in_used.Skip ? (
                         <SkipContainer>
-                        <ZoomItem>
-                          <LottieFile
-                            animationData={JSON.parse(atob(item.animation_data))}
-                            loop={false}
-                            height={64}
-                          />
-                        </ZoomItem>
-                      </SkipContainer>
+                          <ZoomItem>
+                            <LottieFile
+                              animationData={JSON.parse(atob(item.animation_data))}
+                              loop={false}
+                              isPaused={!in_used.Skip}
+                              isStopped={!in_used.Skip}
+                              height={64}
+                            />
+                          </ZoomItem>
+                        </SkipContainer>
                       ): (
                         <ItemImg src= {"data:image/png;base64,"+item.src} />
                       )
                     )}
                     {item.item_name === "Double" && (
-                      in_used["Double"] ? (
+                      in_used.Double ? (
                         <ZoomItem>
                           <LottieFile
                             animationData={JSON.parse(atob(item.animation_data))}
                             loop={false}
+                            isPaused={!in_used.Double}
+                            isStopped={!in_used.Double}
                             height={64}
                           />
                         </ZoomItem>
@@ -134,6 +138,8 @@ const Shop = ({ history }) => {
                         <LottieFile
                           animationData={JSON.parse(atob(item.animation_data))}
                           loop={false}
+                          isStopped={!in_used[item.item_name]}
+                          isPaused={!in_used[item.item_name]}
                           height={100}
                         />
                       ) : (
