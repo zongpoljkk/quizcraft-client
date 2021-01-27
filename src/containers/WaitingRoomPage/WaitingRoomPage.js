@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
 
-import { Body } from "../../components/Typography";
+import { Header, Subheader, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -14,6 +14,8 @@ import { useWindowDimensions } from "../../global/utils";
 
 import {
   useGetGroupMembers,
+  useDeleteGroup,
+  useLeaveGroup,
   useGetGenerateProblem
 } from "./WaitingRoomPageHelper";
 
@@ -30,13 +32,28 @@ const WaitingRoomPage = ({ history }) => {
     loading,
     members,
     number_of_members,
-    is_creator
+    is_creator,
+    group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
+  
   const {
     getGenerateProblem,
     start_loading,
     problems
   } = useGetGenerateProblem();
+
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
+
+  const handleDeleteGroup = () => {
+    deleteGroup(location.state.group_id, user_id);
+    history.push("/homepage");
+  }
+
+  const handleLeaveGroup = () => {
+    leaveGroup(location.state.group_id, user_id);
+    history.push("/homepage");
+  }
 
   useEffect(() => {
     set_get_all_members_loading(loading);
@@ -54,7 +71,6 @@ const WaitingRoomPage = ({ history }) => {
 
   useEffect(() => {
     if(problems) {
-      console.log(problems)
       history.push({
         pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
         state: {
@@ -67,6 +83,12 @@ const WaitingRoomPage = ({ history }) => {
       });
     };
   }, [start_loading]);
+
+  useEffect(() => {
+    if (group_failed) {
+      history.push("*");
+    }
+  }, [group_failed]);
   
   return (
     <Container isCreator = {is_creator}>
@@ -88,6 +110,11 @@ const WaitingRoomPage = ({ history }) => {
             </div>
             {is_creator ?
               <div style={{ width: "100%" }}>
+                {location.state.pin &&
+                  <Pin>
+                    <Header color={COLOR.MANDARIN}>PIN: {location.state.pin}</Header>
+                  </Pin>
+                }
                 <GroupMemberBox>
                   <DisplayGroupMember columns={COLUMNS} gap={GAP}>
                     {members?.slice(0).reverse().map((list, index) => (
@@ -101,7 +128,12 @@ const WaitingRoomPage = ({ history }) => {
                   </DisplayGroupMember>
                 </GroupMemberBox>
                 <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-                  <Button type="outline">ยกเลิก</Button>
+                  <Button 
+                    type="outline"
+                    onClick={() => handleDeleteGroup()}
+                  >
+                    ยกเลิก
+                  </Button>
                   <Button onClick={() => getGenerateProblem(location.state.group_id)}>เริ่ม</Button>
                 </ButtonContainer>
               </div>
@@ -109,7 +141,7 @@ const WaitingRoomPage = ({ history }) => {
               <div style={{alignSelf: "center", marginTop: "64px"}}>
                 <Button
                   type="outline"
-                  onClick={() => history.push("/")}
+                  onClick={() => handleLeaveGroup()}
                 >
                   ออก
                 </Button>
@@ -183,6 +215,12 @@ const ButtonContainer = styled.div.attrs(props => ({
   justify-content: ${props => props.justifyContent};
   width: 100%;
   margin-top: 32px;
+`;
+
+const Pin = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
 `;
 
 export default withRouter(WaitingRoomPage);
