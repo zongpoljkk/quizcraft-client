@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Tex2SVG from "react-hook-mathjax";
 
 import { Body } from "../Typography";
 import { RadioButton } from "../RadioButton";
@@ -21,6 +22,7 @@ export const AnswerRadioChoice = ({
 }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
+  const asciimath2latex = require("asciimath-to-latex");
 
   const outputQuestion = (item) => {
     if (item.length === 3 || item[0].type === "content") {
@@ -36,6 +38,17 @@ export const AnswerRadioChoice = ({
               </div>
           }
           <Body>{item[2]?.content}</Body>
+        </QuestionContainer>
+      );
+    }
+    else if(item){
+      return (
+        <QuestionContainer>
+          <div>
+            <Body>
+              <Tex2SVG display="inline" latex={asciimath2latex(item)} />
+            </Body>
+          </div>
         </QuestionContainer>
       );
     }
@@ -56,19 +69,18 @@ export const AnswerRadioChoice = ({
     }
   };
 
-  return ( 
-    <Container width={screen_width-CONTAINER_PADDING}>
-      <div style={{ marginBottom: 12 }}>
-        {subject === "คณิตศาสตร์" ?
-          <Body>{question}</Body>
-          : (
-          outputQuestion(splitQuestion(question))
-        )}
+  return (
+    <Container width={screen_width - CONTAINER_PADDING}>
+      <div style={{ marginBottom: 16 }}>
+        {subject === "คณิตศาสตร์"
+          ? outputQuestion(question)
+          : outputQuestion(splitQuestion(question))}
       </div>
       <div style={{ marginLeft: 16 }}>
-        <RadioButton 
-          value={answer} 
-          selected_value={set_answer}  
+        <RadioButton
+          value={answer}
+          subject={subject}
+          selected_value={set_answer}
           choices={choices}
         />
       </div>

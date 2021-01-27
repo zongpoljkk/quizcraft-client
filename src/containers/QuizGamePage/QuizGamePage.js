@@ -24,7 +24,7 @@ import {
   useRefreshItem
 } from "./QuizGamePageHelper";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DIFFICULTY } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
@@ -87,6 +87,23 @@ const QuizGamePage = ({ history }) => {
     set_current_index((index) => index + 1);
     set_problem_id();
     set_hint();
+    set_score((score) => score + 1);
+    let skip_reward = 0;
+    switch (location.state.difficulty) {
+      case DIFFICULTY.EASY.type:
+        skip_reward = 14;
+        break;
+      case DIFFICULTY.MEDIUM.type:
+        skip_reward = 28;
+        break;
+      case DIFFICULTY.HARD.type:
+        skip_reward = 42;
+        break;
+      default:
+        skip_reward = 0;
+    }
+    set_earned_exp((earned_exp) => earned_exp + skip_reward);
+    set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
 
   const onRefresh = () => {
@@ -188,6 +205,34 @@ const QuizGamePage = ({ history }) => {
     getEachProblem();
   }, []);
 
+  // Trigger when using onSkip on the last question
+  useEffect(() => {
+    if (current_index > NUMBER_OF_QUIZ) {
+      history.push({
+        pathname:
+          "/" +
+          location.state.subject_name +
+          "/" +
+          location.state.topic_name +
+          "/" +
+          location.state.subtopic_name +
+          "/" +
+          location.state.difficulty +
+          "/quiz-result",
+        state: {
+          userId: localStorage.getItem("userId"),
+          subject: location.state.subject_name,
+          topic: location.state.topic_name,
+          subtopic: location.state.subtopic_name,
+          difficulty: location.state.difficulty,
+          score: score,
+          earned_exp: earned_exp,
+          earned_coins: earned_coins,
+        },
+      });
+    }
+  }, [onSkip]);
+
   return (
     <Container>
       <Timer
@@ -220,15 +265,12 @@ const QuizGamePage = ({ history }) => {
               hintContent={hint}
               skip={skip}
               onSkip={() => {
-                if (current_index < NUMBER_OF_QUIZ) {
+                if (current_index <= NUMBER_OF_QUIZ) {
                   postSkipItem(problem_id);
-                  // TODO: handle quiz result for za
                   onSkip();
                   reset();
                 } else {
                   postSkipItem(problem_id);
-                  // TODO: handle quiz result for za
-                  onNext();
                 }
               }}
               refresh={refresh}
@@ -332,6 +374,7 @@ const QuizGamePage = ({ history }) => {
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
+                    subject={location.state.subject_name}
                     correct={correct}
                     answer={correct ? null : answer_key}
                     buttonTitle={
