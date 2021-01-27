@@ -24,9 +24,9 @@ import {
 } from "./GroupResultPageHelper";
 
 // const GROUP_ID = "600aad1febab228c4cf8225c"; //1
-// const GROUP_ID = "600944db9bfbc3d0d85566ef" //2
+const GROUP_ID = "600944db9bfbc3d0d85566ef" //2
 // const GROUP_ID = "600a57e778092ffa602ea581"; //3
-const GROUP_ID = "60083f60b4380052c33c8fe2" //4
+// const GROUP_ID = "60083f60b4380052c33c8fe2" //4
 
 const GroupResultPage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -182,7 +182,19 @@ const GroupResultPage = ({ history }) => {
                   </motion.div>
                 </TrophyWithInfo>
             ))}
-            <div style={{ display: "flex", justifyContent: scoreboard.length < 3 ? "flex-start" : "space-evenly" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent:
+                  scoreboard.length < 3 ? "flex-start" : "space-evenly",
+                marginLeft:
+                  scoreboard.length < 3
+                    ? screen_width >= LARGE_DEVICE_SIZE
+                      ? "64px"
+                      : "32px"
+                    : null,
+              }}
+            >
               {scoreboard.map((list, index) => index === 1 && (
                 <TrophyWithInfo position="relative" zIndex={2} key={index}>
                   <motion.div
