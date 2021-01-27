@@ -186,6 +186,7 @@ const ChallengeGame = ({ history }) => {
             >
               <GameContent
                 type={answer_type}
+                subject={location.state.subject_name}
                 correct_answer={correct_answer}
                 question={body}
                 choices={choices}
@@ -245,6 +246,7 @@ const ChallengeGame = ({ history }) => {
             <AnswerModal
               isShowing={isShowing}
               toggle={toggle}
+              subject={location.state.subject_name}
               correct={correct}
               answer={correct ? null : answer_key}
               buttonTitle={

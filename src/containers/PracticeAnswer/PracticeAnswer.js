@@ -194,7 +194,11 @@ const PracticeAnswer = ({ history }) => {
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
-                    <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                    {location.state.subject === "คณิตศาสตร์" ? (
+                      <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                    ) : (
+                      line
+                    )}
                   </Solution>
               );
             })}

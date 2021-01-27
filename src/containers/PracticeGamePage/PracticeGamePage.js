@@ -199,6 +199,7 @@ const PracticeGamePage = ({ history }) => {
                     >
                       <GameContent
                         type={answer_type}
+                        subject={location.state.subject_name}
                         correct_answer={correct_answer}
                         question={body}
                         choices={choices}
