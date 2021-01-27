@@ -140,7 +140,14 @@ const Shop = ({ history }) => {
                       )
                     )}
                   </Item>
-                  <div style={{ margin: "8px auto", lineHeight: "24px", position: "relative", zIndex: 2 }}>
+                  <div 
+                    style={{ 
+                      margin: "8px auto", 
+                      lineHeight: "24px", 
+                      position: "relative", 
+                      zIndex: 2 
+                    }}
+                  >
                     <Subheader>{item.item_name}</Subheader>
                   </div>
                   <div
