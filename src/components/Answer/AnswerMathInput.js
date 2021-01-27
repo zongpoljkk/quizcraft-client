@@ -10,12 +10,12 @@ let mainCurlyBraces = [];
 let powerExists = false;
 
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
+  console.log(correct_answer)
   const [mainAns, setMainAns] = useState("");
   const [powerAns, setPowerAns] = useState("");
-  const [userAns, setUserAns] = useState([]);
 
   const outputBoxes = (item) => {
-    if (item.type === "(" && item.last_type === "main") {
+    if (item.type === "(" && item.last_type === "numerator") {
       if (mainCurlyBraces.length === 0) {
         mainCurlyBraces.push("(");
       }
@@ -38,7 +38,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
           onChange={(e) => setPowerAns(e.target.value)}
         />
       );
-    } else if (item.type === ")" && item.last_type === "main") {
+    } else if (item.type === ")" && item.last_type === "numerator") {
       return (
         <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
           <Header>)</Header>
@@ -78,7 +78,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     } else {
       tempAnsString = curlyMain;
     }
-    setUserAns(tempAnsString);
     set_answer(tempAnsString);
 
     // Cleanup
