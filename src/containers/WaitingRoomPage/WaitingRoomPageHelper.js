@@ -8,6 +8,7 @@ export const useGetGroupMembers = (group_id, user_id) => {
   const [number_of_members, set_number_of_members] = useState();
   const [is_creator, set_is_creator] = useState();
   const [loading, set_loading] = useState(true);
+  const [group_failed, set_group_failed] = useState(false);
 
   const getGroupMembers = async () => {
     set_loading(true);
@@ -26,11 +27,87 @@ export const useGetGroupMembers = (group_id, user_id) => {
         set_loading(false);
       } else {
         console.log("getGroupMembers Error");
+      }
+    } catch (error) {
+      if (error.response.status === 500) {
+        set_group_failed(true);
+      } else {
+        console.log("There are something wrong about leave group :(");
+      }
+    }
+  }; 
+
+  return { getGroupMembers, loading, members, number_of_members, is_creator, group_failed };
+};
+
+export const useDeleteGroup = (group_id, user_id) => {
+  const deleteGroup = async () => {
+    try {
+      const response = await axios.delete(backend+"group/delete-group", {
+        data: {
+          groupId: group_id,
+          userId : user_id,
+        }
+      })
+      const { success, data } = response.data;
+      if (success) {
+        console.log(data);
+      } else {
+        console.log("delete group Error");
+      } 
+    } catch (e) {
+      console.log(e)
+      console.log("There are something wrong about delete group :(");
+    }
+  };
+  
+  return { deleteGroup };
+};
+
+export const useLeaveGroup = (group_id, user_id) => {
+  const leaveGroup = async () => {
+    try {
+      const response = await axios.put(backend+"group/leave-group", {
+        groupId: group_id,
+        userId : user_id,
+      })
+      const { success, data } = response.data;
+      if (success) {
+        console.log(data);
+      } else {
+        console.log("leave group Error");
       } 
     } catch (error) {
-      console.log("There are something wrong about get group members :(");
+      console.log("There are something wrong about leave group :(");
+    }
+  };
+  
+  return { leaveGroup };
+};
+
+export const useGetGenerateProblem = () => {
+  const [start_loading, set_start_loading] = useState(false);
+  const [problems, set_problems] = useState();
+  const [number_of_problems, set_number_of_problems] = useState();
+
+  const getGenerateProblem = async ( group_id ) => {
+    set_start_loading(true);
+    try {
+      const response = await axios.post(backend+"group/gen-problems-when-group-start", {
+        groupId : group_id
+      });
+      const { success, data } = response.data;
+      if (success) {
+        set_problems(data.problems);
+        set_number_of_problems(data.numberOfProblem);
+        set_start_loading(false);
+      } else {
+        console.log("getGenerateProblem Error");
+      } 
+    } catch (error) {
+      console.log("There are something wrong about generate problem :(");
     }
   };
 
-  return { getGroupMembers, loading, members, number_of_members, is_creator };
+  return { getGenerateProblem, start_loading, problems };
 };

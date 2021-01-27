@@ -8,6 +8,9 @@ import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
 import { RadioButton } from "../../components/RadioButton";
 import { TimePickerWithLabel } from "../../components/TimePicker";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import useModal from "../../components/useModal";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -16,7 +19,10 @@ import {
   useGetAllSubjects,
   useGetAllTopicsBySubjectName,
   useGetAllSubtopicsByTopicName,
-  useGetAvailableDifficultyBySubtopicName
+  useGetAvailableDifficultyBySubtopicName,
+  useCreateGroup,
+  translateError,
+  timeConvertor
 } from "./CreateGroupPageHelper";
 
 const IS_PLAY_CHOICES = [
@@ -29,32 +35,59 @@ const CreateGroupPage = ({ history }) => {
   const [subject, set_subject] = useState('');
   const [topic, set_topic] = useState('');
   const [subtopic, set_subtopic] = useState('');
+  const [selected_subtopic, set_selected_subtopic] = useState('');
   const [difficulty, set_difficulty] = useState('');
   const [number_of_problems, set_number_of_problems] = useState(0);
   const [time_per_problem, set_time_per_problem] = useState('');
   const [is_play, set_is_play] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const user_id = localStorage.getItem("userId");
+  const [isShowing, toggle] = useModal();
 
   const { getAllSubjects, subjects } = useGetAllSubjects();
   const { getAllTopicsBySubjectName, topics } = useGetAllTopicsBySubjectName();
   const { getAllSubtopicsByTopicName, subtopics } = useGetAllSubtopicsByTopicName();
   const { getAvailableDifficultyBySubtopicName, available_difficulty } = useGetAvailableDifficultyBySubtopicName();
+  const {
+    createGroup,
+    loading,
+    group_id,
+    pin,
+    create_fail,
+    success
+  } = useCreateGroup();
   
   useEffect(() => {
     getAllSubjects();
     getAllTopicsBySubjectName(subject);
     getAllSubtopicsByTopicName(topic);
-    if (subtopic) {
+    if(subtopic) {
       getAvailableDifficultyBySubtopicName(subtopic);
     };
-    if (!subtopic) {
-      set_difficulty();
+    if(!subtopic || selected_subtopic !== subtopic) {
+      set_difficulty('');
+      set_selected_subtopic(subtopic);
     };
   }, [subject, topic, subtopic]);
+
+  const onSuccess = () => {
+    history.push({
+      pathname: "waiting-room", 
+      state: {
+        group_id : group_id,
+        pin: pin,
+        subject_name : subject,
+        topic_name : topic,
+        subtopic_name : subtopic,
+        difficulty : difficulty
+      }
+    });
+  };
 
   return (
     <Container>
       <Header>สร้างกลุ่ม</Header>
+      {loading && <LoadingPage overlay={true}/>}
       <ContentContainer>
         <DropdownWithLabel
           dropdown_ref={dropdown_ref}
@@ -121,16 +154,39 @@ const CreateGroupPage = ({ history }) => {
           ยกเลิก
         </Button>
         <Button
-          type={(subject && topic && subtopic && difficulty && number_of_problems && is_play) ? "default" : "disabled"}
+          type={(subject && topic && subtopic && difficulty && number_of_problems && time_per_problem && is_play) ? "default" : "disabled"}
           onClick={() => {
-            if(subject && topic && subtopic && difficulty && number_of_problems && is_play) {
-              history.push("waiting-room");
+            if(subject && topic && subtopic && difficulty && number_of_problems && time_per_problem && is_play) {
+              createGroup(
+                user_id,
+                subject,
+                topic,
+                subtopic,
+                difficulty.toUpperCase(),
+                number_of_problems,
+                timeConvertor(time_per_problem),
+                is_play === "ผู้เล่น" ? true : false,
+                toggle
+              );
             };
           }}
         >
           สร้าง
         </Button>
       </ButtonContainer>
+      <ConfirmResultModal
+        isShowing={isShowing}
+        toggle={toggle}
+        success={success}
+        pin={pin}
+        success_description="กลุ่มถูกสร้างสำเร็จ"
+        fail_description={translateError(create_fail)}
+        onSubmit={() => {
+          if(success) {
+            onSuccess();
+          };
+        }}
+      />
     </Container>
   );
 };
@@ -160,6 +216,13 @@ const ButtonContainer = styled.div.attrs(props => ({
   display: flex;
   justify-content: ${props => props.justifyContent};
   width: 100%;
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-self: flex-start;
+  margin-bottom: 8px;
 `;
 
 export default withRouter(CreateGroupPage);

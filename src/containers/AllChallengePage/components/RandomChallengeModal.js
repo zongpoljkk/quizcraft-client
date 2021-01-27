@@ -59,22 +59,23 @@ export const RandomChallengeModal = ({
 
   return (
     <div>
-      <Modal
-        isShowing={isShowing}
-        hide={toggle}
-      >
-        <Container
-          initial="hidden"
-          animate="visible"
-          variants={list}
-        >
+      <Modal isShowing={isShowing} hide={toggle}>
+        <Container initial="hidden" animate="visible" variants={list}>
           <ImgWithCaption>
-            <motion.div 
-              variants={variants}
-              style= {{alignSelf: "center"}}
-            >
-              <UserImg backgroundColor={my_profile_img ? null : COLOR.ISLAND_SPICE}>
-                {my_profile_img ? <img src={my_profile_img}/> : null}
+            <motion.div variants={variants} style={{ alignSelf: "center" }}>
+              <UserImg
+                backgroundColor={my_profile_img ? null : COLOR.ISLAND_SPICE}
+              >
+                {my_profile_img ? (
+                  <img
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "50%",
+                    }}
+                    src={"data:image/png;base64," + my_profile_img.data}
+                  />
+                ) : null}
               </UserImg>
             </motion.div>
             <motion.div variants={variants}>
@@ -83,27 +84,46 @@ export const RandomChallengeModal = ({
               </Body>
             </motion.div>
           </ImgWithCaption>
-          <motion.div 
+          <motion.div
             variants={variants}
-            style = {{marginTop: "8px", marginBottom:"8px", width:"150px", height:"75px", alignSelf: "center" }}
+            style={{
+              marginTop: "8px",
+              marginBottom: "8px",
+              width: "150px",
+              height: "75px",
+              alignSelf: "center",
+            }}
           >
             {display_lottie && (
-              <LottieFile 
-                animationData={challenge} 
-                width="150px" 
-                height="75px" 
+              <LottieFile
+                animationData={challenge}
+                width="150px"
+                height="75px"
                 loop={false}
               />
             )}
-          </motion.div> 
+          </motion.div>
           <ImgWithCaption alignSelf={"flex-end"}>
-            <motion.div 
+            <motion.div
               variants={item}
-              custom={4} 
-              style= {{alignSelf: "center"}}
+              custom={4}
+              style={{ alignSelf: "center" }}
             >
-              <UserImg backgroundColor={opponent_profile_img ? null : COLOR.ISLAND_SPICE}>
-                {opponent_profile_img ? <img src={opponent_profile_img}/> : null}
+              <UserImg
+                backgroundColor={
+                  opponent_profile_img ? null : COLOR.ISLAND_SPICE
+                }
+              >
+                {opponent_profile_img ? (
+                  <img
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "50%",
+                    }}
+                    src={"data:image/png;base64," + opponent_profile_img.data}
+                  />
+                ) : null}
               </UserImg>
             </motion.div>
             <motion.div variants={item} custom={5}>
@@ -112,10 +132,14 @@ export const RandomChallengeModal = ({
               </Body>
             </motion.div>
           </ImgWithCaption>
-          <motion.div 
+          <motion.div
             variants={item}
-            custom={6} 
-            style = {{display: "flex", justifyContent: "center" ,marginTop: "24px"}}
+            custom={6}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "24px",
+            }}
           >
             <Button onClick={onSubmit}> ยืนยัน </Button>
           </motion.div>

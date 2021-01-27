@@ -7,6 +7,7 @@ import { convertHexToRGBA } from "../../../global/utils";
 // Global
 import { COLOR } from "../../../global/const";
 import { Header } from "../../../components/Typography";
+import default_topic from "../../../assets/thumbnail/default_topic.png";
 import { withRouter } from "react-router-dom";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
@@ -36,7 +37,7 @@ const SubjectCard = ({ history, subjects_data }) => {
               handleOnSubjectClick(subject._id);
             }}
           >
-            <SubjectImg src={subject.subjectImg} />
+            <SubjectImg src= {subject.subject_image_info ? "data:image/png;base64,"+subject.subject_image_info.data : default_topic} />
             <Header>{subject._id}</Header>
           </SubjectBox>
         );
