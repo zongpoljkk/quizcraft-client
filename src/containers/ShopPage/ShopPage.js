@@ -103,17 +103,13 @@ const Shop = ({ history }) => {
                   <Item>
                     {item.item_name === "Skip" && (
                       in_used.Skip ? (
-                        <SkipContainer>
-                          <ZoomItem>
-                            <LottieFile
-                              animationData={JSON.parse(atob(item.animation_data))}
-                              loop={false}
-                              isPaused={!in_used.Skip}
-                              isStopped={!in_used.Skip}
-                              height={64}
-                            />
-                          </ZoomItem>
-                        </SkipContainer>
+                        <ZoomItem isItemSkip={true}>
+                          <LottieFile
+                            animationData={JSON.parse(atob(item.animation_data))}
+                            loop={false}
+                            height={64}
+                          />
+                        </ZoomItem>
                       ): (
                         <ItemImg src= {"data:image/png;base64,"+item.src} />
                       )
@@ -124,8 +120,6 @@ const Shop = ({ history }) => {
                           <LottieFile
                             animationData={JSON.parse(atob(item.animation_data))}
                             loop={false}
-                            isPaused={!in_used.Double}
-                            isStopped={!in_used.Double}
                             height={64}
                           />
                         </ZoomItem>
@@ -138,8 +132,6 @@ const Shop = ({ history }) => {
                         <LottieFile
                           animationData={JSON.parse(atob(item.animation_data))}
                           loop={false}
-                          isStopped={!in_used[item.item_name]}
-                          isPaused={!in_used[item.item_name]}
                           height={100}
                         />
                       ) : (
@@ -230,6 +222,7 @@ const ItemContainer = styled.div`
   width: 100px;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
 `;
 
@@ -244,13 +237,18 @@ const Item = styled(motion.div)`
   margin-bottom: 12px;
 `;
 
-const SkipContainer = styled.div`
-  margin-left: -18px;
-  transform: rotate(90deg);
-`;
-
-const ZoomItem = styled.div`
-  transform: scale(3.0);
+const ZoomItem = styled.div.attrs((props) => ({
+  isItemSkip: props.isItemSkip,
+}))`
+  ${(props) =>
+    props.isItemSkip
+      ? `
+    margin-left: -18px;
+    transform: scale(3) rotate(90deg);
+    `
+      : `
+    transform: scale(3.0);
+    `}
 `;
 
 export default withRouter(Shop);
