@@ -19,15 +19,15 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         mainCurlyBraces.push("(");
       }
       return (
-        <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace marginTop={36}>
           <Header>(</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === "(" && item.last_type === "power") {
       return (
-        <div style={{ marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace>
           <Header>(</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === "power") {
       powerExists = true;
@@ -39,40 +39,34 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
       );
     } else if (item.type === ")" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
       return (
-        <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace marginTop={36}>
           <Header>)</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === ")" && item.last_type === "power") {
       return (
-        <div style={{ marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace>
           <Header>)</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === "/") {
       return (
-        <div style={{ marginTop: 32, marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace marginTop={32}>
           <Divider>/</Divider>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === "display") {
       if (item.text == "*") {
         return (
-          <div style={{ marginTop: 40, marginLeft: 4, marginRight: 4 }}>
+          <BoxSpace marginTop={item.last_type === "power" ? 6 : 40}>
             <Subheader>x</Subheader>
-          </div>
-        );
-      } else if (item.last_type === "power") {
-        return (
-          <div style={{ marginTop: 6, marginLeft: 4, marginRight: 4 }}>
-            <Subheader>{item.text}</Subheader>
-          </div>
+          </BoxSpace>
         );
       } else {
         return (
-          <div style={{ marginTop: 42, marginLeft: 4, marginRight: 4 }}>
+          <BoxSpace marginTop={item.last_type === "power" ? 6 : 42}>
             <Subheader>{item.text}</Subheader>
-          </div>
+          </BoxSpace>
         );
       }
     } else {
@@ -174,4 +168,12 @@ const Divider = styled.div`
   font-weight: 500;
   font-size: 34px;
   color: ${COLOR.CHARCOAL};
+`;
+
+const BoxSpace = styled.div.attrs((props) => ({
+  marginTop: props.marginTop
+}))`
+  margin-top: ${(props) => props.marginTop}px;
+  margin-left: 4px;
+  margin-right: 4px;
 `;
