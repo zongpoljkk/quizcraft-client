@@ -104,6 +104,7 @@ const GroupGamePage = ({ history }) => {
                   <GameContent 
                     subject={location.state.subject_name}
                     type={problem.answerType}
+                    subject={location.state.subject_name}
                     correct_answer={problem.correctAnswer}
                     question={problem.body}
                     choices={problem.choices}

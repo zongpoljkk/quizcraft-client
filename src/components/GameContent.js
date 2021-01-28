@@ -10,6 +10,7 @@ import { ANSWER_TYPE } from "../global/const";
 const GameContent = ({
   subject,
   type,
+  subject,
   correct_answer = "",
   content = "",
   question = "",
