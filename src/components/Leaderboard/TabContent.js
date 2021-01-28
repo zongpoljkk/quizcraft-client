@@ -41,7 +41,6 @@ const Container = styled.div`
 
 const InfoBox = styled.div`
   display: flex;
-  flex: 1;
   align-items: center;
   padding: 4px 16px 4px 16px;
   background-color: ${props => props.backgroundColor};
