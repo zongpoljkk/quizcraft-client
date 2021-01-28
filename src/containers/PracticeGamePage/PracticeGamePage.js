@@ -77,7 +77,8 @@ const PracticeGamePage = ({ history }) => {
     subject,
     topic,
     subtopic,
-    difficulty
+    difficulty,
+    mode,
   ) => {
     set_answer_loading(true);
     getAndCheckAnswer(
@@ -110,6 +111,7 @@ const PracticeGamePage = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
+          mode: mode,
         },
       });
     });
@@ -195,6 +197,7 @@ const PracticeGamePage = ({ history }) => {
                     >
                       <GameContent
                         type={answer_type}
+                        subject={location.state.subject_name}
                         correct_answer={correct_answer}
                         question={body}
                         choices={choices}
@@ -226,7 +229,8 @@ const PracticeGamePage = ({ history }) => {
                                     location.state.subject_name,
                                     location.state.topic_name,
                                     location.state.subtopic_name,
-                                    location.state.difficulty
+                                    location.state.difficulty,
+                                    "practice"
                                   );
                                 }
                               : () => {}
@@ -240,7 +244,8 @@ const PracticeGamePage = ({ history }) => {
                                   location.state.subject_name,
                                   location.state.topic_name,
                                   location.state.subtopic_name,
-                                  location.state.difficulty
+                                  location.state.difficulty,
+                                  "practice"
                                 );
                               }
                             : () => {}
