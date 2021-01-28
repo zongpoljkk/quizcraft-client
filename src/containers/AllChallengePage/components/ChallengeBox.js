@@ -33,7 +33,7 @@ export const ChallengeBox = ({
     <div style={{ marginTop: 12, marginRight: margin_right }} onClick={onClick}>
       <ItemBox type = "small" color={is_read ? COLOR.WHITE : convertHexToRGBA(COLOR.ISLAND_SPICE, 45)} width={96}>
         <ProfileImage backgroundColor={image ? null : COLOR.ISLAND_SPICE}>
-          {image ? <Image src={image}/> : null}
+          {image ? <Image src={"data:image/png;base64,"+image.data}/> : null}
         </ProfileImage>
         <div style={{ marginTop: 4 }}>
           <Overline>{username}</Overline>

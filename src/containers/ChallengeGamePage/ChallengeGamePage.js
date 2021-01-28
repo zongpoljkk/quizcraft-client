@@ -4,9 +4,11 @@ import styled from "styled-components";
 import Timer from "react-compound-timer";
 
 import { Body } from "../../components/Typography";
-import { ExitModal } from "../../components/ExitModal"
+import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button";
+import { AnswerModal } from "../../components/AnswerModal";
+import useModal from "../../components/useModal";
 import { ProblemIndex } from "../../components/ProblemIndex";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -14,7 +16,8 @@ import { UserInfo } from "./components/UserInfo";
 
 import {
   useGetChallengeInfo,
-  useGetProblemByChallengeId
+  useGetProblemByChallengeId,
+  getAndCheckAnswer,
 } from "./ChallengeGamePageHelper";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
@@ -23,24 +26,24 @@ import { useWindowDimensions } from "../../global/utils";
 const NUMBER_OF_QUIZ = 5;
 
 const ChallengeGame = ({ history }) => {
-  
   const location = useLocation();
-  const [used_time, set_used_time] = useState();
-  const [answer, set_answer] = useState();
+  const [user_answer, set_user_answer] = useState();
+  const [correct, set_correct] = useState(false);
+  const [answer_key, set_answer_key] = useState("");
+  const [current_index, set_current_index] = useState(1);
+  const [time_start, set_time_start] = useState(true);
+  const [isShowing, toggle] = useModal();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
-  const { 
+  const {
     getChallengeInfo,
     loading_info,
     my_info,
-    challenger_info
-  } = useGetChallengeInfo(
-    user_id,
-    location.state.challenge_id
-  );
+    challenger_info,
+  } = useGetChallengeInfo(user_id, location.state.challenge_id);
 
-  const { 
+  const {
     getProblemByChallengeId,
     loading_problem,
     problem_id,
@@ -48,28 +51,76 @@ const ChallengeGame = ({ history }) => {
     answer_type,
     title,
     correct_answer,
-    choices
+    choices,
   } = useGetProblemByChallengeId();
 
-  const onExit = () => {
+  const onExit = async () => {
+    if (current_index === NUMBER_OF_QUIZ) {
+      await getProblemByChallengeId(
+        location.state.challenge_id,
+        my_info.currentProblem
+      );
+    }
     history.push({
-      pathname: "./all-challenges", 
+      pathname: "./all-challenges",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
         subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
-        difficulty: location.state.difficulty
-      }
+        difficulty: location.state.difficulty,
+      },
     });
   };
-  
-  const onCheck = () => {
-    if(answer) {
-      // TODO: connect API check answer
+
+  const onNext = async () => {
+    if (my_info.currentProblem === NUMBER_OF_QUIZ - 1) {
+      onExit();
+    } else {
+      set_current_index((index) => index + 1);
+      set_user_answer();
+      my_info.currentProblem++;
+      getProblemByChallengeId(
+        location.state.challenge_id,
+        my_info.currentProblem
+      );
     }
-    // TODO: connect API check answer with blank answer
+  };
+
+  const onCheck = async (
+    problemId,
+    userId,
+    userAnswer,
+    getTime,
+    subject,
+    topic,
+    subtopic,
+    difficulty
+  ) => {
+    const check_button = document.getElementById("check_button");
+    const skip_button = document.getElementById("skip_button");
+    check_button.disabled = true;
+    skip_button.disabled = true;
+
+    if (userAnswer) {
+      await getAndCheckAnswer(
+        problemId,
+        userId,
+        userAnswer,
+        getTime / 1000,
+        subject,
+        topic,
+        subtopic,
+        "challenge",
+        location.state.challenge_id,
+        my_info.currentProblem
+      ).then((res) => {
+        set_correct(res.data.correct);
+        set_answer_key(res.data.answer);
+      });
+      toggle();
+    }
   };
 
   useEffect(() => {
@@ -77,84 +128,143 @@ const ChallengeGame = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    if(my_info) {
-      getProblemByChallengeId(location.state.challenge_id, my_info.currentProblem);
-    };
+    // Only do once
+    if (my_info) {
+      getProblemByChallengeId(
+        location.state.challenge_id,
+        my_info.currentProblem
+      );
+    }
   }, [my_info]);
 
-  return ( 
-    (loading_info || loading_problem)
-    ? <LoadingPage />
-    : <Container>
-        <Timer
-          formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
-          startImmediately={false}
-          lastUnit="h"
-          initialTime={my_info.usedTime}
-        >
-          {({ getTime, start, stop, reset }) => (
-            <React.Fragment>
-              {problem_id ? start() : reset()}
-              <Headline>
-                <ExitModal onExit={() => onExit()}/>
-                <div style={{ marginRight: 8 }}/>
-                <ProblemIndex indexes={NUMBER_OF_QUIZ} current_index={my_info.currentProblem+1}/>
-                <TimeContainer>
-                  <Body color={COLOR.MANDARIN}>
-                    <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
-                  </Body>
-                </TimeContainer>
-              </Headline>
-              <UserInfo
-                my_image={my_info.photo}
-                challenger_image={challenger_info.photo}
-                my_score={my_info.score}
-                challenger_score={challenger_info.score}
-                challenger_is_played={challenger_info.isPlayed}
+  return loading_info || loading_problem ? (
+    <LoadingPage />
+  ) : (
+    <Container>
+      <Timer
+        formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
+        startImmediately={false}
+        lastUnit="h"
+        initialTime={my_info.usedTime}
+      >
+        {({ getTime, start, stop, reset }) => (
+          <React.Fragment>
+            {problem_id && time_start ? start() : reset()}
+            <Headline>
+              <ExitModal onExit={() => onExit()} />
+              <div style={{ marginRight: 8 }} />
+              <ProblemIndex
+                indexes={NUMBER_OF_QUIZ}
+                current_index={my_info.currentProblem + 1}
               />
-              <ProblemBox
-                problem={title}
-                problem_content={answer_type === ANSWER_TYPE.MATH_INPUT ? body : null}
+              <TimeContainer>
+                <Body color={COLOR.MANDARIN}>
+                  <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
+                </Body>
+              </TimeContainer>
+            </Headline>
+            <UserInfo
+              my_image={my_info.photo}
+              challenger_image={challenger_info.photo}
+              my_score={my_info.score}
+              challenger_score={challenger_info.score}
+              challenger_is_played={challenger_info.isPlayed}
+            />
+            <ProblemBox
+              problem={title}
+              problem_content={
+                answer_type === ANSWER_TYPE.MATH_INPUT ? body : null
+              }
+            />
+            <ContentContainer
+              style={{
+                alignSelf:
+                  answer_type === ANSWER_TYPE.MATH_INPUT
+                    ? "center"
+                    : "flex-start",
+              }}
+            >
+              <GameContent
+                type={answer_type}
+                subject={location.state.subject_name}
+                correct_answer={correct_answer}
+                question={body}
+                choices={choices}
+                content={body}
+                answer={user_answer}
+                set_answer={set_user_answer}
               />
-              <ContentContainer 
-                style={{ alignSelf: answer_type === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+            </ContentContainer>
+            <ButtonContainer
+              justifyContent={
+                screen_width >= LARGE_DEVICE_SIZE
+                  ? "space-evenly"
+                  : "space-between"
+              }
+            >
+              <Button
+                id="skip_button"
+                type="outline"
+                onClick={() => {
+                  stop();
+                  set_time_start(false);
+                  onCheck(
+                    problem_id,
+                    user_id,
+                    "WRONG ANSWER",
+                    getTime(),
+                    location.state.subject_name,
+                    location.state.topic_name,
+                    location.state.subtopic_name,
+                    location.state.difficulty
+                  );
+                }}
               >
-                <GameContent 
-                  type={answer_type}
-                  correct_answer={correct_answer}
-                  question={body}
-                  choices={choices}
-                  content={body}
-                  answer={answer}
-                  set_answer={set_answer}
-                />
-              </ContentContainer>
-              <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
-                <Button
-                  type="outline"
-                  onClick={() => {
-                    set_used_time(getTime()/1000);
-                    stop();
-                    onCheck();
-                  }}
-                >
-                  ข้าม
-                </Button>
-                <Button
-                  type={answer ? "default" : "disabled"}
-                  onClick={() => {
-                    set_used_time(getTime()/1000);
-                    stop();
-                    onCheck();
-                  }}
-                >
-                  ตรวจ
-                </Button>
-              </ButtonContainer>
-            </React.Fragment>
-          )}
-        </Timer>
-      </Container>
+                ข้าม
+              </Button>
+              <Button
+                id="check_button"
+                type={user_answer ? "default" : "disabled"}
+                onClick={() => {
+                  stop();
+                  set_time_start(false);
+                  onCheck(
+                    problem_id,
+                    user_id,
+                    user_answer,
+                    getTime(),
+                    location.state.subject_name,
+                    location.state.topic_name,
+                    location.state.subtopic_name,
+                    location.state.difficulty
+                  );
+                }}
+              >
+                ตรวจ
+              </Button>
+            </ButtonContainer>
+            <AnswerModal
+              isShowing={isShowing}
+              toggle={toggle}
+              subject={location.state.subject_name}
+              correct={correct}
+              answer={correct ? null : answer_key}
+              buttonTitle={
+                current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
+              }
+              overlay_clickable={false}
+              onButtonClick={() => {
+                onNext();
+                set_time_start(true);
+                // set_problem_id();
+                // set_hint();
+                reset();
+              }}
+            />
+          </React.Fragment>
+        )}
+      </Timer>
+    </Container>
   );
 };
 
@@ -185,11 +295,11 @@ const TimeContainer = styled.div`
   margin-left: 8px;
 `;
 
-const ButtonContainer = styled.div.attrs(props => ({
-  justifyContent: props.justifyContent
+const ButtonContainer = styled.div.attrs((props) => ({
+  justifyContent: props.justifyContent,
 }))`
   display: flex;
-  justify-content: ${props => props.justifyContent};
+  justify-content: ${(props) => props.justifyContent};
 `;
 
 export default withRouter(ChallengeGame);

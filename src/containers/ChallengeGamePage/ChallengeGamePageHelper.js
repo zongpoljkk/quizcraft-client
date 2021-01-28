@@ -70,3 +70,45 @@ export const useGetProblemByChallengeId = () => {
 
   return { getProblemByChallengeId, loading_problem, problem_id, body, answer_type, title, correct_answer, choices };
 };
+
+export const getAndCheckAnswer = async (
+  problemId,
+  userId,
+  userAnswer,
+  userTime,
+  subject,
+  topic,
+  subtopic,
+  mode,
+  challengeId,
+  problemIndex,
+) => {
+  try {
+    const url = `${backend}problem/get-and-check-answer`;
+    const data = {
+      problemId: problemId,
+      userId: userId,
+      userAnswer: userAnswer,
+      userTime: userTime,
+      subject: subject,
+      topic: topic,
+      subtopic: subtopic,
+      mode: mode,
+      challengeId: challengeId,
+      problemIndex: problemIndex,
+    };
+    const options = {
+      method: "POST",
+      url: url,
+      data: JSON.stringify(data),
+      headers: { "content-type": "application/json" },
+    };
+    const response = await axios(options);
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.error("Unable to get and check answer and update difficulty index");
+  }
+  return Promise.reject(new Error("getAndCheckAnswer"));
+};

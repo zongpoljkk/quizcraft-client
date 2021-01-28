@@ -1,36 +1,47 @@
 import React from "react";
 import styled from "styled-components";
+import Tex2SVG from "react-hook-mathjax";
 
 import { COLOR } from "../global/const";
 
 export const RadioButton = ({
   value='',
+  subject='',
   selected_value = () => {},
   choices = {},
-  direction
+  direction,
+  justifyContent,
+  marginRight,
+  text,
 }) => {
 
-  return ( 
-    <Container direction={direction}>
+  const asciimath2latex = require("asciimath-to-latex");
+
+  return (
+    <Container direction={direction} justifyContent={justifyContent}>
       {choices?.map((option, i) => (
-        <div 
-          key={i} 
-          style={{ 
-            marginBottom: direction === "column" ? (i !== choices.length-1 ? 8 : 0) : 0
+        <div
+          key={i}
+          style={{
+            marginBottom:
+              direction === "column" ? (i !== choices.length - 1 ? 8 : 0) : 0,
+            marginRight: marginRight,
           }}
         >
-          <Label
-            selected={value === option}
-          >
-            <Input 
+          <Label text={text} selected={value === option}>
+            <Input
               name="answer"
               type="radio"
               value={option}
               checked={value === option}
-              onChange={e => selected_value(e.target.value)}
+              onChange={(e) => selected_value(e.target.value)}
             />
-            <Mark selected={value === option}/>
-            {option}
+            <Mark selected={value === option} />
+            {subject === "คณิตศาสตร์" ? (
+              <Tex2SVG display="inline" latex={asciimath2latex(option)} /> 
+            ) : (
+              option
+            )}
           </Label>
         </div>
       ))}
@@ -39,12 +50,13 @@ export const RadioButton = ({
 };
 
 const Container = styled.div.attrs(props => ({
-  direction: props.direction || "column"
+  direction: props.direction || "column",
+  justifyContent: props.justifyContent || "space-between",
 }))`
   display: flex;
   flex: 1;
   flex-direction: ${props => props.direction};
-  justify-content: space-between;
+  justify-content: ${props => props.justifyContent};
   align-items: flex-start;
 `;
 
@@ -88,11 +100,31 @@ const Input = styled.input`
 `;
 
 const Label = styled.label.attrs(props => ({
-  weigth: props.selected ? 500 : 400
+  text: props.text,
+  selected: props.selected,
+  fontWeight: props.fontWeight
 }))`
   position: relative;
   font-family: Prompt, sans-serif;
-  font-weight: ${props => props.weigth};
-  font-size: 16px;
+  font-weight: ${(props) => {
+    switch (props.text) {
+      case "custom":
+        return props.selected ? `${props.fontWeight}`+100 : `${props.fontWeight}`;
+      case "subheader":
+        return props.selected ? 600 : 500;
+      default:
+        return props.selected ? 500 : 400;
+    }
+  }};
+  font-size: ${(props) => {
+    switch (props.text) {
+      case "custom":
+        return `${props.fontSize}`;
+      case "subheader":
+        return "20px";
+      default:
+        return "16px";
+    }
+  }};
   color: ${COLOR.CHARCOAL};
 `;
