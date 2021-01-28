@@ -58,8 +58,8 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     } else if (item.type === "display") {
       if (item.text == "*") {
         return (
-          <BoxSpace marginTop={item.last_type === "power" ? 6 : 40}>
-            <Subheader>x</Subheader>
+          <BoxSpace marginTop={item.last_type === "power" ? 8 : 42}>
+            <Multiple>x</Multiple>
           </BoxSpace>
         );
       } else {
@@ -167,6 +167,13 @@ const Divider = styled.div`
   font-family: Prompt, sans-serif;
   font-weight: 500;
   font-size: 34px;
+  color: ${COLOR.CHARCOAL};
+`;
+
+const Multiple = styled.div`
+  font-family: Prompt, sans-serif;
+  font-weight: 500;
+  font-size: 17px;
   color: ${COLOR.CHARCOAL};
 `;
 
