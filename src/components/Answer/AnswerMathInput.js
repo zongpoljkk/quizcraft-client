@@ -51,7 +51,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
       );
     } else if (item.type === "/") {
       return (
-        <BoxSpace marginTop={32}>
+        <BoxSpace marginTop={31}>
           <Divider>/</Divider>
         </BoxSpace>
       );
