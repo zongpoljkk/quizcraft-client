@@ -4,6 +4,7 @@ import { Route, Redirect, useLocation } from "react-router-dom";
 export const PrivateRoute = ({ 
   children,
   getUserData = () => {},
+  checkExpired = () => {},
   ...rest
 }) => {
   
@@ -12,6 +13,7 @@ export const PrivateRoute = ({
 
   useEffect(() => {
     getUserData();
+    checkExpired();
   }, [location]);
 
   return (

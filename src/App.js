@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 import { PrivateRoute } from "./route/PrivateRoute";
 import { PublicRoute } from "./route/PublicRoute";
@@ -73,6 +74,29 @@ const App = () => {
     }
   };
 
+  const checkExpired = async () => {
+    var expired_time = new Date(jwt_decode(token).exp * 1000);
+    var date = new Date();
+
+    if (expired_time - date <= 900000) {
+      refreshToken();
+    }
+  };
+
+  const refreshToken = async () => {
+    try {
+      const response = await axios.post(backend + "auth/refresh-token");
+      const { success, data } = response.data;
+      if (success) {
+        localStorage.setItem("token", data.token);
+      } else {
+        console.log("refreshToken Error");
+      }
+    } catch (error) {
+      console.log("There are something wrong about get refreshToken :(");
+    }
+  };
+
   useEffect(() => {
     if (token) {
       getUserData();
@@ -90,6 +114,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-game"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <PracticeGame />
           </PrivateRoute>
@@ -97,6 +122,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <PracticeAnswer />
           </PrivateRoute>
@@ -104,6 +130,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-game"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <QuizGame />
           </PrivateRoute>
@@ -111,6 +138,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <QuizResultPage />
           </PrivateRoute>
@@ -118,6 +146,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <AllChallengePage />
           </PrivateRoute>
@@ -125,6 +154,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-game"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <ChallengeGame />
           </PrivateRoute>
@@ -132,6 +162,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/challenge-result"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <ChallengeResultPage />
           </PrivateRoute>
@@ -139,6 +170,7 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/group-game"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <GroupGamePage />
           </PrivateRoute>
@@ -146,46 +178,107 @@ const App = () => {
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/group-result"
             getUserData={getUserData}
+            checkExpired={checkExpired}
           >
             <GroupResultPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/create-group" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/create-group" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <CreateGroupPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/join-group" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/join-group" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <JoinGroupPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/waiting-room" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/waiting-room" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <WaitingRoomPage />
           </PrivateRoute>
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/selected_subject/:subject" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <TopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/:subject/:topic" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/homepage" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <Homepage user_id={user_id} />
           </PrivateRoute>
-          <PrivateRoute exact path="/profile" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/profile" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
-          <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/edit-username" 
+            getUserData={getUserData} 
+            checkExpired={checkExpired}
+          >
             <EditUsernamePage />
           </PrivateRoute>
-          <PrivateRoute exact path="/report" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/report" 
+            getUserData={getUserData}
+            checkExpired={checkExpired}
+            >
             <ReportPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/homepage" 
+            getUserData={getUserData}
+            checkExpired={checkExpired}
+          >
             <Homepage user_id={user_id} />
           </PrivateRoute>
-          <PrivateRoute exact path="/shop" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/shop" 
+            getUserData={getUserData}
+            checkExpired={checkExpired}
+            >
             <ShopPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/achievement" getUserData={getUserData}>
+          <PrivateRoute 
+            exact 
+            path="/achievement" 
+            getUserData={getUserData}
+            checkExpired={checkExpired}
+          >
             <AchievementPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
