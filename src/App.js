@@ -149,6 +149,13 @@ const App = () => {
           >
             <GroupResultPage />
           </PrivateRoute>
+          <PrivateRoute 
+            exact 
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/report" 
+            getUserData={getUserData}
+          >
+            <ReportPage />
+          </PrivateRoute>
           <PrivateRoute exact path="/create-group" getUserData={getUserData}>
             <CreateGroupPage />
           </PrivateRoute>
@@ -175,9 +182,6 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
             <EditUsernamePage />
-          </PrivateRoute>
-          <PrivateRoute exact path="/report" getUserData={getUserData}>
-            <ReportPage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage user_id={user_id} />

@@ -4,14 +4,13 @@ import styled from "styled-components";
 
 import { Header, Subheader } from "../../components/Typography";
 import { ProblemBox } from "../../components/ProblemBox";
-import GameContent from "../../components/GameContent";
 import { Button } from "../../components/Button";
 import { RadioButton } from "../../components/RadioButton";
 import { TextField } from "../../components/TextField";
 import useModal from "../../components/useModal";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
-import { ANSWER_TYPE, CONTAINER_PADDING, REPORT } from "../../global/const";
+import { ANSWER_TYPE, CONTAINER_PADDING, MODE, REPORT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import { useSendReport } from "./ReportPageHelper";
@@ -26,17 +25,47 @@ const ReportPage = ({ history }) => {
   const [isShowing, toggle] = useModal();
   const user_id = localStorage.getItem("userId");
   var date;
-  const { sendReport, report_success } = useSendReport(user_id, location.state.problem_id, report_content, date);
+  const { sendReport,report_success } = useSendReport(user_id, location.state.problem_id, report_content, date);
 
-  const handleOnclick = (content) => {
-    set_report_content(content);
+  const handleOnclick = async (content) => {
+    await set_report_content(content);
     date = new Date();
-    sendReport();
-    toggle();
+    await sendReport();
+    await toggle();
   }
 
   const onSubmit = () => {
-    history.goBack();
+    if(location.state.mode === MODE.PRACTICE.type){
+      history.goBack();
+    }
+    else if(location.state.mode === MODE.QUIZ.type){
+      if(location.state.current_index < location.state.number_of_problem){
+        history.push({
+          pathname: "./quiz-game",
+          state: {
+            subject_name: location.state.subject_name,
+            topic_name: location.state.topic_name,
+            subtopic_id: location.state.subtopic_id,
+            subtopic_name: location.state.subtopic_name,
+            mode: location.state.mode,
+            difficulty: location.state.difficulty,
+          }
+        });
+      }
+      else{
+        history.push({
+          pathname: "./quiz-result",
+          state: {
+            subject_name: location.state.subject_name,
+            topic_name: location.state.topic_name,
+            subtopic_id: location.state.subtopic_id,
+            subtopic_name: location.state.subtopic_name,
+            mode: location.state.mode,
+            difficulty: location.state.difficulty,
+          }
+        });
+      }
+    }
   }
 
   useEffect(() => {

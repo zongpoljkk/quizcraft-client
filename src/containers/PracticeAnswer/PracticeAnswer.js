@@ -89,9 +89,10 @@ const PracticeAnswer = ({ history }) => {
 
   const onReport = async () => {
     history.push({
-      pathname: "/report",
+      pathname: "./report",
       state: {
         subject_name: location.state.subject,
+        mode: location.state.mode,
         problem_id: location.state.problemId,
         problem_content: location.state.problem_content,
         problem_title: location.state.problem_title,

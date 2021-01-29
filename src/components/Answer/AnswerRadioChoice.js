@@ -29,9 +29,7 @@ export const AnswerRadioChoice = ({
     if (item.length === 3 || item[0].type === "content") {
       return (
         <QuestionContainer>
-          <div>
-            <Body>{item[0].content}</Body>
-          </div>
+          <Body>{item[0].content}</Body>
           {item[1].content === ""
             ? <BlankField />
             : <div style={{ marginLeft: 8, marginRight: 8 }}>
@@ -39,17 +37,6 @@ export const AnswerRadioChoice = ({
               </div>
           }
           <Body>{item[2]?.content}</Body>
-        </QuestionContainer>
-      );
-    }
-    else if(item){
-      return (
-        <QuestionContainer>
-          <div>
-            <Body>
-              <Tex2SVG display="inline" latex={asciimath2latex(item)} />
-            </Body>
-          </div>
         </QuestionContainer>
       );
     }
@@ -62,9 +49,7 @@ export const AnswerRadioChoice = ({
                 <Body color={COLOR.MANDARIN}>{item[0].content}</Body>
               </div>
           }
-          <div>
-            <Body>{item[1].content}</Body>
-          </div>
+          <Body>{item[1].content}</Body>
         </QuestionContainer>
       );
     }
@@ -74,8 +59,15 @@ export const AnswerRadioChoice = ({
     <Container width={display_choice ? screen_width-CONTAINER_PADDING : screen_width-CONTAINER_PADDING-48}>
       <div style={{ marginBottom: display_choice ? 16 : 0 }}>
         {subject === "คณิตศาสตร์"
-          ? outputQuestion(question)
-          : outputQuestion(splitQuestion(question))}
+          ? (
+            <QuestionContainer>
+              <Body>
+                <Tex2SVG display="inline" latex={asciimath2latex(question)} />
+              </Body>
+            </QuestionContainer>
+          )
+          : outputQuestion(splitQuestion(question))
+        }
       </div>
       <div style={{ marginLeft: 16 }}>
         <RadioButton

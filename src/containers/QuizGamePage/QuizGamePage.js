@@ -165,8 +165,12 @@ const QuizGamePage = ({ history }) => {
   };
 
   const onReport = async () => {
+    if(current_index + 1 !== NUMBER_OF_QUIZ){
+      set_current_index((index) => index + 1);
+    }
+
     history.push({
-      pathname: "/report",
+      pathname: "./report",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
@@ -178,6 +182,8 @@ const QuizGamePage = ({ history }) => {
         problem_content: body,
         problem_title: title,
         answer_type: answer_type,
+        current_index: current_index,
+        number_of_problem: NUMBER_OF_QUIZ
       },
     });
   };
