@@ -7,6 +7,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { Button } from "../../components/Button";
 import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import useModal from "../../components/useModal";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
