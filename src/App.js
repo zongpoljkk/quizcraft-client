@@ -39,6 +39,8 @@ const App = () => {
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
 
+  var axiosInstance = axios.create();
+
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
@@ -74,46 +76,35 @@ const App = () => {
     }
   };
 
-  axios.interceptors.response.use(null, (error) => {
-    if (
-      error.config &&
-      error.response?.status === 401 &&
-      !error.config.__isRetry
-    ) {
-      return new Promise((resolve, reject) => {
-        refreshToken(axios, error.config)
-          .then((result) => {
-            resolve(result);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+  const refreshToken = async () => {
+    try {
+      const response = await axios.post(backend + "auth/refresh-token");
+      const { success, data } = response.data;
+      if (success) {
+        localStorage.setItem("token", data.token);
+      } else {
+        console.log("refreshToken Error");
+      }
+    } catch (error) {
+      console.log("There are something wrong about get refreshToken :(");
     }
-    return Promise.reject(error);
-  });
-
-  const refreshToken = (axios, config) => {
-    return new Promise((resolve, reject) => {
-      axios.post(backend + "auth/refresh-token")
-        .then((response) => {
-          localStorage.setItem("token", response.data.token);
-          config.headers.Authorization = response.data.token;
-          axios
-            .request(config)
-            .then((result) => {
-              return resolve(result);
-            })
-            .catch((err) => {
-              console.log(err);
-              return reject(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
   };
+
+  axiosInstance.interceptors.request.use(
+    async (config) => {
+      if (token) {
+        const { exp } = jwt_decode(token);
+        if (exp * 1000 - Date.now() <= 900000) {
+          await refreshToken();
+          return config;
+        } else {
+          return config;
+        }
+      }
+    },(err) => {
+      return Promise.reject(err);
+    }
+  );
 
   useEffect(() => {
     if (token) {
