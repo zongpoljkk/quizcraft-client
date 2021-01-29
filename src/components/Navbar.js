@@ -80,7 +80,7 @@ const Navbar = ({
   );
 };
 
-const Container = styled.nav`
+const Container = styled.div`
   display: flex;
   flex: 1;
   justify-content: space-between;
@@ -88,11 +88,6 @@ const Container = styled.nav`
   background-color: ${COLOR.MANDARIN};
   height: 54px;
   padding: 0px 16px 0px 16px;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1;
 `;
 
 const Logo = styled.img`
