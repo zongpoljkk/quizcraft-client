@@ -90,9 +90,9 @@ const App = () => {
     }
   };
 
-  axiosInstance.interceptors.request.use(
-    async (config) => {
-      if (token) {
+  if (token) {
+    axios.interceptors.request.use(
+      async (config) => {
         const { exp } = jwt_decode(token);
         if (exp * 1000 - Date.now() <= 900000) {
           await refreshToken();
@@ -100,11 +100,12 @@ const App = () => {
         } else {
           return config;
         }
+      },
+      (err) => {
+        return Promise.reject(err);
       }
-    },(err) => {
-      return Promise.reject(err);
-    }
-  );
+    );
+  }
 
   useEffect(() => {
     if (token) {
