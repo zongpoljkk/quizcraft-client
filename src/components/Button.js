@@ -71,6 +71,7 @@ export const Button = styled.button.attrs((props) => ({
     }
   }};
   border-radius: 10px;
+  max-height: 48px;
   outline: none;
   &:hover {
     transform: ${(props) => props.type === "disabled" ? null : "scale(1.1)"};
