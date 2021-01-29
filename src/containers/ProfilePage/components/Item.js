@@ -7,12 +7,13 @@ import { COLOR } from "../../../global/const"
 
 export const Item = ({
   icon,
-  amount
+  amount,
+  onClick = () => {},
 }) => {
 
   return (
     <Container>
-      <ItemContainer>
+      <ItemContainer onClick = {onClick}>
         <img src={icon} width={40}/>
       </ItemContainer>
       <div style={{ marginBottom: 4 }}/>

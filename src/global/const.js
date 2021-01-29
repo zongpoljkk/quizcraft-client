@@ -90,3 +90,11 @@ export const REPORT = {
 export const LARGE_DEVICE_SIZE = 768;
 
 export const CONTAINER_PADDING = 64;
+
+export const ITEM_NAME = {
+  SKIP: "Skip",
+  HINT: "Hint",
+  DOUBLE: "Double",
+  REFRESH: "Refresh",
+  FREEZE: "Freeze"
+}

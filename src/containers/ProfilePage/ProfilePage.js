@@ -8,6 +8,9 @@ import { Button } from "../../components/Button";
 import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import useModal from "../../components/useModal";
+import { ConfirmModal } from "../../components/ConfirmModal";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import { useActivateItem } from "./ProfilePageHelper";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
@@ -15,7 +18,7 @@ import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import edit_photo from "../../assets/icon/photo.png";
 
-import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, RANK, ITEM_NAME } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NAVBAR_HEIGHT = 54;
@@ -27,7 +30,19 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
-  
+
+  const [clicked_item, set_clicked_item] = useState();
+  const [isShowing, toggle] = useModal();
+  const [isShowingResult, toggleResult] = useModal();
+  const clickableItem = [ITEM_NAME.FREEZE, ITEM_NAME.DOUBLE];
+  const user_id = localStorage.getItem("userId");
+
+  const { 
+    activateItem,
+    use_item_loading, 
+    use_success 
+  } = useActivateItem(user_id);
+
   const handleMouseEnter = () => {
     set_hover(true);
   };
@@ -39,6 +54,19 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const handleUpload = () => {
     inputFile.current.click();
   };
+
+  const onConfirmModalSubmit = async () => {
+    await activateItem(clicked_item);
+    await toggleResult();
+  };
+
+  const onItemClick = (item) => {
+    set_clicked_item(item)
+    if (clickableItem.includes(item.itemName)) {
+      toggle();
+    }
+    console.log(item.itemName);
+  }
 
   return (
     (!user_info)
@@ -127,10 +155,33 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
           >
             {user_info.itemInfos?.map((item, index) => (
               <div key={index} style={{ marginRight: index === user_info.itemInfos.length-1 ? null : 16 }}>
-                <Item icon={item.image} amount={item.amount}/>
+                <Item 
+                icon={item.image} 
+                amount={item.amount} 
+                onClick={() => onItemClick(item)}
+                />
               </div>
             ))}
           </ItemContainer>
+          <ConfirmModal
+            isShowing={isShowing}
+            toggle={toggle}
+            content="คุณยืนยันที่จะใช้ไอเทมนี้ใช่หรือไม่" 
+            onSubmit={() => onConfirmModalSubmit()} 
+          />
+          <ConfirmResultModal
+            isShowing={isShowingResult}
+            toggle={toggleResult}
+            success={use_success}
+            success_description="ใช้ไอเทมสำเร็จ"
+            fail_description="คุณไม่สามารถใช้ไอเทมนี้ในหน้านี้ได้"
+            onSubmit={() => {
+              if(use_success){
+                // history.push("/profile");
+                window.location.reload();
+              }
+            }}
+          />
         </ContentContainer>
         <Button 
           type="outline" 
