@@ -39,8 +39,6 @@ const App = () => {
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
 
-  var axiosInstance = axios.create();
-
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
