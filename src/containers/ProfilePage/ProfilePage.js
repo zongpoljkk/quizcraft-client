@@ -11,6 +11,7 @@ import useModal from "../../components/useModal";
 import { ConfirmModal } from "../../components/ConfirmModal";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import { useActivateItem } from "./ProfilePageHelper";
+import { DisableItemModal } from "./components/ีืีืdisableItemModal";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
@@ -34,12 +35,13 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [clicked_item, set_clicked_item] = useState();
   const [isShowing, toggle] = useModal();
   const [isShowingResult, toggleResult] = useModal();
+  const [isShowingDisableItem, toggleDisableItem] = useModal();
   const clickableItem = [ITEM_NAME.FREEZE, ITEM_NAME.DOUBLE];
   const user_id = localStorage.getItem("userId");
 
   const { 
     activateItem,
-    use_item_loading, 
+    activate_item_loading, 
     use_success 
   } = useActivateItem(user_id);
 
@@ -64,6 +66,8 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     set_clicked_item(item)
     if (clickableItem.includes(item.itemName)) {
       toggle();
+    } else {
+      toggleDisableItem();
     }
     console.log(item.itemName);
   }
@@ -174,7 +178,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             toggle={toggleResult}
             success={use_success}
             success_description="ใช้ไอเทมสำเร็จ"
-            fail_description="คุณไม่สามารถใช้ไอเทมนี้ในหน้านี้ได้"
+            fail_description="ใช้ไอเทมไม่สำเร็จ"
             onSubmit={() => {
               if(use_success){
                 // history.push("/profile");
@@ -182,6 +186,11 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
               }
             }}
           />
+          <DisableItemModal
+            isShowing={isShowingDisableItem} 
+            toggle={toggleDisableItem} 
+          />
+          {activate_item_loading && <LoadingPage overlay={true} />}
         </ContentContainer>
         <Button 
           type="outline" 

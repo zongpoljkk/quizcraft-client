@@ -5,7 +5,7 @@ import backend from "../../ip";
 import { ITEM_NAME } from "../../global/const";
 
 export const useActivateItem = (user_id) => {
-  const [use_item_loading, set_use_item_loading] = useState(false);
+  const [activate_item_loading, set_activate_item_loading] = useState(false);
   const [use_success, set_use_success] = useState(false);
 
   const activateItem = async (item) => {
@@ -15,7 +15,7 @@ export const useActivateItem = (user_id) => {
     } else if (item.itemName == ITEM_NAME.DOUBLE) {
       item_name = "double";
     }
-    set_use_item_loading(true);
+    set_activate_item_loading(true);
     try {
       const response = await axios.post(backend + `item/use-${item_name}-item`, {
         userId: user_id,
@@ -30,7 +30,8 @@ export const useActivateItem = (user_id) => {
       console.log(err.response);
       console.log("There are something wrong about use item :(");
     }
+    set_activate_item_loading(false);
   };
 
-  return { activateItem, use_item_loading, use_success };
+  return { activateItem, activate_item_loading, use_success };
 };
