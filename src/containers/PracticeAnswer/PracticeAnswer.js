@@ -91,9 +91,10 @@ const PracticeAnswer = ({ history }) => {
     history.push({
       pathname: "/report",
       state: {
+        subject_name: location.state.subject,
         problem_id: location.state.problemId,
         problem_content: location.state.problem_content,
-        problem_title: location.state.title,
+        problem_title: location.state.problem_title,
         answer_type: location.state.answer_type,
       },
     });
