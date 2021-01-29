@@ -87,6 +87,18 @@ const PracticeAnswer = ({ history }) => {
     }
   };
 
+  const onReport = async () => {
+    history.push({
+      pathname: "/report",
+      state: {
+        problem_id: location.state.problemId,
+        problem_content: location.state.problem_content,
+        problem_title: location.state.title,
+        answer_type: location.state.answer_type,
+      },
+    });
+  };
+
   useEffect(() => {
     setIsLoading(true);
     set_correct(location.state.correct);
@@ -213,7 +225,10 @@ const PracticeAnswer = ({ history }) => {
       {arrowHolder()}
 
       <ReportContainer>
-        <Report correct={correct} />
+        <Report 
+          correct={correct} 
+          onReport={() => onReport()}
+        />
       </ReportContainer>
     </Container>
   );
@@ -263,6 +278,8 @@ const ShiftDiv = styled(CenterDiv)`
 const ReportContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  position: relative;
+  z-index: 1;
 `;
 
 export default withRouter(PracticeAnswer);

@@ -164,6 +164,24 @@ const QuizGamePage = ({ history }) => {
     }
   };
 
+  const onReport = async () => {
+    history.push({
+      pathname: "/report",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty,
+        problem_id: problem_id,
+        problem_content: body,
+        problem_title: title,
+        answer_type: answer_type,
+      },
+    });
+  };
+
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
       //push to result page
@@ -381,6 +399,7 @@ const QuizGamePage = ({ history }) => {
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }
                     overlay_clickable={false}
+                    onReportClick={() => onReport()}
                     onButtonClick={() => {
                       onNext(
                         user_id,

@@ -17,8 +17,9 @@ export const AnswerRadioChoice = ({
   question = '',
   subject = '',
   choices = {},
-  set_answer,
-  answer
+  set_answer = '',
+  answer,
+  display_choice = true
 }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
@@ -70,8 +71,8 @@ export const AnswerRadioChoice = ({
   };
 
   return (
-    <Container width={screen_width - CONTAINER_PADDING}>
-      <div style={{ marginBottom: 16 }}>
+    <Container width={display_choice ? screen_width-CONTAINER_PADDING : screen_width-CONTAINER_PADDING-48}>
+      <div style={{ marginBottom: display_choice ? 16 : 0 }}>
         {subject === "คณิตศาสตร์"
           ? outputQuestion(question)
           : outputQuestion(splitQuestion(question))}
@@ -81,7 +82,7 @@ export const AnswerRadioChoice = ({
           value={answer}
           subject={subject}
           selected_value={set_answer}
-          choices={choices}
+          choices={display_choice ? choices : []}
         />
       </div>
     </Container>

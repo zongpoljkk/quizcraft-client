@@ -9,7 +9,8 @@ import { formatContent } from "./AnswertHelper";
 
 export const AnswerSelectOne = ({
   content = '',
-  set_answer
+  set_answer = '',
+  disabled_click = false
 }) => {
 
   const [selected_answer, set_selected_answer] = useState(null);
@@ -20,10 +21,13 @@ export const AnswerSelectOne = ({
         <Container>
           <Body>{item[0].content}</Body>
           <div style={{ width: 8 }}/>
-          <div 
+          <div
+            disabled={disabled_click} 
             onClick={() => {
-              set_selected_answer(item[1].content)
-              set_answer(item[1].content)
+              if(!disabled_click){
+                set_selected_answer(item[1].content)
+                set_answer(item[1].content)
+              }
             }}
             style={{
               backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -35,10 +39,13 @@ export const AnswerSelectOne = ({
             </AnswerBucket>
           </div>
           <AnswerBucket>,</AnswerBucket>
-          <div 
+          <div
+            disabled={disabled_click}  
             onClick={() => {
-              set_selected_answer(item[2].content)
-              set_answer(item[2].content)
+              if(!disabled_click){
+                set_selected_answer(item[2].content)
+                set_answer(item[2].content)
+              }
             }}
             style={{
               backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
@@ -60,10 +67,13 @@ export const AnswerSelectOne = ({
           <Container>
             <Body>{item[0].content}</Body>
             <div style={{ width: 8 }}/>
-            <div 
+            <div
+              disabled={disabled_click}  
               onClick={() => {
-                set_selected_answer(item[1].content)
-                set_answer(item[1].content)
+                if(!disabled_click){
+                  set_selected_answer(item[1].content)
+                  set_answer(item[1].content)
+                }
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -76,9 +86,12 @@ export const AnswerSelectOne = ({
             </div>
             <AnswerBucket>,</AnswerBucket>
             <div 
+              disabled={disabled_click} 
               onClick={() => {
-                set_selected_answer(item[2].content)
-                set_answer(item[2].content)
+                if(!disabled_click){
+                  set_selected_answer(item[2].content)
+                  set_answer(item[2].content)
+                }
               }}
               style={{
                 backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
@@ -96,9 +109,12 @@ export const AnswerSelectOne = ({
         return (
           <Container>
             <div 
+              disabled={disabled_click} 
               onClick={() => {
-                set_selected_answer(item[0].content)
-                set_answer(item[0].content)
+                if(!disabled_click){
+                  set_selected_answer(item[0].content)
+                  set_answer(item[0].content)
+                }
               }}
               style={{
                 backgroundColor: selected_answer === item[0].content ? COLOR.ISLAND_SPICE : null,
@@ -111,9 +127,12 @@ export const AnswerSelectOne = ({
             </div>
             <AnswerBucket>,</AnswerBucket>
             <div 
+              disabled={disabled_click} 
               onClick={() => {
-                set_selected_answer(item[1].content)
-                set_answer(item[1].content)
+                if(!disabled_click){
+                  set_selected_answer(item[1].content)
+                  set_answer(item[1].content)
+                }
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,

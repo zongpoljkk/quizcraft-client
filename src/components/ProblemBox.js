@@ -3,13 +3,19 @@ import styled from "styled-components";
 import Tex2SVG from "react-hook-mathjax";
 
 import { Subheader } from "./Typography";
+import GameContent from "./GameContent";
 
-import { COLOR, CONTAINER_PADDING } from "../global/const";
+import { ANSWER_TYPE, COLOR, CONTAINER_PADDING } from "../global/const";
 import { convertHexToRGBA, useWindowDimensions } from "../global/utils";
 
 export const ProblemBox = ({
   problem = '',
   problem_content = '',
+  show_game_content = false,
+  answer_type='',
+  subject='',
+  question='',
+  content=''
 }) => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -25,7 +31,25 @@ export const ProblemBox = ({
               <Tex2SVG display="inline" latex={asciimath2latex(problem_content)} />
             </Subheader>
           </Problem>
-        ) : null}
+        ) : show_game_content && (
+          <ContentContainer
+          width={screen_width - CONTAINER_PADDING - 48}
+          alignSelf={
+            answer_type === ANSWER_TYPE.MATH_INPUT
+              ? "center"
+              : "flex-start"
+          }
+        >
+          <GameContent 
+            type={answer_type}
+            subject={subject}
+            question={question}
+            content={content}
+            display_choice = {false}
+            disabled_click = {true}
+          />
+        </ContentContainer>
+        )}
       </ProblemComponent>
     </ProblemContainer>
   );
@@ -59,4 +83,15 @@ const Problem = styled.image.attrs(props => ({
     border-radius: 10px;
     background-color: ${convertHexToRGBA(COLOR.CHARCOAL, 40)};
   }
+`;
+
+const ContentContainer = styled.div.attrs(props => ({
+  width: props.width,
+  alignSelf: props.alignSelf
+}))`
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  width: ${props => props.width}px;
+  align-self: ${props => props.alignSelf};
 `;

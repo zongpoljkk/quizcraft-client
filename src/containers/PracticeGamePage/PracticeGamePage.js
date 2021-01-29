@@ -103,6 +103,9 @@ const PracticeGamePage = ({ history }) => {
           "/practice-answer",
         state: {
           problemId: problemId,
+          problem_content: body,
+          problem_title: title,
+          answer_type: answer_type,
           userId: userId,
           correct: res.data.correct,
           correct_answer: res.data.answer,

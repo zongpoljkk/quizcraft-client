@@ -16,6 +16,8 @@ const GameContent = ({
   choices = {},
   answer,
   set_answer,
+  display_choice = true,
+  disabled_click = false 
 }) => {
   return (
     <Container>
@@ -26,7 +28,11 @@ const GameContent = ({
         />
       )}
       {type === ANSWER_TYPE.SELECT_ONE && (
-        <AnswerSelectOne content={content} set_answer={set_answer} />
+        <AnswerSelectOne 
+          content={content} 
+          set_answer={set_answer} 
+          disabled_click={disabled_click} 
+        />
       )}
       {type === ANSWER_TYPE.RADIO_CHOICE && (
         <AnswerRadioChoice
@@ -35,6 +41,7 @@ const GameContent = ({
           choices={choices}
           set_answer={set_answer}
           answer={answer}
+          display_choice={display_choice}
         />
       )}
     </Container>

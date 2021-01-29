@@ -17,6 +17,7 @@ export const AnswerModal = ({
   isShowing,
   buttonTitle,
   onButtonClick,
+  onReportClick,
   subject,
   correct,
   answer,
@@ -60,7 +61,10 @@ export const AnswerModal = ({
             </AnswerContainer>
           </Container>
           <div style={{ marginBottom: 8 }} />
-          <Report correct={correct} />
+          <Report 
+            correct={correct}
+            onReport={() => onReportClick()} 
+          />
         </ContentContainer>
         {buttonTitle &&
           <Button 
