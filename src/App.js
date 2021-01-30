@@ -80,6 +80,9 @@ const App = () => {
   //     const { success, data } = response.data;
   //     if (success) {
   //       localStorage.setItem("token", data.token);
+  //       axios.defaults.headers.common[
+  //         "Authorization"
+  //       ] = `Bearer ${response.data.token}`;
   //     } else {
   //       console.log("refreshToken Error");
   //     }
