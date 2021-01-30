@@ -309,6 +309,7 @@ const QuizGamePage = ({ history }) => {
                   }}
                 >
                   <GameContent
+                    subject={location.state.subject_name}
                     type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
@@ -373,6 +374,7 @@ const QuizGamePage = ({ history }) => {
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
+                    subject={location.state.subject_name}
                     correct={correct}
                     answer={correct ? null : answer_key}
                     buttonTitle={

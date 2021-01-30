@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import Tex2SVG from "react-hook-mathjax";
 
 import { COLOR } from "../global/const";
 
 export const RadioButton = ({
   value='',
+  subject='',
   selected_value = () => {},
   choices = {},
   direction,
@@ -13,29 +15,33 @@ export const RadioButton = ({
   text,
 }) => {
 
-  return ( 
+  const asciimath2latex = require("asciimath-to-latex");
+
+  return (
     <Container direction={direction} justifyContent={justifyContent}>
       {choices?.map((option, i) => (
-        <div 
-          key={i} 
-          style={{ 
-            marginBottom: direction === "column" ? (i !== choices.length-1 ? 8 : 0) : 0,
-            marginRight: marginRight
+        <div
+          key={i}
+          style={{
+            marginBottom:
+              direction === "column" ? (i !== choices.length - 1 ? 8 : 0) : 0,
+            marginRight: marginRight,
           }}
         >
-          <Label
-            text={text}
-            selected={value === option}
-          >
-            <Input 
+          <Label text={text} selected={value === option}>
+            <Input
               name="answer"
               type="radio"
               value={option}
               checked={value === option}
-              onChange={e => selected_value(e.target.value)}
+              onChange={(e) => selected_value(e.target.value)}
             />
-            <Mark selected={value === option}/>
-            {option}
+            <Mark selected={value === option} />
+            {subject === "คณิตศาสตร์" ? (
+              <Tex2SVG display="inline" latex={asciimath2latex(option)} /> 
+            ) : (
+              option
+            )}
           </Label>
         </div>
       ))}
