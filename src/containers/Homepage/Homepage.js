@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import { useHistory, withRouter } from "react-router-dom";
 
 import SubjectCard from "./components/SubjectCard";
 import GroupPanel from "./components/GroupPanel";
@@ -10,21 +11,20 @@ import { Header } from "../../components/Typography";
 import AchievementModal from "../../components/Achievement/AchievementModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { useGetLeaderBoard } from "./HomepageHelper";
-import { useGetAchievements } from "./HomepageHelper";
+import { useGetLeaderBoard, useGetSubjects, useGetAchievements } from "./HomepageHelper";
 import { checkAchievement } from "../../global/achievement";
 
 // Hook
 import useModal from "../../components/useModal";
 
 const Homepage = ({ user_id, user_info }) => {
+  const history = useHistory();
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
   const [isShowing, toggle] = useModal();
-  const [isShowing2, toggle2] = useModal();
   const [modal_data, set_modal_data] = useState();
-  const [modal2_data, set_modal2_data] = useState();
-  const { getLeaderBoard, loading, leader_board } = useGetLeaderBoard(user_id);
+  const { getSubjects, subjects_loading, subjects } = useGetSubjects();
+  const { getLeaderBoard, leader_board_loading , leader_board } = useGetLeaderBoard(user_id);
   const {
     getAchievements,
     achievements_loading,
@@ -36,6 +36,7 @@ const Homepage = ({ user_id, user_info }) => {
   }, [ref.current]);
 
   useEffect(() => {
+    getSubjects();
     getLeaderBoard();
     getAchievements();
     if (isShowing) {
@@ -82,7 +83,7 @@ const Homepage = ({ user_id, user_info }) => {
 
   return (
     <React.Fragment>
-      {loading || achievements_loading ? (
+      {leader_board_loading || subjects_loading ? (
         <LoadingPage />
       ) : (
         <Container ref={ref}>
@@ -91,9 +92,12 @@ const Homepage = ({ user_id, user_info }) => {
             toggle={toggle}
             content={modal_data ? modal_data : {}}
           />
-          <GroupPanel />
+          <GroupPanel
+            onCreateGroupClick={() => { history.push("create-group"); }}
+            onJoinGroupClick={() => { history.push("join-group"); }}
+          />
           <ScrollView>
-            <SubjectCard />
+            <SubjectCard subjects_data={subjects} />
           </ScrollView>
           <div style={{ marginTop: 28, width: "100%" }}>
             <ItemBox type="frame" shadow="frame" width={container_width - 32}>
@@ -134,4 +138,4 @@ const ScrollView = styled.div`
   margin-top: 32px;
 `;
 
-export default Homepage;
+export default withRouter(Homepage);

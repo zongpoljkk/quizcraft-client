@@ -11,13 +11,16 @@ import rewardData from "../../assets/lottie/reward.json";
 import { Header, Subheader, Body } from "../../components/Typography";
 
 // Color
-import { COLOR } from "../../global/const";
+import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 // Components
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
 
-const MOCK_SCORE = 8;
+import { NUMBER_OF_QUIZ } from "../QuizGamePage/QuizGamePage";
+
+// const MOCK_SCORE = 8;
 
 const variants = {
   visible: { opacity: 1 },
@@ -25,39 +28,48 @@ const variants = {
 };
 
 const QuizResultPage = ({ history }) => {
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [exp, setEXP] = useState(0);
   const [coin, setCoin] = useState(0);
   const [score, setScore] = useState(0);
 
   const location = useLocation();
 
-  const handleOnPlayAgain = () => {
-    // history.push({
-    //   pathname:
-    //     location.state.selected_topic_name +
-    //     "/" +
-    //     location.state.selected_subtopic_name +
-    //     "/" +
-    //     location.state.selected_difficulty +
-    //     "/quiz-game",
-    //   state: {
-    //     topic_name: location.state.selected_topic_name,
-    //     subtopic_name: location.state.selected_subtopic_name,
-    //     difficulty: location.state.selected_difficulty,
-    //   },
-    // });
+  const handleOnPlayAgain = (history) => {
+    history.push({
+      pathname:
+        "/" +
+        location.state.subject +
+        "/" +
+        location.state.topic +
+        "/" +
+        location.state.subtopic +
+        "/" +
+        location.state.difficulty +
+        "/quiz-game",
+      state: {
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+        subtopic_name: location.state.subtopic,
+        difficulty: location.state.difficulty,
+      },
+    });
   };
 
-  const handleExit = () => {
-    // TODO: Return to "Select Mode Page"
+  const handleExit = (history) => {
+    history.push({
+      pathname: "/" + location.state.subject + "/" + location.state.topic,
+      state: {
+        subject_name: location.state.subject,
+        topic_name: location.state.topic,
+      },
+    });
   };
 
   useEffect(() => {
-    setScore(MOCK_SCORE);
-    // TODO: Uncomment when using real data
-    // setScore(location.state.score);
-    // setEXP(location.state.exp);
-    // setCoin(location.state.coin);
+    setScore(location.state.score);
+    setEXP(location.state.earned_exp);
+    setCoin(location.state.earned_coins);
   }, []);
 
   return (
@@ -69,7 +81,7 @@ const QuizResultPage = ({ history }) => {
       <CenterDiv style={{ marginBottom: "64px" }}>
         <Circle initial="hidden" animate="visible" variants={variants}>
           <RunningNum score={score} />
-          <Subheader color={COLOR.SILVER}>Out of 10</Subheader>
+          <Subheader color={COLOR.SILVER}>เต็ม {NUMBER_OF_QUIZ}</Subheader>
         </Circle>
       </CenterDiv>
 
@@ -105,11 +117,14 @@ const QuizResultPage = ({ history }) => {
         animate="visible"
         variants={variants}
         transition={{ delay: 3 }}
+        justifyContent={
+          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
+        }
       >
-        <Button type="outline" onClick={handleExit}>
+        <Button type="outline" onClick={() => handleExit(history)}>
           ออก
         </Button>
-        <Button onClick={handleOnPlayAgain}>เล่นอีกครั้ง</Button>
+        <Button onClick={() => handleOnPlayAgain(history)}>เล่นอีกครั้ง</Button>
       </ButtonDiv>
     </Container>
   );
@@ -148,9 +163,11 @@ const RewardDiv = styled(motion.div)`
   margin-bottom: 24px;
 `;
 
-const ButtonDiv = styled(motion.div)`
+const ButtonDiv = styled(motion.div).attrs((props) => ({
+  justifyContent: props.justifyContent,
+}))`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => props.justifyContent};
   flex: 1;
   width: 100%;
 `;

@@ -22,7 +22,7 @@ function getWindowDimensions() {
     width,
     height,
   };
-}
+};
 
 export function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
@@ -32,7 +32,7 @@ export function useWindowDimensions() {
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
-    }
+    };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -61,4 +61,9 @@ export const checkSolveProblemAchievement = async (user_id, subtopic) => {
   } catch (error) {
     console.log("There are something wrong when checking for achievement :(");
   }
+}
+
+export const hasStringOrNumber = (myString) => {
+  var regExp = /[a-zA-Z]/g;
+  return /\d/.test(myString) || regExp.test(myString);
 };
