@@ -106,25 +106,33 @@ const App = () => {
   // }
 
   axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
+    response => {
+      return response;
+    },
+    error => {
+
       const { exp } = jwt_decode(token);
 
-      if (exp * 1000 - Date.now() <= 900000) {
-        return axios
-          .post(backend + "auth/refresh-token")
-          .then((response) => {
-            localStorage.setItem("token", response.data.token);
-            axios.defaults.headers[
-              "Authorization"
-            ] = `Bearer ${response.data.token}`;
-            return axios;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      if (exp * 1000 - Date.now() > 900000) {
+        return Promise.reject(error);
       }
-      return Promise.reject(error);
+  
+      return axios
+        .post(backend + "auth/refresh-token")
+        .then(response => {
+          localStorage.setItem("token", response.data.token);
+          axios.defaults.headers.common["Authorization"] = `Bearer ${
+            response.data.token
+          }`;
+
+          error.hasRefreshedToken = true;
+          return Promise.reject(error);
+        })
+        .catch(() => {
+          const tokenError = new Error("Cannot refresh token");
+          tokenError.originalError = error;
+          return Promise.reject(tokenError);
+        });
     }
   );
 
