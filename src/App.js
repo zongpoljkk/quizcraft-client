@@ -74,36 +74,59 @@ const App = () => {
     }
   };
 
-  const refreshToken = async () => {
-    try {
-      const response = await axios.post(backend + "auth/refresh-token");
-      const { success, data } = response.data;
-      if (success) {
-        localStorage.setItem("token", data.token);
-      } else {
-        console.log("refreshToken Error");
-      }
-    } catch (error) {
-      console.log("There are something wrong about get refreshToken :(");
-    }
-  };
+  // const refreshToken = async () => {
+  //   try {
+  //     const response = await axios.post(backend + "auth/refresh-token");
+  //     const { success, data } = response.data;
+  //     if (success) {
+  //       localStorage.setItem("token", data.token);
+  //     } else {
+  //       console.log("refreshToken Error");
+  //     }
+  //   } catch (error) {
+  //     console.log("There are something wrong about get refreshToken :(");
+  //   }
+  // };
 
-  if (token) {
-    axios.interceptors.request.use(
-      async (config) => {
-        const { exp } = jwt_decode(token);
-        if (exp * 1000 - Date.now() <= 900000) {
-          await refreshToken();
-          return config;
-        } else {
-          return config;
-        }
-      },
-      (err) => {
-        return Promise.reject(err);
+  // if (token) {
+  //   axios.interceptors.request.use(
+  //     async (config) => {
+  //       const { exp } = jwt_decode(token);
+  //       if (exp * 1000 - Date.now() <= 900000) {
+  //         await refreshToken();
+  //         return config;
+  //       } else {
+  //         return config;
+  //       }
+  //     },
+  //     (err) => {
+  //       return Promise.reject(err);
+  //     }
+  //   );
+  // }
+
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const { exp } = jwt_decode(token);
+
+      if (exp * 1000 - Date.now() <= 900000) {
+        return axios
+          .post(backend + "auth/refresh-token")
+          .then((response) => {
+            localStorage.setItem("token", response.data.token);
+            axios.defaults.headers[
+              "Authorization"
+            ] = `Bearer ${response.data.token}`;
+            return axios;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
-    );
-  }
+      return Promise.reject(error);
+    }
+  );
 
   useEffect(() => {
     if (token) {
