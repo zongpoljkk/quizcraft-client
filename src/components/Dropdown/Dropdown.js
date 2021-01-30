@@ -10,13 +10,13 @@ import { useDetectOutsideClick } from "./DropdownHelper";
 import { COLOR } from "../../global/const";
 
 export const Dropdown = ({
-  dropdown_ref,
   placeholder = "-- เลือก --",
   options,
   value,
   set_value,
   onSelect = () => {}
 }) => {
+  const dropdown_ref = useRef(null);
   const ref = useRef(null);
   const [is_active, set_is_active] = useDetectOutsideClick(dropdown_ref, false);
   const [hover, set_hover] = useState();
