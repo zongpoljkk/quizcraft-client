@@ -80,6 +80,11 @@ const GroupGamePage = ({ history }) => {
     }
   }, [correct_answer])
 
+  // // TODO: Display how many people answer already
+  // useEffect(() => {
+
+  // }, [gotEventFromBackend])
+
   return ( 
     <Container>
       {loading 
