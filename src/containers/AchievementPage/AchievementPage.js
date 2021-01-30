@@ -46,11 +46,6 @@ const AchievementPage = ({ user_id }) => {
         <LoadingPage />
       ) : (
         <Container>
-          <AchievementModal
-            isShowing={isShowing}
-            toggle={toggle}
-            content="Hello A"
-          />
           <div style={{ marginBottom: "32px" }}>
             <Header>เหรียญรางวัล</Header>
           </div>
@@ -60,11 +55,13 @@ const AchievementPage = ({ user_id }) => {
             <NoAchievement>
               <LottieFile
                 animationData={no_data}
-                width={screen_width - CONTAINER_PADDING}
+                height="240px"
               />
-              <Subheader color={COLOR.MANDARIN}>
-                คุณยังไม่มีเหรียญรางวัล
-              </Subheader>
+              <div style={{ display: "flex", justifyContent: "center", textAlign: "center", width: "100%" }}>
+                <Subheader color={COLOR.MANDARIN}>
+                  คุณยังไม่มีเหรียญรางวัล
+                </Subheader>
+              </div>
               <div style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
                 <Body color={COLOR.MANDARIN}>
                   `{QUOTE[Math.floor(Math.random() * QUOTE.length)]}`
@@ -92,6 +89,7 @@ const NoAchievement = styled.div`
   flex: 1;
   justify-content: center;
   align-items: center;
+  width: 80%;
   position: fixed;
   left: 50%;
   top: 50%;
