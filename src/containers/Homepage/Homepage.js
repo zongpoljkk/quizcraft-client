@@ -45,18 +45,15 @@ const Homepage = ({ user_id, user_info }) => {
   }, []);
 
   useEffect(() => {
-    console.log(user_info);
     // This get called twice (why?)
     if (user_info && !modal_data) {
       // Show achievement modal if the condition met
       checkAchievement(user_id, "streak", user_info.streak).then((data) => {
-        console.log(data);
         if (!modal_data) {
           set_modal_data(data[0]);
         }
       });
       checkAchievement(user_id, "report", user_info.streak).then((data) => {
-        console.log(data);
         if (!modal_data) {
           set_modal_data(data[0]);
         }
@@ -65,9 +62,7 @@ const Homepage = ({ user_id, user_info }) => {
   }, [user_info]);
 
   useEffect(() => {
-    console.log("useEffect modal");
     if (modal_data && !isShowing) {
-      console.log("toggle");
       toggle();
     }
   }, [modal_data]);
