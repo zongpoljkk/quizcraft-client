@@ -75,13 +75,11 @@ const Shop = ({ history }) => {
                 <ItemContainer
                   key={index}
                   onMouseOver={() => {
-                    if (item.item_name !== "ไอเทม") {
-                      set_animation(ANIMATIONS.hover);
-                      set_in_used({
-                        ...in_used,
-                        [item.item_name]: true,
-                      });
-                    }
+                    set_animation(ANIMATIONS.hover);
+                    set_in_used({
+                      ...in_used,
+                      [item.item_name]: true,
+                    });
                   }}
                   onMouseLeave={() => {
                     set_animation(ANIMATIONS.rest);
@@ -101,8 +99,8 @@ const Shop = ({ history }) => {
                   }}
                 >
                   <Item>
-                    {item.item_name === "Skip" && (
-                      in_used.Skip ? (
+                    {item.item_name === "Skip" &&
+                      (in_used.Skip ? (
                         <ZoomItem isItemSkip={true}>
                           <LottieFile
                             animationData={JSON.parse(atob(item.animation_data))}
@@ -111,12 +109,11 @@ const Shop = ({ history }) => {
                             width={64}
                           />
                         </ZoomItem>
-                      ): (
-                        <ItemImg src= {"data:image/png;base64,"+item.src} />
-                      )
-                    )}
-                    {item.item_name === "Double" && (
-                      in_used.Double ? (
+                      ) : (
+                        <ItemImg src={"data:image/png;base64," + item.src} />
+                      ))}
+                    {item.item_name === "Double" &&
+                      (in_used.Double ? (
                         <ZoomItem>
                           <LottieFile
                             animationData={JSON.parse(atob(item.animation_data))}
@@ -124,28 +121,27 @@ const Shop = ({ history }) => {
                             height={64}
                           />
                         </ZoomItem>
-                      ): (
-                        <ItemImg src= {"data:image/png;base64,"+item.src} />
-                      )
-                    )}
-                    {item.item_name !== "Skip" && item.item_name !== "Double" && (
-                      in_used[item.item_name] ? (
+                      ) : (
+                        <ItemImg src={"data:image/png;base64," + item.src} />
+                      ))}
+                    {item.item_name !== "Skip" &&
+                      item.item_name !== "Double" &&
+                      (in_used[item.item_name] ? (
                         <LottieFile
                           animationData={JSON.parse(atob(item.animation_data))}
                           loop={false}
                           height={100}
                         />
                       ) : (
-                        <ItemImg src= {"data:image/png;base64,"+item.src} />
-                      )
-                    )}
+                        <ItemImg src={"data:image/png;base64," + item.src} />
+                      ))}
                   </Item>
-                  <div 
-                    style={{ 
-                      margin: "8px auto", 
-                      lineHeight: "24px", 
-                      position: "relative", 
-                      zIndex: 2 
+                  <div
+                    style={{
+                      margin: "8px auto",
+                      lineHeight: "24px",
+                      position: "relative",
+                      zIndex: 2,
                     }}
                   >
                     <Subheader>{item.item_name}</Subheader>
