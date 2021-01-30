@@ -47,8 +47,6 @@ const Homepage = ({ user_id, user_info }) => {
   useEffect(() => {
     console.log(user_info);
     // This get called twice (why?)
-    // So wait 1 sec for the first call to update db then if there is a second call there''ll be no problem
-    // setTimeout(() => {
     if (user_info && !modal_data) {
       // TODO: Show achievement modal if the condition met
       checkAchievement(user_id, "streak", user_info.streak).then((data) => {
@@ -64,13 +62,6 @@ const Homepage = ({ user_id, user_info }) => {
         }
       });
     }
-    // }, 1000);
-    // if (user_id && !modal2_data) {
-    //   checkReportAchievement(user_id, "report").then((data) => {
-    //     console.log(data);
-    //     set_modal2_data(data[0]);
-    //   });
-    // }
   }, [user_info]);
 
   useEffect(() => {
