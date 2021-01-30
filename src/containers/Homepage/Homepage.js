@@ -48,7 +48,7 @@ const Homepage = ({ user_id, user_info }) => {
     console.log(user_info);
     // This get called twice (why?)
     if (user_info && !modal_data) {
-      // TODO: Show achievement modal if the condition met
+      // Show achievement modal if the condition met
       checkAchievement(user_id, "streak", user_info.streak).then((data) => {
         console.log(data);
         if (!modal_data) {

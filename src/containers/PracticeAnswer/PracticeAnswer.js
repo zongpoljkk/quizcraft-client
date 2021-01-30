@@ -14,6 +14,8 @@ import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
+import AchievementModal from "../../components/Achievement/AchievementModal";
+import useModal from "../../components/useModal";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
@@ -22,6 +24,7 @@ import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 
 // Global
 import { Body, Header } from "../../components/Typography";
+import { checkAchievement } from "../../global/achievement";
 
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -47,6 +50,10 @@ const PracticeAnswer = ({ history }) => {
 
   const location = useLocation();
   const asciimath2latex = require("asciimath-to-latex");
+
+  // Handle Achievement
+  const [isShowing, toggle] = useModal();
+  const [modal_data, set_modal_data] = useState();
 
   const handleNextButtonClick = () => {
     history.push({
@@ -98,7 +105,28 @@ const PracticeAnswer = ({ history }) => {
     }
     set_solution([]);
     setIsLoading(false);
+
+
+    // Achievement check
+    if (!modal_data) {
+      // Show achievement modal if the condition met
+      checkAchievement(null, "questions", null).then((data) => {
+        console.log(data);
+        if (!modal_data) {
+          set_modal_data(data[0]);
+        }
+      });
+    }
   }, []);
+
+  // Achievement Modal
+  useEffect(() => {
+    console.log("useEffect modal");
+    if (modal_data && !isShowing) {
+      console.log("toggle");
+      toggle();
+    }
+  }, [modal_data]);
 
   // rerender when solution change
   useEffect(() => {}, [solution]);
@@ -175,6 +203,11 @@ const PracticeAnswer = ({ history }) => {
       minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
     >
       <Background answer={correct} />
+      <AchievementModal
+            isShowing={isShowing}
+            toggle={toggle}
+            content={modal_data ? modal_data : {}}
+          />
       <CenterDiv
         style={{ marginTop: 32, marginBottom: 16, position: "relative" }}
       >
