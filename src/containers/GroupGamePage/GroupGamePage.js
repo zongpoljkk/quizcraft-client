@@ -48,16 +48,11 @@ const GroupGamePage = ({ history }) => {
   };
 
   const onSend = () => {
-    console.log(answer);
-    console.log(time_per_problem);
-    console.log(used_time);
     if(answer) {
-      console.log(answer)
       toggle();
       // TODO: connect API send answer
       set_answer_modal_loading(true);
       checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((res) => {
-        console.log(res)
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
@@ -80,8 +75,6 @@ const GroupGamePage = ({ history }) => {
 
   // close loading modal after getting correct_answer from backend
   useEffect(() => {
-    console.log("useEffect get data back from BE")
-    console.log(correct_answer);
     if (correct_answer) {
       set_answer_modal_loading(false);
     }
