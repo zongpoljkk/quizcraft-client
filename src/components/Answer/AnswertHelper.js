@@ -1,74 +1,127 @@
 const MIN_BOX_WIDTH = 32;
-const WIDTH_PER_CHAR = 6;
+const WIDTH_PER_CHAR = 11;
 
 export const mathAnswerBox = (correct_answer) => {
   var list = [];
-  var current_type = "main";
-  var last_type = "main";
-  var lcount = 0;
-  var list_id = 0;
+  var current_type = "numerator";
+  var last_type = "numerator";
+  var after_power_type = "numerator";
+  var start_index = 0;
+  var end_index = 0;
+  var current_index = 0;
+  var list_index = 0;
   var skip = false;
+  var text = '';
   for (let index = 0; index < correct_answer.length; index++) {
-    if (!skip) { 
-      if (correct_answer.length === 1) {
-        list[0] = MIN_BOX_WIDTH;
+    if(correct_answer.charAt(index) === "{") {
+      if(current_index != index) {
+        text = correct_answer.substring(start_index, end_index);
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
       }
-      else if (correct_answer.charAt(index) === "(") {
-        list[list_id] = [last_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = "(";
-        list[list_id] = [current_type, 1, last_type];
-        list_id += 1;
-        current_type = last_type;
+      last_type = current_type;
+      current_type = "display";
+      skip = true;
+      start_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === "}") {
+      text = correct_answer.substring(start_index, index);
+      list[list_index] = [text, text.length, current_type, last_type];
+      list_index += 1;
+      current_type = last_type;
+      last_type = "display";
+      skip = false;
+      start_index = index + 1;
+      end_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === "(") {
+      if(current_index != index) {
+        text = correct_answer.substring(start_index, end_index);
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
       }
-      else if (correct_answer.charAt(index) === ")") {
-        list[list_id] = [last_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = ")";
-        list[list_id] = [current_type, 1, last_type];
-        list_id += 1;
-        current_type = "main";
+      last_type = current_type;
+      list[list_index] = ["(", 1, "(", last_type];
+      list_index += 1;
+      skip = true;
+      start_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === ")") {
+      text = correct_answer.substring(start_index, index);
+      if(text.length != 0) {
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
       }
-      else if (correct_answer.charAt(index) === "^") {
-        list[list_id] = [last_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = "power";
+      list[list_index] = [")", 1, ")", last_type];
+      list_index += 1;
+      skip = false;
+      start_index = index + 1;
+      end_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === "^") {
+      if(current_index != index) {
+        text = correct_answer.substring(start_index, end_index);
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
       }
-      else if (correct_answer.charAt(index) === "]") {
-        list[list_id] = [current_type, lcount, last_type];
-        list_id += 1;
-        lcount = 0;
-        current_type = "main";
+      after_power_type = last_type;
+      current_type = "power";
+    }
+    else if(correct_answer.charAt(index) === "[") {
+      start_index = index + 1;
+      end_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === "]") {
+      last_type = after_power_type;
+      text = correct_answer.substring(start_index, index);
+      list[list_index] = [text, text.length, current_type, last_type];
+      list_index += 1;
+      current_type = after_power_type;
+      start_index = index + 1;
+      end_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === "/") {
+      if(current_index != index) {
+        text = correct_answer.substring(start_index, end_index);
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
       }
-      else if (current_type === "power") {
-        if (correct_answer.charAt(index) !== "[") {
-          lcount += 1;
-        }
-      }
-      else {
-        if(index === correct_answer.length - 1){
-          list[list_id] = [current_type, lcount, last_type];
-        }
-        lcount += 1;
-      }
+      list[list_index] = ["/", correct_answer.substring(0, index).length, "/", last_type];
+      list_index += 1;
+      last_type = current_type;
+      current_type = "denumerator";
+      start_index = index + 1;
+      end_index = index + 1;
+      current_index = index + 1;
     }
     else {
-      skip = false;
+      if(!skip) {
+        if(index == correct_answer.length-1) {
+          text = correct_answer.substring(start_index, correct_answer.length);
+          list[list_index] = [text, text.length, current_type, last_type];
+        }
+        else {
+          end_index += 1;
+        }
+      }
     }
-    last_type = current_type;
-  }
+  };
 
   var boxes = [];
   var index = 0;
   list.map((item) => {
     if(item[1] !== 0) {
       boxes[index] = {
-        type: item[0], 
+        text: item[0],
         width: item[1] === 1 ? MIN_BOX_WIDTH : MIN_BOX_WIDTH + ((item[1] - 1) * WIDTH_PER_CHAR),
-        last_type: item[2]
+        type: item[2],
+        last_type: item[3]
       };
       index = index + 1;
     }

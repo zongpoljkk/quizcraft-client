@@ -333,8 +333,8 @@ const QuizGamePage = ({ history }) => {
                   }}
                 >
                   <GameContent
-                    type={answer_type}
                     subject={location.state.subject_name}
+                    type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
                     choices={choices}
