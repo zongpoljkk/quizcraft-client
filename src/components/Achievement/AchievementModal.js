@@ -25,7 +25,6 @@ const AchievementModal = ({
   content,
   onSubmit = () => {},
 }) => {
-  console.log(content);
   return (
     <div>
       <Modal isShowing={isShowing} hide={toggle}>
