@@ -31,7 +31,6 @@ const IS_PLAY_CHOICES = [
 ];
 
 const CreateGroupPage = ({ history }) => {
-  const dropdown_ref = useRef(null);
   const [subject, set_subject] = useState('');
   const [topic, set_topic] = useState('');
   const [subtopic, set_subtopic] = useState('');
@@ -56,19 +55,6 @@ const CreateGroupPage = ({ history }) => {
     create_fail,
     success
   } = useCreateGroup();
-  
-  useEffect(() => {
-    getAllSubjects();
-    getAllTopicsBySubjectName(subject);
-    getAllSubtopicsByTopicName(topic);
-    if(subtopic) {
-      getAvailableDifficultyBySubtopicName(subtopic);
-    };
-    if(!subtopic || selected_subtopic !== subtopic) {
-      set_difficulty('');
-      set_selected_subtopic(subtopic);
-    };
-  }, [subject, topic, subtopic]);
 
   const onSuccess = () => {
     history.push({
@@ -83,6 +69,20 @@ const CreateGroupPage = ({ history }) => {
       }
     });
   };
+  
+  useEffect(() => {
+    getAllSubjects();
+    getAllTopicsBySubjectName(subject);
+    getAllSubtopicsByTopicName(topic);
+    if(subtopic) {
+      getAvailableDifficultyBySubtopicName(subtopic);
+      set_selected_subtopic(subtopic);
+    };
+    if(!subtopic || selected_subtopic !== subtopic) {
+      set_difficulty('');
+      set_selected_subtopic(subtopic);
+    };
+  }, [subject, topic, subtopic]);
 
   return (
     <Container>
@@ -90,7 +90,6 @@ const CreateGroupPage = ({ history }) => {
       {loading && <LoadingPage overlay={true}/>}
       <ContentContainer>
         <DropdownWithLabel
-          dropdown_ref={dropdown_ref}
           label="วิชา"
           value={subject}
           set_value={set_subject}
@@ -98,7 +97,6 @@ const CreateGroupPage = ({ history }) => {
           marginBottom={16}
         />
         <DropdownWithLabel
-          dropdown_ref={dropdown_ref}
           label="หัวข้อ"
           value={topic}
           set_value={set_topic}
@@ -106,7 +104,6 @@ const CreateGroupPage = ({ history }) => {
           marginBottom={16}
         />
         <DropdownWithLabel
-          dropdown_ref={dropdown_ref}
           label="หัวข้อย่อย"
           value={subtopic}
           set_value={set_subtopic}
@@ -114,7 +111,6 @@ const CreateGroupPage = ({ history }) => {
           marginBottom={24}
         />
         <DropdownWithLabel
-          dropdown_ref={dropdown_ref}
           label="ระดับความยาก"
           value={difficulty}
           set_value={set_difficulty}

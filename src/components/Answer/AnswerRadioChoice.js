@@ -14,8 +14,8 @@ const MIN_BLANK_WIDTH = 40;
 const MAX_BLANK_WIDTH = 140;
 
 export const AnswerRadioChoice = ({
+  subject,
   question = '',
-  subject = '',
   choices = {},
   set_answer,
   answer

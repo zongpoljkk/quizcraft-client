@@ -104,8 +104,8 @@ const GroupGamePage = ({ history }) => {
                   style={{ alignSelf: problem.answerType === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
                 >
                   <GameContent 
-                    type={problem.answerType}
                     subject={location.state.subject_name}
+                    type={problem.answerType}
                     correct_answer={problem.correctAnswer}
                     question={problem.body}
                     choices={problem.choices}
