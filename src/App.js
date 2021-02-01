@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
 import { PrivateRoute } from "./route/PrivateRoute";
 import { PublicRoute } from "./route/PublicRoute";
@@ -39,40 +38,15 @@ const App = () => {
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
 
-  // if (token) {
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  // } else {
-  //   delete axios.defaults.headers.common["Authorization"];
-  // }
-
-  // Add a request interceptor
-  axios.interceptors.request.use(
-    (config) => {
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
-      // config.headers['Content-Type'] = 'application/json';
-      return config;
-    },
-    (error) => {
-      Promise.reject(error);
-    }
-  );
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common["Authorization"];
+  }
 
   //Add a response interceptor
   axios.interceptors.response.use(
-    (response) => {
-      const { exp } = jwt_decode(token);
-
-      if (exp * 1000 - Date.now() < 900000) {
-        return axios.post(backend + "auth/refresh-token").then((response) => {
-          if (response.data.success) {
-            localStorage.setItem(response.data.token);
-            axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
-          }
-        });
-      }
-      
+    (response) => {      
       return response;
     },
     function (error) {
