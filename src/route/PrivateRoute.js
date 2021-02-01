@@ -17,7 +17,7 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
   axios.interceptors.response.use(
     (response) => {
       const { exp } = jwt_decode(token);
-      if (exp * 1000 - Date.now() > 900000) {
+      if (exp * 1000 - Date.now() < 900000) {
         const config = response.config;
         if (!isRefreshing) {
           isRefreshing = true;
