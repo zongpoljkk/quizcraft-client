@@ -16,7 +16,8 @@ import {
   useGetGroupMembers,
   useDeleteGroup,
   useLeaveGroup,
-  useGetGenerateProblem
+  useGetGenerateProblem,
+  useServerSentEvent
 } from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
@@ -35,32 +36,38 @@ const WaitingRoomPage = ({ history }) => {
     is_creator,
     group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
-  
   const {
     getGenerateProblem,
     start_loading,
     problems
   } = useGetGenerateProblem();
-
   const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
   const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
+  const {
+    listening,
+    subscribe,
+    update_member,
+    start_game,
+    next_problem,
+    send_answer,
+  } = useServerSentEvent(getGroupMembers);
 
   const handleDeleteGroup = () => {
+    subscribe(location.state.group_id);
     deleteGroup(location.state.group_id, user_id);
     history.push("/homepage");
   }
 
   const handleLeaveGroup = () => {
+    subscribe(location.state.group_id);
     leaveGroup(location.state.group_id, user_id);
     history.push("/homepage");
   }
 
   useEffect(() => {
+    subscribe(location.state.group_id);
     set_get_all_members_loading(loading);
-    const interval = setInterval(() => {
-      getGroupMembers();
-    }, 1000);
-    return () => clearInterval(interval);
+    getGroupMembers();
   }, []);
 
   useEffect(() => {
@@ -71,6 +78,7 @@ const WaitingRoomPage = ({ history }) => {
 
   useEffect(() => {
     if(problems) {
+      subscribe(location.state.group_id);
       history.push({
         pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
         state: {
