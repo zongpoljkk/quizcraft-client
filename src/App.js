@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 import { PrivateRoute } from "./route/PrivateRoute";
 import { PublicRoute } from "./route/PublicRoute";
@@ -38,11 +39,56 @@ const App = () => {
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
 
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete axios.defaults.headers.common["Authorization"];
-  }
+  // if (token) {
+  //   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  // } else {
+  //   delete axios.defaults.headers.common["Authorization"];
+  // }
+
+  // Add a request interceptor
+  axios.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      // config.headers['Content-Type'] = 'application/json';
+      return config;
+    },
+    (error) => {
+      Promise.reject(error);
+    }
+  );
+
+  //Add a response interceptor
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    function (error) {
+      const originalRequest = error.config;
+      const { exp } = jwt_decode(token);
+
+      if (error.response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        window.location.pathname = "/";
+        return Promise.reject(error);
+      }
+
+      if (exp * 1000 - Date.now() < 900000 && !originalRequest._retry) {
+        return axios.post(backend + "auth/refresh-token").then((response) => {
+          if (response.data.success) {
+            localStorage.setItem(response.data.token);
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${response.data.token}`;
+            return axios(originalRequest);
+          }
+        });
+      }
+      return Promise.reject(error);
+    }
+  );
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
@@ -63,13 +109,14 @@ const App = () => {
         console.log("getUserInfo Error");
       }
     } catch (error) {
-      if (error.response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        window.location.pathname = "/";
-      } else {
-        console.log("There are something wrong about get user infomation :(");
-      }
+      console.log("There are something wrong about get user infomation :(");
+      // if (error.response.status === 401) {
+      //   localStorage.removeItem("token");
+      //   localStorage.removeItem("userId");
+      //   window.location.pathname = "/";
+      // } else {
+      //   console.log("There are something wrong about get user infomation :(");
+      // }
     }
   };
 
