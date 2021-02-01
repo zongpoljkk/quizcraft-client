@@ -38,7 +38,6 @@ const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
   const user_id = localStorage.getItem("userId");
-  const { exp } = jwt_decode(token);
 
   // if (token) {
   //   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -51,16 +50,8 @@ const App = () => {
     (config) => {
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
-
-        if (exp * 1000 - Date.now() < 900000) {
-          return axios.post(backend + "auth/refresh-token").then((response) => {
-            if (response.data.success) {
-              localStorage.setItem(response.data.token);
-              config.headers["Authorization"] = `Bearer ${token}`;
-            }
-          });
-        }
       }
+      // config.headers['Content-Type'] = 'application/json';
       return config;
     },
     (error) => {
@@ -71,6 +62,17 @@ const App = () => {
   //Add a response interceptor
   axios.interceptors.response.use(
     (response) => {
+      const { exp } = jwt_decode(token);
+
+      if (exp * 1000 - Date.now() < 900000) {
+        return axios.post(backend + "auth/refresh-token").then((response) => {
+          if (response.data.success) {
+            localStorage.setItem(response.data.token);
+            axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+          }
+        });
+      }
+      
       return response;
     },
     function (error) {
@@ -201,11 +203,7 @@ const App = () => {
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute
-            exact
-            path="/selected_subject/:subject"
-            getUserData={getUserData}
-          >
+          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
