@@ -13,11 +13,17 @@ import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
+import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-import { useGetGroupGame } from "./GroupGamePageHelper";
+import {
+  useGetGroupGame,
+  useGetNumberOfAnswer,
+  useGetNextProblem,
+  useServerSentEvent
+} from "./GroupGamePageHelper";
 
 // MOCK DATA
 const CORRECT = false;
@@ -40,8 +46,40 @@ const GroupGamePage = ({ history }) => {
     number_of_problem,
     time_per_problem,
     user,
-    problem
+    problem,
+    is_creator
   } = useGetGroupGame(user_id, location.state.group_id);
+  const {
+    getNumberOfAnswer,
+    number_of_answer,
+    number_of_members
+  } = useGetNumberOfAnswer(location.state.group_id);
+  const { getNextProblem, current_index_after_click_next } = useGetNextProblem(location.state.group_id);
+  const {
+    listening,
+    subscribe,
+    next_problem,
+    send_answer
+  } = useServerSentEvent();
+
+  const onNext = () => {
+    if(current_index+1 === number_of_problem) {
+      // TODO: connect API check answer hold 10-15 sec then route to result page
+      subscribe(location.state.group_id);
+      history.push({
+        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-result", 
+        state: {
+          group_id : location.state.group_id,
+          subject_name : location.state.subject_name,
+          topic_name : location.state.topic_name,
+          subtopic_name : location.state.subtopic_name,
+          difficulty : location.state.difficulty
+        }
+      });
+    } else {
+      getNextProblem();
+    };
+  };
 
   const onSkip = () => {
     // TODO: connect API send no answer
@@ -56,12 +94,31 @@ const GroupGamePage = ({ history }) => {
 
   const onTimeOut = () => {
     set_is_time_out(true);
-    // TODO: connect API get new problem
+    // TODO: connect API check answer
   };
 
   useEffect(() => {
+    console.log("listening", listening)
+    if(!listening) {
+      console.log("sub")
+      subscribe(location.state.group_id);
+    };
     getGroupGame();
   }, []);
+
+  useEffect(() => {
+    getNumberOfAnswer();
+  }, [send_answer]);
+
+  useEffect(() => {
+    if(current_index_after_click_next || next_problem) {
+      // TODO: connect API check answer hold 10-15 sec and getGroupGame()
+      getGroupGame();
+      set_is_time_out(false);
+      console.log("eiei")
+    };
+    console.log("next_problem", next_problem)
+  }, [current_index_after_click_next, next_problem]);
 
   return ( 
     <Container>
@@ -75,9 +132,9 @@ const GroupGamePage = ({ history }) => {
           initialTime={time_per_problem*1000}
           direction="backward"
         >
-          {({ getTime, start, reset }) => (
+          {({ getTime, start, stop }) => (
             <React.Fragment>
-              {is_time_out ? reset() : start()}
+              {is_time_out ? stop() : start()}
               <Headline>
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
@@ -93,6 +150,14 @@ const GroupGamePage = ({ history }) => {
                   <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
                 </Subheader>
               </TimeContainer>
+              {is_creator && (number_of_answer === number_of_members || is_time_out) &&
+                <NumberOfAnswer
+                  number_of_answer={number_of_answer}
+                  number_of_members={number_of_members}
+                  button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
+                  onNext={() =>  onNext()}
+                />
+              }
               <React.Fragment>
                 <ProblemBox
                   problem={problem.title}

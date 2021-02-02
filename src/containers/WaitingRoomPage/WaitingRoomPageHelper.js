@@ -146,18 +146,6 @@ export const useServerSentEvent = () => {
             set_delete_group(parsedData.message);
             console.log("delete_group");
             break;
-          case "NEXT_PROBLEM":
-            set_next_problem(parsedData.message);
-            console.log("eiei");
-            break;
-          case "RESTART_GAME":
-            set_restart_game(parsedData.message);
-            console.log("eieiei");
-            break;
-          case "SEND_ANSWER":
-            set_send_answer(parsedData.message);
-            console.log("eieiei");
-            break;
         }
       };
     } else {
