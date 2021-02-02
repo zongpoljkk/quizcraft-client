@@ -14,6 +14,13 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
   // Retry queue, each item will be a function to be executed
   let requests = [];
 
+  const refreshToken = () => {
+    // Instance is the axios instance created in current request.js
+    return axios
+      .post(backend + "auth/refresh-token")
+      .then((response) => response.data);
+  };
+
   axios.interceptors.response.use(
     (response) => {
       const { exp } = jwt_decode(token);
@@ -21,8 +28,7 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
         const config = response.config;
         if (!isRefreshing) {
           isRefreshing = true;
-          return axios
-            .post(backend + "auth/refresh-token")
+          return refreshToken()
             .then((response) => {
               const { token } = response.data;
               localStorage.setItem(token);
