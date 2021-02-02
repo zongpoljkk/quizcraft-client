@@ -21,7 +21,9 @@ import {
   useGetGroupScoreBoard,
   useDeleteGroup,
   useLeaveGroup,
+  useResetGroup
 } from "./GroupResultPageHelper";
+import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupResultPage = ({ history }) => {
 
@@ -43,6 +45,14 @@ const GroupResultPage = ({ history }) => {
 
   const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
   const { leaveGroup, leave_failed } = useLeaveGroup(location.state.group_id, user_id);
+  const { resetGroup } = useResetGroup(location.state.group_id, user_id);
+
+  const {
+    listening,
+    subscribe,
+    restart_game,
+    delete_group
+  } = useServerSentEvent();
 
   const headers = [
     {label: "username", key: "username"},
@@ -96,17 +106,39 @@ const GroupResultPage = ({ history }) => {
 
   const handleDeleteGroup = () => {
     deleteGroup(location.state.group_id, user_id);
-    history.push("/homepage");
-  }
+  };
 
   const handleLeaveGroup = () => {
+    subscribe(location.state.group_id);
     leaveGroup(location.state.group_id, user_id);
     history.push("/homepage");
-  }
+  };
 
   useEffect(() => {
+    if(!listening) {
+      subscribe(location.state.group_id);
+    };
     getGroupScoreBoard();
   }, []);
+
+  useEffect(() => {
+    if (restart_game) {
+      history.push({
+        pathname: "/waiting-room",
+        state: {
+          group_id : location.state.group_id,
+          subject_name : location.state.subject_name,
+          topic_name : location.state.topic_name,
+          subtopic_name : location.state.subtopic_name,
+          difficulty : location.state.difficulty
+        }
+      });
+    };
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("/homepage");
+    };
+  }, [restart_game, delete_group]);
 
   useEffect(() => {
     if (leave_failed) {
@@ -303,7 +335,7 @@ const GroupResultPage = ({ history }) => {
               <Button type="outline" onClick={() => handleDeleteGroup()}>
                 ลบกลุ่ม
               </Button>
-              <Button>เล่นใหม่อีกครั้ง</Button>
+              <Button onClick={() => resetGroup()}>เล่นใหม่อีกครั้ง</Button>
             </ButtonContainer>
           ) : (
             <motion.div
