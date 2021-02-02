@@ -9,34 +9,32 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
   let token = localStorage.getItem("token");
   const location = useLocation();
 
+  instance.setToken = (token) => {
+    instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    localStorage.setItem("token", token);
+  };
+
+  function refreshToken() {
+    // Instance is the axios instance created in current request.js
+    return instance
+      .post(backend + "auth/refresh-token")
+      .then((res) => res.data);
+  }
+
+  // Create an axios instance
+  const instance = axios.create({
+    baseURL: "/api",
+    headers: {
+      Authorization: `Bearer ${token}`, // headers settoken
+    },
+  });
+
   // Is the marker being refreshed?
   let isRefreshing = false;
   // Retry queue, each item will be a function to be executed
   let requests = [];
 
-  const refreshToken = async () => {
-    try {
-      const response = await axios.post(backend + "auth/refresh-token");
-      const { success, token } = response.data;
-      if (success) {
-        localStorage.setItem("token", token);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${token}`;
-
-        
-        requests.forEach((cb) => cb(token));
-        requests = [];
-      } else {
-        console.log("refreshToken Error");
-      }
-    } catch (error) {
-      console.log(error)
-      console.log("There are something wrong about get refreshToken :(");
-    }
-  };
-
-  axios.interceptors.response.use(
+  instance.interceptors.response.use(
     (response) => {
       const { exp } = jwt_decode(token);
       if (exp * 1000 - Date.now() < 900000) {
@@ -44,14 +42,18 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
         if (!isRefreshing) {
           isRefreshing = true;
           return refreshToken()
-            // .then(() => {
-
-            //   // token has been refreshed to retry requests from all queues
-            //   requests.forEach((cb) => cb(token));
-            //   requests = [];
-            // })
-            .catch((response) => {
-              console.error("refreshtoken error =>", response);
+            .then((res) => {
+              const { token } = res.data;
+              instance.setToken(token);
+              config.headers["Authorization"] = `Bearer ${token}`;
+              config.baseURL = "";
+              // token has been refreshed to retry requests from all queues
+              requests.forEach((cb) => cb(token));
+              requests = [];
+              return instance(config);
+            })
+            .catch((res) => {
+              console.error("refreshtoken error =>", res);
               window.location.href = "/homepage";
             })
             .finally(() => {
@@ -63,8 +65,8 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
             // Put resolve in the queue, save it in a function form, and execute it directly after token refreshes
             requests.push((token) => {
               config.baseURL = "";
-              config.headers["Authorization"] = "Bearer " + token;
-              resolve(axios(config));
+              config.headers["Authorization"] = `Bearer ${token}`;
+              resolve(instance(config));
             });
           });
         }
