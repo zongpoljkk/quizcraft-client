@@ -14,11 +14,26 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
   // Retry queue, each item will be a function to be executed
   let requests = [];
 
-  const refreshToken = () => {
-    // Instance is the axios instance created in current request.js
-    return axios
-      .post(backend + "auth/refresh-token")
-      .then((response) => response.data);
+  const refreshToken = async () => {
+    try {
+      const response = await axios.post(backend + "auth/refresh-token");
+      const { success, token } = response.data;
+      if (success) {
+        localStorage.setItem("token", token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
+
+        
+        requests.forEach((cb) => cb(token));
+        requests = [];
+      } else {
+        console.log("refreshToken Error");
+      }
+    } catch (error) {
+      console.log(error)
+      console.log("There are something wrong about get refreshToken :(");
+    }
   };
 
   axios.interceptors.response.use(
@@ -29,16 +44,12 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
         if (!isRefreshing) {
           isRefreshing = true;
           return refreshToken()
-            .then((response) => {
-              const { token } = response.data;
-              localStorage.setItem(token);
-              config.headers["Authorization"] = "Bearer " + token;
+            // .then(() => {
 
-              // token has been refreshed to retry requests from all queues
-              requests.forEach((cb) => cb(token));
-              requests = [];
-              return axios(config);
-            })
+            //   // token has been refreshed to retry requests from all queues
+            //   requests.forEach((cb) => cb(token));
+            //   requests = [];
+            // })
             .catch((response) => {
               console.error("refreshtoken error =>", response);
               window.location.href = "/homepage";
@@ -52,7 +63,7 @@ export const PrivateRoute = ({ children, getUserData = () => {}, ...rest }) => {
             // Put resolve in the queue, save it in a function form, and execute it directly after token refreshes
             requests.push((token) => {
               config.baseURL = "";
-              config.headers["X-Token"] = token;
+              config.headers["Authorization"] = "Bearer " + token;
               resolve(axios(config));
             });
           });
