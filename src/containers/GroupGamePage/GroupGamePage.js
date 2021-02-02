@@ -133,7 +133,7 @@ const GroupGamePage = ({ history }) => {
           direction="backward"
         >
           {({ getTime, start, stop }) => (
-            <React.Fragment>
+            <Container>
               {is_time_out ? stop() : start()}
               <Headline>
                 <ExitModal onExit={() => {
@@ -153,11 +153,12 @@ const GroupGamePage = ({ history }) => {
                   <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
                 </Subheader>
               </TimeContainer>
-              {(is_creator && (number_of_answer === number_of_members || is_time_out)) &&
+              {is_creator &&
                 <div style={{ marginBottom: 8 }}>
                   <NumberOfAnswer
                     number_of_answer={number_of_answer}
                     number_of_members={number_of_members}
+                    showButton={number_of_answer === number_of_members || is_time_out}
                     button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
                     onNext={() => getNextProblem()}
                   />
@@ -215,7 +216,7 @@ const GroupGamePage = ({ history }) => {
                 />
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
-            </React.Fragment>
+            </Container>
           )}
         </Timer>
       )}
@@ -249,6 +250,7 @@ const TimeContainer = styled.div`
   display: flex;
   align-self: center;
   width: 68px;
+  margin-right: 16px;
   margin-bottom: 16px;
 `;
 
