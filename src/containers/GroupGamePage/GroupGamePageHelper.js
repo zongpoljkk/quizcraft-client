@@ -68,7 +68,6 @@ export const useGetNumberOfAnswer = (group_id) => {
 };
 
 export const useGetNextProblem = (group_id) => {
-  const [current_index_after_click_next, set_current_index_after_click_next] = useState();
 
   const getNextProblem = async () => {
     try {
@@ -77,7 +76,7 @@ export const useGetNextProblem = (group_id) => {
       });
       const { success, data } = response.data;
       if (success) {
-        set_current_index_after_click_next(data.currentIndex);
+        console.log(data);
       } else {
         console.log("getNextProblem Error");
       }
@@ -86,44 +85,5 @@ export const useGetNextProblem = (group_id) => {
     }
   };
 
-  return { getNextProblem, current_index_after_click_next };
-};
-
-export const useServerSentEvent = () => {
-  const [listening, set_listening] = useState(false);
-  const [next_problem, set_next_problem] = useState();
-  const [send_answer, set_send_answer] = useState();
-  const token = localStorage.getItem("token");
-
-  const subscribe = async (group_id) => {
-    const status = listening;
-    if (!status) {
-      const events = await new EventSource(`${backend}group/event?groupId=${group_id}`, {
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      });
-      events.onmessage = event => {
-        const parsedData = JSON.parse(event.data);
-        switch (parsedData.type) {
-          case "INIT_CONNECTION":
-            console.log("init")
-            break;
-          case "NEXT_PROBLEM":
-            set_next_problem(parsedData.message);
-            console.log("next_problem");
-            break;
-          case "SEND_ANSWER":
-            set_send_answer(parsedData.message);
-            console.log("send_answer");
-            break;
-        }
-      };
-    } else {
-      await axios.delete(`${backend}group/close/`);
-      console.log("unsubscribed")
-    }
-    set_listening(!listening);
-  };
-  return { listening, subscribe, next_problem, send_answer };
+  return { getNextProblem };
 };

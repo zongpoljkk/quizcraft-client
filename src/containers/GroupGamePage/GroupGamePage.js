@@ -21,9 +21,9 @@ import { useWindowDimensions } from "../../global/utils";
 import {
   useGetGroupGame,
   useGetNumberOfAnswer,
-  useGetNextProblem,
-  useServerSentEvent
+  useGetNextProblem
 } from "./GroupGamePageHelper";
+import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 // MOCK DATA
 const CORRECT = false;
@@ -49,12 +49,14 @@ const GroupGamePage = ({ history }) => {
     problem,
     is_creator
   } = useGetGroupGame(user_id, location.state.group_id);
+
   const {
     getNumberOfAnswer,
     number_of_answer,
     number_of_members
   } = useGetNumberOfAnswer(location.state.group_id);
-  const { getNextProblem, current_index_after_click_next } = useGetNextProblem(location.state.group_id);
+  const { getNextProblem } = useGetNextProblem(location.state.group_id);
+
   const {
     listening,
     subscribe,

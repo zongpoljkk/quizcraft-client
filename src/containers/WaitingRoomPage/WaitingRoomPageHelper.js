@@ -118,6 +118,9 @@ export const useServerSentEvent = () => {
   const [update_member, set_update_member] = useState();
   const [start_game, set_start_game] = useState();
   const [delete_group, set_delete_group] = useState();
+  const [next_problem, set_next_problem] = useState();
+  const [send_answer, set_send_answer] = useState();
+  const [restart_game, set_restart_game] = useState();
   const token = localStorage.getItem("token");
 
   const subscribe = async (group_id) => {
@@ -146,6 +149,18 @@ export const useServerSentEvent = () => {
             set_delete_group(parsedData.message);
             console.log("delete_group");
             break;
+          case "NEXT_PROBLEM":
+            set_next_problem(parsedData.message);
+            console.log("next_problem");
+            break;
+          case "SEND_ANSWER":
+            set_send_answer(parsedData.message);
+            console.log("send_answer");
+            break;
+          case "RESTART_GAME":
+            set_restart_game(parsedData.message);
+            console.log("restart_game");
+            break;
         }
       };
     } else {
@@ -154,5 +169,5 @@ export const useServerSentEvent = () => {
     }
     set_listening(!listening);
   };
-  return { listening, subscribe, update_member, start_game, delete_group };
+  return { listening, subscribe, update_member, start_game, delete_group, next_problem, send_answer, restart_game };
 };

@@ -36,13 +36,16 @@ const WaitingRoomPage = ({ history }) => {
     is_creator,
     group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
+
   const {
     getGenerateProblem,
     start_loading,
     problems
   } = useGetGenerateProblem();
+
   const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
   const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
+  
   const {
     listening,
     subscribe,
