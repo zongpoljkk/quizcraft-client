@@ -70,6 +70,7 @@ export const Button = styled.button.attrs((props) => ({
         return `none`;
     }
   }};
+  max-height: 48px;
   border-radius: 10px;
   outline: none;
   &:hover {
