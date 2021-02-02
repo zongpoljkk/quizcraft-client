@@ -94,7 +94,7 @@ const WaitingRoomPage = ({ history }) => {
     if (update_member) {
       getGroupMembers();
     };
-    if (start_game) {
+    if (start_game && !is_creator) {
       subscribe(location.state.group_id);
       handleStartGroupGame();
     };
@@ -105,7 +105,7 @@ const WaitingRoomPage = ({ history }) => {
   }, [update_member, start_game, delete_group]);
 
   useEffect(() => {
-    if(problems) {
+    if(problems && is_creator) {
       subscribe(location.state.group_id);
       handleStartGroupGame();
     };

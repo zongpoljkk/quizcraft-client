@@ -98,13 +98,16 @@ const GroupGamePage = ({ history }) => {
   };
 
   useEffect(() => {
-    console.log("listening", listening)
+    getGroupGame();
+  }, []);
+
+  useEffect(() => {
+    console.log(listening)
     if(!listening) {
       console.log("sub")
       subscribe(location.state.group_id);
     };
-    getGroupGame();
-  }, []);
+  }, [listening]);
 
   useEffect(() => {
     getNumberOfAnswer();
@@ -118,6 +121,7 @@ const GroupGamePage = ({ history }) => {
       console.log("eiei")
     };
     console.log("next_problem", next_problem)
+    console.log(listening)
   }, [current_index_after_click_next, next_problem]);
 
   return ( 
@@ -151,12 +155,14 @@ const GroupGamePage = ({ history }) => {
                 </Subheader>
               </TimeContainer>
               {is_creator && (number_of_answer === number_of_members || is_time_out) &&
-                <NumberOfAnswer
-                  number_of_answer={number_of_answer}
-                  number_of_members={number_of_members}
-                  button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
-                  onNext={() =>  onNext()}
-                />
+                <div style={{ marginBottom: 8 }}>
+                  <NumberOfAnswer
+                    number_of_answer={number_of_answer}
+                    number_of_members={number_of_members}
+                    button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
+                    onNext={() =>  onNext()}
+                  />
+                </div>
               }
               <React.Fragment>
                 <ProblemBox

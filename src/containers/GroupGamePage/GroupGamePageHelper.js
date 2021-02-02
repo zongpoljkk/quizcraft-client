@@ -98,14 +98,13 @@ export const useServerSentEvent = () => {
   const subscribe = async (group_id) => {
     const status = listening;
     if (!status) {
-      const events = new EventSource(`${backend}group/event?groupId=${group_id}`, {
+      const events = await new EventSource(`${backend}group/event?groupId=${group_id}`, {
         headers: {
           'Authorization': 'Bearer ' + token
         }
       });
       events.onmessage = event => {
         const parsedData = JSON.parse(event.data);
-        console.log(event.data)
         switch (parsedData.type) {
           case "INIT_CONNECTION":
             console.log("init")
@@ -122,6 +121,7 @@ export const useServerSentEvent = () => {
       };
     } else {
       await axios.delete(`${backend}group/close/`);
+      console.log("groupGame unsubscribed");
     }
     set_listening(!listening);
   };
