@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { Header } from "../Typography";
+import { Header, Subheader } from "../Typography";
 import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
@@ -12,23 +12,22 @@ let powerExists = false;
 export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
   const [mainAns, setMainAns] = useState("");
   const [powerAns, setPowerAns] = useState("");
-  const [userAns, setUserAns] = useState([]);
 
   const outputBoxes = (item) => {
-    if (item.type === "(" && item.last_type === "main") {
+    if (item.type === "(" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
       if (mainCurlyBraces.length === 0) {
         mainCurlyBraces.push("(");
       }
       return (
-        <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace marginTop={36}>
           <Header>(</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === "(" && item.last_type === "power") {
       return (
-        <div style={{ marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace>
           <Header>(</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === "power") {
       powerExists = true;
@@ -38,18 +37,38 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
           onChange={(e) => setPowerAns(e.target.value)}
         />
       );
-    } else if (item.type === ")" && item.last_type === "main") {
+    } else if (item.type === ")" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
       return (
-        <div style={{ marginTop: 36, marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace marginTop={36}>
           <Header>)</Header>
-        </div>
+        </BoxSpace>
       );
     } else if (item.type === ")" && item.last_type === "power") {
       return (
-        <div style={{ marginLeft: 4, marginRight: 4 }}>
+        <BoxSpace>
           <Header>)</Header>
-        </div>
+        </BoxSpace>
       );
+    } else if (item.type === "/") {
+      return (
+        <BoxSpace marginTop={31}>
+          <Divider>/</Divider>
+        </BoxSpace>
+      );
+    } else if (item.type === "display") {
+      if (item.text == "*") {
+        return (
+          <BoxSpace marginTop={item.last_type === "power" ? 8 : 42}>
+            <Multiple>x</Multiple>
+          </BoxSpace>
+        );
+      } else {
+        return (
+          <BoxSpace marginTop={item.last_type === "power" ? 6 : 42}>
+            <Subheader>{item.text}</Subheader>
+          </BoxSpace>
+        );
+      }
     } else {
       return (
         <MainInputAnswer
@@ -78,7 +97,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
     } else {
       tempAnsString = curlyMain;
     }
-    setUserAns(tempAnsString);
     set_answer(tempAnsString);
 
     // Cleanup
@@ -143,4 +161,26 @@ const PowerInputAnswer = styled.input.attrs((props) => ({
   &:active {
     border-color: ${COLOR.MANDARIN};
   }
+`;
+
+const Divider = styled.div`
+  font-family: Prompt, sans-serif;
+  font-weight: 500;
+  font-size: 34px;
+  color: ${COLOR.CHARCOAL};
+`;
+
+const Multiple = styled.div`
+  font-family: Prompt, sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  color: ${COLOR.CHARCOAL};
+`;
+
+const BoxSpace = styled.div.attrs((props) => ({
+  marginTop: props.marginTop
+}))`
+  margin-top: ${(props) => props.marginTop}px;
+  margin-left: 4px;
+  margin-right: 4px;
 `;

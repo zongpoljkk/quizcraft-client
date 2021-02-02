@@ -102,6 +102,7 @@ const GroupGamePage = ({ history }) => {
                   style={{ alignSelf: problem.answerType === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
                 >
                   <GameContent 
+                    subject={location.state.subject_name}
                     type={problem.answerType}
                     correct_answer={problem.correctAnswer}
                     question={problem.body}
@@ -137,6 +138,7 @@ const GroupGamePage = ({ history }) => {
                   isShowing={isShowing}
                   toggle={toggle}
                   // TODO: add real data instand of CORRECT after connect API
+                  subject={location.state.subject_name}
                   correct={CORRECT}
                   answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                   overlay_clickable={false}

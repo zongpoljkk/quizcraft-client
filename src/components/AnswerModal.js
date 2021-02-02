@@ -17,6 +17,7 @@ export const AnswerModal = ({
   isShowing,
   buttonTitle,
   onButtonClick,
+  subject,
   correct,
   answer,
   overlay_clickable
@@ -46,7 +47,11 @@ export const AnswerModal = ({
                   {answer?.split("\n").map((item, key) => {
                     return (
                       <Body key={key} color={COLOR.TRINIDAD}>
-                        <Tex2SVG display="inline" latex={asciimath2latex(item)} />
+                        {subject === "คณิตศาสตร์" ? (
+                          <Tex2SVG display="inline" latex={asciimath2latex(item)}/>
+                        ) : (
+                          item
+                        )}
                       </Body>
                     );
                   })}
