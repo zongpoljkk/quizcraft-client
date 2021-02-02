@@ -113,13 +113,10 @@ export const useGetGenerateProblem = () => {
   return { getGenerateProblem, start_loading, problems };
 };
 
-export const useServerSentEvent = (getGroupMembers = () => {}) => {
+export const useServerSentEvent = () => {
   const [listening, set_listening] = useState(false);
-  const [next_problem, set_next_problem] = useState();
-  const [start_game, set_start_game] = useState();
   const [update_member, set_update_member] = useState();
-  const [restart_game, set_restart_game] = useState();
-  const [send_answer, set_send_answer] = useState();
+  const [start_game, set_start_game] = useState();
   const [delete_group, set_delete_group] = useState();
   const token = localStorage.getItem("token");
 
@@ -139,7 +136,6 @@ export const useServerSentEvent = (getGroupMembers = () => {}) => {
             break;
           case "UPDATE_MEMBER":
             set_update_member(parsedData.message);
-            getGroupMembers();
             console.log("update_member");
             break;
           case "START_GAME":
@@ -150,18 +146,18 @@ export const useServerSentEvent = (getGroupMembers = () => {}) => {
             set_delete_group(parsedData.message);
             console.log("delete_group");
             break;
-          // case "NEXT_PROBLEM":
-          //   set_next_problem(parsedData.message);
-          //   console.log("next_problem");
-          //   break;
-          // case "RESTART_GAME":
-          //   set_restart_game(parsedData.message);
-          //   console.log("restart_game");
-          //   break;
-          // case "SEND_ANSWER":
-          //   set_send_answer(parsedData.message);
-          //   console.log("send_answer");
-          //   break;
+          case "NEXT_PROBLEM":
+            set_next_problem(parsedData.message);
+            console.log("eiei");
+            break;
+          case "RESTART_GAME":
+            set_restart_game(parsedData.message);
+            console.log("eieiei");
+            break;
+          case "SEND_ANSWER":
+            set_send_answer(parsedData.message);
+            console.log("eieiei");
+            break;
         }
       };
     } else {
@@ -169,5 +165,5 @@ export const useServerSentEvent = (getGroupMembers = () => {}) => {
     }
     set_listening(!listening);
   };
-  return { listening, subscribe, update_member, start_game, next_problem, restart_game, send_answer, delete_group };
+  return { listening, subscribe, update_member, start_game, delete_group };
 };

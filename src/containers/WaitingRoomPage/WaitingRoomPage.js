@@ -48,10 +48,8 @@ const WaitingRoomPage = ({ history }) => {
     subscribe,
     update_member,
     start_game,
-    next_problem,
-    send_answer,
     delete_group
-  } = useServerSentEvent(getGroupMembers);
+  } = useServerSentEvent();
 
   const handleDeleteGroup = () => {
     deleteGroup(location.state.group_id, user_id);
