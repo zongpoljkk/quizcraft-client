@@ -183,7 +183,7 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {(user && !skip) &&
+                {(user && (!skip && !is_time_out)) &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
