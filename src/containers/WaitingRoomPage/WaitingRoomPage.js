@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
 
-import { Header, Subheader, Body } from "../../components/Typography";
+import { Header, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -95,7 +95,6 @@ const WaitingRoomPage = ({ history }) => {
       getGroupMembers();
     };
     if (start_game && !is_creator) {
-      subscribe(location.state.group_id);
       handleStartGroupGame();
     };
     if (delete_group) {
@@ -106,7 +105,6 @@ const WaitingRoomPage = ({ history }) => {
 
   useEffect(() => {
     if(problems && is_creator) {
-      subscribe(location.state.group_id);
       handleStartGroupGame();
     };
   }, [start_loading]);

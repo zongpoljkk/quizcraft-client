@@ -23,9 +23,9 @@ import {
   useLeaveGroup,
 } from "./GroupResultPageHelper";
 
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
-
 const GroupResultPage = ({ history }) => {
+
+  const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [display_first_lottie, set_display_first_lottie] = useState(false);
   const [display_second_lottie, set_display_second_lottie] = useState(false);
@@ -39,10 +39,10 @@ const GroupResultPage = ({ history }) => {
     numboer_of_problem,
     user_index,
     is_creator,
-  } = useGetGroupScoreBoard(GROUP_ID, user_id);
+  } = useGetGroupScoreBoard(location.state.group_id, user_id);
 
-  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
-  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup, leave_failed } = useLeaveGroup(location.state.group_id, user_id);
 
   const headers = [
     {label: "username", key: "username"},
@@ -95,12 +95,12 @@ const GroupResultPage = ({ history }) => {
   };
 
   const handleDeleteGroup = () => {
-    deleteGroup(GROUP_ID, user_id);
+    deleteGroup(location.state.group_id, user_id);
     history.push("/homepage");
   }
 
   const handleLeaveGroup = () => {
-    leaveGroup(GROUP_ID, user_id);
+    leaveGroup(location.state.group_id, user_id);
     history.push("/homepage");
   }
 

@@ -121,7 +121,7 @@ export const useServerSentEvent = () => {
       };
     } else {
       await axios.delete(`${backend}group/close/`);
-      console.log("groupGame unsubscribed");
+      console.log("unsubscribed")
     }
     set_listening(!listening);
   };

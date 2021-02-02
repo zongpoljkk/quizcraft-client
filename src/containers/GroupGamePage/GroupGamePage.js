@@ -62,25 +62,6 @@ const GroupGamePage = ({ history }) => {
     send_answer
   } = useServerSentEvent();
 
-  const onNext = () => {
-    if(current_index+1 === number_of_problem) {
-      // TODO: connect API check answer hold 10-15 sec then route to result page
-      subscribe(location.state.group_id);
-      history.push({
-        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-result", 
-        state: {
-          group_id : location.state.group_id,
-          subject_name : location.state.subject_name,
-          topic_name : location.state.topic_name,
-          subtopic_name : location.state.subtopic_name,
-          difficulty : location.state.difficulty
-        }
-      });
-    } else {
-      getNextProblem();
-    };
-  };
-
   const onSkip = () => {
     // TODO: connect API send no answer
   };
@@ -97,32 +78,42 @@ const GroupGamePage = ({ history }) => {
     // TODO: connect API check answer
   };
 
-  useEffect(() => {
-    getGroupGame();
-  }, []);
+  const handleNextProblem = () => {
+    if(current_index+1 === number_of_problem) {
+      // TODO: connect API check answer hold 10-15 sec then route to result page
+      history.push({
+        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-result", 
+        state: {
+          group_id : location.state.group_id,
+          subject_name : location.state.subject_name,
+          topic_name : location.state.topic_name,
+          subtopic_name : location.state.subtopic_name,
+          difficulty : location.state.difficulty
+        }
+      });
+    } else {
+      // TODO: connect API check answer hold 10-15 sec and getGroupGame()
+      getGroupGame();
+      set_is_time_out(false);
+    }
+  };
 
   useEffect(() => {
-    console.log(listening)
     if(!listening) {
-      console.log("sub")
       subscribe(location.state.group_id);
     };
-  }, [listening]);
+    getGroupGame();
+  }, []);
 
   useEffect(() => {
     getNumberOfAnswer();
   }, [send_answer]);
 
   useEffect(() => {
-    if(current_index_after_click_next || next_problem) {
-      // TODO: connect API check answer hold 10-15 sec and getGroupGame()
-      getGroupGame();
-      set_is_time_out(false);
-      console.log("eiei")
+    if(next_problem) {
+      handleNextProblem();
     };
-    console.log("next_problem", next_problem)
-    console.log(listening)
-  }, [current_index_after_click_next, next_problem]);
+  }, [next_problem]);
 
   return ( 
     <Container>
@@ -140,7 +131,10 @@ const GroupGamePage = ({ history }) => {
             <React.Fragment>
               {is_time_out ? stop() : start()}
               <Headline>
-                <ExitModal onExit={() => history.push("/")}/>
+                <ExitModal onExit={() => {
+                  subscribe(location.state.group_id);
+                  history.push("/");
+                }}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
                 {user &&
@@ -160,7 +154,7 @@ const GroupGamePage = ({ history }) => {
                     number_of_answer={number_of_answer}
                     number_of_members={number_of_members}
                     button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
-                    onNext={() =>  onNext()}
+                    onNext={() => getNextProblem()}
                   />
                 </div>
               }
