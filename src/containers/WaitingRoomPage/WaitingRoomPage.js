@@ -50,22 +50,38 @@ const WaitingRoomPage = ({ history }) => {
     start_game,
     next_problem,
     send_answer,
+    delete_group
   } = useServerSentEvent(getGroupMembers);
 
   const handleDeleteGroup = () => {
-    subscribe(location.state.group_id);
     deleteGroup(location.state.group_id, user_id);
+    subscribe(location.state.group_id);
     history.push("/homepage");
-  }
+  };
 
   const handleLeaveGroup = () => {
-    subscribe(location.state.group_id);
     leaveGroup(location.state.group_id, user_id);
+    subscribe(location.state.group_id);
     history.push("/homepage");
-  }
+  };
+
+  const handleStartGroupGame = () => {
+    history.push({
+      pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
+      state: {
+        group_id : location.state.group_id,
+        subject_name : location.state.subject_name,
+        topic_name : location.state.topic_name,
+        subtopic_name : location.state.subtopic_name,
+        difficulty : location.state.difficulty
+      }
+    });
+  };
 
   useEffect(() => {
-    subscribe(location.state.group_id);
+    if(!listening) {
+      subscribe(location.state.group_id);
+    };
     set_get_all_members_loading(loading);
     getGroupMembers();
   }, []);
@@ -77,27 +93,26 @@ const WaitingRoomPage = ({ history }) => {
   }, [loading]);
 
   useEffect(() => {
+    if (update_member) {
+      getGroupMembers();
+    };
+    if (start_game) {
+      subscribe(location.state.group_id);
+      handleStartGroupGame();
+    };
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("*");
+    };
+  }, [update_member, start_game, delete_group]);
+
+  useEffect(() => {
     if(problems) {
       subscribe(location.state.group_id);
-      history.push({
-        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
-        state: {
-          group_id : location.state.group_id,
-          subject_name : location.state.subject_name,
-          topic_name : location.state.topic_name,
-          subtopic_name : location.state.subtopic_name,
-          difficulty : location.state.difficulty
-        }
-      });
+      handleStartGroupGame();
     };
   }, [start_loading]);
 
-  useEffect(() => {
-    if (group_failed) {
-      history.push("*");
-    }
-  }, [group_failed]);
-  
   return (
     <Container isCreator = {is_creator}>
       {get_all_members_loading || start_loading

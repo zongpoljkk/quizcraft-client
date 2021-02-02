@@ -120,6 +120,7 @@ export const useServerSentEvent = (getGroupMembers = () => {}) => {
   const [update_member, set_update_member] = useState();
   const [restart_game, set_restart_game] = useState();
   const [send_answer, set_send_answer] = useState();
+  const [delete_group, set_delete_group] = useState();
   const token = localStorage.getItem("token");
 
   const subscribe = async (group_id) => {
@@ -132,19 +133,22 @@ export const useServerSentEvent = (getGroupMembers = () => {}) => {
       });
       events.onmessage = event => {
         const parsedData = JSON.parse(event.data);
-        console.log(event.data)
         switch (parsedData.type) {
           case "INIT_CONNECTION":
             console.log("init")
             break;
           case "UPDATE_MEMBER":
             set_update_member(parsedData.message);
-            console.log("update_member");
             getGroupMembers();
+            console.log("update_member");
             break;
           case "START_GAME":
             set_start_game(parsedData.message);
             console.log("start_game");
+            break;
+          case "DELETE_GROUP":
+            set_delete_group(parsedData.message);
+            console.log("delete_group");
             break;
           // case "NEXT_PROBLEM":
           //   set_next_problem(parsedData.message);
@@ -162,9 +166,8 @@ export const useServerSentEvent = (getGroupMembers = () => {}) => {
       };
     } else {
       await axios.delete(`${backend}group/close/`);
-      console.log("unsub");
     }
     set_listening(!listening);
   };
-  return { listening, subscribe, update_member, start_game, next_problem, restart_game, send_answer };
+  return { listening, subscribe, update_member, start_game, next_problem, restart_game, send_answer, delete_group };
 };
