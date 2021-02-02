@@ -36,6 +36,7 @@ const GroupGamePage = ({ history }) => {
   const [used_time, set_used_time] = useState();
   const [is_time_out, set_is_time_out] = useState(false);
   const [answer, set_answer] = useState();
+  const [skip, set_skip] = useState(false);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
@@ -66,6 +67,7 @@ const GroupGamePage = ({ history }) => {
 
   const onSkip = () => {
     // TODO: connect API send no answer
+    set_skip(true);
   };
 
   const onSend = () => {
@@ -97,6 +99,7 @@ const GroupGamePage = ({ history }) => {
       // TODO: connect API check answer hold 10-15 sec and getGroupGame()
       getGroupGame();
       set_is_time_out(false);
+      set_skip(false);
     }
   };
 
@@ -150,7 +153,7 @@ const GroupGamePage = ({ history }) => {
                   <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
                 </Subheader>
               </TimeContainer>
-              {is_creator && (number_of_answer === number_of_members || is_time_out) &&
+              {(is_creator && (number_of_answer === number_of_members || is_time_out)) &&
                 <div style={{ marginBottom: 8 }}>
                   <NumberOfAnswer
                     number_of_answer={number_of_answer}
@@ -179,7 +182,7 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {user &&
+                {(user && !skip) &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
