@@ -20,7 +20,9 @@ export const AnswerModal = ({
   subject,
   correct,
   answer,
-  overlay_clickable
+  overlay_clickable,
+  group_mode = false, // For group mode
+  is_creator = false, // For group mode
 }) => {
   const asciimath2latex = require("asciimath-to-latex");
 
@@ -62,7 +64,7 @@ export const AnswerModal = ({
           <div style={{ marginBottom: 8 }} />
           <Report correct={correct} />
         </ContentContainer>
-        {buttonTitle &&
+        {((buttonTitle && (!group_mode)) || (group_mode && is_creator)) &&
           <Button 
             onClick={() => {
               onButtonClick();

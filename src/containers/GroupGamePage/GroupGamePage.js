@@ -25,10 +25,6 @@ import {
 } from "./GroupGamePageHelper";
 import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
-// MOCK DATA
-const CORRECT = false;
-const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-
 const GroupGamePage = ({ history }) => {
   
   const location = useLocation();
@@ -39,7 +35,8 @@ const GroupGamePage = ({ history }) => {
   const [skip, set_skip] = useState(false);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
-  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  // const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  const [sent_answer, set_sent_answer] = useState(false);
   const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
 
@@ -70,14 +67,14 @@ const GroupGamePage = ({ history }) => {
 
   const onSkip = () => {
     set_answer(WRONG_ANSWER);
-    set_used_time(time_per_problem);
   };
 
   const onSend = () => {
     if(answer) {
       toggle();
-      set_answer_modal_loading(true);
-      checkGroupAnswer(user_id, problem._id, answer, "group", location.state.group_id, used_time).then((res) => {
+      // set_answer_modal_loading(true);
+      set_sent_answer(true);
+      checkGroupAnswer(user_id, problem._id, answer, "GROUP", location.state.group_id, used_time).then((res) => {
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
@@ -119,15 +116,22 @@ const GroupGamePage = ({ history }) => {
 
   // Wait until user time has been updated, then call onSend
   useEffect(() => {
-    onSend();
+    console.log("useEffect: onSend")
+    console.log(used_time);
+    // Prevent calling onSend again when time is out
+    if (used_time !== time_per_problem) {
+      console.log("call onSend")
+      onSend();
+    }
   }, [used_time])
 
-  // close loading modal after getting correct_answer from backend
-  useEffect(() => {
-    if (correct_answer) {
-      set_answer_modal_loading(false);
-    }
-  }, [correct_answer])
+  // close loading modal after getting correct_answer from backend and time is up
+  // useEffect(() => {
+  //   // // TODO: Wait til the time is up
+  //   // if (correct_answer && is_time_out) {
+  //   //   set_answer_modal_loading(false);
+  //   // }
+  // }, [correct_answer, is_time_out])
 
   // // TODO: Display how many people answer already
   // useEffect(() => {
@@ -140,6 +144,9 @@ const GroupGamePage = ({ history }) => {
 
   useEffect(() => {
     if(next_problem) {
+      // reset state
+      set_sent_answer(false);
+      set_answer()
       handleNextProblem();
     };
   }, [next_problem]);
@@ -207,11 +214,12 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {(user && (!skip && !is_time_out)) &&
+                {(user && (!skip && !is_time_out)) && !sent_answer &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
                       onClick={() => {
+                        set_used_time((time_per_problem - getTime()/1000));
                         onSkip();
                       }}
                     >
@@ -219,22 +227,26 @@ const GroupGamePage = ({ history }) => {
                     </Button>
                     <Button
                       type={answer ? "default" : "disabled"}
-                      onClick={() => {
+                      onClick={answer ? () => {
                         set_used_time((time_per_problem - getTime()/1000));
-                      }}
+                      } : () => {}}
                     >
                       ส่ง
                     </Button>
                   </ButtonContainer>
                 }
-                {answer_modal_loading && <LoadingPage overlay={true} />}
-                {!answer_modal_loading ? <AnswerModal
+                {/* {answer_modal_loading && <LoadingPage overlay={true} />} */}
+                {is_time_out ? <AnswerModal
                   isShowing={isShowing}
                   toggle={toggle}
                   subject={location.state.subject_name}
                   correct={correct}
                   answer={correct ? null : correct_answer}
                   overlay_clickable={false}
+                  buttonTitle={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
+                  onButtonClick={() => getNextProblem()}
+                  is_creator={is_creator}
+                  group_mode={true}
                 /> : null}
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>

@@ -112,7 +112,7 @@ const ChallengeGame = ({ history }) => {
         subject,
         topic,
         subtopic,
-        "challenge",
+        "CHALLENGE",
         location.state.challenge_id,
         my_info.currentProblem
       ).then((res) => {
