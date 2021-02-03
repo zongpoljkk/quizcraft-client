@@ -90,3 +90,9 @@ export const REPORT = {
 export const LARGE_DEVICE_SIZE = 768;
 
 export const CONTAINER_PADDING = 64;
+
+export const WRONG_ANSWER = {
+  MATH: "2^[123]",
+  MATH_BOX: "0.123",
+  STRING: "dasdasldgaso",
+}

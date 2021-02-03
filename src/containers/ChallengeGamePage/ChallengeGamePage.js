@@ -20,10 +20,11 @@ import {
   getAndCheckAnswer,
 } from "./ChallengeGamePageHelper";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
+
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
@@ -211,7 +212,7 @@ const ChallengeGame = ({ history }) => {
                   onCheck(
                     problem_id,
                     user_id,
-                    "WRONG ANSWER",
+                    WRONG_ANSWER.MATH,
                     getTime(),
                     location.state.subject_name,
                     location.state.topic_name,
