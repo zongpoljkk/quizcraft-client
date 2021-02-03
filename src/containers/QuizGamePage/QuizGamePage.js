@@ -51,6 +51,8 @@ const QuizGamePage = ({ history }) => {
   const [score, set_score] = useState(0);
   const [earned_exp, set_earned_exp] = useState(0);
   const [earned_coins, set_earned_coins] = useState(0);
+  const [is_level_up, set_is_level_up] = useState(false);
+  const [is_rank_up, set_is_rank_up] = useState(false);
 
   const {
     getEachProblem,

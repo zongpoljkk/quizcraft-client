@@ -112,6 +112,8 @@ const PracticeGamePage = ({ history }) => {
           subtopic: subtopic,
           difficulty: difficulty,
           mode: mode,
+          is_level_up: res.data.level_up,
+          is_rank_up: res.data.rank_up
         },
       });
     });
