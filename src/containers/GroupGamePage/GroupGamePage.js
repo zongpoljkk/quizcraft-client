@@ -39,7 +39,6 @@ const GroupGamePage = ({ history }) => {
     current_index,
     number_of_problem,
     time_per_problem,
-    is_creator,
     user,
     problem
   } = useGetGroupGame(user_id, location.state.group_id);
@@ -49,7 +48,9 @@ const GroupGamePage = ({ history }) => {
   };
 
   const onSend = () => {
+    console.log(answer)
     if(answer) {
+      console.log(answer)
       toggle();
       // TODO: connect API send answer
     };
@@ -83,7 +84,7 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => history.push("/")}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                {!is_creator &&
+                {user &&
                   <div style={{ marginRight: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
@@ -103,6 +104,7 @@ const GroupGamePage = ({ history }) => {
                   style={{ alignSelf: problem.answerType === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
                 >
                   <GameContent 
+                    subject={location.state.subject_name}
                     type={problem.answerType}
                     correct_answer={problem.correctAnswer}
                     question={problem.body}
@@ -112,7 +114,7 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {!is_creator &&
+                {user &&
                   <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
@@ -138,6 +140,7 @@ const GroupGamePage = ({ history }) => {
                   isShowing={isShowing}
                   toggle={toggle}
                   // TODO: add real data instand of CORRECT after connect API
+                  subject={location.state.subject_name}
                   correct={CORRECT}
                   answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                   overlay_clickable={false}

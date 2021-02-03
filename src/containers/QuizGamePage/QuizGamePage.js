@@ -20,9 +20,11 @@ import {
   useGetEachProblem,
   useItem,
   getAndCheckAnswer,
+  useSkipItem,
+  useRefreshItem
 } from "./QuizGamePageHelper";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DIFFICULTY } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
@@ -66,19 +68,18 @@ const QuizGamePage = ({ history }) => {
     location.state.subtopic_name,
     location.state.difficulty
   );
-
   const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
     problem_id
   );
-
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
     amount_of_refreshs,
   } = useGetAmountOfItems(user_id);
-
   const { putUseItem } = useItem(user_id);
+  const { postSkipItem } = useSkipItem();
+  const { postRefreshItem } = useRefreshItem();
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
@@ -86,6 +87,23 @@ const QuizGamePage = ({ history }) => {
     set_current_index((index) => index + 1);
     set_problem_id();
     set_hint();
+    set_score((score) => score + 1);
+    let skip_reward = 0;
+    switch (location.state.difficulty) {
+      case DIFFICULTY.EASY.type:
+        skip_reward = 14;
+        break;
+      case DIFFICULTY.MEDIUM.type:
+        skip_reward = 28;
+        break;
+      case DIFFICULTY.HARD.type:
+        skip_reward = 42;
+        break;
+      default:
+        skip_reward = 0;
+    }
+    set_earned_exp((earned_exp) => earned_exp + skip_reward);
+    set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
 
   const onRefresh = () => {
@@ -175,7 +193,6 @@ const QuizGamePage = ({ history }) => {
       set_current_index((index) => index + 1);
       set_user_answer();
       getEachProblem();
-      // TODO: check amount of item -> set item
     }
   };
 
@@ -187,6 +204,34 @@ const QuizGamePage = ({ history }) => {
     getAmountOfItems();
     getEachProblem();
   }, []);
+
+  // Trigger when using onSkip on the last question
+  useEffect(() => {
+    if (current_index > NUMBER_OF_QUIZ) {
+      history.push({
+        pathname:
+          "/" +
+          location.state.subject_name +
+          "/" +
+          location.state.topic_name +
+          "/" +
+          location.state.subtopic_name +
+          "/" +
+          location.state.difficulty +
+          "/quiz-result",
+        state: {
+          userId: localStorage.getItem("userId"),
+          subject: location.state.subject_name,
+          topic: location.state.topic_name,
+          subtopic: location.state.subtopic_name,
+          difficulty: location.state.difficulty,
+          score: score,
+          earned_exp: earned_exp,
+          earned_coins: earned_coins,
+        },
+      });
+    }
+  }, [onSkip]);
 
   return (
     <Container>
@@ -220,19 +265,17 @@ const QuizGamePage = ({ history }) => {
               hintContent={hint}
               skip={skip}
               onSkip={() => {
-                if (current_index < NUMBER_OF_QUIZ) {
-                  putUseItem("Skip");
+                if (current_index <= NUMBER_OF_QUIZ) {
+                  postSkipItem(problem_id);
                   onSkip();
                   reset();
                 } else {
-                  // TODO: push to result page and check with empty answer
-                  putUseItem("Skip");
-                  history.push("/result-page");
+                  postSkipItem(problem_id);
                 }
               }}
               refresh={refresh}
               onRefresh={() => {
-                putUseItem("Refresh");
+                postRefreshItem(problem_id);
                 onRefresh();
                 reset();
               }}
@@ -266,6 +309,7 @@ const QuizGamePage = ({ history }) => {
                   }}
                 >
                   <GameContent
+                    subject={location.state.subject_name}
                     type={answer_type}
                     correct_answer={correct_answer}
                     question={body}
@@ -330,7 +374,7 @@ const QuizGamePage = ({ history }) => {
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
-                    // TODO: add real data instand of CORRECT after connect API
+                    subject={location.state.subject_name}
                     correct={correct}
                     answer={correct ? null : answer_key}
                     buttonTitle={

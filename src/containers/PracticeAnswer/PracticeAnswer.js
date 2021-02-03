@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Tex2SVG from "react-hook-mathjax";
 import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -16,8 +17,8 @@ import { Report } from "../../components/Report";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
-import Correct_Forward from "../../assets/Correct_Forward.png";
-import Incorrect_Forward from "../../assets/Incorrect_Forward.png";
+import Correct_Forward from "../../assets/icon/correct_forward.png";
+import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -45,6 +46,7 @@ const PracticeAnswer = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
+  const asciimath2latex = require("asciimath-to-latex");
 
   const handleNextButtonClick = () => {
     history.push({
@@ -89,7 +91,7 @@ const PracticeAnswer = ({ history }) => {
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
-    if (location.state.solution === "") {
+    if (location.state.solution === "" || !location.state.solution) {
       set_static_solution([location.state.correct_answer]);
     } else {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
@@ -108,9 +110,8 @@ const PracticeAnswer = ({ history }) => {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
-            ยินดีด้วย! คุณได้รับ 1 เหรียญ
+            {`ยินดีด้วย! คุณได้รับ ${location.state.earned_coins} เหรียญ`}
           </Body>
-          {/* <Coin /> */}
           <div style={{ display: "inline-block", marginTop: "8px" }}>
             <LottieFile
               animationData={coin_data}
@@ -187,21 +188,20 @@ const PracticeAnswer = ({ history }) => {
       </CenterDiv>
       {firstClick ? (
         <SolutionDiv>
-          <ul style={{ listStyle: "none", padding: 0 }}>
             {solution.map((line, i) => {
-              // TODO: Replace Math.random() with line.id after it has one
               return (
-                <li key={Math.random()}>
-                  <Solution answer={correct}>
+                  <Solution answer={correct} key={i}>
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
-                    {line}
+                    {location.state.subject === "คณิตศาสตร์" ? (
+                      <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                    ) : (
+                      line
+                    )}
                   </Solution>
-                </li>
               );
             })}
-          </ul>
         </SolutionDiv>
       ) : (
         <SolutionDiv></SolutionDiv>
@@ -236,9 +236,14 @@ const CenterDiv = styled.div`
 `;
 
 const SolutionDiv = styled(CenterDiv)`
-  margin: 0px auto 52px auto;
-  height: 160px;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: stretch;
+  margin: 16px auto 52px auto;
+  height: 280px;
+  width: 100%;
+  overflow: scroll;
 `;
 
 const GreetingDiv = styled.div`

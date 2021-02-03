@@ -28,6 +28,7 @@ import JoinGroupPage from "./containers/JoinGroupPage/JoinGroupPage";
 import WaitingRoomPage from "./containers/WaitingRoomPage/WaitingRoomPage";
 import GroupGamePage from "./containers/GroupGamePage/GroupGamePage";
 import ShopPage from "./containers/ShopPage/ShopPage";
+import AchievementPage from "./containers/AchievementPage/AchievementPage";
 import ReportPage from "./containers/ReportPage/ReportPage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage";
@@ -166,9 +167,6 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/report" getUserData={getUserData}>
-            <ReportPage />
-          </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
             <Homepage user_id={user_id} />
           </PrivateRoute>
@@ -186,6 +184,9 @@ const App = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/shop" getUserData={getUserData}>
             <ShopPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/achievement" getUserData={getUserData}>
+            <AchievementPage />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />

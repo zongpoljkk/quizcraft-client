@@ -43,3 +43,54 @@ export const useGetGroupScoreBoard = (group_id, user_id) => {
 
   return { getGroupScoreBoard, loading, scoreboard, numboer_of_problem, user_index, is_creator  };
 };
+
+export const useDeleteGroup = (group_id, user_id) => {
+  const deleteGroup = async () => {
+    try {
+      const response = await axios.delete(backend+"group/delete-group", {
+        data: {
+          groupId: group_id,
+          userId : user_id,
+        }
+      })
+      const { success, data } = response.data;
+      if (success) {
+        console.log(data);
+      } else {
+        console.log("delete group Error");
+      } 
+    } catch (e) {
+      console.log(e)
+      console.log("There are something wrong about delete group :(");
+    }
+  };
+  
+  return { deleteGroup };
+};
+
+export const useLeaveGroup = (group_id, user_id) => {
+  const [leave_failed, set_leave_failed] = useState(false);
+
+  const leaveGroup = async () => {
+    try {
+      const response = await axios.put(backend+"group/leave-group", {
+        groupId: group_id,
+        userId : user_id,
+      })
+      const { success, data } = response.data;
+      if (success) {
+        console.log(data);
+      } else {
+        console.log("leave group Error");
+      } 
+    } catch (error) {
+      if (error.response.status === 400) {
+        set_leave_failed(true);
+      } else {
+        console.log("There are something wrong about leave group :(");
+      }
+    }
+  };
+  
+  return { leaveGroup, leave_failed };
+};

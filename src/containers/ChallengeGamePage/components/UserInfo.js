@@ -17,7 +17,7 @@ export const UserInfo = ({
     <ProfileImageContainer>
       <UserInfoContainer>
         <ProfileImage backgroundColor={my_image ? null : COLOR.ISLAND_SPICE}>
-          {my_image ? <Image src={my_image}/> : null}
+          {my_image ? <Image src={"data:image/png;base64,"+my_image.data}/> : null}
         </ProfileImage>
         <div style={{ marginBottom: 4 }}/>
         <Body color={COLOR.MANDARIN}>{my_score}</Body>
@@ -27,7 +27,7 @@ export const UserInfo = ({
       </VSContainer>
       <UserInfoContainer>
         <ProfileImage backgroundColor={challenger_image ? null : COLOR.ISLAND_SPICE}>
-          {challenger_image ? <Image src={challenger_image}/> : null}
+          {challenger_image ? <Image src={"data:image/png;base64,"+challenger_image.data}/> : null}
         </ProfileImage>
         <div style={{ marginBottom: 4 }}/>
         {challenger_is_played

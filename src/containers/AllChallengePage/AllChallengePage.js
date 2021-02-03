@@ -18,6 +18,7 @@ import {
   useGetALlMyChallenges,
   useReadChallenge,
   useRandomChallenge,
+  specificChallenge,
 } from "./AllChallengePageHelper";
 
 import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const";
@@ -34,7 +35,10 @@ const AllChallengePage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowingModal1, toggleModal1] = useModal();
   const [isShowingModal2, toggleModal2] = useModal();
-  const [username, set_username] = useState();
+  const [username, set_username] = useState("");
+  const [specific_loading, set_specific_loading] = useState(false);
+  const [specific_challenge_id, set_specific_challenge_id] = useState(false);
+  const [specific_not_exist, set_specific_not_exist] = useState(false);
   const container_width = screen_width-CONTAINER_PADDING;
   const [disabled_random, set_disabled_random] = useState(false);
   const [my_turns_margin_right, set_my_turns_margin_right] = useState();
@@ -108,9 +112,59 @@ const AllChallengePage = ({ history }) => {
     }
   };
 
+  const onSpecificChallenge = async () => {
+    set_specific_loading(true);
+    const spec_id = await specificChallenge(
+      user_id,
+      username,
+      location.state.subject_name,
+      location.state.subtopic_name,
+      location.state.difficulty
+      ).catch(async (err) => {
+        console.log(err);
+        set_specific_loading(false);
+        set_username("");
+        set_specific_not_exist(true);
+      });
+      if (spec_id) {
+        set_specific_challenge_id(spec_id);
+    }
+  };
+
+  const onSpecificChallengeModalSubmit = async (specific_challenge_id) => {
+    if (specific_challenge_id) {
+      history.push({
+        pathname: "./challenge-game",
+        state: {
+          subject_name: location.state.subject_name,
+          topic_name: location.state.topic_name,
+          subtopic_id: location.state.subtopic_id,
+          subtopic_name: location.state.subtopic_name,
+          mode: location.state.mode,
+          difficulty: location.state.difficulty,
+          challenge_id: specific_challenge_id,
+        },
+      });
+    }
+  };
+
+  const readTheirTurnChallenge = (isRead, challenge_id) => {
+    if(!isRead) {
+      readChallenge(user_id, challenge_id);
+    };
+  };
+
   useEffect(() => {
     getALlMyChallenges();
   }, []);
+
+  useEffect(() => {
+    onSpecificChallengeModalSubmit(specific_challenge_id);
+  }, [specific_challenge_id]);
+
+  useEffect(() => {
+    set_specific_not_exist(false);
+  }, [isShowingModal2]);
 
   useEffect(() => {
     if (disabled_random) {
@@ -146,11 +200,17 @@ const AllChallengePage = ({ history }) => {
           }
         />
         <Button onClick={toggleModal2}>เจาะจงคู่แข่ง</Button>
+        {specific_loading && <LoadingPage overlay={true} />}
         <SpecificChallengeModal
           username={username}
           set_username={set_username}
+          not_exist={specific_not_exist}
+          onClick={() => {
+            onSpecificChallenge();
+          }}
           isShowing={isShowingModal2}
           toggle={toggleModal2}
+          executed={specific_loading}
         />
       </ButtonContainer>
       {loading
@@ -193,7 +253,7 @@ const AllChallengePage = ({ history }) => {
               {challenger_turns.length !== 0 ? 
                 <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
                   {challenger_turns?.map((challenge, index) => 
-                    <div key={index}>
+                    <div key={index} onChange={readTheirTurnChallenge(challenge.isRead, challenge.challengeId)}>
                       <ChallengeBox
                         image={challenge.photo}
                         username={challenge.username}
@@ -209,7 +269,6 @@ const AllChallengePage = ({ history }) => {
                             challenger_turns.length
                           )
                         }
-                        onClick={() => onChallengeBoxClick(challenge.challengeId)}
                       />
                     </div>
                   )}
