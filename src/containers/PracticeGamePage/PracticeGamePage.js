@@ -113,7 +113,8 @@ const PracticeGamePage = ({ history }) => {
           difficulty: difficulty,
           mode: mode,
           is_level_up: res.data.level_up,
-          is_rank_up: res.data.rank_up
+          is_rank_up: res.data.rank_up,
+          earned_coins: res.data.earned_coins
         },
       });
     });

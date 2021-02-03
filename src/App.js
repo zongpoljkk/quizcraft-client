@@ -98,7 +98,7 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
             getUserData={getUserData}
           >
-            <PracticeAnswer />
+            <PracticeAnswer user_info={user_info}/>
           </PrivateRoute>
           <PrivateRoute
             exact

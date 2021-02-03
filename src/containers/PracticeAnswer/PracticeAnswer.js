@@ -35,7 +35,7 @@ const TITLE = {
   INCORRECT: "คำตอบที่ถูกต้องคือ",
 };
 
-const PracticeAnswer = ({ history }) => {
+const PracticeAnswer = ({ history, user_info }) => {
   const [correct, set_correct] = useState(true);
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
@@ -101,10 +101,9 @@ const PracticeAnswer = ({ history }) => {
     };
     set_solution([]);
     setIsLoading(false);
-    console.log(location.state.is_level_up, location.state.is_rank_up)
-    // if(location.state.is_level_up || location.state.is_rank_up) {
+    if(location.state.is_level_up || location.state.is_rank_up) {
       toggle();
-    // };
+    };
   }, []);
 
   // rerender when solution change
@@ -117,7 +116,7 @@ const PracticeAnswer = ({ history }) => {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
-            ยินดีด้วย! คุณได้รับ 1 เหรียญ
+            ยินดีด้วย! คุณได้รับ {location.state.earned_coins} เหรียญ
           </Body>
           {/* <Coin /> */}
           <div style={{ display: "inline-block", marginTop: "8px" }}>
@@ -158,6 +157,15 @@ const PracticeAnswer = ({ history }) => {
               ทำต่อ
             </Button>
           </div>
+          <LevelUpModal
+            isShowing={isShowing}
+            toggle={toggle}
+            rank={location.state.is_rank_up ? user_info?.rank : null}
+            level={user_info?.level}
+            exp={user_info?.exp}
+            max_exp={user_info?.maxExp}
+            coin={location.state.earned_coins}
+          />
         </ShiftDiv>
       );
     }
@@ -222,12 +230,6 @@ const PracticeAnswer = ({ history }) => {
       <ReportContainer>
         <Report correct={correct} />
       </ReportContainer>
-      {console.log(isShowing)}
-      <LevelUpModal
-        isShwing={isShowing}
-        toggle={toggle}
-        rank={location.state.is_rank_up ? location.state.is_rank_up : null}
-      />
     </Container>
   );
 };
