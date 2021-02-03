@@ -72,7 +72,6 @@ const GroupGamePage = ({ history }) => {
   const onSend = () => {
     if(answer) {
       console.log(`usedTime: ${used_time}`)
-      // set_answer_modal_loading(true);
       set_sent_answer(true);
       checkGroupAnswer(user_id, problem._id, answer, "GROUP", location.state.group_id, used_time).then((res) => {
         set_correct(res.data.correct);
