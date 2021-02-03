@@ -24,7 +24,7 @@ import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 import { Body, Header } from "../../components/Typography";
 
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
-import { useWindowDimensions } from "../../global/utils";
+import { useWindowDimensions, cDot2TimesFormat } from "../../global/utils";
 
 const NAVBAR_HEIGHT = 54;
 
@@ -195,7 +195,7 @@ const PracticeAnswer = ({ history }) => {
                       ? "= "
                       : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
-                      <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                      <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(line))} />
                     ) : (
                       line
                     )}

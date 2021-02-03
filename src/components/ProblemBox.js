@@ -5,7 +5,7 @@ import Tex2SVG from "react-hook-mathjax";
 import { Subheader } from "./Typography";
 
 import { COLOR, CONTAINER_PADDING } from "../global/const";
-import { convertHexToRGBA, useWindowDimensions } from "../global/utils";
+import { convertHexToRGBA, useWindowDimensions, cDot2TimesFormat } from "../global/utils";
 
 export const ProblemBox = ({
   problem = '',
@@ -22,7 +22,7 @@ export const ProblemBox = ({
         {problem_content ? (
           <Problem width={screen_width - CONTAINER_PADDING - 48}>
             <Subheader>
-              <Tex2SVG display="inline" latex={asciimath2latex(problem_content)} />
+              <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(problem_content))} />
             </Subheader>
           </Problem>
         ) : null}

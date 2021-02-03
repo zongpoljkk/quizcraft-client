@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Tex2SVG from "react-hook-mathjax";
 
 import { COLOR } from "../global/const";
+import { cDot2TimesFormat } from "../global/utils";
 
 export const RadioButton = ({
   value='',
@@ -38,7 +39,7 @@ export const RadioButton = ({
             />
             <Mark selected={value === option} />
             {subject === "คณิตศาสตร์" ? (
-              <Tex2SVG display="inline" latex={asciimath2latex(option)} /> 
+              <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(option))} /> 
             ) : (
               option
             )}

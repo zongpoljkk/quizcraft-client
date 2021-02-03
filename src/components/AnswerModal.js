@@ -11,6 +11,7 @@ import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
 
 import { COLOR } from "../global/const";
+import { cDot2TimesFormat } from "../global/utils";
 
 export const AnswerModal = ({
   toggle,
@@ -48,7 +49,7 @@ export const AnswerModal = ({
                     return (
                       <Body key={key} color={COLOR.TRINIDAD}>
                         {subject === "คณิตศาสตร์" ? (
-                          <Tex2SVG display="inline" latex={asciimath2latex(item)}/>
+                          <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(item))}/>
                         ) : (
                           item
                         )}

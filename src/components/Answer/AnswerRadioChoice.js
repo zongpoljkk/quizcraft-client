@@ -6,7 +6,7 @@ import { Body } from "../Typography";
 import { RadioButton } from "../RadioButton";
 
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
-import { useWindowDimensions } from "../../global/utils";
+import { useWindowDimensions, cDot2TimesFormat } from "../../global/utils";
 
 import { splitQuestion } from "./AnswertHelper";
 
@@ -73,7 +73,7 @@ export const AnswerRadioChoice = ({
     <Container width={screen_width - CONTAINER_PADDING}>
       <div style={{ marginBottom: 16 }}>
         {subject === "คณิตศาสตร์"
-          ? outputQuestion(question)
+          ? outputQuestion(cDot2TimesFormat(question))
           : outputQuestion(splitQuestion(question))}
       </div>
       <div style={{ marginLeft: 16 }}>
