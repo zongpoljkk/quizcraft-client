@@ -161,6 +161,12 @@ const QuizGamePage = ({ history }) => {
             (earned_coins) => earned_coins + res.data.earned_coins
           );
         }
+        if(res.data.level_up) {
+          set_is_level_up(true);
+        };
+        if(res.data.rank_up) {
+          set_is_rank_up(true);
+        };
         toggle();
       });
     }
@@ -189,6 +195,8 @@ const QuizGamePage = ({ history }) => {
           score: score,
           earned_exp: earned_exp,
           earned_coins: earned_coins,
+          is_level_up: is_level_up,
+          is_rank_up: is_rank_up
         },
       });
     } else {
