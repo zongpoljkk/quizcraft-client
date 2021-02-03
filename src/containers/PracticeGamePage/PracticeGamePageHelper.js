@@ -33,7 +33,8 @@ export const getAndCheckAnswer = async (
   userAnswer,
   userTime,
   topic,
-  subtopic
+  subtopic,
+  mode,
 ) => {
   try {
     const url = `${backend}problem/get-and-check-answer`;
@@ -44,6 +45,7 @@ export const getAndCheckAnswer = async (
       userTime: userTime,
       topic: topic,
       subtopic: subtopic,
+      mode: mode,
     };
     const options = {
       method: "POST",

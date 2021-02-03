@@ -116,7 +116,6 @@ const AllChallengePage = ({ history, user_info }) => {
 
   const onSpecificChallenge = async () => {
     set_specific_loading(true);
-    // TODO: Right now, I cannot toggle the modal back in catch, don't know why
     const spec_id = await specificChallenge(
       user_id,
       username,
