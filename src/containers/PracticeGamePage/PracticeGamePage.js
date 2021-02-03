@@ -87,7 +87,8 @@ const PracticeGamePage = ({ history }) => {
       userAnswer,
       getTime / 1000,
       topic,
-      subtopic
+      subtopic,
+      "practice",
     ).then((res) => {
       set_answer_loading(false);
       history.push({
@@ -114,6 +115,7 @@ const PracticeGamePage = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
+          earned_coins: res.data.earned_coins,
           mode: mode,
         },
       });
