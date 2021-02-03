@@ -33,10 +33,6 @@ const Shop = ({ history }) => {
     Freeze: false,
   });
 
-  const [hint_lottie, set_freeze_lottie] = useState();
-  const [freeze_lottie, set_freeze_lottie] = useState();
-  const [_lottie, set_freeze_lottie] = useState();
-  const [freeze_lottie, set_freeze_lottie] = useState();
   const [freeze_lottie, set_freeze_lottie] = useState();
 
   const [clicked_item, set_clicked_item] = useState();
