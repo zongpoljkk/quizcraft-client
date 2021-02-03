@@ -35,7 +35,7 @@ const GroupGamePage = ({ history }) => {
   const [skip, set_skip] = useState(false);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
-  // const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
   const [sent_answer, set_sent_answer] = useState(false);
   const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
@@ -65,25 +65,28 @@ const GroupGamePage = ({ history }) => {
     send_answer
   } = useServerSentEvent();
 
-  const onSkip = () => {
-    set_answer(WRONG_ANSWER);
-  };
+  // const onSkip = () => {
+  //   set_answer(WRONG_ANSWER);
+  // };
 
   const onSend = () => {
     if(answer) {
-      toggle();
+      console.log(`usedTime: ${used_time}`)
       // set_answer_modal_loading(true);
       set_sent_answer(true);
       checkGroupAnswer(user_id, problem._id, answer, "GROUP", location.state.group_id, used_time).then((res) => {
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
+      set_answer_modal_loading(false);
+      toggle();
     };
   };
 
   const onTimeOut = () => {
+    set_answer(WRONG_ANSWER);
+    set_used_time(time_per_problem)
     set_is_time_out(true);
-    onSkip();
   };
 
   const handleNextProblem = () => {
@@ -102,7 +105,6 @@ const GroupGamePage = ({ history }) => {
     } else {
       // TODO: connect API check answer hold 10-15 sec and getGroupGame()
       getGroupGame();
-      set_is_time_out(false);
       set_skip(false);
     }
   };
@@ -116,21 +118,30 @@ const GroupGamePage = ({ history }) => {
 
   // Wait until user time has been updated, then call onSend
   useEffect(() => {
-    console.log("useEffect: onSend")
+    console.log("useEffect: answer modal loading")
     console.log(used_time);
+    console.log(answer)
     // Prevent calling onSend again when time is out
-    if (used_time !== time_per_problem) {
-      console.log("call onSend")
+    if (!sent_answer && answer && used_time) {
+      console.log("call callModal")
+      set_answer_modal_loading(true);
+    }
+  }, [answer, used_time, is_time_out])
+
+  useEffect(() => {
+    console.log(`useEffect: onSend`)
+    if (answer_modal_loading) {
+      console.log("call onsend")
       onSend();
     }
-  }, [used_time])
+  }, [answer_modal_loading])
 
   // close loading modal after getting correct_answer from backend and time is up
   // useEffect(() => {
   //   // // TODO: Wait til the time is up
-  //   // if (correct_answer && is_time_out) {
-  //   //   set_answer_modal_loading(false);
-  //   // }
+  //   if (correct_answer) {
+  //     set_answer_modal_loading(false);
+  //   }
   // }, [correct_answer, is_time_out])
 
   // // TODO: Display how many people answer already
@@ -146,7 +157,10 @@ const GroupGamePage = ({ history }) => {
     if(next_problem) {
       // reset state
       set_sent_answer(false);
-      set_answer()
+      set_answer();
+      set_used_time();
+      set_is_time_out(false);
+
       handleNextProblem();
     };
   }, [next_problem]);
@@ -189,9 +203,18 @@ const GroupGamePage = ({ history }) => {
                   <NumberOfAnswer
                     number_of_answer={number_of_answer}
                     number_of_members={number_of_members}
-                    showButton={number_of_answer === number_of_members || is_time_out}
-                    button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
-                    onNext={() => getNextProblem()}
+                    // showButton={number_of_answer === number_of_members || is_time_out}
+                    showButton={is_creator}
+                    button_title="ตรวจสอบคำตอบ"
+                    onNext={() => {
+                      console.log(`answer: ${answer}`, `used_time: ${used_time}`, `is_time_out: ${is_time_out}`)
+                      if (!sent_answer) {
+                        set_answer(WRONG_ANSWER);
+                        set_used_time(time_per_problem);
+                        // onSkip();
+                      }
+                      set_is_time_out(true);
+                    }}
                   />
                 </div>
               }
@@ -219,8 +242,9 @@ const GroupGamePage = ({ history }) => {
                     <Button
                       type="outline"
                       onClick={() => {
-                        set_used_time((time_per_problem - getTime()/1000));
-                        onSkip();
+                        set_answer(WRONG_ANSWER)
+                        set_used_time(time_per_problem);
+                        // onSkip();
                       }}
                     >
                       ข้าม
@@ -235,7 +259,7 @@ const GroupGamePage = ({ history }) => {
                     </Button>
                   </ButtonContainer>
                 }
-                {/* {answer_modal_loading && <LoadingPage overlay={true} />} */}
+                {answer_modal_loading && <LoadingPage overlay={true} />}
                 {is_time_out ? <AnswerModal
                   isShowing={isShowing}
                   toggle={toggle}
@@ -244,7 +268,11 @@ const GroupGamePage = ({ history }) => {
                   answer={correct ? null : correct_answer}
                   overlay_clickable={false}
                   buttonTitle={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
-                  onButtonClick={() => getNextProblem()}
+                  onButtonClick={() => {
+                    set_correct();
+                    set_answer();
+                    getNextProblem()
+                  }}
                   is_creator={is_creator}
                   group_mode={true}
                 /> : null}
