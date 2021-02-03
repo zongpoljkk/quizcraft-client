@@ -119,7 +119,7 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
           >
-            <AllChallengePage />
+            <AllChallengePage user_info={user_info}/>
           </PrivateRoute>
           <PrivateRoute
             exact
