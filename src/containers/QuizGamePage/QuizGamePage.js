@@ -165,10 +165,6 @@ const QuizGamePage = ({ history }) => {
   };
 
   const onReport = async () => {
-    if(current_index + 1 !== NUMBER_OF_QUIZ){
-      set_current_index((index) => index + 1);
-    }
-
     history.push({
       pathname: "./report",
       state: {
@@ -259,6 +255,12 @@ const QuizGamePage = ({ history }) => {
       });
     }
   }, [onSkip]);
+
+  useEffect(() => {
+    if(location.state.current_index){
+      set_current_index(location.state.current_index + 1);
+    }
+  }, [location.state.current_index])
 
   return (
     <Container>

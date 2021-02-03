@@ -48,6 +48,7 @@ const ReportPage = ({ history }) => {
             subtopic_name: location.state.subtopic_name,
             mode: location.state.mode,
             difficulty: location.state.difficulty,
+            current_index: location.state.current_index
           },
         });
       } else {
