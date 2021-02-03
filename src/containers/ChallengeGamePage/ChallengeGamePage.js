@@ -125,7 +125,7 @@ const ChallengeGame = ({ history }) => {
 
   const onReport = async () => {
     history.push({
-      pathname: "/report",
+      pathname: "./report",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
@@ -137,8 +137,8 @@ const ChallengeGame = ({ history }) => {
         problem_content: body,
         problem_title: title,
         answer_type: answer_type,
-        choices: choices,
-        correct_answer: correct_answer
+        number_of_problem: NUMBER_OF_QUIZ,
+        current_index: current_index
       },
     });
   };

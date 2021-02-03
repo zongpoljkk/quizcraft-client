@@ -183,7 +183,10 @@ const QuizGamePage = ({ history }) => {
         problem_title: title,
         answer_type: answer_type,
         current_index: current_index,
-        number_of_problem: NUMBER_OF_QUIZ
+        number_of_problem: NUMBER_OF_QUIZ,
+        score: score,
+        earned_exp: earned_exp,
+        earned_coins: earned_coins,
       },
     });
   };

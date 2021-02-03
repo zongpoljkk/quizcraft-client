@@ -35,11 +35,10 @@ const ReportPage = ({ history }) => {
   }
 
   const onSubmit = () => {
-    if(location.state.mode === MODE.PRACTICE.type){
+    if (location.state.mode === MODE.PRACTICE.type) {
       history.goBack();
-    }
-    else if(location.state.mode === MODE.QUIZ.type){
-      if(location.state.current_index < location.state.number_of_problem){
+    } else if (location.state.mode === MODE.QUIZ.type) {
+      if (location.state.current_index < location.state.number_of_problem) {
         history.push({
           pathname: "./quiz-game",
           state: {
@@ -49,12 +48,30 @@ const ReportPage = ({ history }) => {
             subtopic_name: location.state.subtopic_name,
             mode: location.state.mode,
             difficulty: location.state.difficulty,
-          }
+          },
         });
-      }
-      else{
+      } else {
         history.push({
           pathname: "./quiz-result",
+          state: {
+            subject: location.state.subject_name,
+            topic: location.state.topic_name,
+            subtopic_id: location.state.subtopic_id,
+            subtopic: location.state.subtopic_name,
+            mode: location.state.mode,
+            difficulty: location.state.difficulty,
+            score: location.state.score,
+            earned_exp: location.state.earned_exp,
+            earned_coins: location.state.earned_coins,
+          },
+        });
+      }
+    } else {
+      if (location.state.current_index < location.state.number_of_problem) {
+        history.goBack();
+      } else {
+        history.push({
+          pathname: "./all-challenges",
           state: {
             subject_name: location.state.subject_name,
             topic_name: location.state.topic_name,
@@ -62,7 +79,7 @@ const ReportPage = ({ history }) => {
             subtopic_name: location.state.subtopic_name,
             mode: location.state.mode,
             difficulty: location.state.difficulty,
-          }
+          },
         });
       }
     }
