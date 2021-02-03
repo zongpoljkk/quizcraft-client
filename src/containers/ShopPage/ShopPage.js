@@ -126,8 +126,6 @@ const Shop = ({ history }) => {
                     style={{
                       margin: "8px auto",
                       lineHeight: "24px",
-                      position: "relative",
-                      zIndex: 2,
                     }}
                   >
                     <Subheader>{item.item_name}</Subheader>
@@ -137,8 +135,6 @@ const Shop = ({ history }) => {
                       margin: "8px auto",
                       textAlign: "center",
                       height: "96px",
-                      position: "relative",
-                      zIndex: 2,
                     }}
                   >
                     <Overline>{item.item_description}</Overline>
@@ -148,8 +144,6 @@ const Shop = ({ history }) => {
                       marginTop: "16px",
                       lineHeight: "20px",
                       display: "flex",
-                      position: "relative",
-                      zIndex: 2,
                     }}
                   >
                     <Body color={COLOR.CELERY}>{item.price} </Body>
@@ -218,6 +212,8 @@ const ItemContainer = styled.div`
   align-items: center;
   cursor: pointer;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
+  position: relative;
+  overflow: hidden;
 `;
 
 const ItemImg = styled.img`
