@@ -11,7 +11,10 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { COLOR } from "../../global/const";
 
-import { useJoinGroup } from "./JoinGroupPageHelper";
+import { 
+  useJoinGroup,
+  translateError
+} from "./JoinGroupPageHelper";
 
 const JoinGroupPage = ({ history }) => {
   const [pin, set_pin] = useState('');
@@ -22,6 +25,7 @@ const JoinGroupPage = ({ history }) => {
     joinGroup,
     loading,
     group_id,
+    group_info,
     join_fail
   } = useJoinGroup();
 
@@ -29,7 +33,11 @@ const JoinGroupPage = ({ history }) => {
     history.push({
       pathname: "waiting-room", 
       state: {
-        group_id: group_id
+        group_id: group_id,
+        subject_name : group_info.subject,
+        topic_name : group_info.topic,
+        subtopic_name : group_info.subtopic,
+        difficulty : group_info.difficulty
       }
     });
   };
@@ -54,7 +62,7 @@ const JoinGroupPage = ({ history }) => {
         />
         {join_fail &&
           <div style={{ marginTop: 4 }}>
-            <Body color={COLOR.MANDARIN}>มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง</Body>
+            <Body color={COLOR.MANDARIN}>{translateError(join_fail)}</Body>
           </div>
         }
       </ContentContainer>
@@ -73,7 +81,7 @@ const JoinGroupPage = ({ history }) => {
         toggle={toggle}
         success={group_id}
         success_description="คุณเป็นสมาชิกของกลุ่มแล้ว ยินดีต้อนรับ :)"
-        fail_description="มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+        fail_description={translateError(join_fail)}
         onSubmit={() => {
           if(group_id) {
             onSuccess();
