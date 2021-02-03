@@ -160,7 +160,7 @@ const CreateGroupPage = ({ history }) => {
                 subtopic,
                 difficulty.toUpperCase(),
                 number_of_problems,
-                timeConvertor(time_per_problem),
+                time_per_problem,
                 is_play === "ผู้เล่น" ? true : false,
                 toggle
               );
