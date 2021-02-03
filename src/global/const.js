@@ -92,7 +92,7 @@ export const LARGE_DEVICE_SIZE = 768;
 export const CONTAINER_PADDING = 64;
 
 export const WRONG_ANSWER = {
-  MATH: "2^[123]",
-  MATH_BOX: "0.123",
+  MATH: "1.2^[1.23]",
+  MATH_BOX: "0.12345654321",
   STRING: "dasdasldgaso",
 }
