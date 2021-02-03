@@ -33,6 +33,12 @@ const Shop = ({ history }) => {
     Freeze: false,
   });
 
+  const [hint_lottie, set_freeze_lottie] = useState();
+  const [freeze_lottie, set_freeze_lottie] = useState();
+  const [_lottie, set_freeze_lottie] = useState();
+  const [freeze_lottie, set_freeze_lottie] = useState();
+  const [freeze_lottie, set_freeze_lottie] = useState();
+
   const [clicked_item, set_clicked_item] = useState();
   
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -59,6 +65,12 @@ const Shop = ({ history }) => {
   useEffect(() => {
     getAllItems();
   }, []);
+
+  useEffect(() => {
+    if(items){
+      set_freeze_lottie(JSON.parse(atob(items[0].animation_data)))
+    }
+  }, [])
 
   return (
     <React.Fragment>
@@ -116,7 +128,7 @@ const Shop = ({ history }) => {
                       (in_used.Double ? (
                         <ZoomItem>
                           <LottieFile
-                            animationData={JSON.parse(atob(item.animation_data))}
+                            animationData={freeze_lottie}
                             loop={false}
                             height={64}
                           />
