@@ -167,6 +167,7 @@ const Shop = ({ history }) => {
               onSubmit={() => {
                 if(buy_success){
                   history.push("/profile");
+                  history.go(0);
                 }
               }}
             />
