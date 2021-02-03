@@ -91,7 +91,7 @@ const PracticeAnswer = ({ history }) => {
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
-    if (!location.state.solution) {
+    if (location.state.solution === "" || !location.state.solution) {
       set_static_solution([location.state.correct_answer]);
     } else {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
@@ -110,9 +110,8 @@ const PracticeAnswer = ({ history }) => {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
-            ยินดีด้วย! คุณได้รับ 1 เหรียญ
+            {`ยินดีด้วย! คุณได้รับ ${location.state.earned_coins} เหรียญ`}
           </Body>
-          {/* <Coin /> */}
           <div style={{ display: "inline-block", marginTop: "8px" }}>
             <LottieFile
               animationData={coin_data}

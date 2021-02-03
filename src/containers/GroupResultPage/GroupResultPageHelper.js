@@ -50,7 +50,7 @@ export const useDeleteGroup = (group_id, user_id) => {
       const response = await axios.delete(backend+"group/delete-group", {
         data: {
           groupId: group_id,
-          userId : user_id,
+          userId : user_id
         }
       })
       const { success, data } = response.data;
@@ -75,7 +75,7 @@ export const useLeaveGroup = (group_id, user_id) => {
     try {
       const response = await axios.put(backend+"group/leave-group", {
         groupId: group_id,
-        userId : user_id,
+        userId : user_id
       })
       const { success, data } = response.data;
       if (success) {
@@ -93,4 +93,26 @@ export const useLeaveGroup = (group_id, user_id) => {
   };
   
   return { leaveGroup, leave_failed };
+};
+
+export const useResetGroup = (group_id, user_id) => {
+
+  const resetGroup = async () => {
+    try {
+      const response = await axios.put(backend+"group/reset-group-game", {
+        groupId: group_id,
+        userId : user_id
+      })
+      const { success, data } = response.data;
+      if (success) {
+        console.log(data);
+      } else {
+        console.log("reset group Error");
+      } 
+    } catch (error) {
+      console.log("There are something wrong about reset group :(");
+    }
+  };
+  
+  return { resetGroup };
 };

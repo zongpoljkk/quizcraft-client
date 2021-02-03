@@ -14,7 +14,7 @@ export const mathAnswerBox = (correct_answer) => {
   var text = '';
   for (let index = 0; index < correct_answer.length; index++) {
     if(correct_answer.charAt(index) === "{") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
@@ -37,7 +37,7 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "(") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
@@ -51,7 +51,7 @@ export const mathAnswerBox = (correct_answer) => {
     }
     else if(correct_answer.charAt(index) === ")") {
       text = correct_answer.substring(start_index, index);
-      if(text.length != 0) {
+      if(text.length !== 0) {
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
       }
@@ -63,7 +63,7 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "^") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
@@ -87,7 +87,7 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "/") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
