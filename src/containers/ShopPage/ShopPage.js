@@ -18,23 +18,7 @@ import { useGetAllItems, useBuyItem } from "./ShopPageHelper";
 const Shop = ({ history }) => {
   const user_id = localStorage.getItem("userId");
 
-  const ANIMATIONS = {
-    rest: 1,
-    hover: 1.1,
-    pressed: 0.9,
-  };
-
-  const [animation, set_animation] = useState(ANIMATIONS.rest);
-  const [in_used, set_in_used] = useState({
-    Hint: false,
-    Refresh: false,
-    Skip: false,
-    Double: false,
-    Freeze: false,
-  });
-
-  const [freeze_lottie, set_freeze_lottie] = useState();
-
+  const [lottie_display, set_lottie_display] = useState({});
   const [clicked_item, set_clicked_item] = useState();
   
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -47,6 +31,24 @@ const Shop = ({ history }) => {
   const { getAllItems, loading, items } = useGetAllItems();
   const { buyItem, buy_success } = useBuyItem(user_id, clicked_item);
 
+  
+  const handleOnMouseEnter = (item) => {
+    set_lottie_display((lottie_display) => {
+      return {
+        ...lottie_display,
+        [item]: true,
+      };
+    });
+  };
+
+  const handleOnMouseLeave = (item) => {
+    set_lottie_display((lottie_display) => {
+      return {
+        ...lottie_display,
+        [item]: false,
+      };
+    });
+  };
   
   const handleItemClick = (item) => {
     toggle();
@@ -62,12 +64,6 @@ const Shop = ({ history }) => {
     getAllItems();
   }, []);
 
-  useEffect(() => {
-    if(items){
-      set_freeze_lottie(JSON.parse(atob(items[0].animation_data)))
-    }
-  }, [])
-
   return (
     <React.Fragment>
       {loading ? (
@@ -82,33 +78,15 @@ const Shop = ({ history }) => {
               return (
                 <ItemContainer
                   key={index}
-                  onMouseOver={() => {
-                    set_animation(ANIMATIONS.hover);
-                    set_in_used({
-                      ...in_used,
-                      [item.item_name]: true,
-                    });
-                  }}
-                  onMouseLeave={() => {
-                    set_animation(ANIMATIONS.rest);
-                    set_in_used({ ...in_used, [item.item_name]: false });
-                  }}
-                  onMouseDown={() => {
-                    set_animation(ANIMATIONS.pressed);
-                  }}
-                  onMouseUp={() => {
-                    set_animation(ANIMATIONS.hover);
-                  }}
+                  onMouseEnter={() => handleOnMouseEnter(item.item_name)}
+                  onMouseLeave={() => handleOnMouseLeave(item.item_name)}
                   onClick={() => 
                     handleItemClick(item.item_name)
                   }
-                  style={{
-                    opacity: item.item_name === "ไอเทม" ? 0.3 : 1,
-                  }}
                 >
                   <Item>
                     {item.item_name === "Skip" &&
-                      (in_used.Skip ? (
+                      (lottie_display.Skip ? (
                         <ZoomItem isItemSkip={true}>
                           <LottieFile
                             animationData={JSON.parse(atob(item.animation_data))}
@@ -121,10 +99,10 @@ const Shop = ({ history }) => {
                         <ItemImg src={"data:image/png;base64," + item.src} />
                       ))}
                     {item.item_name === "Double" &&
-                      (in_used.Double ? (
+                      (lottie_display.Double ? (
                         <ZoomItem>
                           <LottieFile
-                            animationData={freeze_lottie}
+                            animationData={JSON.parse(atob(item.animation_data))}
                             loop={false}
                             height={64}
                           />
@@ -134,7 +112,7 @@ const Shop = ({ history }) => {
                       ))}
                     {item.item_name !== "Skip" &&
                       item.item_name !== "Double" &&
-                      (in_used[item.item_name] ? (
+                      (lottie_display[item.item_name] ? (
                         <LottieFile
                           animationData={JSON.parse(atob(item.animation_data))}
                           loop={false}
