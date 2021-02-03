@@ -30,7 +30,6 @@ const GroupDiv = styled.div.attrs(props => ({
 }))`
   display: flex;
   justify-content: ${props => props.justifyContent};
-  flex: 1;
   width: 100%;
 `;
 

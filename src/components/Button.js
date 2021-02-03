@@ -30,6 +30,16 @@ export const Button = styled.button.attrs((props) => ({
         return "48px";
     }
   }};
+  max-height: ${(props) => {
+    switch (props.size) {
+      case "custom":
+        return `${props.height}`;
+      case "small":
+        return "36px";
+      default:
+        return "48px";
+    }
+  }};
   background-color: ${(props) => {
     switch (props.type) {
       case "custom":
