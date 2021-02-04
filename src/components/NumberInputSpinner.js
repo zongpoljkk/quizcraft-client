@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Subheader } from "./Typography";
 
 import chevron from "../assets/icon/chevron_mandarin.png";
+import select from "../assets/sounds/select.mp3";
 
 import { useWindowDimensions } from "../global/utils";
 import { COLOR } from "../global/const";
@@ -18,6 +20,7 @@ export const NumberInputSpinner = ({
   label_width
 }) => {
   const { height, width: screen_width } = useWindowDimensions();
+  const [play] = useSound(select, { volume: 0.25 });
 
   return (
     <Container>
@@ -27,13 +30,24 @@ export const NumberInputSpinner = ({
           onChange={e => set_value(e.target.value)}
           color={value === 0 ? COLOR.SILVER : COLOR.CHARCOAL}
           width={screen_width-label_width-PADDING-COLLAPS_WIDTH}
+          onClick={play}
         />
         <CollapsContainer>
-          <CollapsContainer onClick={() => set_value(value+1)}>
+          <CollapsContainer
+            onClick={() => {
+              set_value(value+1);
+              play();
+            }}
+          >
             <Collaps src={chevron} width={16}/>
           </CollapsContainer>
           <div style={{ marginBottom: 6 }}/>
-          <CollapsContainer onClick={() => set_value(value-1)}>
+          <CollapsContainer
+            onClick={() => {
+              set_value(value-1);
+              play();
+            }}
+          >
             <Collaps src={chevron} width={16} rotate={180}/>
           </CollapsContainer>
         </CollapsContainer>

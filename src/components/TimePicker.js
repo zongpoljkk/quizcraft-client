@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Subheader } from "./Typography";
+
+import select from "../assets/sounds/select.mp3";
 
 import { useWindowDimensions } from "../global/utils";
 import { COLOR, LARGE_DEVICE_SIZE } from "../global/const";
@@ -12,6 +15,8 @@ export const TimePicker = ({
   set_value = () => {}
 }) => {
 
+  const [play] = useSound(select, { volume: 0.25 });
+
   return (
     <TimePickerContainer width={value ? ( hour ? 108 : 82 ) : 64}>
       <TimePickerComponent
@@ -20,6 +25,7 @@ export const TimePicker = ({
         value={value}
         onChange={e => set_value(e.target.value)}
         color={value ? COLOR.CHARCOAL : COLOR.SILVER }
+        onClick={play}
       />
     </TimePickerContainer>
   );
