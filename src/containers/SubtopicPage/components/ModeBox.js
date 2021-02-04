@@ -2,12 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import useSound from 'use-sound';
 
 import { Subheader } from "../../../components/Typography";
-import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
-import chevron from "../../../assets/icon/chevron.png";
 import useModal from "../../../components/useModal";
 import { NotAvailableModal } from "./NotAvailableModal";
+
+import chevron from "../../../assets/icon/chevron.png";
+import click from "../../../assets/sounds/click.mp3";
+
+import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
 
 const ModeBox = ({ 
   icon, 
@@ -23,6 +27,7 @@ const ModeBox = ({
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
   const [isShowing, toggle] = useModal();
+  const [play] = useSound(click, { volume: 0.25 });
 
   const handleClick = (
     selected_subject,
@@ -77,7 +82,12 @@ const ModeBox = ({
             key={index}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              item.isAvailable ? handleClick(subject, id, title, topic, type, item.difficulty) : toggle()
+              if(item.isAvailable) {
+                handleClick(subject, id, title, topic, type, item.difficulty);
+              } else { 
+                toggle();
+              };
+              play();
             }}
             src={item.isAvailable ? DIFFICULTY[item.difficulty].icon : DIFFICULTY[item.difficulty].disable_icon}
           />
