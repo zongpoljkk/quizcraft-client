@@ -231,17 +231,18 @@ const Item = styled(motion.div)`
 const ZoomItem = styled.div.attrs((props) => ({
   isItemSkip: props.isItemSkip,
 }))`
+  width: 100px;
+  position: absolute;
+  z-index: 1;
+  zoom: 300%;
   ${(props) =>
     props.isItemSkip
       ? `
-      width: 100px;
-      margin-left: -65px;
-      transform: scale(3.0) rotate(90deg);
-      position: absolute;
-      z-index: 1;
+      margin-left: -55px;
+      transform: rotate(90deg);
     `
       : `
-    transform: scale(3.0);
+      margin-left: -50px;
     `}
 `;
 
