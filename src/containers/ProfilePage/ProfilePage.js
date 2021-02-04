@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -16,6 +16,10 @@ import edit_photo from "../../assets/icon/photo.png";
 
 import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
+// import Axios from "axios";
+import axios from "axios";
+import backend from "../../ip";
+// import { JSONtoFormData } from "common/formdata";
 
 const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
@@ -26,7 +30,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
-  
+  console.log(selected_image)
   const handleMouseEnter = () => {
     set_hover(true);
   };
@@ -35,9 +39,39 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     set_hover(false);
   };
 
-  const handleUpload = () => {
+  const JSONtoFormData = (json) => {
+    let formData = new FormData();
+    for (let key in json) {
+      formData.append(key, json[key]);
+    }
+    return formData;
+  }; 
+
+  const changeAvatar = async () => {
+    const data = {
+      userId: user_info._id
+    };
+    let formData = JSONtoFormData(data)
+    if (selected_image) formData.append("image", selected_image);
+    if (selected_image) {
+      const response = await axios.put(backend+"user/change-profile-picture",formData, 
+        {
+          headers: {
+            "Content-type": "multipart/form-data"
+          }
+        }
+      )
+    }
+  }
+  const handleUpload = async () => {
     inputFile.current.click();
   };
+
+  useEffect(() => {
+    if (selected_image) {
+      changeAvatar()
+    }
+  }, [selected_image]);
 
   return (
     (!user_info)
