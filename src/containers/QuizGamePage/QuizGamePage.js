@@ -64,6 +64,7 @@ const QuizGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
+    have_hint
   } = useGetEachProblem(
     user_id,
     location.state.subject_name,
@@ -273,6 +274,7 @@ const QuizGamePage = ({ history }) => {
                 }
               }}
               hintContent={hint}
+              have_hint={have_hint}
               skip={skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
