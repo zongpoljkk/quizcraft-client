@@ -46,6 +46,7 @@ const PracticeGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
+    have_hint
   } = useGetProblemForUser(
     user_id,
     location.state.subject_name,
@@ -152,6 +153,7 @@ const PracticeGamePage = ({ history }) => {
                   <HintItem
                     onGetHint={() => getHintByProblemId()}
                     content={hint}
+                    have_hint={have_hint}
                   />
                   <ItemCard>
                     {skip === ITEM_USAGE.UN_USE && (
