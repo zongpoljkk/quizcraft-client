@@ -38,7 +38,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     set_hover(false);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = () => {
     inputFile.current.click();
   };
 
