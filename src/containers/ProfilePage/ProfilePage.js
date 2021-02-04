@@ -7,6 +7,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { Button } from "../../components/Button";
 import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import useModal from "../../components/useModal";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
@@ -17,6 +18,7 @@ import edit_photo from "../../assets/icon/photo.png";
 import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 import { useChangeProfileImage } from "./ProfilePageHelper";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
 const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
@@ -28,7 +30,9 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
   
-  const { changeProfileImage } = useChangeProfileImage();
+  const [isShowingChangeImageResult, toggleChangeImageResult] = useModal();
+  
+  const { changeProfileImage, change_image_loading, change_image_success } = useChangeProfileImage();
 
   const handleMouseEnter = () => {
     set_hover(true);
@@ -56,7 +60,10 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     };
     let formData = JSONtoFormData(data)
     formData.append("image", selected_image);
-    changeProfileImage(formData);
+    await changeProfileImage(formData);
+    if (!change_image_loading) {
+      toggleChangeImageResult();
+    }
   }
 
   useEffect(() => {
@@ -90,6 +97,19 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             }
             {user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null}
           </ProfileImage>
+          <ConfirmResultModal
+            isShowing={isShowingChangeImageResult}
+            toggle={toggleChangeImageResult}
+            success={change_image_success}
+            success_description="เปลี่ยนรูปประจำตัวสำเร็จ"
+            fail_description="เปลี่ยนรูปประจำตัวไม่สำเร็จ"
+            onSubmit={() => {
+              if (change_image_success) {
+                window.location.reload();
+              }
+            }}
+          />
+          {change_image_loading && <LoadingPage overlay={true}/>}
           <UsernameContainer>
             <Header>{user_info.username}</Header>
             <div 
