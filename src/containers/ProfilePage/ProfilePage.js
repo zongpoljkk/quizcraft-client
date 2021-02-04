@@ -16,8 +16,6 @@ import edit_photo from "../../assets/icon/photo.png";
 
 import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-import axios from "axios";
-import backend from "../../ip";
 import { useChangeProfileImage } from "./ProfilePageHelper";
 
 const NAVBAR_HEIGHT = 54;
