@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import useSound from 'use-sound';
+
+// Component
+import { Header, Subheader, Overline, Body } from "../../components/Typography";
 import { LottieFile } from "../../components/LottieFile";
 
 // Global
-import { Header, Subheader, Overline, Body } from "../../components/Typography";
 import { COLOR } from "../../global/const";
 import { convertHexToRGBA } from "../../global/utils";
 
@@ -22,6 +25,8 @@ import refresh_data from "../../assets/lottie/refresh.json";
 import skip_data from "../../assets/lottie/skip.json";
 import double_data from "../../assets/lottie/double.json";
 import freeze_data from "../../assets/lottie/freeze.json";
+
+import click from "../../assets/sounds/click.mp3";
 
 const Shop = () => {
   const ANIMATIONS = {
@@ -83,9 +88,12 @@ const Shop = () => {
     },
   ];
 
+  const [play] = useSound(click, { volume: 0.25 });
+
   const handleItemClick = (item_properties) => {
     // TODO: Buy item logic
     console.log(item_properties.item_name);
+    play();
   };
 
   return (
