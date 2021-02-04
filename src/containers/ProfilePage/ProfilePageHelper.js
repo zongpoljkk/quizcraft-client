@@ -23,7 +23,7 @@ export const useChangeProfileImage = () => {
       const { success, data } = response.data;
       if (success) {
         set_loading(false);
-        toggle();
+        // toggle();
       } else {
         console.log("Change Profile Image Error");
       }

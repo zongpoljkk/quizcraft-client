@@ -16,10 +16,9 @@ import edit_photo from "../../assets/icon/photo.png";
 
 import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-// import Axios from "axios";
 import axios from "axios";
 import backend from "../../ip";
-// import { JSONtoFormData } from "common/formdata";
+import { useChangeProfileImage } from "./ProfilePageHelper";
 
 const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
@@ -30,13 +29,19 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
-  console.log(selected_image)
+  
+  const { changeProfileImage } = useChangeProfileImage();
+
   const handleMouseEnter = () => {
     set_hover(true);
   };
 
   const handleMouseLeave = () => {
     set_hover(false);
+  };
+
+  const handleUpload = async () => {
+    inputFile.current.click();
   };
 
   const JSONtoFormData = (json) => {
@@ -47,29 +52,18 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     return formData;
   }; 
 
-  const changeAvatar = async () => {
+  const handlechangeAvatar = async () => {
     const data = {
       userId: user_info._id
     };
     let formData = JSONtoFormData(data)
-    if (selected_image) formData.append("image", selected_image);
-    if (selected_image) {
-      const response = await axios.put(backend+"user/change-profile-picture",formData, 
-        {
-          headers: {
-            "Content-type": "multipart/form-data"
-          }
-        }
-      )
-    }
+    formData.append("image", selected_image);
+    changeProfileImage(formData);
   }
-  const handleUpload = async () => {
-    inputFile.current.click();
-  };
 
   useEffect(() => {
     if (selected_image) {
-      changeAvatar()
+      handlechangeAvatar()
     }
   }, [selected_image]);
 
