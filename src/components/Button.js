@@ -21,8 +21,8 @@ export const Button = ({
   children
 }) => {
 
-  const [playSingle: play] = useSound(single_click, { volume: 0.25 });
-  const [playDouble: play] = useSound(double_click, { volume: 0.25 });
+  const [playSingle] = useSound(single_click, { volume: 0.25 });
+  const [playDouble] = useSound(double_click, { volume: 0.25 });
 
   return ( 
     <ButtonStyled
