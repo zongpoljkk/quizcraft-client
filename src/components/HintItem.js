@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Header, Subheader, Body } from "./Typography";
 import { ItemCard } from "./ItemCard";
@@ -10,6 +11,7 @@ import useModal from "./useModal";
 import hint_icon from "../assets/icon/hint.png";
 import hintData from "../assets/lottie/hint.json";
 import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
+import click from "../assets/sounds/click.mp3";
 
 import { COLOR } from "../global/const";
 
@@ -20,6 +22,7 @@ export const HintItem = ({
 }) => {
 
   const [isShowing, toggle] = useModal();
+  const [play] = useSound(click, { volume: 0.25 });
 
   return (
     <div>
@@ -53,7 +56,12 @@ export const HintItem = ({
               );
             })}
           </ContentContainer>
-          <div onClick={toggle}>
+          <div 
+            onClick={() => {
+              toggle();
+              play();
+            }}
+          >
             <img src={close_gloden_tainoi_icon} height={16} width={16}/>
           </div>
         </Container>
