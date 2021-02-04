@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-import { Header } from "../../components/Typography";
+import { Header, Subheader } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
 import { RadioButton } from "../../components/RadioButton";
-import { TimePickerWithLabel } from "../../components/TimePicker";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -37,7 +36,7 @@ const CreateGroupPage = ({ history }) => {
   const [selected_subtopic, set_selected_subtopic] = useState('');
   const [difficulty, set_difficulty] = useState('');
   const [number_of_problems, set_number_of_problems] = useState(0);
-  const [time_per_problem, set_time_per_problem] = useState('');
+  const [time_per_problem, set_time_per_problem] = useState(0);
   const [is_play, set_is_play] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
@@ -125,10 +124,11 @@ const CreateGroupPage = ({ history }) => {
           direction="row"
           marginBottom={24}
         />
-        <TimePickerWithLabel
-          label="ระยะเวลาที่ใช้ในแต่ละข้อ"
+        <NumberInputSpinnerWithLabel
+          label="เวลาที่ใช้ในแต่ละข้อ"
           value={time_per_problem}
           set_value={set_time_per_problem}
+          unit_label="วินาที"
           direction="row"
           marginBottom={24}
         />
@@ -160,7 +160,7 @@ const CreateGroupPage = ({ history }) => {
                 subtopic,
                 difficulty.toUpperCase(),
                 number_of_problems,
-                timeConvertor(time_per_problem),
+                time_per_problem,
                 is_play === "ผู้เล่น" ? true : false,
                 toggle
               );
@@ -214,11 +214,15 @@ const ButtonContainer = styled.div.attrs(props => ({
   width: 100%;
 `;
 
-const ErrorContainer = styled.div`
+const TimePickerContainer = styled.div`
   display: flex;
+  flex-direction: row;
   flex: 1;
-  align-self: flex-start;
-  margin-bottom: 8px;
+`;
+
+const SecondLabel = styled.div`
+  margin-top: 6px;
+  margin-left: 8px;
 `;
 
 export default withRouter(CreateGroupPage);

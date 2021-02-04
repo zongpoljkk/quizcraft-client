@@ -43,6 +43,7 @@ const InfoBox = styled.div`
   display: flex;
   align-items: center;
   padding: 4px 16px 4px 16px;
+  min-height: 40px;
   background-color: ${props => props.backgroundColor};
 `;
 
