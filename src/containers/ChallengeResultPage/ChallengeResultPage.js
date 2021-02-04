@@ -16,10 +16,6 @@ import {
 
 import { COLOR } from "../../global/const";
 
-//MOCK DATA FOR MODAL
-const GAIN_COIN = 200;
-const GAIN_XP = 150;
-
 const ChallengeResultPage = ( { history }) => {
   const ref = useRef(null);
   const location = useLocation();
