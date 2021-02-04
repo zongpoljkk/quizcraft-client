@@ -1,9 +1,54 @@
+import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 // Global
 import { COLOR } from "../global/const";
 
-export const Button = styled.button.attrs((props) => ({
+import single_click from "../assets/sounds/single_click.mp3";
+import double_click from "../assets/sounds/double_click.mp3";
+
+export const Button = ({
+  id,
+  type,
+  size,
+  backgroundColor,
+  border,
+  color,
+  onClick = () => {},
+  style,
+  disabled,
+  children
+}) => {
+
+  const [playSingle: play] = useSound(single_click, { volume: 0.25 });
+  const [playDouble: play] = useSound(double_click, { volume: 0.25 });
+
+  return ( 
+    <ButtonStyled
+      id={id}
+      type={type}
+      size={size}
+      backgroundColor={backgroundColor}
+      border={border}
+      color={color}
+      onClick={() => {
+        onClick();
+        if(disabled || type === "disabled") {
+          playDouble();
+        } else {
+          playSingle();
+        }
+      }}
+      style={style}
+      disabled={disabled}
+    >
+      {children}
+    </ButtonStyled>
+  );
+};
+
+const ButtonStyled = styled.button.attrs((props) => ({
   type: props.type,
   size: props.size,
   backgroundColor: props.backgroundColor,
