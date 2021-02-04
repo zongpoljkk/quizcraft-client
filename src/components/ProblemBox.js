@@ -15,15 +15,39 @@ export const ProblemBox = ({
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const asciimath2latex = require("asciimath-to-latex");
 
+  const splitProblem = (problem_content) => {
+    const split_problem = problem_content.split("{");
+    var non_math_text;
+    if (split_problem.length > 1) {
+      non_math_text = split_problem[1].replace("}", "");
+      return (
+        <Subheader>
+          <Tex2SVG
+            display="inline"
+            latex={asciimath2latex(cDot2TimesFormat(split_problem[0]))}
+          />
+          <div style={{marginRight: "8px"}}/>
+          {non_math_text}
+        </Subheader>
+      );
+    }
+    return (
+      <Subheader>
+        <Tex2SVG
+          display="inline"
+          latex={asciimath2latex(cDot2TimesFormat(split_problem[0]))}
+        />
+      </Subheader>
+    );
+  }; 
+
   return (
     <ProblemContainer>
       <ProblemComponent>
         <Subheader>{problem}</Subheader>
         {problem_content ? (
           <Problem width={screen_width - CONTAINER_PADDING - 48}>
-            <Subheader>
-              <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(problem_content))} />
-            </Subheader>
+            {splitProblem(problem_content)}
           </Problem>
         ) : null}
       </ProblemComponent>
