@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import useSound from 'use-sound';
 
 import { Header, Body } from "./Typography";
 
@@ -12,6 +13,7 @@ import gold from "../assets/icon/gold.png";
 import coin from "../assets/icon/coin.png";
 import streak from "../assets/icon/streak.png";
 import shop from "../assets/icon/shop.png";
+import click from "../assets/sounds/click.mp3";
 
 import { COLOR, RANK } from "../global/const";
 
@@ -20,16 +22,21 @@ const Navbar = ({
   user_info,
 }) => {
 
+  const [play] = useSound(click, { volume: 0.25 });
+
   const handleClickLogo = () => {
     history.push("/homepage");
+    play();
   };
 
   const handleClickShop = () => {
     history.push("/shop");
+    play();
   };
 
   const handleClickProfileImage = () => {
     history.push("/profile");
+    play();
   };
 
   return (
@@ -38,7 +45,7 @@ const Navbar = ({
         <Logo src={white_logo} />
       </div>
       <InfoContainer>
-        <div style={{ display: 'flex' }} data-tip data-for="levelTip">
+        <div style={{ display: 'flex' }} data-tip data-for="levelTip" onClick={play}>
           {user_info.rank === RANK.BRONZE &&
             <Icon src={bronze}/>
           }
