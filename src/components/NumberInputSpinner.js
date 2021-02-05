@@ -46,6 +46,7 @@ export const NumberInputSpinnerWithLabel = ({
   label,
   value,
   set_value,
+  unit_label,
   direction = "column",
   marginBottom
 }) => {
@@ -64,6 +65,11 @@ export const NumberInputSpinnerWithLabel = ({
         set_value={set_value}
         label_width={label.length*CHARACTER_WIDTH}
       />
+      {unit_label &&
+        <div style={{ marginTop: 6 }}>
+          <Subheader>{unit_label}</Subheader>
+        </div>
+      }
     </NumberInputSpinnerWithLabelContainer>
   );
 };

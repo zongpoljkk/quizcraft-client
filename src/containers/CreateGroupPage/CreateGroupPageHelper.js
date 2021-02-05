@@ -179,10 +179,3 @@ export const translateError = (message) => {
       return "มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
   };
 };
-
-export const timeConvertor = (time) => {
-  var ms = time.split(':');
-  var seconds = (+ms[0]) * 60 + (+ms[1]);
-
-  return seconds;
-};

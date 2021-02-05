@@ -9,12 +9,13 @@ export const Item = ({
   icon,
   amount,
   onClick = () => {},
+  zoom,
 }) => {
 
   return (
     <Container>
-      <ItemContainer onClick = {onClick}>
-        <img src={icon} width={40}/>
+      <ItemContainer onClick={onClick}>
+        {zoom ? <img src={icon} width={60} /> : <img src={icon} width={40} />}
       </ItemContainer>
       <div style={{ marginBottom: 4 }}/>
       <Header>{amount}</Header>

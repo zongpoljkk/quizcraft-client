@@ -77,6 +77,7 @@ export const useGetEachProblem = (
   const [title, set_title] = useState();
   const [correct_answer, set_correct_answer] = useState();
   const [choices, set_choices] = useState();
+  const [have_hint, set_have_hint] = useState();
 
   const getEachProblem = async (set_item = () => {}) => {
     set_loading(true);
@@ -98,6 +99,7 @@ export const useGetEachProblem = (
         set_title(data.problem.title);
         set_choices(data.problem.choices);
         set_correct_answer(data.correctAnswer);
+        set_have_hint(data.problem.haveHint);
         set_loading(false);
         set_item("UN_USE");
       } else {
@@ -118,6 +120,7 @@ export const useGetEachProblem = (
     title,
     correct_answer,
     choices,
+    have_hint
   };
 };
 
