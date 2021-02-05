@@ -45,5 +45,5 @@ export const hasStringOrNumber = (myString) => {
 };
 
 export const cDot2TimesFormat = (math) => {
-  return math.replace(/[*]/gi, 'xx');
+  return math.replace(/[*]/gi, ' xx ');
 }
