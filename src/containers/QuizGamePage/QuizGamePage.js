@@ -51,6 +51,8 @@ const QuizGamePage = ({ history }) => {
   const [score, set_score] = useState(0);
   const [earned_exp, set_earned_exp] = useState(0);
   const [earned_coins, set_earned_coins] = useState(0);
+  const [is_level_up, set_is_level_up] = useState(false);
+  const [is_rank_up, set_is_rank_up] = useState(false);
 
   const {
     getEachProblem,
@@ -62,6 +64,7 @@ const QuizGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
+    have_hint
   } = useGetEachProblem(
     user_id,
     location.state.subject_name,
@@ -159,6 +162,12 @@ const QuizGamePage = ({ history }) => {
             (earned_coins) => earned_coins + res.data.earned_coins
           );
         }
+        if(res.data.level_up) {
+          set_is_level_up(true);
+        };
+        if(res.data.rank_up) {
+          set_is_rank_up(true);
+        };
         toggle();
       });
     }
@@ -187,6 +196,8 @@ const QuizGamePage = ({ history }) => {
           score: score,
           earned_exp: earned_exp,
           earned_coins: earned_coins,
+          is_level_up: is_level_up,
+          is_rank_up: is_rank_up
         },
       });
     } else {
@@ -263,6 +274,7 @@ const QuizGamePage = ({ history }) => {
                 }
               }}
               hintContent={hint}
+              have_hint={have_hint}
               skip={skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
