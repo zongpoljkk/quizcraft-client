@@ -16,7 +16,8 @@ import { COLOR } from "../global/const";
 export const HintItem = ({
   amount_of_hints,
   onGetHint,
-  content
+  content,
+  have_hint
 }) => {
 
   const [isShowing, toggle] = useModal();
@@ -25,12 +26,12 @@ export const HintItem = ({
     <div>
       <ItemCard
         onClick={() => {
-          if(amount_of_hints !== 0) {
+          if(have_hint && amount_of_hints !== 0) {
             onGetHint();
             toggle();
           }
         }}
-        disable={amount_of_hints === 0 ? true : false}
+        disable={have_hint ? (amount_of_hints === 0 ? true : false) : true}
       >
         <ItemContainer src={hint_icon} marginRight={amount_of_hints >= 0 ? 8 : null}/>
         <Subheader>{amount_of_hints}</Subheader>

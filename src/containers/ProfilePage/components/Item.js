@@ -7,13 +7,14 @@ import { COLOR } from "../../../global/const"
 
 export const Item = ({
   icon,
-  amount
+  amount,
+  zoom,
 }) => {
 
   return (
     <Container>
       <ItemContainer>
-        <img src={icon} width={40}/>
+        {zoom ? <img src={icon} width={60} /> : <img src={icon} width={40} />}
       </ItemContainer>
       <div style={{ marginBottom: 4 }}/>
       <Header>{amount}</Header>
