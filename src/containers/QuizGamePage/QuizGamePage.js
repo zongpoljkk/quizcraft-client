@@ -268,13 +268,18 @@ const QuizGamePage = ({ history }) => {
   }, [onSkip]);
 
   useEffect(() => {
-    if(location.state.current_index){
+    if (location.state.current_index) {
       set_current_index(location.state.current_index + 1);
       set_score(location.state.score);
       set_earned_coins(location.state.earned_coins);
       set_earned_exp(location.state.earned_coins);
     }
-  }, [location.state.current_index, location.state.score, location.state.earned_coins, location.state.earned_coins])
+  }, [
+    location.state.current_index,
+    location.state.score,
+    location.state.earned_coins,
+    location.state.earned_coins,
+  ]);
 
   return (
     <Container>
