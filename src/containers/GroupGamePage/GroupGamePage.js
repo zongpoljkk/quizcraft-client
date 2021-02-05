@@ -119,7 +119,6 @@ const GroupGamePage = ({ history }) => {
         problem_content: problem.body,
         problem_title: problem.title,
         answer_type: problem.answer_type,
-        // current_index: current_index
       },
     });
   };

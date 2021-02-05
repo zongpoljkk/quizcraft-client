@@ -22,125 +22,152 @@ const ReportPage = ({ history }) => {
   const [report_problem, set_report_problem] = useState();
   const [etc_problem, set_etc_problem] = useState();
   const [report_content, set_report_content] = useState();
+  const [is_clicked, set_is_clicked] = useState(false);
   const [isShowing, toggle] = useModal();
   const user_id = localStorage.getItem("userId");
   var date;
-  const { sendReport,report_success } = useSendReport(user_id, location.state.problem_id, report_content, date);
+  const { sendReport, report_success } = useSendReport(
+    user_id,
+    location.state.problem_id,
+    report_content,
+    date
+  );
 
   const handleOnclick = async (content) => {
     await set_report_content(content);
     date = new Date();
-    await sendReport();
+    await set_is_clicked(true);
     await toggle();
   }
 
   const onSubmit = () => {
-    if (location.state.mode === MODE.CHALLENGE.type) {
-      if (location.state.current_index < location.state.number_of_problem) {
+    if(report_success){
+      if (location.state.mode === MODE.CHALLENGE.type) {
+        if (location.state.current_index < location.state.number_of_problem) {
+          history.goBack();
+        } else {
+          history.push({
+            pathname: "./all-challenges",
+            state: {
+              subject_name: location.state.subject_name,
+              topic_name: location.state.topic_name,
+              subtopic_id: location.state.subtopic_id,
+              subtopic_name: location.state.subtopic_name,
+              mode: location.state.mode,
+              difficulty: location.state.difficulty,
+            },
+          });
+        }
+      } else if (location.state.mode === MODE.QUIZ.type) {
+        if (location.state.current_index < location.state.number_of_problem) {
+          history.push({
+            pathname: "./quiz-game",
+            state: {
+              subject_name: location.state.subject_name,
+              topic_name: location.state.topic_name,
+              subtopic_id: location.state.subtopic_id,
+              subtopic_name: location.state.subtopic_name,
+              mode: location.state.mode,
+              difficulty: location.state.difficulty,
+              current_index: location.state.current_index,
+              score: location.state.score,
+              earned_exp: location.state.earned_exp,
+              earned_coins: location.state.earned_coins,
+            },
+          });
+        } else {
+          history.push({
+            pathname: "./quiz-result",
+            state: {
+              subject: location.state.subject_name,
+              topic: location.state.topic_name,
+              subtopic_id: location.state.subtopic_id,
+              subtopic: location.state.subtopic_name,
+              mode: location.state.mode,
+              difficulty: location.state.difficulty,
+              score: location.state.score,
+              earned_exp: location.state.earned_exp,
+              earned_coins: location.state.earned_coins,
+            },
+          });
+        }
+      } else {
         history.goBack();
-      } else {
-        history.push({
-          pathname: "./all-challenges",
-          state: {
-            subject_name: location.state.subject_name,
-            topic_name: location.state.topic_name,
-            subtopic_id: location.state.subtopic_id,
-            subtopic_name: location.state.subtopic_name,
-            mode: location.state.mode,
-            difficulty: location.state.difficulty,
-          },
-        });
       }
-    } else if (location.state.mode === MODE.QUIZ.type) {
-      if (location.state.current_index < location.state.number_of_problem) {
-        history.push({
-          pathname: "./quiz-game",
-          state: {
-            subject_name: location.state.subject_name,
-            topic_name: location.state.topic_name,
-            subtopic_id: location.state.subtopic_id,
-            subtopic_name: location.state.subtopic_name,
-            mode: location.state.mode,
-            difficulty: location.state.difficulty,
-            current_index: location.state.current_index,
-            score: location.state.score,
-            earned_exp: location.state.earned_exp,
-            earned_coins: location.state.earned_coins,
-          },
-        });
-      } else {
-        history.push({
-          pathname: "./quiz-result",
-          state: {
-            subject: location.state.subject_name,
-            topic: location.state.topic_name,
-            subtopic_id: location.state.subtopic_id,
-            subtopic: location.state.subtopic_name,
-            mode: location.state.mode,
-            difficulty: location.state.difficulty,
-            score: location.state.score,
-            earned_exp: location.state.earned_exp,
-            earned_coins: location.state.earned_coins,
-          },
-        });
-      }
-    } else {
-      history.goBack();
     }
   };
 
   useEffect(() => {
-    sendReport();
-  }, [report_content]);
+    if(is_clicked){
+      sendReport();
+    }
+  }, [is_clicked]);
   
-  return ( 
+  return (
     <Container>
       <CenterContainer>
         <Header> รายงาน </Header>
       </CenterContainer>
-      <div style={{marginTop: "16px"}}>
+      <div style={{ marginTop: "16px" }}>
         <Subheader> โจทย์ </Subheader>
       </div>
-      <div style={{marginTop: "8px", marginBottom: "24px"}}>
+      <div style={{ marginTop: "8px", marginBottom: "24px" }}>
         <ProblemBox
           problem={location.state.problem_title}
           problem_content={
-            location.state.answer_type === ANSWER_TYPE.MATH_INPUT ? location.state.problem_content : null
+            location.state.answer_type === ANSWER_TYPE.MATH_INPUT
+              ? location.state.problem_content
+              : null
           }
-          show_game_content = {true}
+          show_game_content={true}
           answer_type={location.state.answer_type}
           subject={location.state.subject_name}
           question={location.state.problem_content}
           content={location.state.problem_content}
         />
       </div>
-      <div style={{marginBottom: "8px"}}>
+      <div style={{ marginBottom: "8px" }}>
         <Subheader> ปัญหาที่พบ </Subheader>
       </div>
       {Object.entries(REPORT).map(([report_key, report_value]) => (
-        <div style={{marginLeft: "8px", marginBottom: "4px"}}>
+        <div style={{ marginLeft: "8px", marginBottom: "4px" }}>
           <RadioButton
-            key = {report_key}
-            value={report_problem} 
-            selected_value={set_report_problem} 
+            key={report_key}
+            value={report_problem}
+            selected_value={set_report_problem}
             choices={[report_value]}
-            />
+          />
         </div>
       ))}
-      {report_problem === REPORT.ETC &&
-        <TextfieldContainer width={screen_width-CONTAINER_PADDING-32}>
-          <TextField 
+      {report_problem === REPORT.ETC && (
+        <TextfieldContainer width={screen_width - CONTAINER_PADDING - 32}>
+          <TextField
             height="36"
             value={etc_problem}
-            onChange={e => set_etc_problem(e.target.value)}
+            onChange={(e) => set_etc_problem(e.target.value)}
             placeholder="ปัญหาที่พบ"
           />
         </TextfieldContainer>
-      }
+      )}
       <CenterContainer marginTop="36">
-        <Button 
-          type={((report_problem && report_problem !== REPORT.ETC) || (report_problem === REPORT.ETC && etc_problem)) ? "default" : "disabled"}
-          onClick={() => report_problem !== REPORT.ETC ? handleOnclick(report_problem) : handleOnclick(etc_problem)}
+        <Button
+          type={
+            (report_problem && report_problem !== REPORT.ETC) ||
+            (report_problem === REPORT.ETC && etc_problem)
+              ? "default"
+              : "disabled"
+          }
+          disabled={
+            !(
+              (report_problem && report_problem !== REPORT.ETC) ||
+              (report_problem === REPORT.ETC && etc_problem)
+            )
+          }
+          onClick={() =>
+            report_problem !== REPORT.ETC
+              ? handleOnclick(report_problem)
+              : handleOnclick(etc_problem)
+          }
         >
           ยืนยัน
         </Button>
@@ -151,7 +178,7 @@ const ReportPage = ({ history }) => {
         success={report_success}
         success_description="ขอบคุณสำหรับความใส่ใจ :)"
         fail_description="ล้มเหลว กรุณาส่งปัญหานี้ใหม่อีกครั้ง"
-        onSubmit={()=>onSubmit()}
+        onSubmit={() => onSubmit()}
       />
     </Container>
   );
