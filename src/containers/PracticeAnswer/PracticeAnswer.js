@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Tex2SVG from "react-hook-mathjax";
 import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 // Components
 import {
@@ -21,6 +22,8 @@ import useModal from "../../components/useModal";
 import coin_data from "../../assets/lottie/coin.json";
 import Correct_Forward from "../../assets/icon/correct_forward.png";
 import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
+import click from "../../assets/sounds/click.mp3";
+import recieve_coin from "../../assets/sounds/recieve_coin.mp3";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -50,6 +53,9 @@ const PracticeAnswer = ({ history, user_info }) => {
 
   const location = useLocation();
   const asciimath2latex = require("asciimath-to-latex");
+
+  const [playClickSound] = useSound(click, { volume: 0.25 });
+  const [playRecieveCoinSound] = useSound(recieve_coin, { volume: 0.25 });
 
   const handleNextButtonClick = () => {
     history.push({
@@ -176,7 +182,13 @@ const PracticeAnswer = ({ history, user_info }) => {
             src={correct ? Correct_Forward : Incorrect_Forward}
             alt="arrow"
             height={40}
-            onClick={handleArrowClick}
+            onClick={() => {
+              handleArrowClick();
+              playClickSound();
+              if(solution.length+1 === staticSolution.length && correct) {
+                playRecieveCoinSound();
+              }
+            }}
           />
         </ShiftDiv>
       );
