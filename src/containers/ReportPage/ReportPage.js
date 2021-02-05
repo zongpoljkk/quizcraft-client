@@ -63,7 +63,9 @@ const ReportPage = ({ history }) => {
             mode: location.state.mode,
             difficulty: location.state.difficulty,
             current_index: location.state.current_index,
-            score: location.state.score
+            score: location.state.score,
+            earned_exp: location.state.earned_exp,
+            earned_coins: location.state.earned_coins,
           },
         });
       } else {
