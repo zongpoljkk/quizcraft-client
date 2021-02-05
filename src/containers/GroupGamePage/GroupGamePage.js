@@ -105,6 +105,25 @@ const GroupGamePage = ({ history }) => {
     }
   };
 
+  const onReport = async () => {
+    history.push({
+      pathname: "./report",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty,
+        problem_id: problem._id,
+        problem_content: problem.body,
+        problem_title: problem.title,
+        answer_type: problem.answer_type,
+        // current_index: current_index
+      },
+    });
+  };
+
   useEffect(() => {
     if(!listening) {
       subscribe(location.state.group_id);
@@ -215,6 +234,7 @@ const GroupGamePage = ({ history }) => {
                   correct={CORRECT}
                   answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
                   overlay_clickable={false}
+                  onReportClick={() => onReport()}
                 />
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>

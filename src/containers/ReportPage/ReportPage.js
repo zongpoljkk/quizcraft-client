@@ -35,8 +35,22 @@ const ReportPage = ({ history }) => {
   }
 
   const onSubmit = () => {
-    if (location.state.mode === MODE.PRACTICE.type) {
-      history.goBack();
+    if (location.state.mode === MODE.CHALLENGE.type) {
+      if (location.state.current_index < location.state.number_of_problem) {
+        history.goBack();
+      } else {
+        history.push({
+          pathname: "./all-challenges",
+          state: {
+            subject_name: location.state.subject_name,
+            topic_name: location.state.topic_name,
+            subtopic_id: location.state.subtopic_id,
+            subtopic_name: location.state.subtopic_name,
+            mode: location.state.mode,
+            difficulty: location.state.difficulty,
+          },
+        });
+      }
     } else if (location.state.mode === MODE.QUIZ.type) {
       if (location.state.current_index < location.state.number_of_problem) {
         history.push({
@@ -48,7 +62,7 @@ const ReportPage = ({ history }) => {
             subtopic_name: location.state.subtopic_name,
             mode: location.state.mode,
             difficulty: location.state.difficulty,
-            current_index: location.state.current_index
+            current_index: location.state.current_index,
           },
         });
       } else {
@@ -68,23 +82,9 @@ const ReportPage = ({ history }) => {
         });
       }
     } else {
-      if (location.state.current_index < location.state.number_of_problem) {
-        history.goBack();
-      } else {
-        history.push({
-          pathname: "./all-challenges",
-          state: {
-            subject_name: location.state.subject_name,
-            topic_name: location.state.topic_name,
-            subtopic_id: location.state.subtopic_id,
-            subtopic_name: location.state.subtopic_name,
-            mode: location.state.mode,
-            difficulty: location.state.difficulty,
-          },
-        });
-      }
+      history.goBack();
     }
-  }
+  };
 
   useEffect(() => {
     sendReport();
