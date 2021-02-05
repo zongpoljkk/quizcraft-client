@@ -16,6 +16,7 @@ import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
 import { LevelUpModal } from "../../components/LevelUpModal";
 import useModal from "../../components/useModal";
+import { DisplayText } from "../../components/HandleText";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
@@ -25,7 +26,7 @@ import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 // Global
 import { Body, Header } from "../../components/Typography";
 
-import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, TYPOGRAPHY } from "../../global/const";
 import { useWindowDimensions, cDot2TimesFormat } from "../../global/utils";
 
 const NAVBAR_HEIGHT = 54;
@@ -205,16 +206,24 @@ const PracticeAnswer = ({ history, user_info }) => {
         <SolutionDiv>
             {solution.map((line, i) => {
               return (
-                  <Solution answer={correct} key={i}>
+                <Solution answer={correct} key={i}>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
-                      <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(line))} />
+                      <DisplayText
+                        fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+                        fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
+                        color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+                        justifyContent="flex-start"
+                        content={line}
+                      />
                     ) : (
                       line
                     )}
-                  </Solution>
+                  </div>
+                </Solution>
               );
             })}
         </SolutionDiv>

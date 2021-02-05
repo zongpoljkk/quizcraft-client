@@ -110,7 +110,6 @@ const Container = styled.div.attrs((props) => ({
   justifyContent: props.justifyContent || "center"
 }))`
   display: flex;
-  flex: 1;
   flex-direction: row;
   justify-content: ${(props) => props.justifyContent};
   flex-wrap: wrap;
