@@ -63,6 +63,7 @@ const ReportPage = ({ history }) => {
             mode: location.state.mode,
             difficulty: location.state.difficulty,
             current_index: location.state.current_index,
+            score: location.state.score
           },
         });
       } else {

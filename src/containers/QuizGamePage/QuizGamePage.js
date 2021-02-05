@@ -271,7 +271,10 @@ const QuizGamePage = ({ history }) => {
     if(location.state.current_index){
       set_current_index(location.state.current_index + 1);
     }
-  }, [location.state.current_index])
+    if(location.state.score){
+      set_score(location.state.score);
+    }
+  }, [location.state.current_index, location.state.score])
 
   return (
     <Container>
