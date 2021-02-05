@@ -3,14 +3,16 @@ import styled from "styled-components";
 import Tex2SVG from "react-hook-mathjax";
 
 import { COLOR } from "../global/const";
+import { cDot2TimesFormat } from "../global/utils";
 
-export const DisplayText = ({ content, justifyContent, fontWeight, fontSize, color }) => {
-  
+export const DisplayText = ({
+  content,
+  justifyContent,
+  fontWeight,
+  fontSize,
+  color,
+}) => {
   const asciimath2latex = require("asciimath-to-latex");
-
-  const cDot2TimesFormat = (math) => {
-    return math.replace(/[*]/gi, ' xx ');
-  }
 
   const splitContent = (content) => {
     var list = [];
@@ -55,7 +57,7 @@ export const DisplayText = ({ content, justifyContent, fontWeight, fontSize, col
         }
       }
     }
-  
+
     var boxes = [];
     var index = 0;
     list.map((item) => {
@@ -88,11 +90,7 @@ export const DisplayText = ({ content, justifyContent, fontWeight, fontSize, col
       );
     } else {
       return (
-        <Typography 
-          fontWeight={fontWeight} 
-          fontSize={fontSize} 
-          color={color}
-        >
+        <Typography fontWeight={fontWeight} fontSize={fontSize} color={color}>
           {item.text}
         </Typography>
       );
