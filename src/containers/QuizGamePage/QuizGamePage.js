@@ -27,6 +27,8 @@ import {
 
 import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
+
 
 import { ANSWER_TYPE, COLOR, DIFFICULTY } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
@@ -60,6 +62,7 @@ const QuizGamePage = ({ history }) => {
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
   const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const {
     getEachProblem,
@@ -184,6 +187,9 @@ const QuizGamePage = ({ history }) => {
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
       //push to result page
+      if(is_level_up || is_rank_up) {
+        playLevelUpSound();
+      };
       history.push({
         pathname:
           "/" +

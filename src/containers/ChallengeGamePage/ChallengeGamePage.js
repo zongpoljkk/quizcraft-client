@@ -23,6 +23,7 @@ import {
 
 import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
 
 import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -45,6 +46,7 @@ const ChallengeGame = ({ history }) => {
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
   const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const {
     getChallengeInfo,
@@ -71,6 +73,9 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       );
     }
+    if(is_level_up || is_rank_up) {
+      playLevelUpSound();
+    };
     history.push({
       pathname: "./all-challenges",
       state: {

@@ -24,6 +24,7 @@ import Correct_Forward from "../../assets/icon/correct_forward.png";
 import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 import click from "../../assets/sounds/click.mp3";
 import recieve_coin from "../../assets/sounds/recieve_coin.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
 
 // Global
 import { Body, Header } from "../../components/Typography";
@@ -56,6 +57,7 @@ const PracticeAnswer = ({ history, user_info }) => {
 
   const [playClickSound] = useSound(click, { volume: 0.25 });
   const [playRecieveCoinSound] = useSound(recieve_coin, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const handleNextButtonClick = () => {
     history.push({
@@ -186,8 +188,12 @@ const PracticeAnswer = ({ history, user_info }) => {
               handleArrowClick();
               playClickSound();
               if(solution.length+1 === staticSolution.length && correct) {
-                playRecieveCoinSound();
-              }
+                if(location.state.is_level_up || location.state.is_rank_up) {
+                  playLevelUpSound();
+                } else {
+                  playRecieveCoinSound();
+                };
+              };
             }}
           />
         </ShiftDiv>
