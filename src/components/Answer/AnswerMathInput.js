@@ -6,18 +6,17 @@ import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
 
-let mainCurlyBraces = [];
-let powerExists = false;
+export const AnswerMathInput = ({
+  correct_answer = "",
+  set_answer,
+  answer,
+}) => {
+  const [mainAns, setMainAns] = useState({});
+  const [powerAns, setPowerAns] = useState([]);
+  const [ans_template, set_ans_template] = useState([]);
 
-export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
-  const [mainAns, setMainAns] = useState("");
-  const [powerAns, setPowerAns] = useState("");
-
-  const outputBoxes = (item) => {
+  const outputBoxes = (item, index) => {
     if (item.type === "(" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
-      if (mainCurlyBraces.length === 0) {
-        mainCurlyBraces.push("(");
-      }
       return (
         <BoxSpace marginTop={36}>
           <Header>(</Header>
@@ -30,7 +29,6 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </BoxSpace>
       );
     } else if (item.type === "power") {
-      powerExists = true;
       return (
         <PowerInputAnswer
           width={item.width}
@@ -56,7 +54,7 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
         </BoxSpace>
       );
     } else if (item.type === "display") {
-      if (item.text == "*") {
+      if (item.text === "*") {
         return (
           <BoxSpace marginTop={item.last_type === "power" ? 8 : 42}>
             <Multiple>x</Multiple>
@@ -73,42 +71,79 @@ export const AnswerMathInput = ({ correct_answer = "", set_answer }) => {
       return (
         <MainInputAnswer
           width={item.width}
-          onChange={(e) => setMainAns(e.target.value)}
+          key={item.type + index}
+          onChange={(e) => handleMainAns(e.target.value, index)}
         />
       );
     }
   };
 
-  useEffect(() => {
-    let tempAns;
-    let curlyMain = mainAns;
-    let curlyPower = powerAns;
-    let tempAnsString;
-    if (mainCurlyBraces.length > 0) {
-      // There are curly braces at main Ans
-      curlyMain = "(" + mainAns + ")";
-    }
-    if (powerExists) {
-      curlyPower = "[" + powerAns + "]";
-    }
-    tempAns = [curlyMain, curlyPower];
-    if (curlyPower !== "") {
-      tempAnsString = tempAns.join("^");
-    } else {
-      tempAnsString = curlyMain;
-    }
-    set_answer(tempAnsString);
+  const handleMainAns = (text, index) => {
+    setMainAns((mainAns) => {
+      return {
+        ...mainAns,
+        [index]: text,
+      };
+    });
+  };
 
-    // Cleanup
-    mainCurlyBraces = [];
-    powerExists = false;
-  }, [mainAns, powerAns]);
+  const outputAnswer = (item, index) => {
+    if (item.type === "(") {
+      return "(";
+    } else if (item.type === ")") {
+      return ")";
+    } else if (item.type === "main") {
+      return "main" + index;
+    } else if (item.type === "power") {
+      return "power";
+    } else if (item.type === "/") {
+      return "/";
+    } else if (item.type === "display") {
+      if (item.text === "*") {
+        return "x";
+      } else {
+        return item.text
+      }
+    } else {
+      return "main" + index;
+    }
+  };
+
+  useEffect(() => {
+    const temp_ans_template = mathAnswerBox(correct_answer).map(
+      (box, index) => {
+        return outputAnswer(box, index);
+      }
+    );
+    // DO NOT SET IF ALREADY ANSWER
+    if (!answer) {
+      set_ans_template(temp_ans_template);
+    }
+  }, []);
+
+  useEffect(() => {
+    const tempAns = [...ans_template];
+
+    for (var key in mainAns) {
+      if (tempAns.includes("main" + key)) {
+        tempAns[tempAns.indexOf("main" + key)] = mainAns[key];
+      }
+    }
+    if (tempAns.includes("power")) {
+      tempAns[tempAns.indexOf("power")] = `^[${powerAns}]`;
+    }
+    const join_ans = tempAns.join("");
+    // If user type in input then we set answer
+    if (!join_ans.includes("main")) {
+      set_answer(join_ans);
+    }
+  }, [mainAns, powerAns, ans_template]);
 
   return (
     <Container>
       {mathAnswerBox(correct_answer).map((box, i) => (
         <div key={i} id={`answerBox_${i}`}>
-          {outputBoxes(box)}
+          {outputBoxes(box, i)}
         </div>
       ))}
     </Container>

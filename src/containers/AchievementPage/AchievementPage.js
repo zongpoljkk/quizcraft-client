@@ -8,6 +8,8 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { Header } from "../../components/Typography";
 import AllAchievements from "./components/AllAchievements";
 import AchievementModal from "../../components/Achievement/AchievementModal";
+import { Subheader, Body } from "../../components/Typography";
+import { LottieFile } from "../../components/LottieFile";
 
 // Helper
 import { useGetAllAchievements } from "./AchievementPageHelper";
@@ -15,7 +17,15 @@ import { useGetAllAchievements } from "./AchievementPageHelper";
 // Hook
 import useModal from "../../components/useModal";
 
+// Global
+import { useWindowDimensions } from "../../global/utils";
+import { COLOR, CONTAINER_PADDING, QUOTE } from "../../global/const";
+
+// Lottie
+import no_data from "../../assets/lottie/no_data.json";
+
 const AchievementPage = ({ user_id }) => {
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowing, toggle] = useModal();
 
   const {
@@ -36,8 +46,29 @@ const AchievementPage = ({ user_id }) => {
         <LoadingPage />
       ) : (
         <Container>
-          <Header>ความสำเร็จ</Header>
-          <AllAchievements achievements={my_achievements} />
+          <div style={{ marginBottom: "32px" }}>
+            <Header>เหรียญรางวัล</Header>
+          </div>
+          {my_achievements.length > 0 ? (
+            <AllAchievements achievements={my_achievements} />
+          ) : (
+            <NoAchievement>
+              <LottieFile
+                animationData={no_data}
+                height="240px"
+              />
+              <div style={{ display: "flex", justifyContent: "center", textAlign: "center", width: "100%" }}>
+                <Subheader color={COLOR.MANDARIN}>
+                  คุณยังไม่มีเหรียญรางวัล
+                </Subheader>
+              </div>
+              <div style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
+                <Body color={COLOR.MANDARIN}>
+                  `{QUOTE[Math.floor(Math.random() * QUOTE.length)]}`
+                </Body>
+              </div>
+            </NoAchievement>
+          )}
         </Container>
       )}
     </React.Fragment>
@@ -50,6 +81,19 @@ const Container = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+`;
+
+const NoAchievement = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default AchievementPage;

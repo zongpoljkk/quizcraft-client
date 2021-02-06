@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
 
-import { Header, Subheader, Body } from "../../components/Typography";
+import { Header, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -16,7 +16,8 @@ import {
   useGetGroupMembers,
   useDeleteGroup,
   useLeaveGroup,
-  useGetGenerateProblem
+  useGetGenerateProblem,
+  useServerSentEvent
 } from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
@@ -35,7 +36,7 @@ const WaitingRoomPage = ({ history }) => {
     is_creator,
     group_failed
   } = useGetGroupMembers(location.state.group_id, user_id);
-  
+
   const {
     getGenerateProblem,
     start_loading,
@@ -44,23 +45,46 @@ const WaitingRoomPage = ({ history }) => {
 
   const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
   const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
+  
+  const {
+    listening,
+    subscribe,
+    update_member,
+    start_game,
+    delete_group
+  } = useServerSentEvent();
 
   const handleDeleteGroup = () => {
     deleteGroup(location.state.group_id, user_id);
+    subscribe(location.state.group_id);
     history.push("/homepage");
-  }
+  };
 
   const handleLeaveGroup = () => {
     leaveGroup(location.state.group_id, user_id);
+    subscribe(location.state.group_id);
     history.push("/homepage");
-  }
+  };
+
+  const handleStartGroupGame = () => {
+    history.push({
+      pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
+      state: {
+        group_id : location.state.group_id,
+        subject_name : location.state.subject_name,
+        topic_name : location.state.topic_name,
+        subtopic_name : location.state.subtopic_name,
+        difficulty : location.state.difficulty
+      }
+    });
+  };
 
   useEffect(() => {
+    if(!listening) {
+      subscribe(location.state.group_id);
+    };
     set_get_all_members_loading(loading);
-    const interval = setInterval(() => {
-      getGroupMembers();
-    }, 1000);
-    return () => clearInterval(interval);
+    getGroupMembers();
   }, []);
 
   useEffect(() => {
@@ -70,26 +94,24 @@ const WaitingRoomPage = ({ history }) => {
   }, [loading]);
 
   useEffect(() => {
-    if(problems) {
-      history.push({
-        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
-        state: {
-          group_id : location.state.group_id,
-          subject_name : location.state.subject_name,
-          topic_name : location.state.topic_name,
-          subtopic_name : location.state.subtopic_name,
-          difficulty : location.state.difficulty
-        }
-      });
+    if (update_member) {
+      getGroupMembers();
+    };
+    if (start_game && !is_creator) {
+      handleStartGroupGame();
+    };
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("*");
+    };
+  }, [update_member, start_game, delete_group]);
+
+  useEffect(() => {
+    if(problems && is_creator) {
+      handleStartGroupGame();
     };
   }, [start_loading]);
 
-  useEffect(() => {
-    if (group_failed) {
-      history.push("*");
-    }
-  }, [group_failed]);
-  
   return (
     <Container isCreator = {is_creator}>
       {get_all_members_loading || start_loading

@@ -79,8 +79,12 @@ const Homepage = ({ user_id, user_info }) => {
             content={modal_data ? modal_data : {}}
           />
           <GroupPanel
-            onCreateGroupClick={() => { history.push("create-group"); }}
-            onJoinGroupClick={() => { history.push("join-group"); }}
+            onCreateGroupClick={() => {
+              history.push("create-group");
+            }}
+            onJoinGroupClick={() => {
+              history.push("join-group");
+            }}
           />
           <ScrollView>
             <SubjectCard subjects_data={subjects} />

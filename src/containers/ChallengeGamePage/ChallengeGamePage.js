@@ -33,6 +33,9 @@ const ChallengeGame = ({ history }) => {
   const [current_index, set_current_index] = useState(1);
   const [time_start, set_time_start] = useState(true);
   const [isShowing, toggle] = useModal();
+  const [is_level_up, set_is_level_up] = useState(false);
+  const [is_rank_up, set_is_rank_up] = useState(false);
+  const [earned_coins, set_earned_coins] = useState(0);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
@@ -70,6 +73,9 @@ const ChallengeGame = ({ history }) => {
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty,
+        earned_coins: earned_coins,
+        is_level_up: is_level_up,
+        is_rank_up: is_rank_up
       },
     });
   };
@@ -118,6 +124,15 @@ const ChallengeGame = ({ history }) => {
       ).then((res) => {
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
+        set_earned_coins(
+          (earned_coins) => earned_coins + res.data.earned_coins
+        );
+        if(res.data.level_up) {
+          set_is_level_up(true);
+        };
+        if(res.data.rank_up) {
+          set_is_rank_up(true);
+        };
       });
       toggle();
     }
@@ -256,8 +271,6 @@ const ChallengeGame = ({ history }) => {
               onButtonClick={() => {
                 onNext();
                 set_time_start(true);
-                // set_problem_id();
-                // set_hint();
                 reset();
               }}
             />

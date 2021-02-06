@@ -46,6 +46,7 @@ const PracticeGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
+    have_hint
   } = useGetProblemForUser(
     user_id,
     location.state.subject_name,
@@ -87,7 +88,8 @@ const PracticeGamePage = ({ history }) => {
       userAnswer,
       getTime / 1000,
       topic,
-      subtopic
+      subtopic,
+      "practice",
     ).then((res) => {
       set_answer_loading(false);
       history.push({
@@ -111,7 +113,11 @@ const PracticeGamePage = ({ history }) => {
           topic: topic,
           subtopic: subtopic,
           difficulty: difficulty,
+          earned_coins: res.data.earned_coins,
           mode: mode,
+          is_level_up: res.data.level_up,
+          is_rank_up: res.data.rank_up,
+          earned_coins: res.data.earned_coins
         },
       });
     });
@@ -147,6 +153,7 @@ const PracticeGamePage = ({ history }) => {
                   <HintItem
                     onGetHint={() => getHintByProblemId()}
                     content={hint}
+                    have_hint={have_hint}
                   />
                   <ItemCard>
                     {skip === ITEM_USAGE.UN_USE && (
