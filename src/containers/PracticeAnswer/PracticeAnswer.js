@@ -207,17 +207,26 @@ const PracticeAnswer = ({ history, user_info }) => {
             {solution.map((line, i) => {
               return (
                 <Solution answer={correct} key={i}>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent:
+                        location.state.subject === "คณิตศาสตร์" &&
+                        line.length > 50
+                          ? "flex-start"
+                          : "center",
+                    }}
+                  >
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
                       <DisplayText
-                      fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
-                      fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
-                      color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
-                      content={line}
-                    />
+                        fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+                        fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
+                        color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+                        content={line}
+                      />
                     ) : (
                       line
                     )}
