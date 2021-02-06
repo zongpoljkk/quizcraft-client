@@ -27,8 +27,14 @@ const SubtopicBox = ({
   };
 
   return (
-    <Container onClick={play}>
-      <Accordion onClick={handle_toggle}>{title}</Accordion>
+    <Container>
+      <Accordion onClick={() => {
+        handle_toggle();
+        play();
+      }}
+      >
+        {title}
+      </Accordion>
       {opened === true
         ? Object.entries(MODE).map((item, index) => (
             <ModeBox 
