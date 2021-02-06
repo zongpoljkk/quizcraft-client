@@ -103,3 +103,22 @@ export const QUOTE = [
 export const LARGE_DEVICE_SIZE = 768;
 
 export const CONTAINER_PADDING = 64;
+
+export const TYPOGRAPHY = {
+  HEADER: {
+    font_weight: "600",
+    font_size: "24"
+  },
+  SUBHEADER: {
+    font_weight: "500",
+    font_size: "20"
+  },
+  BODY: {
+    font_weight: "400",
+    font_size: "16"
+  },
+  OVERLINE: {
+    font_weight: "400",
+    font_size: "12"
+  }
+}

@@ -8,6 +8,7 @@ export const Solution = styled.div`
   font-weight: 500;
   font-size: 20px;
   text-align: center;
+  margin-bottom: 16px;
   width: 100%;
   color: ${(props) => (props.answer ? `${COLOR.CELERY}` : `${COLOR.TRINIDAD}`)};
 `;

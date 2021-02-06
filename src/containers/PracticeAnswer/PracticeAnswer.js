@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Tex2SVG from "react-hook-mathjax";
 import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -16,6 +15,7 @@ import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
 import { LevelUpModal } from "../../components/LevelUpModal";
 import useModal from "../../components/useModal";
+import { DisplayText } from "../../components/HandleText";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
@@ -25,7 +25,7 @@ import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
 // Global
 import { Body, Header } from "../../components/Typography";
 
-import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, LARGE_DEVICE_SIZE,TYPOGRAPHY } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NAVBAR_HEIGHT = 54;
@@ -49,7 +49,6 @@ const PracticeAnswer = ({ history, user_info }) => {
   const [isShowing, toggle] = useModal();
 
   const location = useLocation();
-  const asciimath2latex = require("asciimath-to-latex");
 
   const handleNextButtonClick = () => {
     history.push({
@@ -205,16 +204,33 @@ const PracticeAnswer = ({ history, user_info }) => {
         <SolutionDiv>
             {solution.map((line, i) => {
               return (
-                  <Solution answer={correct} key={i}>
+                <Solution answer={correct} key={i}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent:
+                        location.state.subject === "คณิตศาสตร์" &&
+                        screen_width < LARGE_DEVICE_SIZE &&
+                        line.length > 50
+                          ? "flex-start"
+                          : "center",
+                    }}
+                  >
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
-                      <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                      <DisplayText
+                        fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+                        fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
+                        color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+                        content={line}
+                      />
                     ) : (
                       line
                     )}
-                  </Solution>
+                  </div>
+                </Solution>
               );
             })}
         </SolutionDiv>
