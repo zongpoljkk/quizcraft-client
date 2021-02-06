@@ -111,3 +111,22 @@ export const QUOTE = [
   "ไม่มีผลงานชั้นยอดชิ้นใด ที่ถูกสร้างโดยศิลปินผู้เกียจคร้าน",
   "จงผลัดวันประกันพรุ่งแต่ในเรื่องที่คุณจะไม่เสียดาย หากว่าตายไปโดยไม่ได้ทำมัน",
 ];
+
+export const TYPOGRAPHY = {
+  HEADER: {
+    font_weight: "600",
+    font_size: "24"
+  },
+  SUBHEADER: {
+    font_weight: "500",
+    font_size: "20"
+  },
+  BODY: {
+    font_weight: "400",
+    font_size: "16"
+  },
+  OVERLINE: {
+    font_weight: "400",
+    font_size: "12"
+  }
+};

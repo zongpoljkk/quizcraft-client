@@ -2,26 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import useSound from 'use-sound';
 
-import { Header, Subheader, Body } from "./Typography";
+import { Header, Subheader } from "./Typography";
 import { ItemCard } from "./ItemCard";
 import { LottieFile } from "./LottieFile";
 import { FooterModal } from "./Modal";
 import useModal from "./useModal";
+import { DisplayText } from "./HandleText";
 
 import hint_icon from "../assets/icon/hint.png";
 import hintData from "../assets/lottie/hint.json";
 import close_gloden_tainoi_icon from "../assets/icon/close_gloden_tainoi.png";
 import click from "../assets/sounds/click.mp3";
 
-import { COLOR } from "../global/const";
+import { COLOR, TYPOGRAPHY } from "../global/const";
 
 export const HintItem = ({
   amount_of_hints,
   onGetHint,
   content,
-  have_hint
+  have_hint,
 }) => {
-
   const [isShowing, toggle] = useModal();
   const [play] = useSound(click, { volume: 0.25 });
 
@@ -29,14 +29,17 @@ export const HintItem = ({
     <div>
       <ItemCard
         onClick={() => {
-          if(have_hint && amount_of_hints !== 0) {
+          if (have_hint && amount_of_hints !== 0) {
             onGetHint();
             toggle();
           }
         }}
         disable={have_hint ? (amount_of_hints === 0 ? true : false) : true}
       >
-        <ItemContainer src={hint_icon} marginRight={amount_of_hints >= 0 ? 8 : null}/>
+        <ItemContainer
+          src={hint_icon}
+          marginRight={amount_of_hints >= 0 ? 8 : null}
+        />
         <Subheader>{amount_of_hints}</Subheader>
       </ItemCard>
       <FooterModal
@@ -46,16 +49,18 @@ export const HintItem = ({
       >
         <Container>
           <IconContainer>
-            <LottieFile animationData={hintData}/>
+            <LottieFile animationData={hintData} />
           </IconContainer>
           <ContentContainer>
             <Header color={COLOR.GOLDEN_TAINOI}>คำใบ้:</Header>
-            <div style={{ marginBottom: 8 }}/>
-            {content?.split('\n').map((item, key) => {
-              return (
-                <Body key={key} color={COLOR.GOLDEN_TAINOI}>{item}</Body>
-              );
-            })}
+            <div style={{ marginBottom: 8 }} />
+            <DisplayText
+              justifyContent="flex-start"
+              fontWeight={TYPOGRAPHY.BODY.font_weight}
+              fontSize={TYPOGRAPHY.BODY.font_size}
+              color={COLOR.GOLDEN_TAINOI}
+              content={content}
+            />
           </ContentContainer>
           <div 
             onClick={() => {
@@ -77,7 +82,7 @@ const Container = styled.div`
 
 const IconContainer = styled.div`
   background: ${COLOR.WHITE};
-  height: 48px; 
+  height: 48px;
   width: 48px;
   border-radius: 50%;
   margin-right: 24px;
@@ -89,9 +94,9 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 
-const ItemContainer = styled.img.attrs(props => ({
-  marginRight: props.marginRight
+const ItemContainer = styled.img.attrs((props) => ({
+  marginRight: props.marginRight,
 }))`
   height: 22px;
-  margin-right: ${props => props.marginRight}px;
+  margin-right: ${(props) => props.marginRight}px;
 `;
