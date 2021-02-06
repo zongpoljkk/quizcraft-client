@@ -79,9 +79,10 @@ const App = () => {
       const response = await axios.post(backend + "auth/refresh-token", {
         refreshToken: refresh_token,
       });
-      const { success, data } = response.data;
+      const { success, token, refreshToken } = response.data;
       if (success) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", refreshToken);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.token}`;
