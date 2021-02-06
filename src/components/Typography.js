@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../global/const";
+import { COLOR, TYPOGRAPHY } from "../global/const";
 
 export const Header = ({
   className,
@@ -14,8 +14,8 @@ export const Header = ({
   return (
     <Typography
       className={className}
-      fontWeight={600}
-      fontSize={24}
+      fontWeight={TYPOGRAPHY.HEADER.font_weight}
+      fontSize={TYPOGRAPHY.HEADER.font_size}
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
@@ -36,8 +36,8 @@ export const Subheader = ({
   return (
     <Typography
       className={className}
-      fontWeight={500}
-      fontSize={20}
+      fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+      fontSize={TYPOGRAPHY.SUBHEADER.font_size}
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
@@ -58,8 +58,8 @@ export const Body = ({
   return (
     <Typography
       className={className}
-      fontWeight={400}
-      fontSize={16}
+      fontWeight={TYPOGRAPHY.BODY.font_weight}
+      fontSize={TYPOGRAPHY.BODY.font_size}
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
@@ -80,8 +80,8 @@ export const Overline = ({
   return (
     <Typography
       className={className}
-      fontWeight={400}
-      fontSize={12}
+      fontWeight={TYPOGRAPHY.OVERLINE.font_weight}
+      fontSize={TYPOGRAPHY.OVERLINE.font_size}
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
