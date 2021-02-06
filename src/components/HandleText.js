@@ -107,12 +107,13 @@ export const DisplayText = ({
 };
 
 const Container = styled.div.attrs((props) => ({
-  justifyContent: props.justifyContent || "center"
+  justifyContent: props.justifyContent
 }))`
   display: flex;
   flex-direction: row;
-  justify-content: ${(props) => props.justifyContent};
   flex-wrap: wrap;
+  justify-content: ${(props) => props.justifyContent};
+  overflow: visible;
 `;
 
 const Typography = styled.div.attrs((props) => ({

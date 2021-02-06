@@ -43,7 +43,7 @@ const ProblemComponent = styled.div`
   flex-direction: column;
 `;
 
-const Problem = styled.image.attrs(props => ({
+const Problem = styled.div.attrs(props => ({
   width: props.width
 }))`
   max-width: ${props => props.width}px;
