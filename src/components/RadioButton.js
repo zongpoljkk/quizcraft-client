@@ -104,6 +104,7 @@ const Label = styled.label.attrs(props => ({
   fontWeight: props.fontWeight
 }))`
   display: flex;
+  align-items: center;
   position: relative;
   font-family: Prompt, sans-serif;
   font-weight: ${(props) => {
