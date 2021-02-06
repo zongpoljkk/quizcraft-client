@@ -87,7 +87,12 @@ export const REPORT = {
   ETC: "อื่น ๆ",
 };
 
-export const LARGE_DEVICE_SIZE = 768;
+export const DEVICE_SIZE = {
+  LARGE: 768,
+  SMALL: 380,
+  VERY_SMALL: 320,
+  TINY: 304
+};
 
 export const CONTAINER_PADDING = 64;
 

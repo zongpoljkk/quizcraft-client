@@ -25,7 +25,7 @@ import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
@@ -225,7 +225,7 @@ const ChallengeGame = ({ history }) => {
             </ContentContainer>
             <ButtonContainer
               justifyContent={
-                screen_width >= LARGE_DEVICE_SIZE
+                screen_width >= DEVICE_SIZE.LARGE
                   ? "space-evenly"
                   : "space-between"
               }

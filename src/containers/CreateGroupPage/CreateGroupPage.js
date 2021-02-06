@@ -11,7 +11,7 @@ import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { LARGE_DEVICE_SIZE } from "../../global/const";
+import { DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -142,7 +142,7 @@ const CreateGroupPage = ({ history }) => {
           text="subheader"
         />
       </ContentContainer>
-      <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+      <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
         <Button
           type="outline"
           onClick={() => { history.push("homepage"); }}

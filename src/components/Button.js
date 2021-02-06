@@ -3,7 +3,8 @@ import styled from "styled-components";
 import useSound from 'use-sound';
 
 // Global
-import { COLOR } from "../global/const";
+import { COLOR, DEVICE_SIZE } from "../global/const"
+import { useWindowDimensions } from "../global/utils"
 
 import single_click from "../assets/sounds/single_click.mp3";
 import double_click from "../assets/sounds/double_click.mp3";
@@ -20,6 +21,8 @@ export const Button = ({
   disabled,
   children
 }) => {
+
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   const [playSingle] = useSound(single_click, { volume: 0.25 });
   const [playDouble] = useSound(double_click, { volume: 0.25 });
@@ -42,6 +45,13 @@ export const Button = ({
       }}
       style={style}
       disabled={disabled}
+      device_size={
+        screen_width <= DEVICE_SIZE.SMALL
+        ? screen_width <= DEVICE_SIZE.VERY_SMALL
+          ? screen_width <= DEVICE_SIZE.TINY ? "tiny" : "very_small"
+          : "small"
+        : "normal"
+      }
     >
       {children}
     </ButtonStyled>
@@ -53,16 +63,23 @@ const ButtonStyled = styled.button.attrs((props) => ({
   size: props.size,
   backgroundColor: props.backgroundColor,
   border: props.border,
-  color: props.color
+  color: props.color,
+  device_size: props.device_size
 }))`
   min-width: ${(props) => {
     switch (props.size) {
       case "custom":
         return `${props.width}`;
       case "small":
-        return "100px";
+        if(props.device_size === "tiny") return "40px";
+        else if(props.device_size === "very_small") return "60px";
+        else if (props.device_size === "small") return "80px";
+        else return "100px";
       default:
-        return "160px";
+        if(props.device_size === "tiny") return "100px";
+        else if(props.device_size === "very_small") return "120px";
+        else if (props.device_size === "small") return "140px";
+        else return "160px";
     }
   }};
   min-height: ${(props) => {
