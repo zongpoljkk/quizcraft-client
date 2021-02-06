@@ -213,12 +213,11 @@ const PracticeAnswer = ({ history, user_info }) => {
                       : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
                       <DisplayText
-                        fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
-                        fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
-                        color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
-                        justifyContent="flex-start"
-                        content={line}
-                      />
+                      fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+                      fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
+                      color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+                      content={line}
+                    />
                     ) : (
                       line
                     )}
