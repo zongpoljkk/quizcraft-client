@@ -47,8 +47,8 @@ export const Button = ({
       disabled={disabled}
       device_size={
         screen_width <= DEVICE_SIZE.S
-        ? screen_width <= DEVICE_SIZE.XS
-          ? screen_width <= DEVICE_SIZE.XXS ? "tiny" : "very_small"
+        ? screen_width <= DEVICE_SIZE.XXS
+          ? screen_width <= DEVICE_SIZE.XXXS ? "tiny" : "very_small"
           : "small"
         : "normal"
       }

@@ -90,8 +90,9 @@ export const REPORT = {
 export const DEVICE_SIZE = {
   LARGE: 768,
   S: 380,
-  XS: 320,
-  XXS: 304
+  XS: 360,
+  XXS: 320,
+  XXXS: 304
 };
 
 export const CONTAINER_PADDING = 64;
