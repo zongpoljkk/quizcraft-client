@@ -20,6 +20,7 @@ const ITEM_USAGE = {
 export const HeadlineItem = ({
   onGetHint,
   hintContent,
+  have_hint,
   skip,
   onSkip,
   refresh,
@@ -33,7 +34,7 @@ export const HeadlineItem = ({
 
   return (
     <ItemHeadline onChange={getNewAmount()}>
-      <HintItem amount_of_hints={amount_of_hints} onGetHint={onGetHint} content={hintContent}/>
+      <HintItem amount_of_hints={amount_of_hints} onGetHint={onGetHint} content={hintContent} have_hint={have_hint}/>
       <ItemCard disable={(amount_of_skips === 0 || skip === ITEM_USAGE.USED) ? true : false}>
         {skip === ITEM_USAGE.UN_USE && (
           <CenterContainer onClick={amount_of_skips === 0 ? null : onSkip}>
