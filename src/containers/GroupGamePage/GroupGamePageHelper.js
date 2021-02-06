@@ -106,3 +106,17 @@ export const checkGroupAnswer = async (user_id, problem_id, user_answer, mode, g
     console.log("There are something wrong when checking for answer :(");
   }
 }
+
+export const showAnswer = async (group_id) => {
+  try {
+    const response = await axios.get(backend + "group/show-answer", {
+      params: {
+        groupId: group_id
+      }
+    })
+    console.log(response);
+    return response.data
+  } catch (error) {
+    console.log("There are something wrong when checking for answer :(");
+  }
+}
