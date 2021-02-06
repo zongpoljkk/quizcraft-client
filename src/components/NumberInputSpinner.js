@@ -8,7 +8,7 @@ import chevron from "../assets/icon/chevron_mandarin.png";
 import select from "../assets/sounds/select.mp3";
 
 import { useWindowDimensions } from "../global/utils";
-import { COLOR } from "../global/const";
+import { COLOR, DEVICE_SIZE } from "../global/const";
 
 const PADDING = 64+32+24;
 const COLLAPS_WIDTH = 16;
@@ -23,7 +23,7 @@ export const NumberInputSpinner = ({
   const [play] = useSound(select, { volume: 0.25 });
 
   return (
-    <Container>
+    <Container style={screen_width >= DEVICE_SIZE.XS ? {width: "100%"} : null}>
       <NumberInputSpinnerContainer>
         <NumberInput
           value={value}
@@ -31,6 +31,7 @@ export const NumberInputSpinner = ({
           color={value === 0 ? COLOR.SILVER : COLOR.CHARCOAL}
           width={screen_width-label_width-PADDING-COLLAPS_WIDTH}
           onClick={play}
+          style={screen_width === DEVICE_SIZE.XS ? { minWidth: "60%" } : { width: "60%" }}
         />
         <CollapsContainer>
           <CollapsContainer
@@ -62,7 +63,8 @@ export const NumberInputSpinnerWithLabel = ({
   set_value,
   unit_label,
   direction = "column",
-  marginBottom
+  marginBottom,
+  label_marginRight = 24
 }) => {
 
   return (
@@ -71,19 +73,23 @@ export const NumberInputSpinnerWithLabel = ({
       justifyContent={direction === "row" ? "space-between" : null}
       marginBottom={marginBottom}
     >
-      <div style={direction === "column" ? { marginBottom: 8 } : { marginTop: 6, marginRight: 24 }}>
+      <div style={direction === "column" ? { marginBottom: 8 } : { marginTop: 6, marginRight: label_marginRight }}>
         <Subheader>{label}</Subheader>
       </div>
-      <NumberInputSpinner
-        value={value}
-        set_value={set_value}
-        label_width={label.length*CHARACTER_WIDTH}
-      />
-      {unit_label &&
-        <div style={{ marginTop: 6 }}>
-          <Subheader>{unit_label}</Subheader>
-        </div>
-      }
+      <NumberInputSpinnerWithLabelContainer
+        flexDirection="row"
+      >
+        <NumberInputSpinner
+          value={value}
+          set_value={set_value}
+          label_width={label.length*CHARACTER_WIDTH}
+        />
+        {unit_label &&
+          <div style={{ marginTop: 6, marginLeft: 8 }}>
+            <Subheader>{unit_label}</Subheader>
+          </div>
+        }
+      </NumberInputSpinnerWithLabelContainer>
     </NumberInputSpinnerWithLabelContainer>
   );
 };
@@ -94,6 +100,7 @@ const NumberInputSpinnerWithLabelContainer = styled.div.attrs(props => ({
   marginBottom: props.marginBottom
 }))`
   display: flex;
+  flex: 1;
   flex-direction: ${props => props.flexDirection};
   justify-content: ${props => props.justifyContent};
   margin-bottom: ${props => props.marginBottom}px;
@@ -107,6 +114,7 @@ const NumberInputSpinnerContainer = styled.div.attrs(props => ({
   height: props.height || 40
 }))`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   border: 1px solid ${COLOR.SILVER};
