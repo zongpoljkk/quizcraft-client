@@ -73,38 +73,70 @@ const App = () => {
       getUserData();
     }
   }, []);
+  
+  let isRefreshing = false;
+  let failedQueue = [];
 
-  const refreshToken = async () => {
-    try {
-      const response = await axios.post(backend + "auth/refresh-token", {
-        refreshToken: refresh_token,
-      });
-      const { success, token, refreshToken } = response.data;
-      if (success) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("refreshToken", refreshToken);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
+  const processQueue = (error, token = null) => {
+    failedQueue.forEach((prom) => {
+      if (error) {
+        prom.reject(error);
       } else {
-        console.log("refreshToken Error");
+        prom.resolve(token);
       }
-    } catch (error) {
-      console.log("There are something wrong about get refreshToken :(");
-    }
+    });
+
+    failedQueue = [];
   };
 
   axios.interceptors.response.use(
-    (response) => {
+    function (response) {
       return response;
     },
-    async function (error) {
+    function (error) {
       const originalRequest = error.config;
+
       if (error.response.status === 401 && !originalRequest._retry) {
+        if (isRefreshing) {
+          return new Promise(function (resolve, reject) {
+            failedQueue.push({ resolve, reject });
+          })
+            .then((token) => {
+              originalRequest.headers["Authorization"] = "Bearer " + token;
+              return axios(originalRequest);
+            })
+            .catch((err) => {
+              return Promise.reject(err);
+            });
+        }
+
         originalRequest._retry = true;
-        refreshToken();
-        return axios(originalRequest);
+        isRefreshing = true;
+
+        return new Promise(function (resolve, reject) {
+          axios
+            .post(backend + "auth/refresh-token", {
+              refreshToken: refresh_token,
+            })
+            .then(({ token, refreshToken }) => {
+              localStorage.setItem("token", token);
+              localStorage.setItem("refreshToken", refreshToken);
+              axios.defaults.headers.common["Authorization"] =
+                "Bearer " + token;
+              originalRequest.headers["Authorization"] = "Bearer " + token;
+              processQueue(null, token);
+              resolve(axios(originalRequest));
+            })
+            .catch((err) => {
+              processQueue(err, null);
+              reject(err);
+            })
+            .finally(() => {
+              isRefreshing = false;
+            });
+        });
       }
+
       return Promise.reject(error);
     }
   );
@@ -128,7 +160,7 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
             getUserData={getUserData}
           >
-            <PracticeAnswer user_info={user_info}/>
+            <PracticeAnswer user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -142,14 +174,14 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
             getUserData={getUserData}
           >
-            <QuizResultPage user_info={user_info}/>
+            <QuizResultPage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
           >
-            <AllChallengePage user_info={user_info}/>
+            <AllChallengePage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -191,7 +223,11 @@ const App = () => {
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
+          <PrivateRoute
+            exact
+            path="/selected_subject/:subject"
+            getUserData={getUserData}
+          >
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
