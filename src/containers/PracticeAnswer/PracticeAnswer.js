@@ -14,6 +14,8 @@ import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
+import { LevelUpModal } from "../../components/LevelUpModal";
+import useModal from "../../components/useModal";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
@@ -33,7 +35,7 @@ const TITLE = {
   INCORRECT: "คำตอบที่ถูกต้องคือ",
 };
 
-const PracticeAnswer = ({ history }) => {
+const PracticeAnswer = ({ history, user_info }) => {
   const [correct, set_correct] = useState(true);
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
@@ -44,6 +46,7 @@ const PracticeAnswer = ({ history }) => {
   const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowing, toggle] = useModal();
 
   const location = useLocation();
   const asciimath2latex = require("asciimath-to-latex");
@@ -91,13 +94,16 @@ const PracticeAnswer = ({ history }) => {
     setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
-    if (!location.state.solution) {
+    if (location.state.solution === "" || !location.state.solution) {
       set_static_solution([location.state.correct_answer]);
     } else {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
-    }
+    };
     set_solution([]);
     setIsLoading(false);
+    if(location.state.is_level_up || location.state.is_rank_up) {
+      toggle();
+    };
   }, []);
 
   // rerender when solution change
@@ -110,9 +116,8 @@ const PracticeAnswer = ({ history }) => {
       return (
         <GreetingDiv>
           <Body style={{ lineHeight: "1.2em" }}>
-            ยินดีด้วย! คุณได้รับ 1 เหรียญ
+            {`ยินดีด้วย! คุณได้รับ ${location.state.earned_coins} เหรียญ`}
           </Body>
-          {/* <Coin /> */}
           <div style={{ display: "inline-block", marginTop: "8px" }}>
             <LottieFile
               animationData={coin_data}
@@ -151,6 +156,15 @@ const PracticeAnswer = ({ history }) => {
               ทำต่อ
             </Button>
           </div>
+          <LevelUpModal
+            isShowing={isShowing}
+            toggle={toggle}
+            rank={location.state.is_rank_up ? user_info?.rank : null}
+            level={user_info?.level}
+            exp={user_info?.exp}
+            max_exp={user_info?.maxExp}
+            coin={location.state.earned_coins}
+          />
         </ShiftDiv>
       );
     }

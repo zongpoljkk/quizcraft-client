@@ -17,12 +17,14 @@ const GameContent = ({
   answer,
   set_answer,
 }) => {
+
   return (
     <Container>
       {type === ANSWER_TYPE.MATH_INPUT && (
         <AnswerMathInput
           correct_answer={correct_answer}
           set_answer={set_answer}
+          answer={answer}
         />
       )}
       {type === ANSWER_TYPE.SELECT_ONE && (

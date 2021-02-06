@@ -17,6 +17,8 @@ import { useWindowDimensions } from "../../global/utils";
 // Components
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
+import { LevelUpModal } from "../../components/LevelUpModal";
+import useModal from "../../components/useModal";
 
 import { NUMBER_OF_QUIZ } from "../QuizGamePage/QuizGamePage";
 
@@ -27,11 +29,12 @@ const variants = {
   hidden: { opacity: 0 },
 };
 
-const QuizResultPage = ({ history }) => {
+const QuizResultPage = ({ history, user_info }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [exp, setEXP] = useState(0);
   const [coin, setCoin] = useState(0);
   const [score, setScore] = useState(0);
+  const [isShowing, toggle] = useModal();
 
   const location = useLocation();
 
@@ -70,6 +73,9 @@ const QuizResultPage = ({ history }) => {
     setScore(location.state.score);
     setEXP(location.state.earned_exp);
     setCoin(location.state.earned_coins);
+    if(location.state.is_level_up || location.state.is_rank_up) {
+      toggle();
+    };
   }, []);
 
   return (
@@ -126,6 +132,16 @@ const QuizResultPage = ({ history }) => {
         </Button>
         <Button onClick={() => handleOnPlayAgain(history)}>เล่นอีกครั้ง</Button>
       </ButtonDiv>
+
+      <LevelUpModal
+        isShowing={isShowing}
+        toggle={toggle}
+        rank={location.state.is_rank_up ? user_info?.rank : null}
+        level={user_info?.level}
+        exp={user_info?.exp}
+        max_exp={user_info?.maxExp}
+        coin={location.state.earned_coins}
+      />
     </Container>
   );
 };
