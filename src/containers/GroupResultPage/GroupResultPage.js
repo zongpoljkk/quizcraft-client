@@ -21,11 +21,13 @@ import {
   useGetGroupScoreBoard,
   useDeleteGroup,
   useLeaveGroup,
+  useResetGroup
 } from "./GroupResultPageHelper";
-
-const GROUP_ID = "5ffd4b96d8dcb02748bac714";
+import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupResultPage = ({ history }) => {
+
+  const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [display_first_lottie, set_display_first_lottie] = useState(false);
   const [display_second_lottie, set_display_second_lottie] = useState(false);
@@ -39,10 +41,18 @@ const GroupResultPage = ({ history }) => {
     numboer_of_problem,
     user_index,
     is_creator,
-  } = useGetGroupScoreBoard(GROUP_ID, user_id);
+  } = useGetGroupScoreBoard(location.state.group_id, user_id);
 
-  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
-  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup, leave_failed } = useLeaveGroup(location.state.group_id, user_id);
+  const { resetGroup } = useResetGroup(location.state.group_id, user_id);
+
+  const {
+    listening,
+    subscribe,
+    restart_game,
+    delete_group
+  } = useServerSentEvent();
 
   const headers = [
     {label: "username", key: "username"},
@@ -95,18 +105,40 @@ const GroupResultPage = ({ history }) => {
   };
 
   const handleDeleteGroup = () => {
-    deleteGroup(GROUP_ID, user_id);
-    history.push("/homepage");
-  }
+    deleteGroup(location.state.group_id, user_id);
+  };
 
   const handleLeaveGroup = () => {
-    leaveGroup(GROUP_ID, user_id);
+    subscribe(location.state.group_id);
+    leaveGroup(location.state.group_id, user_id);
     history.push("/homepage");
-  }
+  };
 
   useEffect(() => {
+    if(!listening) {
+      subscribe(location.state.group_id);
+    };
     getGroupScoreBoard();
   }, []);
+
+  useEffect(() => {
+    if (restart_game) {
+      history.push({
+        pathname: "/waiting-room",
+        state: {
+          group_id : location.state.group_id,
+          subject_name : location.state.subject_name,
+          topic_name : location.state.topic_name,
+          subtopic_name : location.state.subtopic_name,
+          difficulty : location.state.difficulty
+        }
+      });
+    };
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("/homepage");
+    };
+  }, [restart_game, delete_group]);
 
   useEffect(() => {
     if (leave_failed) {
@@ -120,25 +152,34 @@ const GroupResultPage = ({ history }) => {
         <LoadingPage />
       ) : (
         <Container initial="hidden" animate="visible" variants={list}>
-          <motion.div 
-            custom={0} 
-            variants={item} 
+          <motion.div
+            custom={0}
+            variants={item}
             style={{ alignSelf: "center" }}
           >
-              <Header> สรุปผลคะแนน </Header>
+            <Header> สรุปผลคะแนน </Header>
           </motion.div>
           <Top3Container custom={1} variants={item}>
             {is_creator && (
-              <div style={{display: "flex", position: "absolute", zIndex: 1, marginRight: "24px", right: 0}}>
+              <div
+                style={{
+                  display: "flex",
+                  position: "absolute",
+                  zIndex: 1,
+                  marginRight: "24px",
+                  right: 0,
+                }}
+              >
                 <CSVLink {...csvReport}>
-                  <img 
-                    style={{ width: "24px", marginTop: "24px" }} 
-                    src={export_icon} 
+                  <img
+                    style={{ width: "24px", marginTop: "24px" }}
+                    src={export_icon}
                   />
                 </CSVLink>
               </div>
             )}
-              <TrophyWithInfo>
+            {scoreboard.map((list, index) => index === 0 && (
+              <TrophyWithInfo key={index}>
                 <motion.div
                   initial="hidden"
                   animate="visible"
@@ -155,109 +196,131 @@ const GroupResultPage = ({ history }) => {
                     isStopped={!display_first_lottie}
                   />
                 </motion.div>
-                <motion.div custom={3} variants={item}>
-                  <Subheader> {scoreboard[0].username} </Subheader>
-                </motion.div>
-                <motion.div custom={4} variants={item}>
-                  <Subheader props color={COLOR.MANDARIN}>
-                    {scoreboard[0].point}
-                  </Subheader>
-                </motion.div>
-                <motion.div custom={5} variants={item}>
-                  <Overline props color={COLOR.SILVER}>
-                    {scoreboard[0].score} เต็ม {numboer_of_problem}
-                  </Overline>
-                </motion.div>
-              </TrophyWithInfo>
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <TrophyWithInfo position="relative" zIndex={2}>
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  custom={6}
-                  variants={item}
-                  onAnimationComplete={() => second_animation_success()}
-                >
-                  <LottieFile
-                    animationData={silver}
-                    width="80px"
-                    height="80px"
-                    loop={false}
-                    isPaused={!display_second_lottie}
-                    isStopped={!display_second_lottie}
-                  />
-                </motion.div>
-                <motion.div custom={7} variants={item}>
-                  <Body>{scoreboard[1].username}</Body>
-                </motion.div>
-                <motion.div custom={8} variants={item}>
-                  <Body props color={COLOR.MANDARIN}>
-                    {scoreboard[1].point}
-                  </Body>
-                </motion.div>
-                <motion.div custom={9} variants={item}>
-                  <Overline props color={COLOR.SILVER}>
-                    {scoreboard[1].score} เต็ม {numboer_of_problem}
-                  </Overline>
-                </motion.div>
-              </TrophyWithInfo>
-              <TrophyWithInfo>
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  custom={10}
-                  variants={item}
-                  onAnimationComplete={() => third_animation_success()}
-                >
-                  <LottieFile
-                    animationData={bronze}
-                    width="80px"
-                    height="80px"
-                    loop={false}
-                    isPaused={!display_third_lottie}
-                    isStopped={!display_third_lottie}
-                  />
-                </motion.div>
-                <motion.div custom={11} variants={item}>
-                  <Body>{scoreboard[2].username}</Body>
-                </motion.div>
-                <motion.div custom={12} variants={item}>
-                  <Body props color={COLOR.MANDARIN}>
-                    {scoreboard[2].point}
-                  </Body>
-                </motion.div>
-                <motion.div custom={13} variants={item}>
-                  <Overline props color={COLOR.SILVER}>
-                    {scoreboard[2].score} เต็ม {numboer_of_problem}
-                  </Overline>
-                </motion.div>
-              </TrophyWithInfo>
+                  <motion.div custom={3} variants={item}>
+                    <Subheader> {list.username} </Subheader>
+                  </motion.div>
+                  <motion.div custom={4} variants={item}>
+                    <Subheader props color={COLOR.MANDARIN}>
+                      {list.point}
+                    </Subheader>
+                  </motion.div>
+                  <motion.div custom={5} variants={item}>
+                    <Overline props color={COLOR.SILVER}>
+                      {list.score} เต็ม {numboer_of_problem}
+                    </Overline>
+                  </motion.div>
+                </TrophyWithInfo>
+            ))}
+            <div
+              style={{
+                display: "flex",
+                justifyContent:
+                  scoreboard.length < 3 ? "flex-start" : "space-evenly",
+                marginLeft:
+                  scoreboard.length < 3
+                    ? screen_width >= LARGE_DEVICE_SIZE
+                      ? "64px"
+                      : "32px"
+                    : null,
+              }}
+            >
+              {scoreboard.map((list, index) => index === 1 && (
+                <TrophyWithInfo position="relative" zIndex={2} key={index}>
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={6}
+                    variants={item}
+                    onAnimationComplete={() => second_animation_success()}
+                  >
+                    <LottieFile
+                      animationData={silver}
+                      width="80px"
+                      height="80px"
+                      loop={false}
+                      isPaused={!display_second_lottie}
+                      isStopped={!display_second_lottie}
+                    />
+                  </motion.div>
+                  <motion.div custom={7} variants={item}>
+                    <Body>{list.username}</Body>
+                  </motion.div>
+                  <motion.div custom={8} variants={item}>
+                    <Body props color={COLOR.MANDARIN}>
+                      {list.point}
+                    </Body>
+                  </motion.div>
+                  <motion.div custom={9} variants={item}>
+                    <Overline props color={COLOR.SILVER}>
+                      {list.score} เต็ม {numboer_of_problem}
+                    </Overline>
+                  </motion.div>
+                </TrophyWithInfo>
+              ))}
+              {scoreboard.map((list, index) => index === 2 && (
+                <TrophyWithInfo key={index}>
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    custom={10}
+                    variants={item}
+                    onAnimationComplete={() => third_animation_success()}
+                  >
+                    <LottieFile
+                      animationData={bronze}
+                      width="80px"
+                      height="80px"
+                      loop={false}
+                      isPaused={!display_third_lottie}
+                      isStopped={!display_third_lottie}
+                    />
+                  </motion.div>
+                  <motion.div custom={11} variants={item}>
+                    <Body>{list.username}</Body>
+                  </motion.div>
+                  <motion.div custom={12} variants={item}>
+                    <Body props color={COLOR.MANDARIN}>
+                      {list.point}
+                    </Body>
+                  </motion.div>
+                  <motion.div custom={13} variants={item}>
+                    <Overline props color={COLOR.SILVER}>
+                      {list.score} เต็ม {numboer_of_problem}
+                    </Overline>
+                  </motion.div>
+                </TrophyWithInfo>
+              ))}
             </div>
           </Top3Container>
           <ResultContainer custom={14} variants={item}>
-            {scoreboard.map((list, index) => index > 2 && (
-              <InfoBox
-                key={index}
-                backgroundColor={index + 1 === user_index ? COLOR.ISLAND_SPICE : null}
-              >
-                <div style={{ marginRight: "12px" }}>
-                  <Body> {index + 1} </Body>
-                </div>
-                <Body> {list.username} </Body>
-                <PointText>
-                  {(is_creator || index + 1 === user_index) && (
-                    <div style={{ marginRight: "16px" }}>
-                      <Body props color={COLOR.SILVER}>
-                        {list.score} เต็ม {numboer_of_problem}
-                      </Body>
+            {scoreboard.map(
+              (list, index) =>
+                index > 2 && (
+                  <InfoBox
+                    key={index}
+                    backgroundColor={
+                      index + 1 === user_index ? COLOR.ISLAND_SPICE : null
+                    }
+                  >
+                    <div style={{ marginRight: "12px" }}>
+                      <Body> {index + 1} </Body>
                     </div>
-                  )}
-                  <Body props color={COLOR.MANDARIN}>
-                    {list.point}
-                  </Body>
-                </PointText>
-              </InfoBox>
-            ))}
+                    <Body> {list.username} </Body>
+                    <PointText>
+                      {(is_creator || index + 1 === user_index) && (
+                        <div style={{ marginRight: "16px" }}>
+                          <Body props color={COLOR.SILVER}>
+                            {list.score} เต็ม {numboer_of_problem}
+                          </Body>
+                        </div>
+                      )}
+                      <Body props color={COLOR.MANDARIN}>
+                        {list.point}
+                      </Body>
+                    </PointText>
+                  </InfoBox>
+                )
+            )}
           </ResultContainer>
           {is_creator ? (
             <ButtonContainer
@@ -266,24 +329,21 @@ const GroupResultPage = ({ history }) => {
                   ? "space-evenly"
                   : "space-between"
               }
-              custom={15}
+              custom={scoreboard.length < 2 ? 10 : 15}
               variants={item}
             >
-              <Button 
-                type="outline"
-                onClick ={() => handleDeleteGroup()}
-              >
+              <Button type="outline" onClick={() => handleDeleteGroup()}>
                 ลบกลุ่ม
               </Button>
-              <Button>เล่นใหม่อีกครั้ง</Button>
+              <Button onClick={() => resetGroup()}>เล่นใหม่อีกครั้ง</Button>
             </ButtonContainer>
           ) : (
             <motion.div
-              custom={15}
+              custom={scoreboard.length < 2 ? 10 : 15}
               variants={item}
               style={{ alignSelf: "center" }}
             >
-              <Button onClick ={() => handleLeaveGroup()}>ออก</Button>
+              <Button onClick={() => handleLeaveGroup()}>ออก</Button>
             </motion.div>
           )}
         </Container>

@@ -40,10 +40,12 @@ const Container = styled.div`
 `;
 
 const InfoBox = styled.div`
-  display: flex;
-  flex: 1;
+  display: grid;
+  grid-template-columns: 24px 48px 112px auto;
+  grid-column-gap: 12px;
   align-items: center;
   padding: 4px 16px 4px 16px;
+  min-height: 40px;
   background-color: ${props => props.backgroundColor};
 `;
 
@@ -58,10 +60,9 @@ const UserImg = styled.div.attrs(props => ({
   backgroundColor: props.backgroundColor
 }))`
   alt: "User profile Image";
-  margin-left: 12px;
-  margin-right: 12px;
   background-color: ${props => props.backgroundColor};
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  text-align: center;
 `;

@@ -10,7 +10,11 @@ import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { useGetSubjects, useGetLeaderBoard } from "./HomepageHelper";
+import {
+  useGetSubjects,
+  useGetLeaderBoard,
+  useGetAchievements,
+} from "./HomepageHelper";
 
 const Homepage = ({ history, user_id }) => {
   const ref = useRef(null);
@@ -21,14 +25,20 @@ const Homepage = ({ history, user_id }) => {
     leader_board_loading,
     leader_board,
   } = useGetLeaderBoard(user_id);
+  const {
+    getAchievements,
+    achievements_loading,
+    achievements,
+  } = useGetAchievements(user_id);
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
   }, [ref.current]);
 
   useEffect(() => {
-    getLeaderBoard();
     getSubjects();
+    getLeaderBoard();
+    getAchievements();
   }, []);
 
   return (
@@ -38,8 +48,12 @@ const Homepage = ({ history, user_id }) => {
       ) : (
         <Container ref={ref}>
           <GroupPanel
-            onCreateGroupClick={() => { history.push("create-group"); }}
-            onJoinGroupClick={() => { history.push("join-group"); }}
+            onCreateGroupClick={() => {
+              history.push("create-group");
+            }}
+            onJoinGroupClick={() => {
+              history.push("join-group");
+            }}
           />
           <ScrollView>
             <SubjectCard subjects_data={subjects} />
@@ -55,6 +69,7 @@ const Homepage = ({ history, user_id }) => {
           <div style={{ marginTop: 32, width: "100%" }}>
             <AchievementPanel
               container_width={container_width}
+              achievements={achievements}
             ></AchievementPanel>
           </div>
         </Container>

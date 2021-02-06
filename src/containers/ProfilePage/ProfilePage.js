@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { ProgressBar } from "../../components/ProgressBar";
 import { Button } from "../../components/Button";
 import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import useModal from "../../components/useModal";
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
@@ -16,6 +17,8 @@ import edit_photo from "../../assets/icon/photo.png";
 
 import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
+import { useChangeProfileImage } from "./ProfilePageHelper";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
 const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
@@ -27,6 +30,10 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
   
+  const [isShowingChangeImageResult, toggleChangeImageResult] = useModal();
+  
+  const { changeProfileImage, change_image_loading, change_image_success } = useChangeProfileImage();
+
   const handleMouseEnter = () => {
     set_hover(true);
   };
@@ -38,6 +45,32 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const handleUpload = () => {
     inputFile.current.click();
   };
+
+  const JSONtoFormData = (json) => {
+    let formData = new FormData();
+    for (let key in json) {
+      formData.append(key, json[key]);
+    }
+    return formData;
+  }; 
+
+  const handlechangeAvatar = async () => {
+    const data = {
+      userId: user_info._id
+    };
+    let formData = JSONtoFormData(data)
+    formData.append("image", selected_image);
+    await changeProfileImage(formData);
+    if (!change_image_loading) {
+      toggleChangeImageResult();
+    }
+  }
+
+  useEffect(() => {
+    if (selected_image) {
+      handlechangeAvatar()
+    }
+  }, [selected_image]);
 
   return (
     (!user_info)
@@ -64,6 +97,19 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             }
             {user_info.photo ? <Image src={"data:image/png;base64,"+user_info.photo.data}/> : null}
           </ProfileImage>
+          <ConfirmResultModal
+            isShowing={isShowingChangeImageResult}
+            toggle={toggleChangeImageResult}
+            success={change_image_success}
+            success_description="เปลี่ยนรูปประจำตัวสำเร็จ"
+            fail_description="เปลี่ยนรูปประจำตัวไม่สำเร็จ"
+            onSubmit={() => {
+              if (change_image_success) {
+                window.location.reload();
+              }
+            }}
+          />
+          {change_image_loading && <LoadingPage overlay={true}/>}
           <UsernameContainer>
             <Header>{user_info.username}</Header>
             <div 
@@ -126,7 +172,11 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
           >
             {user_info.itemInfos?.map((item, index) => (
               <div key={index} style={{ marginRight: index === user_info.itemInfos.length-1 ? null : 16 }}>
-                <Item icon={item.image} amount={item.amount}/>
+                {(item.itemName === "Freeze" || item.itemName === "Double") ?
+                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} zoom={true}></Item>
+                  :
+                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount}/>
+                }
               </div>
             ))}
           </ItemContainer>
