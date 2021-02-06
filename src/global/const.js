@@ -87,6 +87,18 @@ export const REPORT = {
   ETC: "อื่น ๆ",
 };
 
+export const DEVICE_SIZE = {
+  LARGE: 768,
+  S: 380,
+  XS: 360,
+  XXS: 320,
+  XXXS: 304
+};
+
+export const CONTAINER_PADDING = 64;
+
+export const NAVBAR_HEIGHT = 54;
+
 export const QUOTE = [
   "เราทำในสิ่งที่ต้องทำเพื่อจะได้ทำในสิ่งที่อยากทำ",
   "จงพยายามเป็นคนที่เปี่ยมไปด้วยคุณค่า",
@@ -99,10 +111,6 @@ export const QUOTE = [
   "ไม่มีผลงานชั้นยอดชิ้นใด ที่ถูกสร้างโดยศิลปินผู้เกียจคร้าน",
   "จงผลัดวันประกันพรุ่งแต่ในเรื่องที่คุณจะไม่เสียดาย หากว่าตายไปโดยไม่ได้ทำมัน",
 ];
-
-export const LARGE_DEVICE_SIZE = 768;
-
-export const CONTAINER_PADDING = 64;
 
 export const TYPOGRAPHY = {
   HEADER: {
@@ -121,4 +129,4 @@ export const TYPOGRAPHY = {
     font_weight: "400",
     font_size: "12"
   }
-}
+};

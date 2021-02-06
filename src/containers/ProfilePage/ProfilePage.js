@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import useSound from 'use-sound';
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
@@ -14,13 +15,13 @@ import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import edit_photo from "../../assets/icon/photo.png";
+import click from "../../assets/sounds/click.mp3";
 
-import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, RANK, NAVBAR_HEIGHT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 import { useChangeProfileImage } from "./ProfilePageHelper";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
-const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
 
 const ProfilePage = ({ history, handleLogout, user_info }) => {
@@ -29,6 +30,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
+  const [play] = useSound(click, { volume: 0.25 });
   
   const [isShowingChangeImageResult, toggleChangeImageResult] = useModal();
   
@@ -84,7 +86,10 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             {hover &&
               <div
                 style={{ marginTop: 8, position: 'absolute' }}
-                onClick={handleUpload}
+                onClick={() => {
+                  handleUpload();
+                  play();
+                }}
               >
                 <input 
                   type="file"
@@ -115,6 +120,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             <div 
               style={{ marginLeft: 16 }}
               onClick={() => {
+                play();
                 history.push({
                   pathname: "/edit-username", 
                   state: {

@@ -2,12 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import useSound from 'use-sound';
 
-import { Subheader } from "../../../components/Typography";
-import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
-import chevron from "../../../assets/icon/chevron.png";
+import { Subheader, Overline } from "../../../components/Typography";
 import useModal from "../../../components/useModal";
 import { NotAvailableModal } from "./NotAvailableModal";
+
+import chevron from "../../../assets/icon/chevron_charcoal.png";
+import click from "../../../assets/sounds/click.mp3";
+
+import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
 
 const ModeBox = ({ 
   icon, 
@@ -23,6 +27,8 @@ const ModeBox = ({
   const ref = useRef(null);
   const [box_width, set_box_width] = useState();
   const [isShowing, toggle] = useModal();
+
+  const [play] = useSound(click, { volume: 0.25 });
 
   const handleClick = (
     selected_subject,
@@ -63,24 +69,43 @@ const ModeBox = ({
       >
         <Container>
           <Box style={style}>
-            <Icon src={icon} />
+            <Icon src={icon} size={44} marginRight={16} />
             <Subheader props color={COLOR.WHITE}>
               {type}
             </Subheader>
+            <div style={{ marginLeft: "auto" }}>
               <ChevronIcon src={chevron} /> 
+              <ChevronIcon src={chevron} /> 
+              <ChevronIcon src={chevron} /> 
+            </div>
           </Box>
         </Container>
       </motion.div>
       <DifficultyBox ref={ref}>
         {available_difficulty.map((item, index) => (
-          <Icon
-            key={index}
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              item.isAvailable ? handleClick(subject, id, title, topic, type, item.difficulty) : toggle()
-            }}
-            src={item.isAvailable ? DIFFICULTY[item.difficulty].icon : DIFFICULTY[item.difficulty].disable_icon}
-          />
+          <DifficultyIcon>
+            <Icon
+              key={index}
+              style={{ cursor: "pointer" }}
+              size={36}
+              onClick={() => {
+                if(item.isAvailable) {
+                  handleClick(subject, id, title, topic, type, item.difficulty);
+                } else { 
+                  toggle();
+                };
+                play();
+              }}
+              src={item.isAvailable ? DIFFICULTY[item.difficulty].icon : DIFFICULTY[item.difficulty].disable_icon}
+            />
+            <div style={{ marginTop: 1 }}/>
+            <Overline
+              color={item.isAvailable ? COLOR.WHITE : COLOR.CHARCOAL}
+              opacity={item.isAvailable ? null : 0.6}
+            >
+              {item.difficulty}
+            </Overline>
+          </DifficultyIcon>
         ))}
       </DifficultyBox>
       <NotAvailableModal 
@@ -123,19 +148,29 @@ const DifficultyBox = styled.div`
   z-index: -1;
 `;
 
+const DifficultyIcon = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+  margin-right: 16px;
+`;
+
 const Icon = styled.img`
   alt: "Mode icon";
-  width: 40px;
-  height: 40px;
-  margin-right: 16px;
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
+  margin-right: ${props => props.marginRight}px;
 `;
 
 const ChevronIcon = styled.img`
   alt: "swipe icon";
   width: 16px;
-  height: 16px;
-  margin-left: auto;
-  opacity: 0.3;
+  height: 10px;
+  transform: rotate(270deg);
+  margin-right: -8px;
+  opacity: 0.4;
 `;
 
 export default withRouter(ModeBox);

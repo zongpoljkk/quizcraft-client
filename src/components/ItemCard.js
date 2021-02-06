@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { COLOR } from "../global/const";
+
+import click from "../assets/sounds/click.mp3";
 
 export const ItemCard = ({
   onClick = () => {},
@@ -9,10 +12,28 @@ export const ItemCard = ({
   children
 }) => {
 
+  const [play] = useSound(click, { volume: 0.25 });
+
   return (
     disable
-    ? <DisableCard onClick={onClick}>{children}</DisableCard>
-    : <CardContainer onClick={onClick}>{children}</CardContainer>
+    ?
+      <DisableCard 
+        onClick={() => {
+          onClick();
+          play();
+        }}
+      >
+        {children}
+      </DisableCard>
+    :
+      <CardContainer
+        onClick={() => {
+          onClick();
+          play();
+        }}
+      >
+        {children}
+      </CardContainer>
   );
 };
 

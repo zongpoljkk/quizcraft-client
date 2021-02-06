@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { COLOR } from "../global/const";
+
+import click from "../assets/sounds/click.mp3";
 
 export const ItemBox = ({ 
   children, 
@@ -12,6 +15,8 @@ export const ItemBox = ({
   height
 }) => {
 
+  const [play] = useSound(click, { volume: 0.25 });
+
   return (
     <Box 
       type={type}
@@ -20,6 +25,7 @@ export const ItemBox = ({
       maxWidth={maxWidth}
       width={width}
       height={height}
+      onClick={play}
     >
       {children}
     </Box>
