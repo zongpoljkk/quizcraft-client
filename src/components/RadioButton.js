@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Tex2SVG from "react-hook-mathjax";
+
+import { DisplayText } from "./HandleText";
 
 import { COLOR } from "../global/const";
-import { cDot2TimesFormat } from "../global/utils";
 
 export const RadioButton = ({
   value='',
@@ -15,8 +15,6 @@ export const RadioButton = ({
   marginRight,
   text,
 }) => {
-
-  const asciimath2latex = require("asciimath-to-latex");
 
   return (
     <Container direction={direction} justifyContent={justifyContent}>
@@ -39,7 +37,7 @@ export const RadioButton = ({
             />
             <Mark selected={value === option} />
             {subject === "คณิตศาสตร์" ? (
-              <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(option))} /> 
+              <DisplayText content={option} />
             ) : (
               option
             )}
@@ -105,6 +103,7 @@ const Label = styled.label.attrs(props => ({
   selected: props.selected,
   fontWeight: props.fontWeight
 }))`
+  display: flex;
   position: relative;
   font-family: Prompt, sans-serif;
   font-weight: ${(props) => {
