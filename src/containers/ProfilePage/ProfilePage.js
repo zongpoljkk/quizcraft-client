@@ -17,12 +17,11 @@ import gold from "../../assets/icon/gold.png";
 import edit_photo from "../../assets/icon/photo.png";
 import click from "../../assets/sounds/click.mp3";
 
-import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, RANK, NAVBAR_HEIGHT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 import { useChangeProfileImage } from "./ProfilePageHelper";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
-const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
 
 const ProfilePage = ({ history, handleLogout, user_info }) => {

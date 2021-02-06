@@ -15,7 +15,7 @@ import streak from "../assets/icon/streak.png";
 import shop from "../assets/icon/shop.png";
 import click from "../assets/sounds/click.mp3";
 
-import { COLOR, RANK } from "../global/const";
+import { COLOR, RANK, NAVBAR_HEIGHT } from "../global/const";
 
 const Navbar = ({
   history,
@@ -93,7 +93,7 @@ const Container = styled.nav`
   justify-content: space-between;
   align-items: center;
   background-color: ${COLOR.MANDARIN};
-  height: 54px;
+  height: ${NAVBAR_HEIGHT}px;
   padding: 0px 16px 0px 16px;
   position: fixed;
   top: 0;

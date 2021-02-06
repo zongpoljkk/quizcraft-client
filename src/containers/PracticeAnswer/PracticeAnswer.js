@@ -29,10 +29,8 @@ import level_up from "../../assets/sounds/level_up.mp3";
 // Global
 import { Body, Header } from "../../components/Typography";
 
-import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, NAVBAR_HEIGHT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-
-const NAVBAR_HEIGHT = 54;
 
 const TITLE = {
   CORRECT: "ถูกต้อง",
@@ -256,7 +254,7 @@ const Background = styled.div`
     props.answer ? correct_background_color : incorrect_background_color};
   width: 100%;
   height: 100%;
-  top: 54px;
+  top: ${NAVBAR_HEIGHT}px;
   left: 0px;
   position: fixed;
   overflow-y: scroll;

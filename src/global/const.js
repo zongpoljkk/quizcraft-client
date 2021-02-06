@@ -90,3 +90,5 @@ export const REPORT = {
 export const LARGE_DEVICE_SIZE = 768;
 
 export const CONTAINER_PADDING = 64;
+
+export const NAVBAR_HEIGHT = 54;
