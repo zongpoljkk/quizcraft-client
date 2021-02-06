@@ -36,6 +36,7 @@ import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage"
 const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
+  const refresh_token = localStorage.getItem("refreshToken");
   const user_id = localStorage.getItem("userId");
 
   if (token) {
@@ -43,21 +44,6 @@ const App = () => {
   } else {
     delete axios.defaults.headers.common["Authorization"];
   }
-
-  //Add a response interceptor
-  axios.interceptors.response.use(
-    (response) => {      
-      return response;
-    },
-    function (error) {
-      if (error.response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        window.location.pathname = "/";
-        return Promise.reject(error);
-      }
-    }
-  );
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
@@ -79,13 +65,6 @@ const App = () => {
       }
     } catch (error) {
       console.log("There are something wrong about get user infomation :(");
-      // if (error.response.status === 401) {
-      //   localStorage.removeItem("token");
-      //   localStorage.removeItem("userId");
-      //   window.location.pathname = "/";
-      // } else {
-      //   console.log("There are something wrong about get user infomation :(");
-      // }
     }
   };
 
@@ -94,6 +73,40 @@ const App = () => {
       getUserData();
     }
   }, []);
+
+  const refreshToken = async () => {
+    try {
+      const response = await axios.post(backend + "auth/refresh-token", {
+        refreshToken: refresh_token,
+      });
+      const { success, data } = response.data;
+      if (success) {
+        localStorage.setItem("token", data.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+      } else {
+        console.log("refreshToken Error");
+      }
+    } catch (error) {
+      console.log("There are something wrong about get refreshToken :(");
+    }
+  };
+
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    async function (error) {
+      const originalRequest = error.config;
+      if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        refreshToken();
+        return axios(originalRequest);
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <Router>
