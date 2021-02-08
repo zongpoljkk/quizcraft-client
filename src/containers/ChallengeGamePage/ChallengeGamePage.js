@@ -69,7 +69,7 @@ const ChallengeGame = ({ history }) => {
         subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
-        difficulty: location.state.difficulty,
+        difficulty: location.state.difficulty
       },
     });
   };
@@ -256,8 +256,6 @@ const ChallengeGame = ({ history }) => {
               onButtonClick={() => {
                 onNext();
                 set_time_start(true);
-                // set_problem_id();
-                // set_hint();
                 reset();
               }}
             />

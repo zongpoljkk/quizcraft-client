@@ -42,8 +42,8 @@ const ChallengeResultPage = ({ history }) => {
     location.state.challenge_id
   );
 
-  const onExit = () => {
-    deleteChallenge(user_id, location.state.challenge_id);
+  const onExit = async () => {
+    await deleteChallenge(user_id, location.state.challenge_id);
     history.push({
       pathname: "./all-challenges",
       state: {
@@ -55,7 +55,6 @@ const ChallengeResultPage = ({ history }) => {
         difficulty: location.state.difficulty
       }
     });
-    window.location.reload();
   };
 
   const isWin = () => {
