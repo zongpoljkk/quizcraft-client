@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -19,53 +19,38 @@ export const RandomChallengeModal = ({
   opponent_profile_img,
   onSubmit = () => {},
 }) => {
-  const [display_lottie, set_display_lottie] = useState(false);
+  
   const list = {
     hidden: {
       opacity: 0,
       transition: {
-        when: "afterChildren"
-      }
+        when: "afterChildren",
+      },
     },
     visible: {
       opacity: 1,
       transition: {
         when: "beforeChildren",
-        staggerChildren: 1.25
-      }
-    }
-  };
-
-  const item = {
-    visible: (index) => ({
-      opacity: 1,
-      transition: {
-        delay: index * 1.25,
+        staggerChildren: 0.85,
       },
-    }),
-    hidden: { opacity: 0 },
+    },
   };
 
   const variants = {
+    visible: { opacity: 1 },
     hidden: { opacity: 0 },
-    visible: { opacity: 1 }
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      set_display_lottie(true)
-    }, 3700);
-  }, []);
 
   return (
     <div>
       <Modal isShowing={isShowing} hide={toggle}>
         <Container initial="hidden" animate="visible" variants={list}>
           <ImgWithCaption>
-            <motion.div variants={variants} style={{ alignSelf: "center" }}>
-              <UserImg
-                backgroundColor={my_profile_img ? null : COLOR.ISLAND_SPICE}
-              >
+            <motion.div
+              variants={variants}
+              style={{ alignSelf: "center" }}
+            >
+              <UserImg backgroundColor={my_profile_img ? null : COLOR.ISLAND_SPICE}>
                 {my_profile_img ? (
                   <img
                     style={{
@@ -86,27 +71,18 @@ export const RandomChallengeModal = ({
           </ImgWithCaption>
           <motion.div
             variants={variants}
-            style={{
-              marginTop: "8px",
-              marginBottom: "8px",
-              width: "150px",
-              height: "75px",
-              alignSelf: "center",
-            }}
+            style={{ marginTop: "8px", marginBottom: "8px" }}
           >
-            {display_lottie && (
-              <LottieFile
-                animationData={challenge}
-                width="150px"
-                height="75px"
-                loop={false}
-              />
-            )}
+            <LottieFile
+              animationData={challenge}
+              width="150px"
+              height="75px"
+              loop={false}
+            />
           </motion.div>
           <ImgWithCaption alignSelf={"flex-end"}>
             <motion.div
-              variants={item}
-              custom={4}
+              variants={variants}
               style={{ alignSelf: "center" }}
             >
               <UserImg
@@ -126,15 +102,14 @@ export const RandomChallengeModal = ({
                 ) : null}
               </UserImg>
             </motion.div>
-            <motion.div variants={item} custom={5}>
+            <motion.div variants={variants}>
               <Body>
                 <CropText>{opponent_username}</CropText>
               </Body>
             </motion.div>
           </ImgWithCaption>
           <motion.div
-            variants={item}
-            custom={6}
+            variants={variants}
             style={{
               display: "flex",
               justifyContent: "center",

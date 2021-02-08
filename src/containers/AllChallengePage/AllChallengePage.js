@@ -352,7 +352,6 @@ const ButtonContainer = styled.div.attrs((props) => ({
 
 const Box = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-self: flex-start;
   width: 100%;
