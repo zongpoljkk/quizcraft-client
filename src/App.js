@@ -123,7 +123,7 @@ const App = () => {
         return new Promise(function (resolve, reject) {
           axios
             .post(backend + "auth/refresh-token", {
-              refreshToken: refresh_token,
+              refreshToken: localStorage.getItem("refreshToken"),
             })
             .then(({ data }) => {
               localStorage.setItem("token", data.token);
