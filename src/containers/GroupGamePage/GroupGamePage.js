@@ -15,7 +15,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -186,7 +186,7 @@ const GroupGamePage = ({ history }) => {
                   />
                 </ContentContainer>
                 {(user && (!skip && !is_time_out)) &&
-                  <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                  <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
                       onClick={() => {

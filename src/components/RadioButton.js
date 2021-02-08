@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { DisplayText } from "./HandleText";
 
 import { COLOR } from "../global/const";
+
+import radio_button_select from "../assets/sounds/radio_button_select.mp3";
 
 export const RadioButton = ({
   value='',
@@ -16,6 +19,8 @@ export const RadioButton = ({
   text,
 }) => {
 
+  const [play] = useSound(radio_button_select, { volume: 0.2 });
+
   return (
     <Container direction={direction} justifyContent={justifyContent}>
       {choices?.map((option, i) => (
@@ -26,6 +31,7 @@ export const RadioButton = ({
               direction === "column" ? (i !== choices.length - 1 ? 8 : 0) : 0,
             marginRight: marginRight,
           }}
+          onClick={play}
         >
           <Label text={text} selected={value === option}>
             <Input

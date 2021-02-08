@@ -1,16 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Subheader } from "./Typography";
 
+import select from "../assets/sounds/select.mp3";
+
 import { useWindowDimensions } from "../global/utils";
-import { COLOR, LARGE_DEVICE_SIZE } from "../global/const";
+import { COLOR, DEVICE_SIZE } from "../global/const";
 
 export const TimePicker = ({
   hour = false,
   value,
   set_value = () => {}
 }) => {
+
+  const [play] = useSound(select, { volume: 0.25 });
 
   return (
     <TimePickerContainer width={value ? ( hour ? 108 : 82 ) : 64}>
@@ -20,6 +25,7 @@ export const TimePicker = ({
         value={value}
         onChange={e => set_value(e.target.value)}
         color={value ? COLOR.CHARCOAL : COLOR.SILVER }
+        onClick={play}
       />
     </TimePickerContainer>
   );
@@ -37,7 +43,7 @@ export const TimePickerWithLabel = ({
   return (
     <TimePickerWithLabelContainer
       flexDirection={direction}
-      justifyContent={direction === "row" ? ( screen_width >= LARGE_DEVICE_SIZE ? null : "space-between" ) : null}
+      justifyContent={direction === "row" ? ( screen_width >= DEVICE_SIZE.LARGE ? null : "space-between" ) : null}
       marginBottom={marginBottom}
     >
       <div style={direction === "column" ? { marginBottom: 8 } : { marginTop: 6, marginRight: 24 }}>

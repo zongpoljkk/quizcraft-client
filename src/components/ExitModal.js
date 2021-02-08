@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Header } from "./Typography";
 import { Button } from "./Button";
@@ -7,16 +8,23 @@ import { Modal } from "./Modal";
 import useModal from "./useModal";
 
 import close_icon from "../assets/icon/close.png";
+import click from "../assets/sounds/click.mp3";
 
 export const ExitModal = ({
   onExit = () => {},
 }) => {
 
   const [isShowing, toggle] = useModal();
+  const [play] = useSound(click, { volume: 0.25 });
 
   return (
     <div>
-      <IconContainer onClick={toggle}>
+      <IconContainer 
+        onClick={() => {
+          toggle();
+          play();
+        }}
+      >
         <img src={close_icon} height={16} width={16}/>
       </IconContainer>
       <Modal

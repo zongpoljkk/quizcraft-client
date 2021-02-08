@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 // Components
 import {
@@ -21,14 +22,21 @@ import { DisplayText } from "../../components/HandleText";
 import coin_data from "../../assets/lottie/coin.json";
 import Correct_Forward from "../../assets/icon/correct_forward.png";
 import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
+import click from "../../assets/sounds/click.mp3";
+import recieve_coin from "../../assets/sounds/recieve_coin.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
 
 // Global
 import { Body, Header } from "../../components/Typography";
 
-import { COLOR, CONTAINER_PADDING, LARGE_DEVICE_SIZE,TYPOGRAPHY } from "../../global/const";
+import {
+  COLOR,
+  CONTAINER_PADDING,
+  DEVICE_SIZE,
+  TYPOGRAPHY,
+  NAVBAR_HEIGHT
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-
-const NAVBAR_HEIGHT = 54;
 
 const TITLE = {
   CORRECT: "ถูกต้อง",
@@ -49,6 +57,10 @@ const PracticeAnswer = ({ history, user_info }) => {
   const [isShowing, toggle] = useModal();
 
   const location = useLocation();
+
+  const [playClickSound] = useSound(click, { volume: 0.25 });
+  const [playRecieveCoinSound] = useSound(recieve_coin, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const handleNextButtonClick = () => {
     history.push({
@@ -175,7 +187,17 @@ const PracticeAnswer = ({ history, user_info }) => {
             src={correct ? Correct_Forward : Incorrect_Forward}
             alt="arrow"
             height={40}
-            onClick={handleArrowClick}
+            onClick={() => {
+              handleArrowClick();
+              playClickSound();
+              if(solution.length+1 === staticSolution.length && correct) {
+                if(location.state.is_level_up || location.state.is_rank_up) {
+                  playLevelUpSound();
+                } else {
+                  playRecieveCoinSound();
+                };
+              };
+            }}
           />
         </ShiftDiv>
       );
@@ -210,7 +232,7 @@ const PracticeAnswer = ({ history, user_info }) => {
                       display: "flex",
                       justifyContent:
                         location.state.subject === "คณิตศาสตร์" &&
-                        screen_width < LARGE_DEVICE_SIZE &&
+                        screen_width < DEVICE_SIZE.LARGE &&
                         line.length > 50
                           ? "flex-start"
                           : "center",
@@ -254,7 +276,7 @@ const Background = styled.div`
     props.answer ? correct_background_color : incorrect_background_color};
   width: 100%;
   height: 100%;
-  top: 54px;
+  top: ${NAVBAR_HEIGHT}px;
   left: 0px;
   position: fixed;
   overflow-y: scroll;

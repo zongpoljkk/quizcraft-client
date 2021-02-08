@@ -3,7 +3,7 @@ import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-// Lottie
+// Media
 import { LottieFile } from "../../components/LottieFile";
 import rewardData from "../../assets/lottie/reward.json";
 
@@ -11,7 +11,10 @@ import rewardData from "../../assets/lottie/reward.json";
 import { Header, Subheader, Body } from "../../components/Typography";
 
 // Color
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import {
+  COLOR,
+  DEVICE_SIZE
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 // Components
@@ -124,7 +127,7 @@ const QuizResultPage = ({ history, user_info }) => {
         variants={variants}
         transition={{ delay: 3 }}
         justifyContent={
-          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
+          screen_width >= DEVICE_SIZE.LARGE ? "space-evenly" : "space-between"
         }
       >
         <Button type="outline" onClick={() => handleExit(history)}>
