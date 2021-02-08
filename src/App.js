@@ -118,13 +118,13 @@ const App = () => {
             .post(backend + "auth/refresh-token", {
               refreshToken: refresh_token,
             })
-            .then(({ token, refreshToken }) => {
-              localStorage.setItem("token", token);
-              localStorage.setItem("refreshToken", refreshToken);
+            .then(({ data }) => {
+              localStorage.setItem("token", data.token);
+              localStorage.setItem("refreshToken", data.refreshToken);
               axios.defaults.headers.common["Authorization"] =
-                "Bearer " + token;
-              originalRequest.headers["Authorization"] = "Bearer " + token;
-              processQueue(null, token);
+                "Bearer " + data.token;
+              originalRequest.headers["Authorization"] = "Bearer " + data.token;
+              processQueue(null, data.token);
               resolve(axios(originalRequest));
             })
             .catch((err) => {
