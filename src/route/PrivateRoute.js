@@ -9,7 +9,7 @@ export const PrivateRoute = ({
   
   let token = localStorage.getItem("token");
   const location = useLocation();
-console.log(token)
+  
   useEffect(() => {
     getUserData();
   }, [location]);
