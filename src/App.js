@@ -96,6 +96,13 @@ const App = () => {
     function (error) {
       const originalRequest = error.config;
 
+      if(error.response.data.from === "refresh token"){
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userId");
+        window.location.pathname = "/";
+      }
+
       if (error.response.status === 401 && !originalRequest._retry) {
         if (isRefreshing) {
           return new Promise(function (resolve, reject) {
@@ -106,12 +113,6 @@ const App = () => {
               return axios(originalRequest);
             })
             .catch((err) => {
-
-              // localStorage.removeItem("token");
-              // localStorage.removeItem("refreshToken");
-              // localStorage.removeItem("userId");
-              // window.location.pathname = "/";
-
               return Promise.reject(err);
             });
         }
@@ -134,12 +135,6 @@ const App = () => {
               resolve(axios(originalRequest));
             })
             .catch((err) => {
-              
-              localStorage.removeItem("token");
-              localStorage.removeItem("refreshToken");
-              localStorage.removeItem("userId");
-              window.location.pathname = "/";
-
               processQueue(err, null);
               reject(err);
             })
