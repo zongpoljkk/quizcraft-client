@@ -12,7 +12,7 @@ import useModal from "../../components/useModal";
 import { ConfirmModal } from "../../components/ConfirmModal";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import { useActivateItem } from "./ProfilePageHelper";
-import { DisableItemModal } from "./components/disableItemModal";
+import { AlertModal } from "../../components/AlertModal"
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
@@ -236,9 +236,10 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
               }
             }}
           />
-          <DisableItemModal
+          <AlertModal
             isShowing={isShowingDisableItem} 
             toggle={toggleDisableItem} 
+            text="ไม่สามารถใช้ไอเทมนี้ในหน้านี้ได้"
           />
           {activate_item_loading && <LoadingPage overlay={true} />}
         </ContentContainer>

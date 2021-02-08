@@ -6,7 +6,7 @@ import useSound from 'use-sound';
 
 import { Subheader, Overline } from "../../../components/Typography";
 import useModal from "../../../components/useModal";
-import { NotAvailableModal } from "./NotAvailableModal";
+import { AlertModal } from "../../../components/AlertModal";
 
 import chevron from "../../../assets/icon/chevron_charcoal.png";
 import click from "../../../assets/sounds/click.mp3";
@@ -108,9 +108,10 @@ const ModeBox = ({
           </DifficultyIcon>
         ))}
       </DifficultyBox>
-      <NotAvailableModal 
+      <AlertModal
         isShowing={isShowing} 
         toggle={toggle} 
+        text="ระดับความยากนี้ยังไม่เปิดใช้งาน"
       />
     </Background>
   );
