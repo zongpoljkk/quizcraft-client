@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
-import useSound from 'use-sound';
 import PlayButton from "react-play-button";
 
 import { Header, Body } from "../../components/Typography";
@@ -10,7 +9,6 @@ import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import loading_circle from "../../assets/lottie/loading_circle.json";
-import bgm from "../../assets/sounds/Last_Christmas.mp3";
 
 import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -20,7 +18,8 @@ import {
   useDeleteGroup,
   useLeaveGroup,
   useGetGenerateProblem,
-  useServerSentEvent
+  useServerSentEvent,
+  BGMSound
 } from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
@@ -30,8 +29,6 @@ const WaitingRoomPage = ({ history }) => {
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
   const [get_all_members_loading, set_get_all_members_loading] = useState(true);
   const user_id = localStorage.getItem("userId");
-
-  const [playBGM, { stop: stopBGM, isPlaying: isPlayingBGM }] = useSound(bgm);
 
   const {
     getGroupMembers,
@@ -59,15 +56,19 @@ const WaitingRoomPage = ({ history }) => {
     delete_group
   } = useServerSentEvent();
 
+  const { playBGM, stopBGM, isPlayingBGM } = BGMSound();
+
   const handleDeleteGroup = () => {
     deleteGroup(location.state.group_id, user_id);
     subscribe(location.state.group_id);
+    stopBGM();
     history.push("/homepage");
   };
 
   const handleLeaveGroup = () => {
     leaveGroup(location.state.group_id, user_id);
     subscribe(location.state.group_id);
+    stopBGM();
     history.push("/homepage");
   };
 
@@ -107,6 +108,7 @@ const WaitingRoomPage = ({ history }) => {
     };
     if (delete_group) {
       subscribe(location.state.group_id);
+      stopBGM();
       history.push("*");
     };
   }, [update_member, start_game, delete_group]);
@@ -123,7 +125,6 @@ const WaitingRoomPage = ({ history }) => {
         <PlayButton
           active={isPlayingBGM}
           size={60}
-          iconColor="var(--color-background)"
           idleBackgroundColor={COLOR.ISLAND_SPICE}
           activeBackgroundColor={COLOR.MANDARIN}
           play={playBGM}
