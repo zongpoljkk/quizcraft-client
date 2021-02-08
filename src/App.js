@@ -36,7 +36,6 @@ import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage"
 const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
-  const refresh_token = localStorage.getItem("refreshToken");
   const user_id = localStorage.getItem("userId");
 
   if (token) {
