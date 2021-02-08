@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Tex2SVG from "react-hook-mathjax";
 import { withRouter, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 // Components
 import {
@@ -14,26 +14,36 @@ import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
+import { LevelUpModal } from "../../components/LevelUpModal";
+import useModal from "../../components/useModal";
+import { DisplayText } from "../../components/HandleText";
 
 // Media
 import coin_data from "../../assets/lottie/coin.json";
 import Correct_Forward from "../../assets/icon/correct_forward.png";
 import Incorrect_Forward from "../../assets/icon/incorrect_forward.png";
+import click from "../../assets/sounds/click.mp3";
+import recieve_coin from "../../assets/sounds/recieve_coin.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
 
 // Global
 import { Body, Header } from "../../components/Typography";
 
-import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import {
+  COLOR,
+  CONTAINER_PADDING,
+  DEVICE_SIZE,
+  TYPOGRAPHY,
+  NAVBAR_HEIGHT
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-
-const NAVBAR_HEIGHT = 54;
 
 const TITLE = {
   CORRECT: "ถูกต้อง",
   INCORRECT: "คำตอบที่ถูกต้องคือ",
 };
 
-const PracticeAnswer = ({ history }) => {
+const PracticeAnswer = ({ history, user_info }) => {
   const [correct, set_correct] = useState(true);
   const [title, set_title] = useState(TITLE.CORRECT);
   // Static solution got populated after useEffect and never change
@@ -44,9 +54,13 @@ const PracticeAnswer = ({ history }) => {
   const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowing, toggle] = useModal();
 
   const location = useLocation();
-  const asciimath2latex = require("asciimath-to-latex");
+
+  const [playClickSound] = useSound(click, { volume: 0.25 });
+  const [playRecieveCoinSound] = useSound(recieve_coin, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const handleNextButtonClick = () => {
     history.push({
@@ -95,9 +109,12 @@ const PracticeAnswer = ({ history }) => {
       set_static_solution([location.state.correct_answer]);
     } else {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
-    }
+    };
     set_solution([]);
     setIsLoading(false);
+    if(location.state.is_level_up || location.state.is_rank_up) {
+      toggle();
+    };
   }, []);
 
   // rerender when solution change
@@ -150,6 +167,15 @@ const PracticeAnswer = ({ history }) => {
               ทำต่อ
             </Button>
           </div>
+          <LevelUpModal
+            isShowing={isShowing}
+            toggle={toggle}
+            rank={location.state.is_rank_up ? user_info?.rank : null}
+            level={user_info?.level}
+            exp={user_info?.exp}
+            max_exp={user_info?.maxExp}
+            coin={location.state.earned_coins}
+          />
         </ShiftDiv>
       );
     }
@@ -161,7 +187,17 @@ const PracticeAnswer = ({ history }) => {
             src={correct ? Correct_Forward : Incorrect_Forward}
             alt="arrow"
             height={40}
-            onClick={handleArrowClick}
+            onClick={() => {
+              handleArrowClick();
+              playClickSound();
+              if(solution.length+1 === staticSolution.length && correct) {
+                if(location.state.is_level_up || location.state.is_rank_up) {
+                  playLevelUpSound();
+                } else {
+                  playRecieveCoinSound();
+                };
+              };
+            }}
           />
         </ShiftDiv>
       );
@@ -190,16 +226,33 @@ const PracticeAnswer = ({ history }) => {
         <SolutionDiv>
             {solution.map((line, i) => {
               return (
-                  <Solution answer={correct} key={i}>
+                <Solution answer={correct} key={i}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent:
+                        location.state.subject === "คณิตศาสตร์" &&
+                        screen_width < DEVICE_SIZE.LARGE &&
+                        line.length > 50
+                          ? "flex-start"
+                          : "center",
+                    }}
+                  >
                     {i > 0 || location.state.subject === "คณิตศาสตร์"
                       ? "= "
                       : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
-                      <Tex2SVG display="inline" latex={asciimath2latex(line)} />
+                      <DisplayText
+                        fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+                        fontSize={TYPOGRAPHY.SUBHEADER.fontSize}
+                        color={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+                        content={line}
+                      />
                     ) : (
                       line
                     )}
-                  </Solution>
+                  </div>
+                </Solution>
               );
             })}
         </SolutionDiv>
@@ -223,7 +276,7 @@ const Background = styled.div`
     props.answer ? correct_background_color : incorrect_background_color};
   width: 100%;
   height: 100%;
-  top: 54px;
+  top: ${NAVBAR_HEIGHT}px;
   left: 0px;
   position: fixed;
   overflow-y: scroll;

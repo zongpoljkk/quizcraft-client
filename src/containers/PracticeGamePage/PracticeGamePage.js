@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
+import useSound from 'use-sound';
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
@@ -21,6 +22,8 @@ import {
 import skip_icon from "../../assets/icon/skip.png";
 import skip_data from "../../assets/lottie/skip.json";
 import { LottieFile } from "../../components/LottieFile";
+import correctSound from "../../assets/sounds/correct.mp3";
+import wrongSound from "../../assets/sounds/wrong.mp3";
 
 import { ANSWER_TYPE, COLOR } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
@@ -37,6 +40,9 @@ const PracticeGamePage = ({ history }) => {
   const [answer_loading, set_answer_loading] = useState(false);
   const user_id = localStorage.getItem("userId");
 
+  const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
+  const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
+
   const {
     getProblemForUser,
     loading,
@@ -46,6 +52,7 @@ const PracticeGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
+    have_hint
   } = useGetProblemForUser(
     user_id,
     location.state.subject_name,
@@ -91,6 +98,7 @@ const PracticeGamePage = ({ history }) => {
       "practice",
     ).then((res) => {
       set_answer_loading(false);
+      res.data.correct ? playCorrectSound() : playWrongSound()
       history.push({
         pathname:
           "/" +
@@ -114,6 +122,9 @@ const PracticeGamePage = ({ history }) => {
           difficulty: difficulty,
           earned_coins: res.data.earned_coins,
           mode: mode,
+          is_level_up: res.data.level_up,
+          is_rank_up: res.data.rank_up,
+          earned_coins: res.data.earned_coins
         },
       });
     });
@@ -149,6 +160,7 @@ const PracticeGamePage = ({ history }) => {
                   <HintItem
                     onGetHint={() => getHintByProblemId()}
                     content={hint}
+                    have_hint={have_hint}
                   />
                   <ItemCard>
                     {skip === ITEM_USAGE.UN_USE && (

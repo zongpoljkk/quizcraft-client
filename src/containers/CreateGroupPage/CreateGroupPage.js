@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-import { Header, Subheader } from "../../components/Typography";
+import { Header } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
@@ -11,7 +11,7 @@ import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { LARGE_DEVICE_SIZE } from "../../global/const";
+import { DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -20,8 +20,7 @@ import {
   useGetAllSubtopicsByTopicName,
   useGetAvailableDifficultyBySubtopicName,
   useCreateGroup,
-  translateError,
-  timeConvertor
+  translateError
 } from "./CreateGroupPageHelper";
 
 const IS_PLAY_CHOICES = [
@@ -41,6 +40,8 @@ const CreateGroupPage = ({ history }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
   const [isShowing, toggle] = useModal();
+
+  const small_device = screen_width < DEVICE_SIZE.XS;
 
   const { getAllSubjects, subjects } = useGetAllSubjects();
   const { getAllTopicsBySubjectName, topics } = useGetAllTopicsBySubjectName();
@@ -114,14 +115,14 @@ const CreateGroupPage = ({ history }) => {
           value={difficulty}
           set_value={set_difficulty}
           options={available_difficulty}
-          direction="row"
+          direction={small_device ? "column" : "row"}
           marginBottom={24}
         />
         <NumberInputSpinnerWithLabel
           label="จำนวนคำถามทั้งหมด"
           value={number_of_problems}
           set_value={set_number_of_problems}
-          direction="row"
+          direction={small_device ? "column" : "row"}
           marginBottom={24}
         />
         <NumberInputSpinnerWithLabel
@@ -129,20 +130,20 @@ const CreateGroupPage = ({ history }) => {
           value={time_per_problem}
           set_value={set_time_per_problem}
           unit_label="วินาที"
-          direction="row"
+          direction={screen_width <= DEVICE_SIZE.XS ? "column" : "row"}
           marginBottom={24}
         />
         <RadioButton 
           value={is_play} 
           selected_value={set_is_play}  
           choices={IS_PLAY_CHOICES}
-          direction="row"
+          direction={small_device ? "column" : "row"}
           justifyContent="flex-start"
           marginRight={24}
           text="subheader"
         />
       </ContentContainer>
-      <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+      <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
         <Button
           type="outline"
           onClick={() => { history.push("homepage"); }}

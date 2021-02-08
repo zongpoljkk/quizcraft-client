@@ -5,7 +5,7 @@ import axios from "axios";
 import { PrivateRoute } from "./route/PrivateRoute";
 import { PublicRoute } from "./route/PublicRoute";
 import backend from "./ip";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import PracticeAnswer from "./containers/PracticeAnswer/PracticeAnswer";
@@ -98,7 +98,7 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
             getUserData={getUserData}
           >
-            <PracticeAnswer />
+            <PracticeAnswer user_info={user_info}/>
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -112,14 +112,14 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
             getUserData={getUserData}
           >
-            <QuizResultPage />
+            <QuizResultPage user_info={user_info}/>
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
           >
-            <AllChallengePage />
+            <AllChallengePage user_info={user_info}/>
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -186,7 +186,7 @@ const App = () => {
             <ShopPage />
           </PrivateRoute>
           <PrivateRoute exact path="/achievement" getUserData={getUserData}>
-            <AchievementPage />
+            <AchievementPage user_id={user_id} />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />

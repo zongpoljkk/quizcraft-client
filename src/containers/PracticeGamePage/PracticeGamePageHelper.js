@@ -62,6 +62,7 @@ export const getAndCheckAnswer = async (
   }
   return Promise.reject(new Error("getAndCheckAnswer"));
 };
+
 export const useGetProblemForUser = (
   user_id,
   subject,
@@ -75,6 +76,7 @@ export const useGetProblemForUser = (
   const [title, set_title] = useState();
   const [correct_answer, set_correct_answer] = useState();
   const [choices, set_choices] = useState();
+  const [have_hint, set_have_hint] = useState();
 
   const getProblemForUser = async (set_skip = () => {}) => {
     set_loading(true);
@@ -96,6 +98,7 @@ export const useGetProblemForUser = (
         set_title(data.problem.title);
         set_choices(data.problem.choices);
         set_correct_answer(data.correctAnswer);
+        set_have_hint(data.problem.haveHint);
         set_loading(false);
         set_skip("UN_USE");
       } else {
@@ -115,5 +118,6 @@ export const useGetProblemForUser = (
     title,
     correct_answer,
     choices,
+    have_hint
   };
 };
