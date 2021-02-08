@@ -100,7 +100,7 @@ const ChallengeResultPage = ({ history }) => {
     getFinalChallengeResult();
     setTimeout(() => {
       toggle()
-    }, 8850);
+    }, 10200);
   }, []);
 
   useEffect(() => {
