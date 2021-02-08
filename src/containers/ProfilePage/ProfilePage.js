@@ -77,7 +77,6 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     } else {
       toggleDisableItem();
     }
-    console.log(item.itemName);
   }
 
   const JSONtoFormData = (json) => {
