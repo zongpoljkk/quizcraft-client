@@ -227,7 +227,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             isShowing={isShowingUseItemResult}
             toggle={toggleUseItemResult}
             success={use_success}
-            success_description="ใช้ไอเทมสำเร็จ"
+            success_description={clicked_item? (clicked_item.description? clicked_item.description : "ใช้ไอเทมสำเร็จ" ) :"ใช้ไอเทมสำเร็จ"}
             fail_description="ใช้ไอเทมไม่สำเร็จ"
             onSubmit={() => {
               if(use_success){
