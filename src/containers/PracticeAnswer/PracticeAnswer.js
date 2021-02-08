@@ -238,9 +238,6 @@ const PracticeAnswer = ({ history, user_info }) => {
                           : "center",
                     }}
                   >
-                    {i > 0 || location.state.subject === "คณิตศาสตร์"
-                      ? "= "
-                      : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
                       <DisplayText
                         fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}

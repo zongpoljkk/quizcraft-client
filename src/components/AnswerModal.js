@@ -5,7 +5,7 @@ import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
 import { Button } from "./Button";
 import { Report } from "./Report";
-import { DisplayAnswerText } from "./HandleText";
+import { DisplayText } from "./HandleText";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
@@ -57,7 +57,7 @@ export const AnswerModal = ({
                               overflowY: "hidden",
                             }}
                           >
-                            <DisplayAnswerText 
+                            <DisplayText 
                               content={item}
                               color={COLOR.TRINIDAD}
                             />
