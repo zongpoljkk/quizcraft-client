@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
+import useSound from 'use-sound';
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
@@ -23,6 +24,11 @@ import {
   useSkipItem,
   useRefreshItem
 } from "./QuizGamePageHelper";
+
+import correctSound from "../../assets/sounds/correct.mp3";
+import wrongSound from "../../assets/sounds/wrong.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
+
 
 import { ANSWER_TYPE, COLOR, DIFFICULTY } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
@@ -51,6 +57,12 @@ const QuizGamePage = ({ history }) => {
   const [score, set_score] = useState(0);
   const [earned_exp, set_earned_exp] = useState(0);
   const [earned_coins, set_earned_coins] = useState(0);
+  const [is_level_up, set_is_level_up] = useState(false);
+  const [is_rank_up, set_is_rank_up] = useState(false);
+
+  const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
+  const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const {
     getEachProblem,
@@ -62,6 +74,7 @@ const QuizGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
+    have_hint
   } = useGetEachProblem(
     user_id,
     location.state.subject_name,
@@ -159,6 +172,13 @@ const QuizGamePage = ({ history }) => {
             (earned_coins) => earned_coins + res.data.earned_coins
           );
         }
+        if(res.data.level_up) {
+          set_is_level_up(true);
+        };
+        if(res.data.rank_up) {
+          set_is_rank_up(true);
+        };
+        res.data.correct ? playCorrectSound() : playWrongSound()
         toggle();
       });
     }
@@ -167,6 +187,9 @@ const QuizGamePage = ({ history }) => {
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
       //push to result page
+      if(is_level_up || is_rank_up) {
+        playLevelUpSound();
+      };
       history.push({
         pathname:
           "/" +
@@ -187,6 +210,8 @@ const QuizGamePage = ({ history }) => {
           score: score,
           earned_exp: earned_exp,
           earned_coins: earned_coins,
+          is_level_up: is_level_up,
+          is_rank_up: is_rank_up
         },
       });
     } else {
@@ -263,6 +288,7 @@ const QuizGamePage = ({ history }) => {
                 }
               }}
               hintContent={hint}
+              have_hint={have_hint}
               skip={skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {

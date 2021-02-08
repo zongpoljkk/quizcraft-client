@@ -9,6 +9,7 @@ import { LottieFile } from "../../components/LottieFile";
 import { ChallengeBox } from "./components/ChallengeBox";
 import { SpecificChallengeModal } from "./components/SpecificChallengeModal";
 import { RandomChallengeModal } from "./components/RandomChallengeModal";
+import { LevelUpModal } from "../../components/LevelUpModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import no_data from "../../assets/lottie/no_data.json";
@@ -21,7 +22,7 @@ import {
   specificChallenge,
 } from "./AllChallengePageHelper";
 
-import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const";
+import { CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {
@@ -30,11 +31,12 @@ const CHALLENGE_BOX_TYPE = {
   RESULT: "RESULT",
 };
 
-const AllChallengePage = ({ history }) => {
+const AllChallengePage = ({ history, user_info }) => {
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowingModal1, toggleModal1] = useModal();
   const [isShowingModal2, toggleModal2] = useModal();
+  const [isShowingLevelUpModal, toggleLevelUpModal] = useModal();
   const [username, set_username] = useState("");
   const [specific_loading, set_specific_loading] = useState(false);
   const [specific_challenge_id, set_specific_challenge_id] = useState(false);
@@ -156,6 +158,9 @@ const AllChallengePage = ({ history }) => {
 
   useEffect(() => {
     getALlMyChallenges();
+    if(location.state.is_level_up || location.state.is_rank_up) {
+      toggleLevelUpModal();
+    };
   }, []);
 
   useEffect(() => {
@@ -176,7 +181,7 @@ const AllChallengePage = ({ history }) => {
     <Container>
       <ButtonContainer
         justifyContent={
-          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
+          screen_width >= DEVICE_SIZE.LARGE ? "space-evenly" : "space-between"
         }
       >
         <Button
@@ -313,6 +318,15 @@ const AllChallengePage = ({ history }) => {
             </Box>
           </React.Fragment>
       }
+      <LevelUpModal
+        isShowing={isShowingLevelUpModal}
+        toggle={toggleLevelUpModal}
+        rank={location.state.is_rank_up ? user_info?.rank : null}
+        level={user_info?.level}
+        exp={user_info?.exp}
+        max_exp={user_info?.maxExp}
+        coin={location.state.earned_coins}
+      />
     </Container>
   );
 };

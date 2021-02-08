@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Header, Subheader } from "../Typography";
+
+import select from "../../assets/sounds/select.mp3";
+
 import { COLOR } from "../../global/const";
 
 import { mathAnswerBox } from "./AnswertHelper";
@@ -14,6 +18,8 @@ export const AnswerMathInput = ({
   const [mainAns, setMainAns] = useState({});
   const [powerAns, setPowerAns] = useState([]);
   const [ans_template, set_ans_template] = useState([]);
+
+  const [play] = useSound(select, { volume: 0.25 });
 
   const outputBoxes = (item, index) => {
     if (item.type === "(" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
@@ -33,6 +39,7 @@ export const AnswerMathInput = ({
         <PowerInputAnswer
           width={item.width}
           onChange={(e) => setPowerAns(e.target.value)}
+          onClick={play}
         />
       );
     } else if (item.type === ")" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
@@ -73,6 +80,7 @@ export const AnswerMathInput = ({
           width={item.width}
           key={item.type + index}
           onChange={(e) => handleMainAns(e.target.value, index)}
+          onClick={play}
         />
       );
     }

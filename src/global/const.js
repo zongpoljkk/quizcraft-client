@@ -46,18 +46,18 @@ export const DIFFICULTY = {
   EASY: {
     type: "EASY",
     icon: level_easy,
-    disable_icon: disable_easy
+    disable_icon: disable_easy,
   },
   MEDIUM: {
     type: "MEDIUM",
     icon: level_medium,
-    disable_icon: disable_medium
+    disable_icon: disable_medium,
   },
   HARD: {
     type: "HARD",
     icon: level_hard,
-    disable_icon: disable_hard
-  }
+    disable_icon: disable_hard,
+  },
 };
 
 export const ANSWER_TYPE = {
@@ -87,6 +87,46 @@ export const REPORT = {
   ETC: "อื่น ๆ",
 };
 
-export const LARGE_DEVICE_SIZE = 768;
+export const DEVICE_SIZE = {
+  LARGE: 768,
+  S: 380,
+  XS: 360,
+  XXS: 320,
+  XXXS: 304
+};
 
 export const CONTAINER_PADDING = 64;
+
+export const NAVBAR_HEIGHT = 54;
+
+export const QUOTE = [
+  "เราทำในสิ่งที่ต้องทำเพื่อจะได้ทำในสิ่งที่อยากทำ",
+  "จงพยายามเป็นคนที่เปี่ยมไปด้วยคุณค่า",
+  "เราสามารถเติบโตได้เสมอ ตราบเท่าที่เรายังมีชีวิต",
+  "จงตื่นขึ้นมาในทุกเช้าอย่างมีจุดหมาย หากว่าคุณอยากเข้านอนอย่างพึงพอใจ",
+  "ประสบการณ์ คือครูที่โหดหินมากที่สุด แต่คุณก็ได้เรียนรู้จากมันจริงๆ",
+  "ยิ่งข้าพเจ้าทำงานหนักเท่าไหร่ ก็ดูเหมือนว่าโชคจะเข้าข้างข้าพเจ้ามากขึ้นเท่านั้น",
+  "สิ่งที่คุณควรทำตอนนี้คือ เริ่มลงมือทำ",
+  "เรียนรู้จากวันวาน ใช้ชีวิตเพื่อปัจจุบัน มีความหวังสำหรับวันพรุ่งนี้",
+  "ไม่มีผลงานชั้นยอดชิ้นใด ที่ถูกสร้างโดยศิลปินผู้เกียจคร้าน",
+  "จงผลัดวันประกันพรุ่งแต่ในเรื่องที่คุณจะไม่เสียดาย หากว่าตายไปโดยไม่ได้ทำมัน",
+];
+
+export const TYPOGRAPHY = {
+  HEADER: {
+    font_weight: "600",
+    font_size: "24"
+  },
+  SUBHEADER: {
+    font_weight: "500",
+    font_size: "20"
+  },
+  BODY: {
+    font_weight: "400",
+    font_size: "16"
+  },
+  OVERLINE: {
+    font_weight: "400",
+    font_size: "12"
+  }
+};

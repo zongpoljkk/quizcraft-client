@@ -51,7 +51,7 @@ const ChallengeResultPage = ( { history }) => {
 
   const isWin = () => {
     if(my_result.score > challenger_result.score) set_win(true);
-    if(my_result.score === challenger_result.score){
+    else if(my_result.score === challenger_result.score){
       if(my_result.time < challenger_result.time) set_win(true);
     }
     else set_win(false);

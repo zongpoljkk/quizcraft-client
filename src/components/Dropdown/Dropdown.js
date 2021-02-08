@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Subheader, Body } from "../Typography";
 
 import chevron from "../../assets/icon/chevron_mandarin.png";
+import select from "../../assets/sounds/select.mp3";
 
 import { useDetectOutsideClick } from "./DropdownHelper";
 
@@ -22,6 +24,7 @@ export const Dropdown = ({
   const [hover, set_hover] = useState();
   const [last_options, set_last_options] = useState(options);
   const [container_width, set_container_width] = useState();
+  const [play] = useSound(select, { volume: 0.25 });
 
   const onClick = () => {
     set_is_active(!is_active);
@@ -52,7 +55,10 @@ export const Dropdown = ({
       <DropdownContainer
         ref={ref}
         borderRadius={is_active ? "10px 10px 0px 0px" : "10px"}
-        onClick={onClick}
+        onClick={() => {
+          onClick();
+          play();
+        }}
       >
         <Body color={value ? COLOR.CHARCOAL : COLOR.SILVER}>
           {value ? value : placeholder}
@@ -72,6 +78,7 @@ export const Dropdown = ({
                 onClick={(e) => {
                   set_value(e.target.innerText);
                   onSelectOption();
+                  play();
                 }}
               >
                 <Body>{option}</Body>
