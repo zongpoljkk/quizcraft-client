@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Header, Body } from "../../../components/Typography";
-import { LottieFile } from "../../../components/LottieFile";
-import info_alert from "../../../assets/lottie/info_alert.json";
-import { Modal } from "../../../components/Modal";
-import { COLOR } from "../../../global/const";
+import { Header, Body } from "./Typography";
+import { LottieFile } from "./LottieFile";
+import { Modal } from "./Modal";
+import { COLOR } from "../global/const";
+import info_alert from "../assets/lottie/info_alert.json";
 
-export const NotAvailableModal = ({
+export const AlertModal = ({
   isShowing,
   toggle,
+  text,
 }) => {
 
   return (
@@ -30,7 +31,7 @@ export const NotAvailableModal = ({
         <TextContainer>
           <Header>ขออภัย</Header>
           <div style={{marginTop:"4px"}}/>
-          <Body props color={COLOR.SILVER}> ระดับความยากนี้ยังไม่เปิดใช้งาน </Body>
+          <Body props color={COLOR.SILVER}> {text} </Body>
         </TextContainer>
         </Container>
       </Modal>

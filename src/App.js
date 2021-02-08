@@ -168,7 +168,7 @@ const App = () => {
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
+          <PrivateRoute exact path="/topics/:subject" getUserData={getUserData}>
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>

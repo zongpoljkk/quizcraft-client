@@ -5,6 +5,8 @@ import Tex2SVG from "react-hook-mathjax";
 import { COLOR } from "../global/const";
 import { cDot2TimesFormat } from "../global/utils";
 
+const asciimath2latex = require("asciimath-to-latex");
+
 export const DisplayText = ({
   content,
   justifyContent,
@@ -12,8 +14,6 @@ export const DisplayText = ({
   fontSize,
   color,
 }) => {
-  const asciimath2latex = require("asciimath-to-latex");
-
   const splitContent = (content) => {
     var list = [];
     var current_type = "non-math-text";
@@ -106,8 +106,52 @@ export const DisplayText = ({
   );
 };
 
+export const DisplayAnswerText = ({
+  content,
+  fontWeight,
+  fontSize,
+  color,
+}) => {
+  const hasThaiString = (word) => {
+    var regExp = /[ก-๛]/gi;
+    return regExp.test(word);
+  };
+
+  const DisplayAnswerText = (content) => {
+      if (hasThaiString(content)) {
+        return (
+          <Typography fontWeight={fontWeight} fontSize={fontSize} color={color}>
+            {content}
+          </Typography>
+        );
+      } else {
+        return (
+          <Typography
+            fontWeight={fontWeight}
+            fontSize={fontSize}
+            color={color}
+            margin={4}
+          >
+            <Tex2SVG
+              display="inline"
+              latex={asciimath2latex(cDot2TimesFormat(content))}
+            />
+          </Typography>
+        );
+      }
+  };
+
+  return (
+    <Container>
+      {content.split(" ").map((text, i) => (
+        <div key={i}>{DisplayAnswerText(text, i)}</div>
+      ))}
+    </Container>
+  );
+};
+
 const Container = styled.div.attrs((props) => ({
-  justifyContent: props.justifyContent
+  justifyContent: props.justifyContent,
 }))`
   display: flex;
   flex-direction: row;
@@ -120,7 +164,7 @@ const Typography = styled.div.attrs((props) => ({
   fontWeight: props.fontWeight,
   fontSize: props.fontSize,
   color: props.color || COLOR.CHARCOAL,
-  margin: props.margin
+  margin: props.margin,
 }))`
   display: flex;
   font-family: Prompt, sans-serif;
@@ -129,5 +173,4 @@ const Typography = styled.div.attrs((props) => ({
   color: ${(props) => props.color};
   margin-left: ${(props) => props.margin}px;
   margin-right: ${(props) => props.margin}px;
-  
 `;
