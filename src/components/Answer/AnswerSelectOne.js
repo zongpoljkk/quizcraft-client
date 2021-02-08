@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Body } from "../Typography";
 
 import { COLOR } from "../../global/const";
 
+import select from "../../assets/sounds/select.mp3";
+
 import { formatContent } from "./AnswertHelper";
+
 
 export const AnswerSelectOne = ({
   content = '',
@@ -14,6 +18,7 @@ export const AnswerSelectOne = ({
 }) => {
 
   const [selected_answer, set_selected_answer] = useState(null);
+  const [play] = useSound(select, { volume: 0.25 });
 
   const outputContent = (item) => {
     if(item.length === 4) {
@@ -25,8 +30,9 @@ export const AnswerSelectOne = ({
             disabled={disabled_click} 
             onClick={() => {
               if(!disabled_click){
-                set_selected_answer(item[1].content)
-                set_answer(item[1].content)
+                set_selected_answer(item[1].content);
+                set_answer(item[1].content);
+                play();
               }
             }}
             style={{
@@ -43,8 +49,9 @@ export const AnswerSelectOne = ({
             disabled={disabled_click}  
             onClick={() => {
               if(!disabled_click){
-                set_selected_answer(item[2].content)
-                set_answer(item[2].content)
+                set_selected_answer(item[2].content);
+                set_answer(item[2].content);
+                play();
               }
             }}
             style={{
@@ -71,8 +78,9 @@ export const AnswerSelectOne = ({
               disabled={disabled_click}  
               onClick={() => {
                 if(!disabled_click){
-                  set_selected_answer(item[1].content)
-                  set_answer(item[1].content)
+                  set_selected_answer(item[1].content);
+                  set_answer(item[1].content);
+                  play();
                 }
               }}
               style={{
@@ -89,8 +97,9 @@ export const AnswerSelectOne = ({
               disabled={disabled_click} 
               onClick={() => {
                 if(!disabled_click){
-                  set_selected_answer(item[2].content)
-                  set_answer(item[2].content)
+                  set_selected_answer(item[2].content);
+                  set_answer(item[2].content);
+                  play();
                 }
               }}
               style={{
@@ -112,8 +121,9 @@ export const AnswerSelectOne = ({
               disabled={disabled_click} 
               onClick={() => {
                 if(!disabled_click){
-                  set_selected_answer(item[0].content)
-                  set_answer(item[0].content)
+                  set_selected_answer(item[0].content);
+                  set_answer(item[0].content);
+                  play();
                 }
               }}
               style={{
@@ -130,8 +140,9 @@ export const AnswerSelectOne = ({
               disabled={disabled_click} 
               onClick={() => {
                 if(!disabled_click){
-                  set_selected_answer(item[1].content)
-                  set_answer(item[1].content)
+                  set_selected_answer(item[1].content);
+                  set_answer(item[1].content);
+                  play();
                 }
               }}
               style={{

@@ -8,7 +8,7 @@ export const LottieFile = ({
   loop = true,
   autoplay =true,
   isStopped,
-  isPaused,
+  isPaused
 }) => {
 
   const defaultOptions = {

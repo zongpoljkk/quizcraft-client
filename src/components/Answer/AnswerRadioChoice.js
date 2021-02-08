@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Tex2SVG from "react-hook-mathjax";
 
 import { Body } from "../Typography";
 import { RadioButton } from "../RadioButton";
+import { DisplayText } from "../HandleText";
 
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -23,7 +23,6 @@ export const AnswerRadioChoice = ({
 }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
-  const asciimath2latex = require("asciimath-to-latex");
 
   const outputQuestion = (item) => {
     if (item.length === 3 || item[0].type === "content") {
@@ -61,9 +60,7 @@ export const AnswerRadioChoice = ({
         {subject === "คณิตศาสตร์"
           ? (
             <QuestionContainer>
-              <Body>
-                <Tex2SVG display="inline" latex={asciimath2latex(question)} />
-              </Body>
+              <DisplayText content={question}/>
             </QuestionContainer>
           )
           : outputQuestion(splitQuestion(question))

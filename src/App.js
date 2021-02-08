@@ -5,7 +5,7 @@ import axios from "axios";
 import { PrivateRoute } from "./route/PrivateRoute";
 import { PublicRoute } from "./route/PublicRoute";
 import backend from "./ip";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import PracticeAnswer from "./containers/PracticeAnswer/PracticeAnswer";
@@ -190,7 +190,7 @@ const App = () => {
             <ShopPage />
           </PrivateRoute>
           <PrivateRoute exact path="/achievement" getUserData={getUserData}>
-            <AchievementPage />
+            <AchievementPage user_id={user_id} />
           </PrivateRoute>
           <PublicRoute exact path="/">
             <LoginPage />

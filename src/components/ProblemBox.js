@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Tex2SVG from "react-hook-mathjax";
 
 import { Subheader } from "./Typography";
 import GameContent from "./GameContent";
+import { DisplayText } from "./HandleText";
 
-import { ANSWER_TYPE, COLOR, CONTAINER_PADDING } from "../global/const";
+import { ANSWER_TYPE, COLOR, CONTAINER_PADDING, TYPOGRAPHY } from "../global/const";
 import { convertHexToRGBA, useWindowDimensions } from "../global/utils";
 
 export const ProblemBox = ({
@@ -17,9 +17,8 @@ export const ProblemBox = ({
   question='',
   content=''
 }) => {
-
+  
   const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const asciimath2latex = require("asciimath-to-latex");
 
   return (
     <ProblemContainer>
@@ -27,9 +26,11 @@ export const ProblemBox = ({
         <Subheader>{problem}</Subheader>
         {problem_content ? (
           <Problem width={screen_width - CONTAINER_PADDING - 48}>
-            <Subheader>
-              <Tex2SVG display="inline" latex={asciimath2latex(problem_content)} />
-            </Subheader>
+            <DisplayText
+              fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+              fontSize={TYPOGRAPHY.SUBHEADER.font_size}
+              content={problem_content}
+            />
           </Problem>
         ) : show_game_content && (
           <ContentContainer
@@ -66,7 +67,7 @@ const ProblemComponent = styled.div`
   flex-direction: column;
 `;
 
-const Problem = styled.image.attrs(props => ({
+const Problem = styled.div.attrs(props => ({
   width: props.width
 }))`
   max-width: ${props => props.width}px;

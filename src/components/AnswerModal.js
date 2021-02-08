@@ -11,6 +11,7 @@ import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
 
 import { COLOR } from "../global/const";
+import { cDot2TimesFormat, useWindowDimensions } from "../global/utils";
 
 export const AnswerModal = ({
   toggle,
@@ -23,7 +24,9 @@ export const AnswerModal = ({
   answer,
   overlay_clickable
 }) => {
+
   const asciimath2latex = require("asciimath-to-latex");
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
     <FooterModal
@@ -49,7 +52,15 @@ export const AnswerModal = ({
                     return (
                       <Body key={key} color={COLOR.TRINIDAD}>
                         {subject === "คณิตศาสตร์" ? (
-                          <Tex2SVG display="inline" latex={asciimath2latex(item)}/>
+                          <div
+                            style={{
+                              width: screen_width - 228,
+                              overflowX: "scroll",
+                              overflowY: "hidden",
+                            }}
+                          >
+                            <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(item))}/>
+                          </div>
                         ) : (
                           item
                         )}
