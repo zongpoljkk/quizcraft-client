@@ -73,7 +73,7 @@ const App = () => {
       getUserData();
     }
   }, []);
-  
+
   let isRefreshing = false;
   let failedQueue = [];
 
@@ -106,6 +106,12 @@ const App = () => {
               return axios(originalRequest);
             })
             .catch((err) => {
+
+              // localStorage.removeItem("token");
+              // localStorage.removeItem("refreshToken");
+              // localStorage.removeItem("userId");
+              // window.location.pathname = "/";
+
               return Promise.reject(err);
             });
         }
@@ -128,6 +134,12 @@ const App = () => {
               resolve(axios(originalRequest));
             })
             .catch((err) => {
+              
+              localStorage.removeItem("token");
+              localStorage.removeItem("refreshToken");
+              localStorage.removeItem("userId");
+              window.location.pathname = "/";
+
               processQueue(err, null);
               reject(err);
             })
