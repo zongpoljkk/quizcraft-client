@@ -14,7 +14,7 @@ import silver from "../../assets/lottie/silver_trophy.json";
 import bronze from "../../assets/lottie/bronze_trophy.json";
 import export_icon from "../../assets/icon/export.png";
 
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
+import { COLOR, DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -218,7 +218,7 @@ const GroupResultPage = ({ history }) => {
                   scoreboard.length < 3 ? "flex-start" : "space-evenly",
                 marginLeft:
                   scoreboard.length < 3
-                    ? screen_width >= LARGE_DEVICE_SIZE
+                    ? screen_width >= DEVICE_SIZE.LARGE
                       ? "64px"
                       : "32px"
                     : null,
@@ -325,7 +325,7 @@ const GroupResultPage = ({ history }) => {
           {is_creator ? (
             <ButtonContainer
               justifyContent={
-                screen_width >= LARGE_DEVICE_SIZE
+                screen_width >= DEVICE_SIZE.LARGE
                   ? "space-evenly"
                   : "space-between"
               }

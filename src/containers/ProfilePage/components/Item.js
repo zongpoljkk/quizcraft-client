@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { Header } from "../../../components/Typography";
 
-import { COLOR } from "../../../global/const"
+import click from "../../../assets/sounds/click.mp3";
+
+import { COLOR } from "../../../global/const";
 
 export const Item = ({
   icon,
@@ -12,9 +15,15 @@ export const Item = ({
   zoom,
 }) => {
 
+  const [play] = useSound(click, { volume: 0.25 });
+
   return (
     <Container>
-      <ItemContainer onClick={onClick}>
+      <ItemContainer onClick={() => {
+          onClick(); 
+          play();
+        }
+      }>
         {zoom ? <img src={icon} width={60} /> : <img src={icon} width={40} />}
       </ItemContainer>
       <div style={{ marginBottom: 4 }}/>

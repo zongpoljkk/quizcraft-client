@@ -49,3 +49,31 @@ export const useGetLeaderBoard = (user_id) => {
 
   return { getLeaderBoard, leader_board_loading, leader_board };
 };
+
+export const useGetAchievements = (user_id) => {
+  const [achievements_loading, set_achievements_loading] = useState(true);
+  const [achievements, set_achievements] = useState();
+
+  const getAchievements = async () => {
+    try {
+      const response = await axios.get(
+        backend + "achievement/my-achievements",
+        {
+          params: {
+            userId: user_id,
+          },
+        }
+      );
+      const { success, data } = response.data;
+      if (success) {
+        set_achievements(data);
+        set_achievements_loading(false);
+      } else {
+        console.log("getAchievements Error");
+      }
+    } catch (e) {
+      console.log("There are something wrong about getAchievements :(");
+    }
+  };
+  return { getAchievements, achievements_loading, achievements };
+};

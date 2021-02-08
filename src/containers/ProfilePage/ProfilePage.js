@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import useSound from 'use-sound';
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
@@ -18,12 +19,12 @@ import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import edit_photo from "../../assets/icon/photo.png";
+import click from "../../assets/sounds/click.mp3";
 
-import { COLOR, CONTAINER_PADDING, RANK, ITEM_NAME } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, RANK, ITEM_NAME, NAVBAR_HEIGHT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 import { useChangeProfileImage } from "./ProfilePageHelper";
 
-const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
 
 const ProfilePage = ({ history, handleLogout, user_info }) => {
@@ -38,6 +39,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [isShowingUseItemResult, toggleUseItemResult] = useModal();
   const [isShowingDisableItem, toggleDisableItem] = useModal();
   const clickableItem = [ITEM_NAME.FREEZE, ITEM_NAME.DOUBLE];
+  const [play] = useSound(click, { volume: 0.25 });
   
   const [isShowingChangeImageResult, toggleChangeImageResult] = useModal();
   const user_id = localStorage.getItem("userId");
@@ -116,7 +118,10 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             {hover &&
               <div
                 style={{ marginTop: 8, position: 'absolute' }}
-                onClick={handleUpload}
+                onClick={() => {
+                  handleUpload();
+                  play();
+                }}
               >
                 <input 
                   type="file"
@@ -147,6 +152,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             <div 
               style={{ marginLeft: 16 }}
               onClick={() => {
+                play();
                 history.push({
                   pathname: "/edit-username", 
                   state: {

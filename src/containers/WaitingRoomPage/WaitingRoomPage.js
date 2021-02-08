@@ -9,7 +9,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import loading_circle from "../../assets/lottie/loading_circle.json";
 
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -142,14 +142,14 @@ const WaitingRoomPage = ({ history }) => {
                     {members?.slice(0).reverse().map((list, index) => (
                       <div 
                         key={index} 
-                        style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === members.length-1 ? "16px" : null}}
+                        style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= DEVICE_SIZE.LARGE ? null : index === members.length-1 ? "16px" : null}}
                       >
                         <Body> {list.username} </Body>
                       </div>
                     ))}
                   </DisplayGroupMember>
                 </GroupMemberBox>
-                <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
                   <Button 
                     type="outline"
                     onClick={() => handleDeleteGroup()}
