@@ -11,6 +11,7 @@ import { COLOR } from "../../../global/const";
 export const Item = ({
   icon,
   amount,
+  onClick = () => {},
   zoom,
 }) => {
 
@@ -18,7 +19,11 @@ export const Item = ({
 
   return (
     <Container>
-      <ItemContainer onClick={play}>
+      <ItemContainer onClick={() => {
+          onClick(); 
+          play();
+        }
+      }>
         {zoom ? <img src={icon} width={60} /> : <img src={icon} width={40} />}
       </ItemContainer>
       <div style={{ marginBottom: 4 }}/>
