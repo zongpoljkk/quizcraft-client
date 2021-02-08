@@ -31,7 +31,7 @@ const WaitingRoomPage = ({ history }) => {
   const [get_all_members_loading, set_get_all_members_loading] = useState(true);
   const user_id = localStorage.getItem("userId");
 
-  const [play, { stop, isPlaying }] = useSound(bgm);
+  const [playBGM, { stop: stopBGM, isPlaying: isPlayingBGM }] = useSound(bgm);
 
   const {
     getGroupMembers,
@@ -121,13 +121,13 @@ const WaitingRoomPage = ({ history }) => {
     <Container isCreator = {is_creator}>
       <PlayButtonContainer>
         <PlayButton
-          active={isPlaying}
+          active={isPlayingBGM}
           size={60}
           iconColor="var(--color-background)"
           idleBackgroundColor={COLOR.ISLAND_SPICE}
           activeBackgroundColor={COLOR.MANDARIN}
-          play={play}
-          stop={stop}
+          play={playBGM}
+          stop={stopBGM}
         />
       </PlayButtonContainer>
       {get_all_members_loading || start_loading

@@ -145,7 +145,7 @@ const GroupGamePage = ({ history }) => {
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
                 {user &&
-                  <div style={{ marginRight: 8 }}>
+                  <div style={{ marginLeft: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
                 }
