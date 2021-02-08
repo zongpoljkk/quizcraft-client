@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
+import useSound from 'use-sound';
+import PlayButton from "react-play-button";
 
 import { Header, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
@@ -8,6 +10,7 @@ import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import loading_circle from "../../assets/lottie/loading_circle.json";
+import bgm from "../../assets/sounds/Last_Christmas.mp3";
 
 import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -27,6 +30,8 @@ const WaitingRoomPage = ({ history }) => {
   const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
   const [get_all_members_loading, set_get_all_members_loading] = useState(true);
   const user_id = localStorage.getItem("userId");
+
+  const [play, { stop, isPlaying }] = useSound(bgm);
 
   const {
     getGroupMembers,
@@ -114,6 +119,17 @@ const WaitingRoomPage = ({ history }) => {
 
   return (
     <Container isCreator = {is_creator}>
+      <PlayButtonContainer>
+        <PlayButton
+          active={isPlaying}
+          size={60}
+          iconColor="var(--color-background)"
+          idleBackgroundColor={COLOR.ISLAND_SPICE}
+          activeBackgroundColor={COLOR.MANDARIN}
+          play={play}
+          stop={stop}
+        />
+      </PlayButtonContainer>
       {get_all_members_loading || start_loading
         ? <LoadingPage />
         : (
@@ -193,6 +209,14 @@ const Container = styled.div.attrs((props) => ({
       z-index: 1060;
       transform: translate(-50%, -50%);
   `}
+`;
+
+const PlayButtonContainer = styled.div`
+  display: flex;
+  position: fixed;
+  right: 8px;
+  top: 62px;
+  transform: scale(0.6);
 `;
 
 const GroupMemberBox = styled.div`
