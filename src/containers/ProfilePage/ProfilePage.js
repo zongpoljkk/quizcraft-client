@@ -210,7 +210,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             {user_info.itemInfos?.map((item, index) => (
               <div key={index} style={{ marginRight: index === user_info.itemInfos.length-1 ? null : 16 }}>
                 {item.amount !== 0 && ((item.itemName === "Freeze" || item.itemName === "Double") ?
-                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} zoom={true} onClick={() => onItemClick(item)}></Item>
+                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} special_item={true} onClick={() => onItemClick(item)}></Item>
                   :
                     <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} onClick={() => onItemClick(item)}/>
                 )}
