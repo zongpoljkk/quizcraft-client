@@ -97,6 +97,13 @@ export const DEVICE_SIZE = {
 
 export const CONTAINER_PADDING = 64;
 
+export const ITEM_NAME = {
+  SKIP: "Skip",
+  HINT: "Hint",
+  DOUBLE: "Double",
+  REFRESH: "Refresh",
+  FREEZE: "Freeze"
+}
 export const NAVBAR_HEIGHT = 54;
 
 export const QUOTE = [

@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import Tex2SVG from "react-hook-mathjax";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
 import { Button } from "./Button";
 import { Report } from "./Report";
+import { DisplayAnswerText } from "./HandleText";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
 
 import { COLOR } from "../global/const";
-import { cDot2TimesFormat, useWindowDimensions } from "../global/utils";
+import { useWindowDimensions } from "../global/utils";
 
 export const AnswerModal = ({
   toggle,
@@ -24,7 +24,6 @@ export const AnswerModal = ({
   overlay_clickable
 }) => {
 
-  const asciimath2latex = require("asciimath-to-latex");
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
@@ -58,7 +57,10 @@ export const AnswerModal = ({
                               overflowY: "hidden",
                             }}
                           >
-                            <Tex2SVG display="inline" latex={asciimath2latex(cDot2TimesFormat(item))}/>
+                            <DisplayAnswerText 
+                              content={item}
+                              color={COLOR.TRINIDAD}
+                            />
                           </div>
                         ) : (
                           item
