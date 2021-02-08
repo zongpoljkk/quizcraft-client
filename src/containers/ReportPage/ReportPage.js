@@ -37,7 +37,6 @@ const ReportPage = ({ history }) => {
     await set_report_content(content);
     date = new Date();
     await set_is_clicked(true);
-    await toggle();
   }
 
   const onSubmit = () => {

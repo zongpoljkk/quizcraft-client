@@ -4,7 +4,7 @@ import axios from "axios";
 import backend from "../../ip";
 
 export const useSendReport = (user_id, problem_id, report_content, date) => {
-  const [report_success, set_report_success] = useState(false);
+  const [report_success, set_report_success] = useState();
 
   const sendReport = async () => {
     try {
@@ -21,6 +21,9 @@ export const useSendReport = (user_id, problem_id, report_content, date) => {
         console.log("send report Error");
       } 
     } catch (error) {
+      if(error.response.status === 400){
+        set_report_success(false);
+      };
       console.log("There are something wrong about send report :(");
     }
   };
