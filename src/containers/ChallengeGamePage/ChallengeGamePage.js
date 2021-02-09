@@ -175,7 +175,6 @@ const ChallengeGame = ({ history }) => {
 
   // Handle the display of user's score 
   useEffect(() => {
-    console.log('useEffect score')
     if (my_info) {
       set_my_score(my_info.score)
     }
