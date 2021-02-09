@@ -219,7 +219,7 @@ const GroupGamePage = ({ history }) => {
                   <div style={{ marginLeft: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
-                )}
+                }
               </Headline>
               <TimeContainer>
                 <Subheader color={COLOR.MANDARIN}>
@@ -293,7 +293,7 @@ const GroupGamePage = ({ history }) => {
                       ส่ง
                     </Button>
                   </ButtonContainer>
-                )}
+                }
                 {answer_modal_loading && <LoadingPage overlay={true} />}
                 {is_time_out ? (
                   <AnswerModal
