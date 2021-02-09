@@ -37,7 +37,7 @@ const ReportPage = ({ history }) => {
     await set_report_content(content);
     date = new Date();
     await set_is_clicked(true);
-  }
+  };
 
   const onSubmit = () => {
     if(report_success){
@@ -56,7 +56,7 @@ const ReportPage = ({ history }) => {
               difficulty: location.state.difficulty,
             },
           });
-        }
+        };
       } else if (location.state.mode === MODE.QUIZ.type) {
         if (location.state.current_index < location.state.number_of_problem) {
           history.push({
@@ -92,15 +92,21 @@ const ReportPage = ({ history }) => {
         }
       } else {
         history.goBack();
-      }
-    }
+      };
+    };
   };
 
   useEffect(() => {
     if(is_clicked){
       sendReport();
-    }
+    };
   }, [is_clicked]);
+
+  useEffect(() => {
+    if(report_success){
+      toggle();
+    };
+  }, [report_success]);
   
   return (
     <Container>
