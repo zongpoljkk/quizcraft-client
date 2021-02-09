@@ -209,7 +209,6 @@ const ChallengeGame = ({ history }) => {
             <UserInfo
               my_image={my_info.photo}
               challenger_image={challenger_info.photo}
-              // my_score={my_info.score}
               my_score={my_score}
               challenger_score={challenger_info.score}
               challenger_is_played={challenger_info.isPlayed}
