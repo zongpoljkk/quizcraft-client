@@ -47,14 +47,10 @@ export const DisplayText = ({
 
   return (
     <Container justifyContent={justifyContent}>
-      {textWithNBSpaceReplaced.split('\n').map((line) => {
+      {textWithNBSpaceReplaced.split("\n").map((line) => {
         return (
-        <div>
-        {line.split(" ").map((text, i) => (
-          DisplayText(text, i)
-        ))}
-        </div>
-        )
+          <div>{line.split(" ").map((text, i) => DisplayText(text, i))}</div>
+        );
       })}
     </Container>
   );
