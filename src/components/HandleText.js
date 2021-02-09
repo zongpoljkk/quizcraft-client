@@ -14,7 +14,8 @@ export const DisplayText = ({
 }) => {
 
   const asciimath2latex = require("asciimath-to-latex");
-  
+  var textWithNBSpaceReplaced = content.replace(/\xA0/g,' ');
+
   const hasThaiString = (word) => {
     var regExp = /[ก-๛]/gi;
     return regExp.test(word);
@@ -46,7 +47,7 @@ export const DisplayText = ({
 
   return (
     <Container justifyContent={justifyContent}>
-      {content.split("\n").map((line) => {
+      {textWithNBSpaceReplaced.split("\n").map((line) => {
         return line.split(" ").map((text, i) => <div key={i}>{DisplayAnswerText(text, i)}</div>);
       })}
     </Container>
