@@ -238,7 +238,6 @@ const PracticeAnswer = ({ history, user_info }) => {
                           : "center",
                     }}
                   >
-                    {console.log(line.length)}
                     {location.state.subject === "คณิตศาสตร์" ? (
                       <DisplayText
                         fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
