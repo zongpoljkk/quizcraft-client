@@ -207,8 +207,9 @@ const Container = styled.div.attrs((props) => ({
       position: fixed;
       left: 50%;
       top: 50%;
-      z-index: 1060;
+      z-index: 10;
       transform: translate(-50%, -50%);
+      height: 100%;
   `}
 `;
 
