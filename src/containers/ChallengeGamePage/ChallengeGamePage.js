@@ -148,6 +148,12 @@ const ChallengeGame = ({ history }) => {
           set_is_rank_up(true);
         };
         res.data.correct ? playCorrectSound() : playWrongSound()
+
+        // Handle the display of user's score
+        if (res.data.correct) {
+          set_my_score(score => score + 1);
+        }
+
       });
       toggle();
     }
@@ -167,13 +173,13 @@ const ChallengeGame = ({ history }) => {
     }
   }, [my_info]);
 
-  // useEffect(() => {
-  //   console.log('useEffect myInfo')
-  //   getChallengeInfo().then((res) => {
-  //     console.log(my_info)
-  //     set_my_score(res.score)
-  //   })
-  // }, [onNext])
+  // Handle the display of user's score 
+  useEffect(() => {
+    console.log('useEffect score')
+    if (my_info) {
+      set_my_score(my_info.score)
+    }
+  }, [my_info])
 
   return loading_info || loading_problem ? (
     <LoadingPage />
