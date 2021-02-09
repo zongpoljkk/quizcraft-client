@@ -97,6 +97,11 @@ export const DEVICE_SIZE = {
 
 export const CONTAINER_PADDING = 64;
 
+export const WRONG_ANSWER = {
+  MATH: "1.2^[1.23]",
+  MATH_BOX: "0.12345654321",
+  STRING: "dasdasldgaso",
+}
 export const ITEM_NAME = {
   SKIP: "Skip",
   HINT: "Hint",

@@ -25,10 +25,11 @@ import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
-import { ANSWER_TYPE, COLOR, DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
+
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
@@ -239,7 +240,7 @@ const ChallengeGame = ({ history }) => {
                   onCheck(
                     problem_id,
                     user_id,
-                    "WRONG ANSWER",
+                    WRONG_ANSWER.MATH,
                     getTime(),
                     location.state.subject_name,
                     location.state.topic_name,
