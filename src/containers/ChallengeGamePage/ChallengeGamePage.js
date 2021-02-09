@@ -42,6 +42,7 @@ const ChallengeGame = ({ history }) => {
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
   const [earned_coins, set_earned_coins] = useState(0);
+  const [my_score, set_my_score] = useState(0);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
@@ -147,6 +148,12 @@ const ChallengeGame = ({ history }) => {
           set_is_rank_up(true);
         };
         res.data.correct ? playCorrectSound() : playWrongSound()
+
+        // Handle the display of user's score
+        if (res.data.correct) {
+          set_my_score(score => score + 1);
+        }
+
       });
       toggle();
     }
@@ -165,6 +172,13 @@ const ChallengeGame = ({ history }) => {
       );
     }
   }, [my_info]);
+
+  // Handle the display of user's score 
+  useEffect(() => {
+    if (my_info) {
+      set_my_score(my_info.score)
+    }
+  }, [my_info])
 
   return loading_info || loading_problem ? (
     <LoadingPage />
@@ -195,7 +209,7 @@ const ChallengeGame = ({ history }) => {
             <UserInfo
               my_image={my_info.photo}
               challenger_image={challenger_info.photo}
-              my_score={my_info.score}
+              my_score={my_score}
               challenger_score={challenger_info.score}
               challenger_is_played={challenger_info.isPlayed}
             />
