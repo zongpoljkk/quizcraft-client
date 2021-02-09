@@ -46,9 +46,9 @@ export const DisplayText = ({
 
   return (
     <Container justifyContent={justifyContent}>
-      {content.split(" ").map((text, i) => (
-        <div key={i}>{DisplayAnswerText(text, i)}</div>
-      ))}
+      {content.split("\n").map((line) => {
+        return line.split(" ").map((text, i) => <div key={i}>{DisplayAnswerText(text, i)}</div>);
+      })}
     </Container>
   );
 };
