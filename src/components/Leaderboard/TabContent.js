@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
@@ -8,21 +8,38 @@ export const TabContent = ({
   data,
   index
 }) => {
-  return(  
+
+  const useScroll = () => {
+    const elRef = useRef(null);
+    const executeScroll = () => elRef.current.scrollIntoView({ block: "end" });
+
+    return [executeScroll, elRef];
+  };
+
+  const [executeScroll, elRef] = useScroll();
+  useEffect(executeScroll, []);
+
+  return (
     <Container>
       {Object.entries(data).map((user, i) => (
-        <InfoBox key={i} backgroundColor={(index-1) === i ? COLOR.MANDARIN : null}>
-          <OrderText>{i+1}</OrderText>
+        <InfoBox
+          key={i}
+          backgroundColor={index - 1 === i ? COLOR.MANDARIN : null}
+          ref={index - 1 === i ? elRef : null}
+        >
+          <OrderText>{i + 1}</OrderText>
           <UserImg backgroundColor={user[1].profileImage ? null : COLOR.ISLAND_SPICE}>
             {user[1].profileImage ? (
-                <img
-                  style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-                  src={"data:image/png;base64," + user[1].profileImage.data}
-                />
-              ) : null}
+              <img
+                style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                src={"data:image/png;base64," + user[1].profileImage.data}
+              />
+            ) : null}
           </UserImg>
           <Body>{user[1].username}</Body>
-          <LevelText color={(index-1) === i ? COLOR.ISLAND_SPICE : COLOR.GOLDEN_TAINOI}> Lv.{user[1].level}</LevelText>
+          <LevelText color={index - 1 === i ? COLOR.ISLAND_SPICE : COLOR.GOLDEN_TAINOI}>
+            Lv.{user[1].level}
+          </LevelText>
         </InfoBox>
       ))}
     </Container>
@@ -44,11 +61,12 @@ const InfoBox = styled.div`
   flex: 1;
   align-items: center;
   padding: 4px 16px 4px 16px;
+  min-height: 40px;
   background-color: ${props => props.backgroundColor};
 `;
 
 const OrderText = styled(Body)`
-  display: grid;
+  display: flex;
   width: 24px;
 `;
 
