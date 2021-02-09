@@ -97,6 +97,7 @@ const GroupGamePage = ({ history }) => {
           difficulty : location.state.difficulty
         }
       });
+      window.location.reload();
     } else {
       // TODO: connect API check answer hold 10-15 sec and getGroupGame()
       getGroupGame();
@@ -141,11 +142,12 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => {
                   subscribe(location.state.group_id);
                   history.push("/");
+                  window.location.reload();
                 }}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
                 {user &&
-                  <div style={{ marginRight: 8 }}>
+                  <div style={{ marginLeft: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
                 }
