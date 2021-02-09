@@ -15,12 +15,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
-import {
-  ANSWER_TYPE,
-  COLOR,
-  LARGE_DEVICE_SIZE,
-  WRONG_ANSWER,
-} from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE, LARGE_DEVICE_SIZE, WRONG_ANSWER, } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -124,6 +119,7 @@ const GroupGamePage = ({ history }) => {
           difficulty: location.state.difficulty,
         },
       });
+      window.location.reload();
     } else {
       getGroupGame();
       set_skip(false);
@@ -212,20 +208,16 @@ const GroupGamePage = ({ history }) => {
             <Container>
               {is_time_out ? stop() : start()}
               <Headline>
-                <ExitModal
-                  onExit={() => {
-                    subscribe(location.state.group_id);
-                    history.push("/");
-                  }}
-                />
-                <div style={{ marginRight: 8 }} />
-                <ProblemIndex
-                  indexes={number_of_problem}
-                  current_index={current_index + 1}
-                />
-                {user && (
-                  <div style={{ marginRight: 8 }}>
-                    <PointBox points={user?.point} />
+                <ExitModal onExit={() => {
+                  subscribe(location.state.group_id);
+                  history.push("/");
+                  window.location.reload();
+                }}/>
+                <div style={{ marginRight: 8 }}/>
+                <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
+                {user &&
+                  <div style={{ marginLeft: 8 }}>
+                    <PointBox points={user?.point}/>
                   </div>
                 )}
               </Headline>
@@ -274,14 +266,8 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {user && !skip && !is_time_out && !sent_answer && (
-                  <ButtonContainer
-                    justifyContent={
-                      screen_width >= LARGE_DEVICE_SIZE
-                        ? "space-evenly"
-                        : "space-between"
-                    }
-                  >
+                {(user && (!skip && !is_time_out && !sent_answer)) &&
+                  <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
                       onClick={() => {

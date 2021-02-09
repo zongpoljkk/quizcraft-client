@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
+import useSound from 'use-sound';
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
@@ -20,10 +21,15 @@ import {
   getAndCheckAnswer,
 } from "./ChallengeGamePageHelper";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import correctSound from "../../assets/sounds/correct.mp3";
+import wrongSound from "../../assets/sounds/wrong.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
+
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
+
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
@@ -39,6 +45,10 @@ const ChallengeGame = ({ history }) => {
   const [earned_coins, set_earned_coins] = useState(0);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
+
+  const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
+  const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const {
     getChallengeInfo,
@@ -65,6 +75,9 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       );
     }
+    if(is_level_up || is_rank_up) {
+      playLevelUpSound();
+    };
     history.push({
       pathname: "./all-challenges",
       state: {
@@ -137,6 +150,7 @@ const ChallengeGame = ({ history }) => {
         if(res.data.rank_up) {
           set_is_rank_up(true);
         };
+        res.data.correct ? playCorrectSound() : playWrongSound()
       });
       toggle();
     }
@@ -216,7 +230,7 @@ const ChallengeGame = ({ history }) => {
             </ContentContainer>
             <ButtonContainer
               justifyContent={
-                screen_width >= LARGE_DEVICE_SIZE
+                screen_width >= DEVICE_SIZE.LARGE
                   ? "space-evenly"
                   : "space-between"
               }
@@ -230,7 +244,7 @@ const ChallengeGame = ({ history }) => {
                   onCheck(
                     problem_id,
                     user_id,
-                    "WRONG ANSWER",
+                    WRONG_ANSWER.MATH,
                     getTime(),
                     location.state.subject_name,
                     location.state.topic_name,

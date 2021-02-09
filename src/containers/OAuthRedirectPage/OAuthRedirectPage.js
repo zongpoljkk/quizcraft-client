@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
 import qs from 'query-string';
@@ -19,11 +19,12 @@ const OAuthRedirectPage = () => {
       });
       
       if (response.data) {
-        const { success, token } = response.data
+        const { success, token, refreshToken } = response.data
         if (success) {
           var decoded = jwt_decode(token);
           var userId = decoded.userId;
           localStorage.setItem("token", token);
+          localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("userId", userId);
           history.push('/homepage');
           history.go(0);

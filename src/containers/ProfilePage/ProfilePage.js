@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import useSound from 'use-sound';
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
@@ -8,19 +9,22 @@ import { Button } from "../../components/Button";
 import { Item } from "./components/Item";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import useModal from "../../components/useModal";
+import { ConfirmModal } from "../../components/ConfirmModal";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import { useActivateItem } from "./ProfilePageHelper";
+import { AlertModal } from "../../components/AlertModal"
 
 import edit_username_icon from "../../assets/icon/edit_username.png";
 import bronze from "../../assets/icon/bronze.png";
 import silver from "../../assets/icon/silver.png";
 import gold from "../../assets/icon/gold.png";
 import edit_photo from "../../assets/icon/photo.png";
+import click from "../../assets/sounds/click.mp3";
 
-import { COLOR, CONTAINER_PADDING, RANK } from "../../global/const";
+import { COLOR, CONTAINER_PADDING, RANK, ITEM_NAME, NAVBAR_HEIGHT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 import { useChangeProfileImage } from "./ProfilePageHelper";
-import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 
-const NAVBAR_HEIGHT = 54;
 const ITEM_SIZE = 102;
 
 const ProfilePage = ({ history, handleLogout, user_info }) => {
@@ -29,8 +33,23 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const [hover, set_hover] = useState(false);
   const inputFile = useRef(null);
   const [selected_image, set_selected_image] = useState(null);
+
+  const [clicked_item, set_clicked_item] = useState();
+  const [isShowingUseItem, toggleUseItem] = useModal();
+  const [isShowingUseItemResult, toggleUseItemResult] = useModal();
+  const [isShowingDisableItem, toggleDisableItem] = useModal();
+  const clickableItem = [ITEM_NAME.FREEZE, ITEM_NAME.DOUBLE];
+  const [play] = useSound(click, { volume: 0.25 });
   
   const [isShowingChangeImageResult, toggleChangeImageResult] = useModal();
+  const user_id = localStorage.getItem("userId");
+
+  const { 
+    activateItem,
+    activate_item_loading, 
+    use_success 
+  } = useActivateItem(user_id);
+  
   
   const { changeProfileImage, change_image_loading, change_image_success } = useChangeProfileImage();
 
@@ -45,6 +64,20 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
   const handleUpload = () => {
     inputFile.current.click();
   };
+
+  const onConfirmUseItemModalSubmit = async () => {
+    await activateItem(clicked_item);
+    await toggleUseItemResult();
+  };
+
+  const onItemClick = (item) => {
+    set_clicked_item(item)
+    if (clickableItem.includes(item.itemName)) {
+      toggleUseItem();
+    } else {
+      toggleDisableItem();
+    }
+  }
 
   const JSONtoFormData = (json) => {
     let formData = new FormData();
@@ -84,7 +117,10 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             {hover &&
               <div
                 style={{ marginTop: 8, position: 'absolute' }}
-                onClick={handleUpload}
+                onClick={() => {
+                  handleUpload();
+                  play();
+                }}
               >
                 <input 
                   type="file"
@@ -115,6 +151,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             <div 
               style={{ marginLeft: 16 }}
               onClick={() => {
+                play();
                 history.push({
                   pathname: "/edit-username", 
                   state: {
@@ -172,14 +209,38 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
           >
             {user_info.itemInfos?.map((item, index) => (
               <div key={index} style={{ marginRight: index === user_info.itemInfos.length-1 ? null : 16 }}>
-                {(item.itemName === "Freeze" || item.itemName === "Double") ?
-                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} zoom={true}></Item>
+                {item.amount !== 0 && ((item.itemName === "Freeze" || item.itemName === "Double") ?
+                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} special_item={true} onClick={() => onItemClick(item)}></Item>
                   :
-                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount}/>
-                }
+                    <Item icon={"data:image/png;base64,"+item.data} amount={item.amount} onClick={() => onItemClick(item)}/>
+                )}
               </div>
             ))}
           </ItemContainer>
+          <ConfirmModal
+            isShowing={isShowingUseItem}
+            toggle={toggleUseItem}
+            content="คุณยืนยันที่จะใช้ไอเทมนี้ใช่หรือไม่" 
+            onSubmit={() => onConfirmUseItemModalSubmit()} 
+          />
+          <ConfirmResultModal
+            isShowing={isShowingUseItemResult}
+            toggle={toggleUseItemResult}
+            success={use_success}
+            success_description={clicked_item? (clicked_item.description? clicked_item.description : "ใช้ไอเทมสำเร็จ" ) :"ใช้ไอเทมสำเร็จ"}
+            fail_description="ใช้ไอเทมไม่สำเร็จ"
+            onSubmit={() => {
+              if(use_success){
+                window.location.reload();
+              }
+            }}
+          />
+          <AlertModal
+            isShowing={isShowingDisableItem} 
+            toggle={toggleDisableItem} 
+            text="ไม่สามารถใช้ไอเทมนี้ในหน้านี้ได้"
+          />
+          {activate_item_loading && <LoadingPage overlay={true} />}
         </ContentContainer>
         <Button 
           type="outline" 

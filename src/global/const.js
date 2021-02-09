@@ -87,6 +87,30 @@ export const REPORT = {
   ETC: "อื่น ๆ",
 };
 
+export const DEVICE_SIZE = {
+  LARGE: 768,
+  S: 380,
+  XS: 360,
+  XXS: 320,
+  XXXS: 304
+};
+
+export const CONTAINER_PADDING = 64;
+
+export const WRONG_ANSWER = {
+  MATH: "1.2^[1.23]",
+  MATH_BOX: "0.12345654321",
+  STRING: "dasdasldgaso",
+}
+export const ITEM_NAME = {
+  SKIP: "Skip",
+  HINT: "Hint",
+  DOUBLE: "Double",
+  REFRESH: "Refresh",
+  FREEZE: "Freeze"
+}
+export const NAVBAR_HEIGHT = 54;
+
 export const QUOTE = [
   "เราทำในสิ่งที่ต้องทำเพื่อจะได้ทำในสิ่งที่อยากทำ",
   "จงพยายามเป็นคนที่เปี่ยมไปด้วยคุณค่า",
@@ -102,6 +126,21 @@ export const QUOTE = [
 
 export const LARGE_DEVICE_SIZE = 768;
 
-export const CONTAINER_PADDING = 64;
-
-export const WRONG_ANSWER = "jg9034jf0wjof0";
+export const TYPOGRAPHY = {
+  HEADER: {
+    font_weight: "600",
+    font_size: "24"
+  },
+  SUBHEADER: {
+    font_weight: "500",
+    font_size: "20"
+  },
+  BODY: {
+    font_weight: "400",
+    font_size: "16"
+  },
+  OVERLINE: {
+    font_weight: "400",
+    font_size: "12"
+  }
+};

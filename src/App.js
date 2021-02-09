@@ -5,7 +5,7 @@ import axios from "axios";
 import { PrivateRoute } from "./route/PrivateRoute";
 import { PublicRoute } from "./route/PublicRoute";
 import backend from "./ip";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Page from "./containers/Page";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import PracticeAnswer from "./containers/PracticeAnswer/PracticeAnswer";
@@ -63,13 +63,7 @@ const App = () => {
         console.log("getUserInfo Error");
       }
     } catch (error) {
-      if (error.response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        window.location.pathname = "/";
-      } else {
-        console.log("There are something wrong about get user infomation :(");
-      }
+      console.log("There are something wrong about get user infomation :(");
     }
   };
 
@@ -78,6 +72,80 @@ const App = () => {
       getUserData();
     }
   }, []);
+
+  let isRefreshing = false;
+  let failedQueue = [];
+
+  const processQueue = (error, token = null) => {
+    failedQueue.forEach((prom) => {
+      if (error) {
+        prom.reject(error);
+      } else {
+        prom.resolve(token);
+      }
+    });
+
+    failedQueue = [];
+  };
+
+  axios.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      const originalRequest = error.config;
+
+      if(error.response.data.from === "refresh token"){
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userId");
+        window.location.pathname = "/";
+      }
+
+      if (error.response.status === 401 && !originalRequest._retry) {
+        if (isRefreshing) {
+          return new Promise(function (resolve, reject) {
+            failedQueue.push({ resolve, reject });
+          })
+            .then((token) => {
+              originalRequest.headers["Authorization"] = "Bearer " + token;
+              return axios(originalRequest);
+            })
+            .catch((err) => {
+              return Promise.reject(err);
+            });
+        }
+
+        originalRequest._retry = true;
+        isRefreshing = true;
+
+        return new Promise(function (resolve, reject) {
+          axios
+            .post(backend + "auth/refresh-token", {
+              refreshToken: localStorage.getItem("refreshToken"),
+            })
+            .then(({ data }) => {
+              localStorage.setItem("token", data.token);
+              localStorage.setItem("refreshToken", data.refreshToken);
+              axios.defaults.headers.common["Authorization"] =
+                "Bearer " + data.token;
+              originalRequest.headers["Authorization"] = "Bearer " + data.token;
+              processQueue(null, data.token);
+              resolve(axios(originalRequest));
+            })
+            .catch((err) => {
+              processQueue(err, null);
+              reject(err);
+            })
+            .finally(() => {
+              isRefreshing = false;
+            });
+        });
+      }
+
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <Router>
@@ -98,7 +166,7 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/practice-answer"
             getUserData={getUserData}
           >
-            <PracticeAnswer user_info={user_info}/>
+            <PracticeAnswer user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -112,14 +180,14 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/quiz-result"
             getUserData={getUserData}
           >
-            <QuizResultPage user_info={user_info}/>
+            <QuizResultPage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
           >
-            <AllChallengePage user_info={user_info}/>
+            <AllChallengePage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -161,7 +229,7 @@ const App = () => {
           <PublicRoute path="/oauth/mcv-callback">
             <OAuthRedirectPage />
           </PublicRoute>
-          <PrivateRoute exact path="/selected_subject/:subject" getUserData={getUserData}>
+          <PrivateRoute exact path="/topics/:subject" getUserData={getUserData}>
             <TopicPage />
           </PrivateRoute>
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>

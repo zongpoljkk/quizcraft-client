@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
+import PlayButton from "react-play-button";
 
 import { Header, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
@@ -9,7 +10,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 
 import loading_circle from "../../assets/lottie/loading_circle.json";
 
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -17,7 +18,8 @@ import {
   useDeleteGroup,
   useLeaveGroup,
   useGetGenerateProblem,
-  useServerSentEvent
+  useServerSentEvent,
+  BGMSound
 } from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
@@ -54,15 +56,19 @@ const WaitingRoomPage = ({ history }) => {
     delete_group
   } = useServerSentEvent();
 
+  const { playBGM, stopBGM, isPlayingBGM } = BGMSound();
+
   const handleDeleteGroup = () => {
     deleteGroup(location.state.group_id, user_id);
     subscribe(location.state.group_id);
+    stopBGM();
     history.push("/homepage");
   };
 
   const handleLeaveGroup = () => {
     leaveGroup(location.state.group_id, user_id);
     subscribe(location.state.group_id);
+    stopBGM();
     history.push("/homepage");
   };
 
@@ -102,6 +108,7 @@ const WaitingRoomPage = ({ history }) => {
     };
     if (delete_group) {
       subscribe(location.state.group_id);
+      stopBGM();
       history.push("*");
     };
   }, [update_member, start_game, delete_group]);
@@ -114,6 +121,16 @@ const WaitingRoomPage = ({ history }) => {
 
   return (
     <Container isCreator = {is_creator}>
+      <PlayButtonContainer>
+        <PlayButton
+          active={isPlayingBGM}
+          size={60}
+          idleBackgroundColor={COLOR.ISLAND_SPICE}
+          activeBackgroundColor={COLOR.MANDARIN}
+          play={playBGM}
+          stop={stopBGM}
+        />
+      </PlayButtonContainer>
       {get_all_members_loading || start_loading
         ? <LoadingPage />
         : (
@@ -142,14 +159,14 @@ const WaitingRoomPage = ({ history }) => {
                     {members?.slice(0).reverse().map((list, index) => (
                       <div 
                         key={index} 
-                        style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= LARGE_DEVICE_SIZE ? null : index === members.length-1 ? "16px" : null}}
+                        style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= DEVICE_SIZE.LARGE ? null : index === members.length-1 ? "16px" : null}}
                       >
                         <Body> {list.username} </Body>
                       </div>
                     ))}
                   </DisplayGroupMember>
                 </GroupMemberBox>
-                <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
                   <Button 
                     type="outline"
                     onClick={() => handleDeleteGroup()}
@@ -193,6 +210,14 @@ const Container = styled.div.attrs((props) => ({
       z-index: 1060;
       transform: translate(-50%, -50%);
   `}
+`;
+
+const PlayButtonContainer = styled.div`
+  display: flex;
+  position: fixed;
+  right: 8px;
+  top: 62px;
+  transform: scale(0.6);
 `;
 
 const GroupMemberBox = styled.div`

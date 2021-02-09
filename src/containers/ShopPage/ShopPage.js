@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import useSound from 'use-sound';
 
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
 import { LottieFile } from "../../components/LottieFile";
@@ -12,6 +13,8 @@ import useModal from "../../components/useModal";
 
 import { COLOR } from "../../global/const";
 import { convertHexToRGBA, useWindowDimensions } from "../../global/utils";
+
+import click from "../../assets/sounds/click.mp3";
 
 import { useGetAllItems, useBuyItem } from "./ShopPageHelper";
 
@@ -31,7 +34,8 @@ const Shop = ({ history }) => {
   const { getAllItems, loading, items } = useGetAllItems();
   const { buyItem, buy_success } = useBuyItem(user_id, clicked_item);
 
-  
+  const [play] = useSound(click, { volume: 0.25 });
+
   const handleOnMouseEnter = (item) => {
     set_lottie_display((lottie_display) => {
       return {
@@ -53,6 +57,7 @@ const Shop = ({ history }) => {
   const handleItemClick = (item) => {
     toggle();
     set_clicked_item(item);
+    play();
   };
 
   const onConfirmModalSubmit = async () => {

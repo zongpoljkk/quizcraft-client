@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import ModeBox from "./ModeBox";
 
 import { COLOR, MODE } from "../../../global/const";
+
+import click from "../../../assets/sounds/click.mp3";
 
 const SubtopicBox = ({
   id,
@@ -13,6 +16,7 @@ const SubtopicBox = ({
   topic
 }) => {
   const [opened, set_opened] = useState(false);
+  const [play] = useSound(click, { volume: 0.25 });
 
   const handle_toggle = () => {
     if (opened) {
@@ -24,7 +28,13 @@ const SubtopicBox = ({
 
   return (
     <Container>
-      <Accordion onClick={handle_toggle}>{title}</Accordion>
+      <Accordion onClick={() => {
+        handle_toggle();
+        play();
+      }}
+      >
+        {title}
+      </Accordion>
       {opened === true
         ? Object.entries(MODE).map((item, index) => (
             <ModeBox 

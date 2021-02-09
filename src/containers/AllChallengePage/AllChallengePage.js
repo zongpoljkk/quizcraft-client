@@ -22,7 +22,7 @@ import {
   specificChallenge,
 } from "./AllChallengePageHelper";
 
-import { CONTAINER_PADDING, LARGE_DEVICE_SIZE } from "../../global/const";
+import { CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {
@@ -181,7 +181,7 @@ const AllChallengePage = ({ history, user_info }) => {
     <Container>
       <ButtonContainer
         justifyContent={
-          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
+          screen_width >= DEVICE_SIZE.LARGE ? "space-evenly" : "space-between"
         }
       >
         <Button
@@ -352,7 +352,6 @@ const ButtonContainer = styled.div.attrs((props) => ({
 
 const Box = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-self: flex-start;
   width: 100%;
