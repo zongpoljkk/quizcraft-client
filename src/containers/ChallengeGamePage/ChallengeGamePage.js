@@ -37,6 +37,7 @@ const ChallengeGame = ({ history }) => {
   const [correct, set_correct] = useState(false);
   const [answer_key, set_answer_key] = useState("");
   const [current_index, set_current_index] = useState(1);
+  const [user_score, set_user_score] = useState(0);
   const [time_start, set_time_start] = useState(true);
   const [isShowing, toggle] = useModal();
   const [is_level_up, set_is_level_up] = useState(false);
@@ -132,11 +133,14 @@ const ChallengeGame = ({ history }) => {
         subject,
         topic,
         subtopic,
-        "challenge",
+        "CHALLENGE",
         location.state.challenge_id,
         my_info.currentProblem
       ).then((res) => {
         set_correct(res.data.correct);
+        if (res.data.correct) {
+          set_user_score(my_info.score);
+        }
         set_answer_key(res.data.answer);
         set_earned_coins(
           (earned_coins) => earned_coins + res.data.earned_coins
@@ -171,7 +175,7 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       );
     }
-  }, [my_info]);
+  }, []);
 
   // Handle the display of user's score 
   useEffect(() => {
