@@ -48,7 +48,13 @@ export const DisplayText = ({
   return (
     <Container justifyContent={justifyContent}>
       {textWithNBSpaceReplaced.split('\n').map((line) => {
-        return line.split(" ").map((text, i) => <div key={i}>{DisplayText(text, i)}</div>);
+        return (
+        <div>
+        {line.split(" ").map((text, i) => (
+          DisplayText(text, i)
+        ))}
+        </div>
+        )
       })}
     </Container>
   );
@@ -70,7 +76,7 @@ const Typography = styled.div.attrs((props) => ({
   color: props.color || COLOR.CHARCOAL,
   margin: props.margin,
 }))`
-  display: flex;
+  display: inline-block;
   font-family: Prompt, sans-serif;
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.fontSize}px;
