@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
 import { Subheader } from "../../components/Typography";
-import { ExitModal } from "../../components/ExitModal"
+import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
-import { Button } from "../../components/Button"
-import { ProblemIndex } from "../../components/ProblemIndex"
-import { AnswerModal } from "../../components/AnswerModal"
+import { Button } from "../../components/Button";
+import { ProblemIndex } from "../../components/ProblemIndex";
+import { AnswerModal } from "../../components/AnswerModal";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
-import { ANSWER_TYPE, COLOR, DEVICE_SIZE } from "../../global/const";
+import {
+  ANSWER_TYPE,
+  COLOR,
+  DEVICE_SIZE,
+  WRONG_ANSWER,
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
   useGetGroupGame,
-  useGetNumberOfAnswer,
-  useGetNextProblem
+  checkGroupAnswer,
+  showAnswer,
 } from "./GroupGamePageHelper";
+import { useGetNumberOfAnswer, useGetNextProblem } from "./GroupGamePageHelper";
 import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
-// MOCK DATA
-const CORRECT = false;
-const CORRECT_ANSWER_FROM_BACKEND = "(22^[5]*22^[2])*22^[39+4x]";
-
 const GroupGamePage = ({ history }) => {
-  
   const location = useLocation();
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
@@ -39,6 +40,11 @@ const GroupGamePage = ({ history }) => {
   const [skip, set_skip] = useState(false);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  const [sent_answer, set_sent_answer] = useState(false);
+  const [correct, set_correct] = useState();
+  const [correct_answer, set_correct_answer] = useState("");
+  const firstUpdate = useRef(true);
 
   const {
     getGroupGame,
@@ -48,13 +54,13 @@ const GroupGamePage = ({ history }) => {
     time_per_problem,
     user,
     problem,
-    is_creator
+    is_creator,
   } = useGetGroupGame(user_id, location.state.group_id);
 
   const {
     getNumberOfAnswer,
     number_of_answer,
-    number_of_members
+    number_of_members,
   } = useGetNumberOfAnswer(location.state.group_id);
   const { getNextProblem } = useGetNextProblem(location.state.group_id);
 
@@ -62,119 +68,203 @@ const GroupGamePage = ({ history }) => {
     listening,
     subscribe,
     next_problem,
-    send_answer
+    send_answer,
+    show_answer,
   } = useServerSentEvent();
 
-  const onSkip = () => {
-    // TODO: connect API send no answer
-    set_skip(true);
-  };
+  // const onSkip = () => {
+  //   set_answer(WRONG_ANSWER);
+  // };
 
   const onSend = () => {
-    console.log(answer)
-    if(answer) {
-      console.log(answer)
-      toggle();
-      // TODO: connect API send answer
-    };
+    if (answer) {
+      set_sent_answer(true);
+      checkGroupAnswer(
+        user_id,
+        problem._id,
+        answer,
+        "GROUP",
+        location.state.group_id,
+        used_time
+      ).then((res) => {
+        set_correct(res.data.correct);
+        set_correct_answer(res.data.correctAnswer);
+      });
+      set_answer_modal_loading(false);
+    }
   };
 
   const onTimeOut = () => {
     set_is_time_out(true);
-    // TODO: connect API check answer
   };
 
   const handleNextProblem = () => {
-    if(current_index+1 === number_of_problem) {
+    if (current_index + 1 === number_of_problem) {
       // TODO: connect API check answer hold 10-15 sec then route to result page
       history.push({
-        pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-result", 
+        pathname: "./group-result",
         state: {
-          group_id : location.state.group_id,
-          subject_name : location.state.subject_name,
-          topic_name : location.state.topic_name,
-          subtopic_name : location.state.subtopic_name,
-          difficulty : location.state.difficulty
-        }
+          group_id: location.state.group_id,
+          subject_name: location.state.subject_name,
+          topic_name: location.state.topic_name,
+          subtopic_name: location.state.subtopic_name,
+          difficulty: location.state.difficulty,
+        },
       });
+      window.location.reload();
     } else {
-      // TODO: connect API check answer hold 10-15 sec and getGroupGame()
       getGroupGame();
-      set_is_time_out(false);
       set_skip(false);
     }
   };
 
+  const handleShowAnswer = () => {
+    if (!sent_answer) {
+      set_answer(WRONG_ANSWER);
+      set_used_time(time_per_problem);
+      // onSkip();
+    }
+    if (is_creator) {
+      showAnswer(location.state.group_id);
+    }
+  };
+
+  const handleNumberOfAnswer = async () => {
+    await getNumberOfAnswer();
+  };
+
+  // when creator click 'ตรวจสอบคำตอบ'
   useEffect(() => {
-    if(!listening) {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    if (!is_creator) {
+      if (!sent_answer) {
+        set_answer(WRONG_ANSWER);
+        set_used_time(time_per_problem);
+        // onSkip();
+      }
+      set_is_time_out(true);
+    }
+    toggle();
+  }, [show_answer]);
+
+  useEffect(() => {
+    if (!listening) {
       subscribe(location.state.group_id);
-    };
+    }
     getGroupGame();
   }, []);
 
+  // Wait until user time has been updated, then call onSend
   useEffect(() => {
-    getNumberOfAnswer();
+    // Prevent calling onSend again when time is out
+    if (!sent_answer && answer && used_time) {
+      set_answer_modal_loading(true);
+    }
+  }, [answer, used_time, is_time_out]);
+
+  useEffect(() => {
+    if (answer_modal_loading) {
+      onSend();
+    }
+  }, [answer_modal_loading]);
+
+  useEffect(() => {
+    handleNumberOfAnswer();
   }, [send_answer]);
 
   useEffect(() => {
-    if(next_problem) {
+    if (next_problem) {
+      // reset state
+      set_correct();
+      set_sent_answer(false);
+      set_answer();
+      set_used_time();
+      set_is_time_out(false);
+
       handleNextProblem();
-    };
+      getNumberOfAnswer();
+      toggle();
+    }
   }, [next_problem]);
 
-  return ( 
+  useEffect(() => {
+    if (is_time_out) {
+      handleShowAnswer();
+    }
+  }, [is_time_out]);
+
+  return (
     <Container>
-      {loading 
-        ? <LoadingPage/>
-        : (
+      {loading ? (
+        <LoadingPage />
+      ) : (
         <Timer
-          formatValue={(value) => `${(value < 10 ? `0${value}` : value)}`}
+          formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
           startImmediately={false}
           lastUnit="h"
-          initialTime={time_per_problem*1000}
+          initialTime={time_per_problem * 1000}
           direction="backward"
         >
           {({ getTime, start, stop }) => (
             <Container>
               {is_time_out ? stop() : start()}
               <Headline>
-                <ExitModal onExit={() => {
-                  subscribe(location.state.group_id);
-                  history.push("/");
-                }}/>
-                <div style={{ marginRight: 8 }}/>
-                <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                {user &&
-                  <div style={{ marginRight: 8 }}>
-                    <PointBox points={user?.point}/>
+                <ExitModal
+                  onExit={() => {
+                    subscribe(location.state.group_id);
+                    history.push("/");
+                    window.location.reload();
+                  }}
+                />
+                <div style={{ marginRight: 8 }} />
+                <ProblemIndex
+                  indexes={number_of_problem}
+                  current_index={current_index + 1}
+                />
+                {user && (
+                  <div style={{ marginLeft: 8 }}>
+                    <PointBox points={user?.point} />
                   </div>
-                }
+                )}
               </Headline>
               <TimeContainer>
                 <Subheader color={COLOR.MANDARIN}>
                   <Timer.Hours />:<Timer.Minutes />:<Timer.Seconds />
                 </Subheader>
               </TimeContainer>
-              {is_creator &&
+              {is_creator && (
                 <div style={{ marginBottom: 8 }}>
                   <NumberOfAnswer
                     number_of_answer={number_of_answer}
                     number_of_members={number_of_members}
-                    showButton={number_of_answer === number_of_members || is_time_out}
-                    button_title={current_index+1 !== number_of_problem ? "เริ่มข้อต่อไป" : "จบเกม"}
-                    onNext={() => getNextProblem()}
+                    // showButton={number_of_answer === number_of_members || is_time_out}
+                    showButton={is_creator}
+                    button_title="ตรวจสอบคำตอบ"
+                    onNext={onTimeOut}
                   />
                 </div>
-              }
+              )}
               <React.Fragment>
                 <ProblemBox
                   problem={problem.title}
-                  problem_content={problem.answerType === ANSWER_TYPE.MATH_INPUT ? problem.body : null}
+                  problem_content={
+                    problem.answerType === ANSWER_TYPE.MATH_INPUT
+                      ? problem.body
+                      : null
+                  }
                 />
-                <ContentContainer 
-                  style={{ alignSelf: problem.answerType === ANSWER_TYPE.MATH_INPUT ? "center" : "flex-start" }}
+                <ContentContainer
+                  style={{
+                    alignSelf:
+                      problem.answerType === ANSWER_TYPE.MATH_INPUT
+                        ? "center"
+                        : "flex-start",
+                  }}
                 >
-                  <GameContent 
+                  <GameContent
                     subject={location.state.subject_name}
                     type={problem.answerType}
                     correct_answer={problem.correctAnswer}
@@ -185,37 +275,62 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {(user && (!skip && !is_time_out)) &&
-                  <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
+                {user && !skip && !is_time_out && !sent_answer && (
+                  <ButtonContainer
+                    justifyContent={
+                      screen_width >= DEVICE_SIZE.LARGE
+                        ? "space-evenly"
+                        : "space-between"
+                    }
+                  >
                     <Button
                       type="outline"
                       onClick={() => {
-                        set_used_time(getTime()/1000);
-                        onSkip();
+                        set_answer(WRONG_ANSWER);
+                        set_used_time(time_per_problem);
+                        // onSkip();
                       }}
                     >
                       ข้าม
                     </Button>
                     <Button
                       type={answer ? "default" : "disabled"}
-                      onClick={() => {
-                        set_used_time(getTime()/1000);
-                        onSend();
-                      }}
+                      onClick={
+                        answer
+                          ? () => {
+                              set_used_time(
+                                time_per_problem - getTime() / 1000
+                              );
+                            }
+                          : () => {}
+                      }
                     >
                       ส่ง
                     </Button>
                   </ButtonContainer>
-                }
-                <AnswerModal
-                  isShowing={isShowing}
-                  toggle={toggle}
-                  // TODO: add real data instand of CORRECT after connect API
-                  subject={location.state.subject_name}
-                  correct={CORRECT}
-                  answer={CORRECT ? null : CORRECT_ANSWER_FROM_BACKEND}
-                  overlay_clickable={false}
-                />
+                )}
+                {answer_modal_loading && <LoadingPage overlay={true} />}
+                {is_time_out ? (
+                  <AnswerModal
+                    isShowing={isShowing}
+                    toggle={toggle}
+                    subject={location.state.subject_name}
+                    correct={correct}
+                    answer={correct ? null : correct_answer}
+                    overlay_clickable={false}
+                    buttonTitle={
+                      is_creator
+                        ? current_index + 1 !== number_of_problem
+                          ? "เริ่มข้อต่อไป"
+                          : "จบเกม"
+                        : null
+                    }
+                    onButtonClick={() => {
+                      getNextProblem();
+                    }}
+                    onClose={false}
+                  />
+                ) : null}
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
             </Container>
@@ -256,11 +371,11 @@ const TimeContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const ButtonContainer = styled.div.attrs(props => ({
-  justifyContent: props.justifyContent
+const ButtonContainer = styled.div.attrs((props) => ({
+  justifyContent: props.justifyContent,
 }))`
   display: flex;
-  justify-content: ${props => props.justifyContent};
+  justify-content: ${(props) => props.justifyContent};
 `;
 
 export default withRouter(GroupGamePage);

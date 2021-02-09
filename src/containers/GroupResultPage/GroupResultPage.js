@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { CSVLink } from "react-csv";
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
-import { Button } from "../../components/Button"
+import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
@@ -14,7 +14,7 @@ import silver from "../../assets/lottie/silver_trophy.json";
 import bronze from "../../assets/lottie/bronze_trophy.json";
 import export_icon from "../../assets/icon/export.png";
 
-import { COLOR, DEVICE_SIZE } from "../../global/const"
+import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -133,10 +133,12 @@ const GroupResultPage = ({ history }) => {
           difficulty : location.state.difficulty
         }
       });
+      window.location.reload();
     };
     if (delete_group) {
       subscribe(location.state.group_id);
       history.push("/homepage");
+      window.location.reload();
     };
   }, [restart_game, delete_group]);
 

@@ -21,9 +21,9 @@ export const AnswerModal = ({
   subject,
   correct,
   answer,
-  overlay_clickable
+  overlay_clickable,
+  onClose = true,
 }) => {
-
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
@@ -75,11 +75,13 @@ export const AnswerModal = ({
           <div style={{ marginBottom: 8 }} />
           <Report correct={correct} />
         </ContentContainer>
-        {buttonTitle &&
-          <Button 
+        {buttonTitle && (
+          <Button
             onClick={() => {
               onButtonClick();
-              toggle();
+              if (onClose) {
+                toggle();
+              }
             }}
             type="custom"
             size="small"
@@ -90,7 +92,7 @@ export const AnswerModal = ({
           >
             {buttonTitle}
           </Button>
-        }
+        )}
       </Container>
     </FooterModal>
   );

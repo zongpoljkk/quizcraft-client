@@ -65,15 +65,7 @@ const PracticeAnswer = ({ history, user_info }) => {
   const handleNextButtonClick = () => {
     history.push({
       pathname:
-        "/" +
-        location.state.subject +
-        "/" +
-        location.state.topic +
-        "/" +
-        location.state.subject +
-        "/" +
-        location.state.difficulty +
-        "/practice-game",
+        "./practice-game",
       state: {
         userId: location.state.userId,
         problemId: location.state.problemId,

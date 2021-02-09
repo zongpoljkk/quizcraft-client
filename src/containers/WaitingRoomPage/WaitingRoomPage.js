@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
+import PlayButton from "react-play-button";
 
 import { Header, Body } from "../../components/Typography";
 import { Button } from "../../components/Button";
@@ -17,7 +18,8 @@ import {
   useDeleteGroup,
   useLeaveGroup,
   useGetGenerateProblem,
-  useServerSentEvent
+  useServerSentEvent,
+  BGMSound
 } from "./WaitingRoomPageHelper";
 
 const WaitingRoomPage = ({ history }) => {
@@ -54,15 +56,19 @@ const WaitingRoomPage = ({ history }) => {
     delete_group
   } = useServerSentEvent();
 
+  const { playBGM, stopBGM, isPlayingBGM } = BGMSound();
+
   const handleDeleteGroup = () => {
     deleteGroup(location.state.group_id, user_id);
     subscribe(location.state.group_id);
+    stopBGM();
     history.push("/homepage");
   };
 
   const handleLeaveGroup = () => {
     leaveGroup(location.state.group_id, user_id);
     subscribe(location.state.group_id);
+    stopBGM();
     history.push("/homepage");
   };
 
@@ -102,6 +108,7 @@ const WaitingRoomPage = ({ history }) => {
     };
     if (delete_group) {
       subscribe(location.state.group_id);
+      stopBGM();
       history.push("*");
     };
   }, [update_member, start_game, delete_group]);
@@ -114,6 +121,16 @@ const WaitingRoomPage = ({ history }) => {
 
   return (
     <Container isCreator = {is_creator}>
+      <PlayButtonContainer>
+        <PlayButton
+          active={isPlayingBGM}
+          size={60}
+          idleBackgroundColor={COLOR.ISLAND_SPICE}
+          activeBackgroundColor={COLOR.MANDARIN}
+          play={playBGM}
+          stop={stopBGM}
+        />
+      </PlayButtonContainer>
       {get_all_members_loading || start_loading
         ? <LoadingPage />
         : (
@@ -190,9 +207,18 @@ const Container = styled.div.attrs((props) => ({
       position: fixed;
       left: 50%;
       top: 50%;
-      z-index: 1060;
+      z-index: 10;
       transform: translate(-50%, -50%);
+      height: 100%;
   `}
+`;
+
+const PlayButtonContainer = styled.div`
+  display: flex;
+  position: fixed;
+  right: 8px;
+  top: 62px;
+  transform: scale(0.6);
 `;
 
 const GroupMemberBox = styled.div`

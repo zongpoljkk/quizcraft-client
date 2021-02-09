@@ -22,6 +22,7 @@ export const useGetChallengeInfo = (user_id, challenge_id) => {
         set_my_info(data.me);
         set_challenger_info(data.opponent);
         set_loading_info(false);
+        return (my_info);
       } else {
         console.log("getChallengeInfo Error");
       } 
