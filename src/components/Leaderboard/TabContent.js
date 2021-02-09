@@ -49,8 +49,7 @@ const InfoBox = styled.div`
 
 const OrderText = styled(Body)`
   display: grid;
-  min-width: 12px;
-  max-width: 36px;
+  width: 24px;
 `;
 
 const LevelText = styled(Body)`
