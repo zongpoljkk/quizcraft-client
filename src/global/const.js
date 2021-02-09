@@ -124,8 +124,6 @@ export const QUOTE = [
   "จงผลัดวันประกันพรุ่งแต่ในเรื่องที่คุณจะไม่เสียดาย หากว่าตายไปโดยไม่ได้ทำมัน",
 ];
 
-export const LARGE_DEVICE_SIZE = 768;
-
 export const TYPOGRAPHY = {
   HEADER: {
     font_weight: "600",

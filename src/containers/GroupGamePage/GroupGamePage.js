@@ -19,7 +19,6 @@ import {
   ANSWER_TYPE,
   COLOR,
   DEVICE_SIZE,
-  LARGE_DEVICE_SIZE,
   WRONG_ANSWER,
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
