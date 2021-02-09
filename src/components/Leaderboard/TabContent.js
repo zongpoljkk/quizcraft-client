@@ -11,7 +11,7 @@ export const TabContent = ({
 
   const useScroll = () => {
     const elRef = useRef(null);
-    const executeScroll = () => elRef.current.scrollIntoView({ block: "end" });
+    const executeScroll = () => elRef.current.scrollIntoView({ block: "center" });
 
     return [executeScroll, elRef];
   };
