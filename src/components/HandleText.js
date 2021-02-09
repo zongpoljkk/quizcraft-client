@@ -47,7 +47,7 @@ export const DisplayText = ({
 
   return (
     <Container justifyContent={justifyContent}>
-      {textWithNBSpaceReplaced.split("\n").map((line) => {
+      {textWithNBSpaceReplaced.split('\n').map((line) => {
         return line.split(" ").map((text, i) => <div key={i}>{DisplayAnswerText(text, i)}</div>);
       })}
     </Container>
