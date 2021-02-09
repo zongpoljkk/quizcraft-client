@@ -21,7 +21,7 @@ export const DisplayText = ({
     return regExp.test(word);
   };
 
-  const DisplayAnswerText = (content) => {
+  const DisplayText = (content) => {
       if (hasThaiString(content)) {
         return (
           <Typography fontWeight={fontWeight} fontSize={fontSize} color={color}>
@@ -48,7 +48,7 @@ export const DisplayText = ({
   return (
     <Container justifyContent={justifyContent}>
       {textWithNBSpaceReplaced.split('\n').map((line) => {
-        return line.split(" ").map((text, i) => <div key={i}>{DisplayAnswerText(text, i)}</div>);
+        return line.split(" ").map((text, i) => <div key={i}>{DisplayText(text, i)}</div>);
       })}
     </Container>
   );
