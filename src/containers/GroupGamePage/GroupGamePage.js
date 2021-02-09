@@ -15,7 +15,13 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
-import { ANSWER_TYPE, COLOR, DEVICE_SIZE, LARGE_DEVICE_SIZE, WRONG_ANSWER, } from "../../global/const";
+import {
+  ANSWER_TYPE,
+  COLOR,
+  DEVICE_SIZE,
+  LARGE_DEVICE_SIZE,
+  WRONG_ANSWER,
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -86,13 +92,10 @@ const GroupGamePage = ({ history }) => {
         set_correct_answer(res.data.correctAnswer);
       });
       set_answer_modal_loading(false);
-      toggle();
     }
   };
 
   const onTimeOut = () => {
-    set_answer(WRONG_ANSWER);
-    set_used_time(time_per_problem);
     set_is_time_out(true);
   };
 
@@ -100,17 +103,7 @@ const GroupGamePage = ({ history }) => {
     if (current_index + 1 === number_of_problem) {
       // TODO: connect API check answer hold 10-15 sec then route to result page
       history.push({
-        pathname:
-          "/" +
-          location.state.subject_name +
-          "/" +
-          location.state.topic_name +
-          "/" +
-          location.state.subtopic_name +
-          "/" +
-          location.state.difficulty +
-          "/" +
-          "group-result",
+        pathname: "./group-result",
         state: {
           group_id: location.state.group_id,
           subject_name: location.state.subject_name,
@@ -132,8 +125,13 @@ const GroupGamePage = ({ history }) => {
       set_used_time(time_per_problem);
       // onSkip();
     }
-    set_is_time_out(true);
-    showAnswer(location.state.group_id)
+    if (is_creator) {
+      showAnswer(location.state.group_id);
+    }
+  };
+
+  const handleNumberOfAnswer = async () => {
+    await getNumberOfAnswer();
   };
 
   // when creator click 'ตรวจสอบคำตอบ'
@@ -142,9 +140,7 @@ const GroupGamePage = ({ history }) => {
       firstUpdate.current = false;
       return;
     }
-    console.log('useEffect show_answer')
     if (!is_creator) {
-      console.log('not creator');
       if (!sent_answer) {
         set_answer(WRONG_ANSWER);
         set_used_time(time_per_problem);
@@ -152,7 +148,8 @@ const GroupGamePage = ({ history }) => {
       }
       set_is_time_out(true);
     }
-  }, [show_answer])
+    toggle();
+  }, [show_answer]);
 
   useEffect(() => {
     if (!listening) {
@@ -176,21 +173,29 @@ const GroupGamePage = ({ history }) => {
   }, [answer_modal_loading]);
 
   useEffect(() => {
-    getNumberOfAnswer();
+    handleNumberOfAnswer();
   }, [send_answer]);
 
   useEffect(() => {
-    console.log(`useEffect next_problem`)
     if (next_problem) {
       // reset state
+      set_correct();
       set_sent_answer(false);
       set_answer();
       set_used_time();
       set_is_time_out(false);
 
       handleNextProblem();
+      getNumberOfAnswer();
+      toggle();
     }
   }, [next_problem]);
+
+  useEffect(() => {
+    if (is_time_out) {
+      handleShowAnswer();
+    }
+  }, [is_time_out]);
 
   return (
     <Container>
@@ -208,18 +213,23 @@ const GroupGamePage = ({ history }) => {
             <Container>
               {is_time_out ? stop() : start()}
               <Headline>
-                <ExitModal onExit={() => {
-                  subscribe(location.state.group_id);
-                  history.push("/");
-                  window.location.reload();
-                }}/>
-                <div style={{ marginRight: 8 }}/>
-                <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
-                {user &&
+                <ExitModal
+                  onExit={() => {
+                    subscribe(location.state.group_id);
+                    history.push("/");
+                    window.location.reload();
+                  }}
+                />
+                <div style={{ marginRight: 8 }} />
+                <ProblemIndex
+                  indexes={number_of_problem}
+                  current_index={current_index + 1}
+                />
+                {user && (
                   <div style={{ marginLeft: 8 }}>
-                    <PointBox points={user?.point}/>
+                    <PointBox points={user?.point} />
                   </div>
-                }
+                )}
               </Headline>
               <TimeContainer>
                 <Subheader color={COLOR.MANDARIN}>
@@ -234,7 +244,7 @@ const GroupGamePage = ({ history }) => {
                     // showButton={number_of_answer === number_of_members || is_time_out}
                     showButton={is_creator}
                     button_title="ตรวจสอบคำตอบ"
-                    onNext={handleShowAnswer}
+                    onNext={onTimeOut}
                   />
                 </div>
               )}
@@ -266,8 +276,14 @@ const GroupGamePage = ({ history }) => {
                     set_answer={set_answer}
                   />
                 </ContentContainer>
-                {(user && (!skip && !is_time_out && !sent_answer)) &&
-                  <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
+                {user && !skip && !is_time_out && !sent_answer && (
+                  <ButtonContainer
+                    justifyContent={
+                      screen_width >= DEVICE_SIZE.LARGE
+                        ? "space-evenly"
+                        : "space-between"
+                    }
+                  >
                     <Button
                       type="outline"
                       onClick={() => {
@@ -293,7 +309,7 @@ const GroupGamePage = ({ history }) => {
                       ส่ง
                     </Button>
                   </ButtonContainer>
-                }
+                )}
                 {answer_modal_loading && <LoadingPage overlay={true} />}
                 {is_time_out ? (
                   <AnswerModal
@@ -304,17 +320,16 @@ const GroupGamePage = ({ history }) => {
                     answer={correct ? null : correct_answer}
                     overlay_clickable={false}
                     buttonTitle={
-                      current_index + 1 !== number_of_problem
-                        ? "เริ่มข้อต่อไป"
-                        : "จบเกม"
+                      is_creator
+                        ? current_index + 1 !== number_of_problem
+                          ? "เริ่มข้อต่อไป"
+                          : "จบเกม"
+                        : null
                     }
                     onButtonClick={() => {
-                      set_correct();
-                      set_answer();
                       getNextProblem();
                     }}
-                    is_creator={is_creator}
-                    group_mode={true}
+                    onClose={false}
                   />
                 ) : null}
                 {getTime() <= 0 && onTimeOut()}

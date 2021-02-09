@@ -137,6 +137,7 @@ export const useServerSentEvent = () => {
       });
       events.onmessage = event => {
         const parsedData = JSON.parse(event.data);
+        console.log("parsedData", parsedData)
         switch (parsedData.type) {
           case "INIT_CONNECTION":
             console.log("init")

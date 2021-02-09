@@ -23,7 +23,6 @@ export const useGetGroupGame = (user_id, group_id) => {
       });
       const { success, data } = response.data;
       if (success) {
-        console.log(data)
         set_current_index(data.currentIndex);
         set_number_of_problem(data.numberOfProblem);
         set_time_per_problem(data.timePerProblem);
@@ -77,7 +76,6 @@ export const useGetNextProblem = (group_id) => {
       });
       const { success, data } = response.data;
       if (success) {
-        console.log(data);
       } else {
         console.log("getNextProblem Error");
       }
@@ -100,7 +98,6 @@ export const checkGroupAnswer = async (user_id, problem_id, user_answer, mode, g
       usedTime: used_time,
 
     })
-    console.log(response);
     return response.data
   } catch (error) {
     console.log("There are something wrong when checking for answer :(");
@@ -114,7 +111,6 @@ export const showAnswer = async (group_id) => {
         groupId: group_id
       }
     })
-    console.log(response);
     return response.data
   } catch (error) {
     console.log("There are something wrong when checking for answer :(");
