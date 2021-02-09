@@ -15,7 +15,7 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -97,6 +97,7 @@ const GroupGamePage = ({ history }) => {
           difficulty : location.state.difficulty
         }
       });
+      window.location.reload();
     } else {
       // TODO: connect API check answer hold 10-15 sec and getGroupGame()
       getGroupGame();
@@ -141,11 +142,12 @@ const GroupGamePage = ({ history }) => {
                 <ExitModal onExit={() => {
                   subscribe(location.state.group_id);
                   history.push("/");
+                  window.location.reload();
                 }}/>
                 <div style={{ marginRight: 8 }}/>
                 <ProblemIndex indexes={number_of_problem} current_index={current_index+1}/>
                 {user &&
-                  <div style={{ marginRight: 8 }}>
+                  <div style={{ marginLeft: 8 }}>
                     <PointBox points={user?.point}/>
                   </div>
                 }
@@ -186,7 +188,7 @@ const GroupGamePage = ({ history }) => {
                   />
                 </ContentContainer>
                 {(user && (!skip && !is_time_out)) &&
-                  <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+                  <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
                     <Button
                       type="outline"
                       onClick={() => {

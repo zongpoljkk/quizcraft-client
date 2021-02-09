@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import Tex2SVG from "react-hook-mathjax";
 
 import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
 import { Button } from "./Button";
 import { Report } from "./Report";
+import { DisplayAnswerText } from "./HandleText";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
 
 import { COLOR } from "../global/const";
+import { useWindowDimensions } from "../global/utils";
 
 export const AnswerModal = ({
   toggle,
@@ -22,7 +23,8 @@ export const AnswerModal = ({
   answer,
   overlay_clickable
 }) => {
-  const asciimath2latex = require("asciimath-to-latex");
+
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
     <FooterModal
@@ -48,7 +50,18 @@ export const AnswerModal = ({
                     return (
                       <Body key={key} color={COLOR.TRINIDAD}>
                         {subject === "คณิตศาสตร์" ? (
-                          <Tex2SVG display="inline" latex={asciimath2latex(item)}/>
+                          <div
+                            style={{
+                              width: screen_width - 228,
+                              overflowX: "scroll",
+                              overflowY: "hidden",
+                            }}
+                          >
+                            <DisplayAnswerText 
+                              content={item}
+                              color={COLOR.TRINIDAD}
+                            />
+                          </div>
                         ) : (
                           item
                         )}

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import EventSource from "eventsource"
+import useSound from 'use-sound';
 
 import backend from "../../ip";
+
+import bgm from "../../assets/sounds/promise_cut.mp3";
 
 export const useGetGroupMembers = (group_id, user_id) => {
   const [members, set_members] = useState();
@@ -170,4 +173,10 @@ export const useServerSentEvent = () => {
     set_listening(!listening);
   };
   return { listening, subscribe, update_member, start_game, delete_group, next_problem, send_answer, restart_game };
+};
+
+export const BGMSound = () => {
+  const [playBGM, { stop: stopBGM, isPlaying: isPlayingBGM }] = useSound(bgm, { loop: true });
+
+  return {playBGM, stopBGM, isPlayingBGM};
 };

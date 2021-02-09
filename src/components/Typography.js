@@ -1,17 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLOR } from "../global/const";
+import { COLOR, TYPOGRAPHY } from "../global/const";
 
 export const Header = ({
   className,
   children,
   color = COLOR.CHARCOAL,
-  textDecoration
+  textDecoration,
+  opacity
 }) => {
 
   return (
-    <Typography className={className} fontWeight={600} fontSize={24} color={color} textDecoration={textDecoration}>
+    <Typography
+      className={className}
+      fontWeight={TYPOGRAPHY.HEADER.font_weight}
+      fontSize={TYPOGRAPHY.HEADER.font_size}
+      color={color}
+      textDecoration={textDecoration}
+      opacity={opacity}
+    >
       {children}
     </Typography>
   );
@@ -21,11 +29,19 @@ export const Subheader = ({
   className,
   children,
   color = COLOR.CHARCOAL,
-  textDecoration
+  textDecoration,
+  opacity
 }) => {
 
   return (
-    <Typography className={className} fontWeight={500} fontSize={20} color={color} textDecoration={textDecoration}>
+    <Typography
+      className={className}
+      fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
+      fontSize={TYPOGRAPHY.SUBHEADER.font_size}
+      color={color}
+      textDecoration={textDecoration}
+      opacity={opacity}
+    >
       {children}
     </Typography>
   );
@@ -35,11 +51,19 @@ export const Body = ({
   className,
   children,
   color = COLOR.CHARCOAL,
-  textDecoration
+  textDecoration,
+  opacity
 }) => {
 
   return (
-    <Typography className={className} fontWeight={400} fontSize={16} color={color} textDecoration={textDecoration}>
+    <Typography
+      className={className}
+      fontWeight={TYPOGRAPHY.BODY.font_weight}
+      fontSize={TYPOGRAPHY.BODY.font_size}
+      color={color}
+      textDecoration={textDecoration}
+      opacity={opacity}
+    >
       {children}
     </Typography>
   );
@@ -49,11 +73,19 @@ export const Overline = ({
   className,
   children,
   color = COLOR.CHARCOAL,
-  textDecoration
+  textDecoration,
+  opacity
 }) => {
 
   return (
-    <Typography className={className} fontWeight={400} fontSize={12} color={color} textDecoration={textDecoration}>
+    <Typography
+      className={className}
+      fontWeight={TYPOGRAPHY.OVERLINE.font_weight}
+      fontSize={TYPOGRAPHY.OVERLINE.font_size}
+      color={color}
+      textDecoration={textDecoration}
+      opacity={opacity}
+    >
       {children}
     </Typography>
   );
@@ -71,4 +103,5 @@ const Typography = styled.div.attrs(props => ({
   font-size: ${props => props.fontSize}px;
   color: ${props => props.color};
   text-decoration: ${props => props.textDecoration};
+  opacity : ${props => props.opacity};
 `;

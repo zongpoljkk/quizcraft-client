@@ -67,3 +67,7 @@ export const hasStringOrNumber = (myString) => {
   var regExp = /[a-zA-Z]/g;
   return /\d/.test(myString) || regExp.test(myString);
 };
+
+export const cDot2TimesFormat = (math) => {
+  return math.replace(/[*]/gi, ' xx ');
+}
