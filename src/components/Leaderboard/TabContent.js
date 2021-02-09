@@ -12,7 +12,7 @@ export const TabContent = ({
     <Container>
       {Object.entries(data).map((user, i) => (
         <InfoBox key={i} backgroundColor={(index-1) === i ? COLOR.MANDARIN : null}>
-          <Body>{i+1}</Body>
+          <OrderText>{i+1}</OrderText>
           <UserImg backgroundColor={user[1].profileImage ? null : COLOR.ISLAND_SPICE}>
             {user[1].profileImage ? (
                 <img
@@ -40,13 +40,17 @@ const Container = styled.div`
 `;
 
 const InfoBox = styled.div`
-  display: grid;
-  grid-template-columns: 24px 48px 112px auto;
-  grid-column-gap: 12px;
+  display: flex;
+  flex: 1;
   align-items: center;
   padding: 4px 16px 4px 16px;
-  min-height: 40px;
   background-color: ${props => props.backgroundColor};
+`;
+
+const OrderText = styled(Body)`
+  display: grid;
+  min-width: 12px;
+  max-width: 36px;
 `;
 
 const LevelText = styled(Body)`
@@ -65,4 +69,6 @@ const UserImg = styled.div.attrs(props => ({
   width: 40px;
   border-radius: 50%;
   text-align: center;
+  margin-left: 12px;
+  margin-right: 12px;
 `;
