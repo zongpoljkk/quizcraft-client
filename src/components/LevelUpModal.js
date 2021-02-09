@@ -11,16 +11,14 @@ import gold from "../assets/lottie/rank_gold.json";
 import { ProgressBar } from "./ProgressBar";
 import { COLOR } from "../global/const";
 
-//MOCK DATA
-const LEVEL = 12;
-const XP = 876;
-const MAX_XP = 2000;
-const COIN = 200;
-
 export const LevelUpModal = ({
   isShowing,
   toggle,
-  rank
+  rank,
+  level,
+  exp,
+  max_exp,
+  coin
 }) => {
 
   const list = {
@@ -45,50 +43,48 @@ export const LevelUpModal = ({
   };
 
   return (
-    <div>
-      <Modal
-        isShowing={isShowing}
-        hide={toggle}
+    <Modal
+      isShowing={isShowing}
+      hide={toggle}
+    >
+      <Container
+        initial="hidden"
+        animate="visible"
+        variants={list}
       >
-        <Container
-          initial="hidden"
-          animate="visible"
-          variants={list}
+        <motion.div variants={item}>
+          <Header> { rank ? "คุณได้เลื่อนระดับ!" : "เลเวลอัพ!"} </Header>
+        </motion.div>
+        <motion.div 
+          variants={item} 
+          style = {{marginTop: "4px", marginBottom:"4px" }}
         >
-          <motion.div variants={item}>
-            <Header> { rank ? "คุณได้เลื่อนระดับ!" : "เลเวลอัพ!"} </Header>
-          </motion.div>
-          <motion.div 
-            variants={item} 
-            style = {{marginTop: "4px", marginBottom:"4px" }}
-          >
-            <LottieFile 
-              animationData={!rank ? levelUp: rank === "silver" ? silver: gold} 
-              width="118px"
-              height="121px" 
-              loop={rank ? true : false}
-            />
-          </motion.div>
-          <motion.div variants={item}>
-            <Header> + {COIN} coins </Header>
-          </motion.div>
-          <ProgressBarContainer variants={item}>
-            <LevelTitleContainer>
-              <LevelTitle marginBottom={6}>
-                <Body>เลเวล</Body>
-                <div style={{ marginRight: 8 }}/>
-                <Body color={COLOR.MANDARIN}>{LEVEL}</Body>
-              </LevelTitle>
-              <LevelTitle marginBottom={2}>
-                <Overline color={COLOR.MANDARIN}>{XP}</Overline>
-                <Overline color={COLOR.SILVER}>/{MAX_XP}</Overline>
-              </LevelTitle>
-            </LevelTitleContainer>
-            <ProgressBar percent={(XP/MAX_XP)*100}/>
-          </ProgressBarContainer>
-        </Container>
-      </Modal>
-    </div>
+          <LottieFile 
+            animationData={!rank ? levelUp : (rank === "SILVER" ? silver : gold)} 
+            width="118px"
+            height="121px" 
+            loop={rank ? true : false}
+          />
+        </motion.div>
+        <motion.div variants={item}>
+          <Header> + {coin} coins </Header>
+        </motion.div>
+        <ProgressBarContainer variants={item}>
+          <LevelTitleContainer>
+            <LevelTitle marginBottom={6}>
+              <Body>เลเวล</Body>
+              <div style={{ marginRight: 8 }}/>
+              <Body color={COLOR.MANDARIN}>{level}</Body>
+            </LevelTitle>
+            <LevelTitle marginBottom={2}>
+              <Overline color={COLOR.MANDARIN}>{exp}</Overline>
+              <Overline color={COLOR.SILVER}>/{max_exp}</Overline>
+            </LevelTitle>
+          </LevelTitleContainer>
+          <ProgressBar percent={(exp/max_exp)*100}/>
+        </ProgressBarContainer>
+      </Container>
+    </Modal>
   );
 };
 

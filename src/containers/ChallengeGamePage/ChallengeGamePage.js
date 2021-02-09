@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
+import useSound from 'use-sound';
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
@@ -20,7 +21,11 @@ import {
   getAndCheckAnswer,
 } from "./ChallengeGamePageHelper";
 
-import { ANSWER_TYPE, COLOR, LARGE_DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
+import correctSound from "../../assets/sounds/correct.mp3";
+import wrongSound from "../../assets/sounds/wrong.mp3";
+import level_up from "../../assets/sounds/level_up.mp3";
+
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
@@ -34,8 +39,15 @@ const ChallengeGame = ({ history }) => {
   const [current_index, set_current_index] = useState(1);
   const [time_start, set_time_start] = useState(true);
   const [isShowing, toggle] = useModal();
+  const [is_level_up, set_is_level_up] = useState(false);
+  const [is_rank_up, set_is_rank_up] = useState(false);
+  const [earned_coins, set_earned_coins] = useState(0);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
+
+  const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
+  const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
+  const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
   const {
     getChallengeInfo,
@@ -62,6 +74,9 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       );
     }
+    if(is_level_up || is_rank_up) {
+      playLevelUpSound();
+    };
     history.push({
       pathname: "./all-challenges",
       state: {
@@ -71,6 +86,9 @@ const ChallengeGame = ({ history }) => {
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty,
+        earned_coins: earned_coins,
+        is_level_up: is_level_up,
+        is_rank_up: is_rank_up
       },
     });
   };
@@ -119,6 +137,16 @@ const ChallengeGame = ({ history }) => {
       ).then((res) => {
         set_correct(res.data.correct);
         set_answer_key(res.data.answer);
+        set_earned_coins(
+          (earned_coins) => earned_coins + res.data.earned_coins
+        );
+        if(res.data.level_up) {
+          set_is_level_up(true);
+        };
+        if(res.data.rank_up) {
+          set_is_rank_up(true);
+        };
+        res.data.correct ? playCorrectSound() : playWrongSound()
       });
       toggle();
     }
@@ -198,7 +226,7 @@ const ChallengeGame = ({ history }) => {
             </ContentContainer>
             <ButtonContainer
               justifyContent={
-                screen_width >= LARGE_DEVICE_SIZE
+                screen_width >= DEVICE_SIZE.LARGE
                   ? "space-evenly"
                   : "space-between"
               }
@@ -257,8 +285,6 @@ const ChallengeGame = ({ history }) => {
               onButtonClick={() => {
                 onNext();
                 set_time_start(true);
-                // set_problem_id();
-                // set_hint();
                 reset();
               }}
             />

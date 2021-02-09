@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
@@ -7,12 +7,11 @@ import { Button } from "../../components/Button";
 import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
 import { RadioButton } from "../../components/RadioButton";
-import { TimePickerWithLabel } from "../../components/TimePicker";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { LARGE_DEVICE_SIZE } from "../../global/const";
+import { DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import {
@@ -21,8 +20,7 @@ import {
   useGetAllSubtopicsByTopicName,
   useGetAvailableDifficultyBySubtopicName,
   useCreateGroup,
-  translateError,
-  timeConvertor
+  translateError
 } from "./CreateGroupPageHelper";
 
 const IS_PLAY_CHOICES = [
@@ -37,11 +35,13 @@ const CreateGroupPage = ({ history }) => {
   const [selected_subtopic, set_selected_subtopic] = useState('');
   const [difficulty, set_difficulty] = useState('');
   const [number_of_problems, set_number_of_problems] = useState(0);
-  const [time_per_problem, set_time_per_problem] = useState('');
+  const [time_per_problem, set_time_per_problem] = useState(0);
   const [is_play, set_is_play] = useState();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
   const [isShowing, toggle] = useModal();
+
+  const small_device = screen_width < DEVICE_SIZE.XS;
 
   const { getAllSubjects, subjects } = useGetAllSubjects();
   const { getAllTopicsBySubjectName, topics } = useGetAllTopicsBySubjectName();
@@ -115,34 +115,35 @@ const CreateGroupPage = ({ history }) => {
           value={difficulty}
           set_value={set_difficulty}
           options={available_difficulty}
-          direction="row"
+          direction={small_device ? "column" : "row"}
           marginBottom={24}
         />
         <NumberInputSpinnerWithLabel
           label="จำนวนคำถามทั้งหมด"
           value={number_of_problems}
           set_value={set_number_of_problems}
-          direction="row"
+          direction={small_device ? "column" : "row"}
           marginBottom={24}
         />
-        <TimePickerWithLabel
-          label="ระยะเวลาที่ใช้ในแต่ละข้อ"
+        <NumberInputSpinnerWithLabel
+          label="เวลาที่ใช้ในแต่ละข้อ"
           value={time_per_problem}
           set_value={set_time_per_problem}
-          direction="row"
+          unit_label="วินาที"
+          direction={screen_width <= DEVICE_SIZE.XS ? "column" : "row"}
           marginBottom={24}
         />
         <RadioButton 
           value={is_play} 
           selected_value={set_is_play}  
           choices={IS_PLAY_CHOICES}
-          direction="row"
+          direction={small_device ? "column" : "row"}
           justifyContent="flex-start"
           marginRight={24}
           text="subheader"
         />
       </ContentContainer>
-      <ButtonContainer justifyContent={screen_width >= LARGE_DEVICE_SIZE ? 'space-evenly' : 'space-between'}>
+      <ButtonContainer justifyContent={screen_width >= DEVICE_SIZE.LARGE ? 'space-evenly' : 'space-between'}>
         <Button
           type="outline"
           onClick={() => { history.push("homepage"); }}
@@ -160,7 +161,7 @@ const CreateGroupPage = ({ history }) => {
                 subtopic,
                 difficulty.toUpperCase(),
                 number_of_problems,
-                timeConvertor(time_per_problem),
+                time_per_problem,
                 is_play === "ผู้เล่น" ? true : false,
                 toggle
               );
@@ -214,11 +215,15 @@ const ButtonContainer = styled.div.attrs(props => ({
   width: 100%;
 `;
 
-const ErrorContainer = styled.div`
+const TimePickerContainer = styled.div`
   display: flex;
+  flex-direction: row;
   flex: 1;
-  align-self: flex-start;
-  margin-bottom: 8px;
+`;
+
+const SecondLabel = styled.div`
+  margin-top: 6px;
+  margin-left: 8px;
 `;
 
 export default withRouter(CreateGroupPage);

@@ -3,7 +3,7 @@ import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-// Lottie
+// Media
 import { LottieFile } from "../../components/LottieFile";
 import rewardData from "../../assets/lottie/reward.json";
 
@@ -11,12 +11,17 @@ import rewardData from "../../assets/lottie/reward.json";
 import { Header, Subheader, Body } from "../../components/Typography";
 
 // Color
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const";
+import {
+  COLOR,
+  DEVICE_SIZE
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 // Components
 import { Button } from "../../components/Button";
 import RunningNum from "./components/runningNum";
+import { LevelUpModal } from "../../components/LevelUpModal";
+import useModal from "../../components/useModal";
 
 import { NUMBER_OF_QUIZ } from "../QuizGamePage/QuizGamePage";
 
@@ -27,11 +32,12 @@ const variants = {
   hidden: { opacity: 0 },
 };
 
-const QuizResultPage = ({ history }) => {
+const QuizResultPage = ({ history, user_info }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [exp, setEXP] = useState(0);
   const [coin, setCoin] = useState(0);
   const [score, setScore] = useState(0);
+  const [isShowing, toggle] = useModal();
 
   const location = useLocation();
 
@@ -70,6 +76,9 @@ const QuizResultPage = ({ history }) => {
     setScore(location.state.score);
     setEXP(location.state.earned_exp);
     setCoin(location.state.earned_coins);
+    if(location.state.is_level_up || location.state.is_rank_up) {
+      toggle();
+    };
   }, []);
 
   return (
@@ -118,7 +127,7 @@ const QuizResultPage = ({ history }) => {
         variants={variants}
         transition={{ delay: 3 }}
         justifyContent={
-          screen_width >= LARGE_DEVICE_SIZE ? "space-evenly" : "space-between"
+          screen_width >= DEVICE_SIZE.LARGE ? "space-evenly" : "space-between"
         }
       >
         <Button type="outline" onClick={() => handleExit(history)}>
@@ -126,6 +135,16 @@ const QuizResultPage = ({ history }) => {
         </Button>
         <Button onClick={() => handleOnPlayAgain(history)}>เล่นอีกครั้ง</Button>
       </ButtonDiv>
+
+      <LevelUpModal
+        isShowing={isShowing}
+        toggle={toggle}
+        rank={location.state.is_rank_up ? user_info?.rank : null}
+        level={user_info?.level}
+        exp={user_info?.exp}
+        max_exp={user_info?.maxExp}
+        coin={location.state.earned_coins}
+      />
     </Container>
   );
 };

@@ -14,21 +14,20 @@ import silver from "../../assets/lottie/silver_trophy.json";
 import bronze from "../../assets/lottie/bronze_trophy.json";
 import export_icon from "../../assets/icon/export.png";
 
-import { COLOR, LARGE_DEVICE_SIZE } from "../../global/const"
+import { COLOR, DEVICE_SIZE } from "../../global/const"
 import { useWindowDimensions } from "../../global/utils";
 
 import {
   useGetGroupScoreBoard,
   useDeleteGroup,
   useLeaveGroup,
+  useResetGroup
 } from "./GroupResultPageHelper";
-
-// const GROUP_ID = "600aad1febab228c4cf8225c"; //1
-const GROUP_ID = "600944db9bfbc3d0d85566ef" //2
-// const GROUP_ID = "600a57e778092ffa602ea581"; //3
-// const GROUP_ID = "60083f60b4380052c33c8fe2" //4
+import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupResultPage = ({ history }) => {
+
+  const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [display_first_lottie, set_display_first_lottie] = useState(false);
   const [display_second_lottie, set_display_second_lottie] = useState(false);
@@ -42,10 +41,18 @@ const GroupResultPage = ({ history }) => {
     numboer_of_problem,
     user_index,
     is_creator,
-  } = useGetGroupScoreBoard(GROUP_ID, user_id);
+  } = useGetGroupScoreBoard(location.state.group_id, user_id);
 
-  const { deleteGroup } = useDeleteGroup(GROUP_ID, user_id);
-  const { leaveGroup, leave_failed } = useLeaveGroup(GROUP_ID, user_id);
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup, leave_failed } = useLeaveGroup(location.state.group_id, user_id);
+  const { resetGroup } = useResetGroup(location.state.group_id, user_id);
+
+  const {
+    listening,
+    subscribe,
+    restart_game,
+    delete_group
+  } = useServerSentEvent();
 
   const headers = [
     {label: "username", key: "username"},
@@ -98,18 +105,40 @@ const GroupResultPage = ({ history }) => {
   };
 
   const handleDeleteGroup = () => {
-    deleteGroup(GROUP_ID, user_id);
-    history.push("/homepage");
-  }
+    deleteGroup(location.state.group_id, user_id);
+  };
 
   const handleLeaveGroup = () => {
-    leaveGroup(GROUP_ID, user_id);
+    subscribe(location.state.group_id);
+    leaveGroup(location.state.group_id, user_id);
     history.push("/homepage");
-  }
+  };
 
   useEffect(() => {
+    if(!listening) {
+      subscribe(location.state.group_id);
+    };
     getGroupScoreBoard();
   }, []);
+
+  useEffect(() => {
+    if (restart_game) {
+      history.push({
+        pathname: "/waiting-room",
+        state: {
+          group_id : location.state.group_id,
+          subject_name : location.state.subject_name,
+          topic_name : location.state.topic_name,
+          subtopic_name : location.state.subtopic_name,
+          difficulty : location.state.difficulty
+        }
+      });
+    };
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("/homepage");
+    };
+  }, [restart_game, delete_group]);
 
   useEffect(() => {
     if (leave_failed) {
@@ -189,7 +218,7 @@ const GroupResultPage = ({ history }) => {
                   scoreboard.length < 3 ? "flex-start" : "space-evenly",
                 marginLeft:
                   scoreboard.length < 3
-                    ? screen_width >= LARGE_DEVICE_SIZE
+                    ? screen_width >= DEVICE_SIZE.LARGE
                       ? "64px"
                       : "32px"
                     : null,
@@ -296,7 +325,7 @@ const GroupResultPage = ({ history }) => {
           {is_creator ? (
             <ButtonContainer
               justifyContent={
-                screen_width >= LARGE_DEVICE_SIZE
+                screen_width >= DEVICE_SIZE.LARGE
                   ? "space-evenly"
                   : "space-between"
               }
@@ -306,7 +335,7 @@ const GroupResultPage = ({ history }) => {
               <Button type="outline" onClick={() => handleDeleteGroup()}>
                 ลบกลุ่ม
               </Button>
-              <Button>เล่นใหม่อีกครั้ง</Button>
+              <Button onClick={() => resetGroup()}>เล่นใหม่อีกครั้ง</Button>
             </ButtonContainer>
           ) : (
             <motion.div

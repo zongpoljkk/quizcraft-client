@@ -1,8 +1,45 @@
+import React from "react";
 import styled from "styled-components";
+import useSound from 'use-sound';
 
 import { COLOR } from "../global/const";
 
-export const TextField = styled.input.attrs(props => ({
+import select from "../assets/sounds/select.mp3";
+
+export const TextField = ({
+  id,
+  type,
+  height,
+  onClick = () => {},
+  value,
+  onChange = () => {},
+  placeholder,
+  style,
+  children
+}) => {
+
+  const [play] = useSound(select, { volume: 0.25 });
+
+  return ( 
+    <TextFieldStyled
+      id={id}
+      type={type}
+      height={height}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      onClick={() => {
+        onClick();
+        play();
+      }}
+      style={style}
+    >
+      {children}
+    </TextFieldStyled>
+  );
+};
+
+const TextFieldStyled = styled.input.attrs(props => ({
   type: "text",
   height: props.height || 46,
 }))`

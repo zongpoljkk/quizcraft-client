@@ -1,170 +1,185 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { LottieFile } from "../../components/LottieFile";
+import useSound from 'use-sound';
 
-// Global
 import { Header, Subheader, Overline, Body } from "../../components/Typography";
+import { LottieFile } from "../../components/LottieFile";
+import { ConfirmModal } from "../../components/ConfirmModal";
+import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import useModal from "../../components/useModal";
+
 import { COLOR } from "../../global/const";
-import { convertHexToRGBA } from "../../global/utils";
+import { convertHexToRGBA, useWindowDimensions } from "../../global/utils";
 
-// Images
-import lightbulb from "../../assets/thumbnail/lightbulb.png";
-import freeze from "../../assets/thumbnail/freeze.png";
-import double from "../../assets/thumbnail/double.png";
-import skip from "../../assets/thumbnail/skip.png";
-import refresh from "../../assets/thumbnail/refresh.png";
-import blank from "../../assets/thumbnail/blank.png";
+import click from "../../assets/sounds/click.mp3";
 
-// Lottie
-import hint_data from "../../assets/lottie/hint.json";
-import refresh_data from "../../assets/lottie/refresh.json";
-import skip_data from "../../assets/lottie/skip.json";
-import double_data from "../../assets/lottie/double.json";
-import freeze_data from "../../assets/lottie/freeze.json";
+import { useGetAllItems, useBuyItem } from "./ShopPageHelper";
 
-const Shop = () => {
-  const ANIMATIONS = {
-    rest: 1,
-    hover: 1.1,
-    pressed: 0.9,
+const Shop = ({ history }) => {
+  const user_id = localStorage.getItem("userId");
+
+  const [lottie_display, set_lottie_display] = useState({});
+  const [clicked_item, set_clicked_item] = useState();
+  
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const COLUMNS = Math.floor((screen_width-112)/132);
+  const GAP = Math.floor((screen_width-(132*COLUMNS)-112)/COLUMNS);
+  
+  const [isShowing, toggle] = useModal();
+  const [isShowingResult, toggleResult] = useModal();
+  
+  const { getAllItems, loading, items } = useGetAllItems();
+  const { buyItem, buy_success } = useBuyItem(user_id, clicked_item);
+
+  const [play] = useSound(click, { volume: 0.25 });
+
+  const handleOnMouseEnter = (item) => {
+    set_lottie_display((lottie_display) => {
+      return {
+        ...lottie_display,
+        [item]: true,
+      };
+    });
   };
 
-  const [animation, set_animation] = useState(ANIMATIONS.rest);
-  const [in_used, set_in_used] = useState({
-    คำใบ้: false,
-    รีเฟรช: false,
-    ข้าม: false,
-    ดับเบิ้ล: false,
-    หยุดเวลา: false,
-  });
-  const items_properties = [
-    {
-      src: lightbulb,
-      animation_data: hint_data,
-      item_name: "คำใบ้",
-      item_description: "แสดงคำใบ้สำหรับโจทย์ข้อนั้นๆ",
-      price: 50,
-    },
-    {
-      src: refresh,
-      animation_data: refresh_data,
-      item_name: "รีเฟรช",
-      item_description: "เปลี่ยนโจทย์ใหม่",
-      price: 70,
-    },
-    {
-      src: skip,
-      animation_data: skip_data,
-      item_name: "ข้าม",
-      item_description: "ข้ามโจทย์ข้อนี้โดยที่ถือว่าทำถูกไปเลย",
-      price: 100,
-    },
-    {
-      src: double,
-      animation_data: double_data,
-      item_name: "ดับเบิ้ล",
-      item_description:
-        "เมื่อกดใช้จะได้ค่าประสบการณ์เป็นสองเท่าเป็นเวลา 24 ชั่วโมง",
-      price: 300,
-    },
-    {
-      src: freeze,
-      animation_data: freeze_data,
-      item_name: "หยุดเวลา",
-      item_description: "เมื่อกดใช้จะค้าง streak ไว้ 1 วัน",
-      price: 300,
-    },
-    {
-      src: blank,
-      item_name: "ไอเทม",
-      item_description: "Coming Soon...",
-      price: "???",
-    },
-  ];
-
-  const handleItemClick = (item_properties) => {
-    // TODO: Buy item logic
-    console.log(item_properties.item_name);
+  const handleOnMouseLeave = (item) => {
+    set_lottie_display((lottie_display) => {
+      return {
+        ...lottie_display,
+        [item]: false,
+      };
+    });
   };
+  
+  const handleItemClick = (item) => {
+    toggle();
+    set_clicked_item(item);
+    play();
+  };
+
+  const onConfirmModalSubmit = async () => {
+    await buyItem(user_id, clicked_item);
+    await toggleResult();
+  };
+
+  useEffect(() => {
+    getAllItems();
+  }, []);
 
   return (
-    <Container>
-      <HeaderContainer>
-        <Header>ร้านค้า</Header>
-      </HeaderContainer>
-      <ShopContainer>
-        {items_properties.map((item_properties) => {
-          return (
-            <ItemContainer
-              key={item_properties.item_name}
-              onMouseOver={() => {
-                if (item_properties.item_name !== "ไอเทม") {
-                  set_animation(ANIMATIONS.hover);
-                  set_in_used({
-                    ...in_used,
-                    [item_properties.item_name]: true,
-                  });
+    <React.Fragment>
+      {loading ? (
+        <LoadingPage />
+      ) : (
+        <Container>
+          <HeaderContainer>
+            <Header>ร้านค้า</Header>
+          </HeaderContainer>
+          <ShopContainer columns={COLUMNS} gap={GAP}>
+            {items.map((item, index) => {
+              return (
+                <ItemContainer
+                  key={index}
+                  onMouseEnter={() => handleOnMouseEnter(item.item_name)}
+                  onMouseLeave={() => handleOnMouseLeave(item.item_name)}
+                  onClick={() => 
+                    handleItemClick(item.item_name)
+                  }
+                >
+                  <Item>
+                    {item.item_name === "Skip" &&
+                      (lottie_display.Skip ? (
+                        <ZoomItem isItemSkip={true}>
+                          <LottieFile
+                            animationData={JSON.parse(atob(item.animation_data))}
+                            loop={false}
+                            height={64}
+                            width={64}
+                          />
+                        </ZoomItem>
+                      ) : (
+                        <ItemImg src={"data:image/png;base64," + item.src} />
+                      ))}
+                    {item.item_name === "Double" &&
+                      (lottie_display.Double ? (
+                        <ZoomItem>
+                          <LottieFile
+                            animationData={JSON.parse(atob(item.animation_data))}
+                            loop={false}
+                            height={64}
+                          />
+                        </ZoomItem>
+                      ) : (
+                        <ItemImg src={"data:image/png;base64," + item.src} />
+                      ))}
+                    {item.item_name !== "Skip" &&
+                      item.item_name !== "Double" &&
+                      (lottie_display[item.item_name] ? (
+                        <LottieFile
+                          animationData={JSON.parse(atob(item.animation_data))}
+                          loop={false}
+                          height={100}
+                        />
+                      ) : (
+                        <ItemImg src={"data:image/png;base64," + item.src} />
+                      ))}
+                  </Item>
+                  <div
+                    style={{
+                      margin: "8px auto",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    <Subheader>{item.item_name}</Subheader>
+                  </div>
+                  <div
+                    style={{
+                      margin: "8px auto",
+                      textAlign: "center",
+                      height: "96px",
+                    }}
+                  >
+                    <Overline>{item.item_description}</Overline>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "16px",
+                      lineHeight: "20px",
+                      display: "flex",
+                    }}
+                  >
+                    <Body color={COLOR.CELERY}>{item.price} </Body>
+                    <Body>&nbsp;เหรียญ</Body>
+                  </div>
+                </ItemContainer>
+              );
+            })}
+            <ConfirmModal
+              isShowing={isShowing}
+              toggle={toggle}
+              content="คุณยืนยันที่จะซื้อไอเทมนี้ใช่หรือไม่" 
+              onSubmit={() => onConfirmModalSubmit()} 
+            />
+            <ConfirmResultModal 
+              isShowing={isShowingResult}
+              toggle={toggleResult}
+              success={buy_success}
+              success_description="การซื้อไอเทมสำเร็จ สามารถตรวจสอบไอเทมที่มีได้ที่โปรไฟล์ของคุณ"
+              fail_description="คุณมีเงินไม่เพียงพอในการซื้อไอเทมนี้"
+              onSubmit={() => {
+                if(buy_success){
+                  history.push("/profile");
+                  history.go(0);
                 }
               }}
-              onMouseLeave={() => {
-                set_animation(ANIMATIONS.rest);
-                set_in_used({ ...in_used, [item_properties.item_name]: false });
-              }}
-              onMouseDown={() => {
-                set_animation(ANIMATIONS.pressed);
-              }}
-              onMouseUp={() => {
-                set_animation(ANIMATIONS.hover);
-              }}
-              onClick={
-                item_properties.item_name !== "ไอเทม"
-                  ? () => handleItemClick(item_properties)
-                  : () => {}
-              }
-              style={{
-                opacity: item_properties.item_name === "ไอเทม" ? 0.3 : 1,
-              }}
-            >
-              <Item style={{ height: "80px" }}>
-                {in_used[item_properties.item_name] ? (
-                  <LottieFile
-                    animationData={item_properties.animation_data}
-                    loop={false}
-                    height={100}
-                  />
-                ) : (
-                  <ItemImg src={item_properties.src} />
-                )}
-              </Item>
-              <div style={{ margin: "8px auto", lineHeight: "24px" }}>
-                <Subheader>{item_properties.item_name}</Subheader>
-              </div>
-              <div
-                style={{
-                  margin: "8px auto",
-                  padding: "0px 20px",
-                  textAlign: "center",
-                  height: "96px",
-                }}
-              >
-                <Overline>{item_properties.item_description}</Overline>
-              </div>
-              <div
-                style={{
-                  marginTop: "16px",
-                  lineHeight: "20px",
-                  display: "flex",
-                }}
-              >
-                <Body color={COLOR.CELERY}>{item_properties.price} </Body>
-                <Body>&nbsp;เหรียญ</Body>
-              </div>
-            </ItemContainer>
-          );
-        })}
-      </ShopContainer>
-    </Container>
+            />
+          </ShopContainer>
+        </Container>
+      )}
+    </React.Fragment>
   );
 };
 
@@ -181,39 +196,59 @@ const HeaderContainer = styled.div`
   margin-bottom: 32px;
 `;
 
-const ShopContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  justify-content: space-around;
+const ShopContainer  = styled.div.attrs(props => ({
+  columns: props.columns,
+  gap: props.gap
+}))`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(${props => props.columns}, 1fr);
+  grid-column-gap: ${props => props.gap}px;
+  grid-row-gap: 24px;
+  align-items: center;
+  justify-items: center;
 `;
 
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 16px;
+  width: 100px;
   justify-content: center;
   align-items: center;
-  padding: 24px 0px;
-  margin-bottom: 32px;
-  margin-left: 8px;
-  margin-right: 8px;
+  cursor: pointer;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
-  @media screen and (min-width: 411px) {
-    flex: 1 1 25%;
-  }
-  @media screen and (min-width: 301px) and (max-width: 410px) {
-    flex: 1 1 35%;
-  }
-  @media screen and (max-width: 300px) {
-    flex: 1 1 50%;
-  }
+  position: relative;
+  overflow: hidden;
 `;
 
 const ItemImg = styled.img`
-  height: 80px;
+  max-height: 80px;
+  max-width: 80px;
 `;
 const Item = styled(motion.div)`
+  display: flex;
+  height: 80px;
+  align-items: center;
   margin-bottom: 12px;
 `;
 
-export default Shop;
+const ZoomItem = styled.div.attrs((props) => ({
+  isItemSkip: props.isItemSkip,
+}))`
+  width: 100px;
+  position: absolute;
+  z-index: 1;
+  zoom: 300%;
+  ${(props) =>
+    props.isItemSkip
+      ? `
+      margin-left: -55px;
+      transform: rotate(90deg);
+    `
+      : `
+      margin-left: -50px;
+    `}
+`;
+
+export default withRouter(Shop);

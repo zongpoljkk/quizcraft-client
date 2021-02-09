@@ -14,11 +14,11 @@ export const mathAnswerBox = (correct_answer) => {
   var text = '';
   for (let index = 0; index < correct_answer.length; index++) {
     if(correct_answer.charAt(index) === "{") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
-      }
+      };
       last_type = current_type;
       current_type = "display";
       skip = true;
@@ -37,11 +37,11 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "(") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
-      }
+      };
       last_type = current_type;
       list[list_index] = ["(", 1, "(", last_type];
       list_index += 1;
@@ -51,10 +51,10 @@ export const mathAnswerBox = (correct_answer) => {
     }
     else if(correct_answer.charAt(index) === ")") {
       text = correct_answer.substring(start_index, index);
-      if(text.length != 0) {
+      if(text.length !== 0) {
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
-      }
+      };
       list[list_index] = [")", 1, ")", last_type];
       list_index += 1;
       skip = false;
@@ -63,11 +63,11 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "^") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
-      }
+      };
       after_power_type = last_type;
       current_type = "power";
     }
@@ -87,15 +87,27 @@ export const mathAnswerBox = (correct_answer) => {
       current_index = index + 1;
     }
     else if(correct_answer.charAt(index) === "/") {
-      if(current_index != index) {
+      if(current_index !== index) {
         text = correct_answer.substring(start_index, end_index);
         list[list_index] = [text, text.length, current_type, last_type];
         list_index += 1;
-      }
+      };
       list[list_index] = ["/", correct_answer.substring(0, index).length, "/", last_type];
       list_index += 1;
       last_type = current_type;
       current_type = "denumerator";
+      start_index = index + 1;
+      end_index = index + 1;
+      current_index = index + 1;
+    }
+    else if(correct_answer.charAt(index) === "*" && current_type === "display") {
+      if(current_index !== index) {
+        text = correct_answer.substring(start_index, end_index);
+        list[list_index] = [text, text.length, current_type, last_type];
+        list_index += 1;
+      };
+      list[list_index] = ["*", 1, current_type, last_type];
+      list_index += 1;
       start_index = index + 1;
       end_index = index + 1;
       current_index = index + 1;

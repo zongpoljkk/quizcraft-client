@@ -1,23 +1,27 @@
 import { React, useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-
-// Utils
-import { convertHexToRGBA } from "../../../global/utils";
+import useSound from 'use-sound';
 
 // Global
+import { convertHexToRGBA } from "../../../global/utils";
 import { COLOR } from "../../../global/const";
+
+// Component
 import { Header } from "../../../components/Typography";
+
 import default_topic from "../../../assets/thumbnail/default_topic.png";
-import { withRouter } from "react-router-dom";
+import click from "../../../assets/sounds/click.mp3";
 
 const subject_box_shadow = convertHexToRGBA(`${COLOR.BLACK}`, 25);
 
 const SubjectCard = ({ history, subjects_data }) => {
   const [subjects, set_subjects] = useState([]);
+  const [play] = useSound(click, { volume: 0.25 });
 
   const handleOnSubjectClick = (subject_name) => {
     history.push({
-      pathname: "/selected_subject/" + subject_name,
+      pathname: "/topics/" + subject_name,
       state: {
         subject_name: subject_name,
       },
@@ -35,6 +39,7 @@ const SubjectCard = ({ history, subjects_data }) => {
             key={subject._id}
             onClick={() => {
               handleOnSubjectClick(subject._id);
+              play();
             }}
           >
             <SubjectImg src= {subject.subject_image_info ? "data:image/png;base64,"+subject.subject_image_info.data : default_topic} />

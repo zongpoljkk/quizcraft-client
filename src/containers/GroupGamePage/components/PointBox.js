@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Subheader } from "../../../components/Typography";
 
-import { COLOR } from "../../../global/const"
+import { COLOR } from "../../../global/const";
 
 export const PointBox = ({ points }) => {
 

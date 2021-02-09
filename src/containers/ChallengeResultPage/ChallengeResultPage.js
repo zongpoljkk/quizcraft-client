@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -11,22 +11,18 @@ import useModal from "../../components/useModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import {
-  useGetFinalChallengeResult
+  useGetFinalChallengeResult,
+  useDeleteChallenge
 } from "./ChallengeResultPageHelper";
 
-import { COLOR } from "../../global/const";
+import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
-//MOCK DATA FOR MODAL
-const GAIN_COIN = 200;
-const GAIN_XP = 150;
-
-const ChallengeResultPage = ( { history }) => {
-  const ref = useRef(null);
+const ChallengeResultPage = ({ history }) => {
   const location = useLocation();
   const [isShowing, toggle] = useModal();
-  const [container_width, set_container_width] = useState();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [win, set_win] = useState();
-  const [showModal, setShowModal] = useState();
   const user_id = localStorage.getItem("userId");
 
   const { 
@@ -39,7 +35,15 @@ const ChallengeResultPage = ( { history }) => {
     location.state.challenge_id
   );
 
-  const onExit = () => {
+  const { 
+    deleteChallenge
+  } = useDeleteChallenge(
+    user_id,
+    location.state.challenge_id
+  );
+
+  const onExit = async () => {
+    await deleteChallenge(user_id, location.state.challenge_id);
     history.push({
       pathname: "./all-challenges",
       state: {
@@ -55,10 +59,12 @@ const ChallengeResultPage = ( { history }) => {
 
   const isWin = () => {
     if(my_result.score > challenger_result.score) set_win(true);
-    if(my_result.score === challenger_result.score){
+    else if(my_result.score === challenger_result.score){
       if(my_result.time < challenger_result.time) set_win(true);
     }
-    else set_win(false);
+    else {
+      set_win(false);
+    }
   };
 
   const list = {
@@ -88,14 +94,10 @@ const ChallengeResultPage = ( { history }) => {
   };
 
   useEffect(() => {
-    set_container_width(ref.current ? ref.current.offsetWidth : 0);
-  }, [ref.current]);
-
-  useEffect(() => {
     getFinalChallengeResult();
     setTimeout(() => {
-      setShowModal(toggle)
-    }, 8750);
+      toggle()
+    }, 10200);
   }, []);
 
   useEffect(() => {
@@ -109,7 +111,6 @@ const ChallengeResultPage = ( { history }) => {
       initial="hidden" 
       animate="visible" 
       variants={list} 
-      ref={ref}
     >
       <motion.div
         custom={0}
@@ -121,7 +122,7 @@ const ChallengeResultPage = ( { history }) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            width: container_width - 16,
+            width: screen_width - CONTAINER_PADDING - 16,
           }}
         >
           <Header>สรุปผลคะแนน</Header>
@@ -132,7 +133,6 @@ const ChallengeResultPage = ( { history }) => {
       : <React.Fragment>
           <DetailContainer>
             <UserInfoBox
-              container_width={container_width}
               profile_image={my_result.photo}
               username={my_result.username}
               challenge_result={my_result.result}
@@ -147,7 +147,6 @@ const ChallengeResultPage = ( { history }) => {
               <Subheader props color={COLOR.MANDARIN}>VS</Subheader>
             </motion.div>
             <UserInfoBox
-              container_width={container_width}
               profile_image={challenger_result.photo}
               username={challenger_result.username}
               challenge_result={challenger_result.result}

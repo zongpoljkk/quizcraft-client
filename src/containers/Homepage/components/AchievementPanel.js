@@ -1,39 +1,34 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 
 import { ItemBox } from "../../../components/ItemBox";
 import { Header } from "../../../components/Typography";
+import { LottieFile } from "../../../components/LottieFile";
 
 // Image
-import MoreImg from "../../../assets/icon/more.png";
-import ChevronImg from "../../../assets/icon/chevron.png";
+import MoreData from "../../../assets/icon/more.png";
 
 // Lottie
-import CoinData from "../../../assets/lottie/coin.json";
 
 // global
 import { COLOR } from "../../../global/const";
 
-const MOCK_ACHIEVEMENTS_DATA = [
-  {
-    image: MoreImg,
-    lottie: CoinData,
-  },
-  {
-    image: ChevronImg,
-    lottie: CoinData,
-  },
-];
-
 const HOMEPAGE_ACHIEVEMENTS_NUMBER = 8;
 
-var foo = Array.from(Array(12).keys());
+const AchievementPanel = ({ container_width, achievements }) => {
+  const [panel_achievements, set_panel_achievements] = useState([]);
+  const [achievement_display, set_achievement_display] = useState({});
 
-const AchievementPanel = (props) => {
   const history = useHistory();
+  let limited_achievements = panel_achievements;
 
-  const entry = foo.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
-  entry.push("ENTRY");
+  // Limit number of achievements shown on the homepage
+  if (panel_achievements.length >= HOMEPAGE_ACHIEVEMENTS_NUMBER) {
+    limited_achievements = achievements.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
+  }
+  // Add entry to achievements page
+  limited_achievements = [...limited_achievements, { name: "ENTRY" }];
 
   const handleOnclick = (history) => {
     history.push({
@@ -41,29 +36,84 @@ const AchievementPanel = (props) => {
     });
   };
 
-  const mock_achievements = entry.map((n) => {
+  const handleOnMouseEnter = (achievement) => {
+    set_achievement_display((achievement_display) => {
+      return {
+        ...achievement_display,
+        [achievement.name]: true,
+      };
+    });
+  };
+
+  const handleOnMouseLeave = (achievement) => {
+    set_achievement_display((achievement_display) => {
+      return {
+        ...achievement_display,
+        [achievement.name]: false,
+      };
+    });
+  };
+
+  const testResp = limited_achievements.map((achievement) => {
     return (
-      <Achievement key={n}>
-        <AchievementImg>
-          <img
-            src={
-              n === "ENTRY"
-                ? MOCK_ACHIEVEMENTS_DATA[0].image
-                : MOCK_ACHIEVEMENTS_DATA[1].image
-            }
-            height={40}
-            alt={`img-${n}`}
-            onClick={n === "ENTRY" ? () => handleOnclick(history) : () => {}}
-          />
+      <Achievement key={achievement.name}>
+        <AchievementImg
+          onClick={
+            achievement.name === "ENTRY"
+              ? () => handleOnclick(history)
+              : () => {}
+          }
+          onMouseEnter={() =>
+            achievement.name !== "ENTRY"
+              ? handleOnMouseEnter(achievement)
+              : () => {
+                  console.log("...");
+                }
+          }
+          onMouseLeave={() =>
+            achievement.name !== "ENTRY"
+              ? handleOnMouseLeave(achievement)
+              : () => {
+                  console.log("...");
+                }
+          }
+        >
+          {achievement_display[achievement.name] ? (
+            <LottieFile
+              animationData={
+                achievement.name !== "ENTRY"
+                  ? JSON.parse(atob(achievement.lottie_info.data))
+                  : null
+              }
+              loop={false}
+              height={100}
+            />
+          ) : (
+            <img
+              src={
+                achievement.name !== "ENTRY"
+                  ? "data:image/png;base64," + achievement.image_info.data
+                  : MoreData
+              }
+              height={40}
+              alt={`img-${achievement}`}
+            />
+          )}
         </AchievementImg>
       </Achievement>
     );
   });
 
+  useEffect(() => {
+    if (achievements) {
+      set_panel_achievements(achievements)
+    }
+  }, [achievements])
+
   return (
-    <ItemBox type="frame" shadow="frame" width={props.container_width - 32}>
+    <ItemBox type="frame" shadow="frame" width={container_width - 32}>
       <Header>ความสำเร็จ</Header>
-      <AchievementsBox>{mock_achievements}</AchievementsBox>
+      <AchievementsBox>{testResp}</AchievementsBox>
     </ItemBox>
   );
 };
