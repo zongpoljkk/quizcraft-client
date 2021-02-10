@@ -3,23 +3,26 @@ import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
-import { Subheader } from "../../components/Typography";
+import { Subheader, Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button";
 import { ProblemIndex } from "../../components/ProblemIndex";
 import { AnswerModal } from "../../components/AnswerModal";
+import { LottieFile } from "../../components/LottieFile";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
+import sending_lottie from "../../assets/lottie/sending.json";
+
 import {
   ANSWER_TYPE,
   COLOR,
   DEVICE_SIZE,
-  WRONG_ANSWER,
+  WRONG_ANSWER
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -313,6 +316,20 @@ const GroupGamePage = ({ history }) => {
                     </Button>
                   </ButtonContainer>
                 )}
+                {(sent_answer && !is_time_out) &&
+                  <LottieCotainer>
+                    <ZoomLottie>
+                      <LottieFile
+                        animationData={sending_lottie}
+                        width="80px"
+                        height="80px"
+                        loop={true}
+                      />
+                    </ZoomLottie>
+                    <Body color={COLOR.MANDARIN}>ส่งคำตอบแล้ว</Body>
+                    <Body color={COLOR.MANDARIN}>กรุณารอตรวจสอบคำตอบ</Body>
+                  </LottieCotainer>
+                }
                 {answer_modal_loading && <LoadingPage overlay={true} />}
                 {is_time_out ? (
                   <AnswerModal
@@ -380,6 +397,17 @@ const ButtonContainer = styled.div.attrs((props) => ({
 }))`
   display: flex;
   justify-content: ${(props) => props.justifyContent};
+`;
+
+const LottieCotainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+`;
+
+const ZoomLottie = styled.div`
+  transform: scale(2.5);
 `;
 
 export default withRouter(GroupGamePage);
