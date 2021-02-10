@@ -16,7 +16,7 @@ const GameContent = ({
   choices = {},
   answer,
   set_answer,
-  disabled_math_input
+  disabled
 }) => {
 
   return (
@@ -26,11 +26,15 @@ const GameContent = ({
           correct_answer={correct_answer}
           set_answer={set_answer}
           answer={answer}
-          disabled={disabled_math_input}
+          disabled={disabled}
         />
       )}
       {type === ANSWER_TYPE.SELECT_ONE && (
-        <AnswerSelectOne content={content} set_answer={set_answer} />
+        <AnswerSelectOne
+          content={content}
+          set_answer={set_answer}
+          disabled_select={disabled}
+        />
       )}
       {type === ANSWER_TYPE.RADIO_CHOICE && (
         <AnswerRadioChoice
@@ -39,6 +43,7 @@ const GameContent = ({
           choices={choices}
           set_answer={set_answer}
           answer={answer}
+          disabled_select={disabled}
         />
       )}
     </Container>
