@@ -168,24 +168,18 @@ const ChallengeGame = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    // Only do once
     if (my_info) {
       getProblemByChallengeId(
         location.state.challenge_id,
         my_info.currentProblem
       );
-    }
-  }, []);
-
-  // Handle the display of user's score 
-  useEffect(() => {
-    if (my_info) {
-      set_my_score(my_info.score)
-    }
+      set_my_score(my_info.score);
+    };
   }, [my_info])
 
   return loading_info || loading_problem ? (
-    <LoadingPage />
+    <LoadingPage>
+    </LoadingPage>
   ) : (
     <Container>
       <Timer
