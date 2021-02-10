@@ -133,6 +133,20 @@ const GroupGamePage = ({ history }) => {
     await getNumberOfAnswer();
   };
 
+  const onReport = async () => {
+    history.push({
+      pathname: "./report",
+      state: {
+        subject_name: location.state.subject,
+        mode: location.state.mode,
+        problem_id: problem._id,
+        problem_content: problem.body,
+        problem_title: problem.title,
+        answer_type: problem.answerType,
+      },
+    });
+  };
+
   // when creator click 'ตรวจสอบคำตอบ'
   useEffect(() => {
     if (firstUpdate.current) {
@@ -328,6 +342,7 @@ const GroupGamePage = ({ history }) => {
                     onButtonClick={() => {
                       getNextProblem();
                     }}
+                    onReportClick={() => onReport()}
                     onClose={false}
                   />
                 ) : null}
