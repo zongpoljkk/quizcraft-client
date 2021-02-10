@@ -100,6 +100,7 @@ const ReportPage = ({ history }) => {
             subtopic: location.state.subtopic_name,
             difficulty: location.state.difficulty,
             correct: location.state.correct,
+            answer: location.state.answer
           },
         });
       }

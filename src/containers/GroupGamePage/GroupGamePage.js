@@ -147,6 +147,7 @@ const GroupGamePage = ({ history }) => {
         problem_title: problem.title,
         answer_type: problem.answerType,
         correct: correct,
+        answer: answer
       },
     });
   };
@@ -217,10 +218,12 @@ const GroupGamePage = ({ history }) => {
   useEffect(() => {
     if (location.state.correct) {
       set_correct(location.state.correct)
+      set_answer(location.state.answer)
       set_is_time_out(true);
     }
   }, [
     location.state.correct,
+    location.state.answer,
   ]);
 
   return (
