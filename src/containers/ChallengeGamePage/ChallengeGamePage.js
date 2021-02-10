@@ -69,13 +69,7 @@ const ChallengeGame = ({ history }) => {
     choices,
   } = useGetProblemByChallengeId();
 
-  const onExit = async () => {
-    if (current_index === NUMBER_OF_QUIZ) {
-      await getProblemByChallengeId(
-        location.state.challenge_id,
-        my_info.currentProblem
-      );
-    }
+  const onExit = () => {
     if(is_level_up || is_rank_up) {
       playLevelUpSound();
     };
