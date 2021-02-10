@@ -59,10 +59,11 @@ const PracticeGamePage = ({ history }) => {
     location.state.subtopic_name,
     location.state.difficulty
   );
-  const { getHintByProblemId, hint } = useGetHintByProblemId(problem_id);
+  const { getHintByProblemId, hint, reset_hint } = useGetHintByProblemId(problem_id);
 
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
+    reset_hint();
     getProblemForUser(set_skip);
   };
 

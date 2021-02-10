@@ -239,14 +239,11 @@ const PracticeAnswer = ({ history, user_info }) => {
                       justifyContent:
                         location.state.subject === "คณิตศาสตร์" &&
                         screen_width < DEVICE_SIZE.LARGE &&
-                        line.length > 50
+                        line.length > 55
                           ? "flex-start"
                           : "center",
                     }}
                   >
-                    {i > 0 || location.state.subject === "คณิตศาสตร์"
-                      ? "= "
-                      : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
                       <DisplayText
                         fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}
