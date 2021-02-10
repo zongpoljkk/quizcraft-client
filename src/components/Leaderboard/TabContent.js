@@ -66,7 +66,6 @@ const InfoBox = styled.div`
 `;
 
 const OrderText = styled(Body)`
-  display: flex;
   width: 24px;
 `;
 
