@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
@@ -9,23 +9,12 @@ export const TabContent = ({
   index
 }) => {
 
-  const useScroll = () => {
-    const elRef = useRef(null);
-    const executeScroll = () => elRef.current.scrollIntoView({ block: "center" });
-
-    return [executeScroll, elRef];
-  };
-
-  const [executeScroll, elRef] = useScroll();
-  useEffect(executeScroll, []);
-
   return (
     <Container>
       {Object.entries(data).map((user, i) => (
         <InfoBox
           key={i}
           backgroundColor={index - 1 === i ? COLOR.MANDARIN : null}
-          ref={index - 1 === i ? elRef : null}
         >
           <OrderText>{i + 1}</OrderText>
           <UserImg backgroundColor={user[1].profileImage ? null : COLOR.ISLAND_SPICE}>
@@ -58,7 +47,6 @@ const Container = styled.div`
 
 const InfoBox = styled.div`
   display: flex;
-  flex: 1;
   align-items: center;
   padding: 4px 16px 4px 16px;
   min-height: 40px;
