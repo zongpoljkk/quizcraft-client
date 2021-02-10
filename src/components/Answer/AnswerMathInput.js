@@ -108,7 +108,7 @@ export const AnswerMathInput = ({
       return "/";
     } else if (item.type === "display") {
       if (item.text === "*") {
-        return "x";
+        return "*";
       } else {
         return item.text
       }
@@ -131,6 +131,7 @@ export const AnswerMathInput = ({
 
   useEffect(() => {
     const tempAns = [...ans_template];
+
 
     for (var key in mainAns) {
       if (tempAns.includes("main" + key)) {

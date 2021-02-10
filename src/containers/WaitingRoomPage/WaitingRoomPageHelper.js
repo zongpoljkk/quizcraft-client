@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import EventSource from "eventsource"
+import useSound from 'use-sound';
 
 import backend from "../../ip";
+
+import bgm from "../../assets/sounds/promise_cut.mp3";
 
 export const useGetGroupMembers = (group_id, user_id) => {
   const [members, set_members] = useState();
@@ -121,6 +124,7 @@ export const useServerSentEvent = () => {
   const [next_problem, set_next_problem] = useState();
   const [send_answer, set_send_answer] = useState();
   const [restart_game, set_restart_game] = useState();
+  const [show_answer, set_show_answer] = useState();
   const token = localStorage.getItem("token");
 
   const subscribe = async (group_id) => {
@@ -133,6 +137,7 @@ export const useServerSentEvent = () => {
       });
       events.onmessage = event => {
         const parsedData = JSON.parse(event.data);
+        console.log("parsedData", parsedData)
         switch (parsedData.type) {
           case "INIT_CONNECTION":
             console.log("init")
@@ -161,6 +166,12 @@ export const useServerSentEvent = () => {
             set_restart_game(parsedData.message);
             console.log("restart_game");
             break;
+          case "SHOW_ANSWER":
+            set_show_answer(parsedData.message);
+            console.log("show answer");
+            break;
+          default:
+            console.log("default")
         }
       };
     } else {
@@ -169,5 +180,11 @@ export const useServerSentEvent = () => {
     }
     set_listening(!listening);
   };
-  return { listening, subscribe, update_member, start_game, delete_group, next_problem, send_answer, restart_game };
+  return { listening, subscribe, update_member, start_game, delete_group, next_problem, send_answer, restart_game, show_answer };
+};
+
+export const BGMSound = () => {
+  const [playBGM, { stop: stopBGM, isPlaying: isPlayingBGM }] = useSound(bgm, { loop: true });
+
+  return {playBGM, stopBGM, isPlayingBGM};
 };

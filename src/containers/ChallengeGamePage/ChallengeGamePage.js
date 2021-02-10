@@ -25,10 +25,11 @@ import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
-import { ANSWER_TYPE, COLOR, DEVICE_SIZE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
+
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
@@ -36,11 +37,13 @@ const ChallengeGame = ({ history }) => {
   const [correct, set_correct] = useState(false);
   const [answer_key, set_answer_key] = useState("");
   const [current_index, set_current_index] = useState(1);
+  const [user_score, set_user_score] = useState(0);
   const [time_start, set_time_start] = useState(true);
   const [isShowing, toggle] = useModal();
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
   const [earned_coins, set_earned_coins] = useState(0);
+  const [my_score, set_my_score] = useState(0);
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const user_id = localStorage.getItem("userId");
 
@@ -130,11 +133,14 @@ const ChallengeGame = ({ history }) => {
         subject,
         topic,
         subtopic,
-        "challenge",
+        "CHALLENGE",
         location.state.challenge_id,
         my_info.currentProblem
       ).then((res) => {
         set_correct(res.data.correct);
+        if (res.data.correct) {
+          set_user_score(my_info.score);
+        }
         set_answer_key(res.data.answer);
         set_earned_coins(
           (earned_coins) => earned_coins + res.data.earned_coins
@@ -146,6 +152,12 @@ const ChallengeGame = ({ history }) => {
           set_is_rank_up(true);
         };
         res.data.correct ? playCorrectSound() : playWrongSound()
+
+        // Handle the display of user's score
+        if (res.data.correct) {
+          set_my_score(score => score + 1);
+        }
+
       });
       toggle();
     }
@@ -183,7 +195,14 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       );
     }
-  }, [my_info]);
+  }, []);
+
+  // Handle the display of user's score 
+  useEffect(() => {
+    if (my_info) {
+      set_my_score(my_info.score)
+    }
+  }, [my_info])
 
   return loading_info || loading_problem ? (
     <LoadingPage />
@@ -214,7 +233,7 @@ const ChallengeGame = ({ history }) => {
             <UserInfo
               my_image={my_info.photo}
               challenger_image={challenger_info.photo}
-              my_score={my_info.score}
+              my_score={my_score}
               challenger_score={challenger_info.score}
               challenger_is_played={challenger_info.isPlayed}
             />
@@ -259,7 +278,7 @@ const ChallengeGame = ({ history }) => {
                   onCheck(
                     problem_id,
                     user_id,
-                    "WRONG ANSWER",
+                    WRONG_ANSWER.MATH,
                     getTime(),
                     location.state.subject_name,
                     location.state.topic_name,

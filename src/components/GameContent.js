@@ -40,7 +40,6 @@ const GameContent = ({
         <AnswerRadioChoice
           subject={subject}
           question={question}
-          subject={subject}
           choices={choices}
           set_answer={set_answer}
           answer={answer}
