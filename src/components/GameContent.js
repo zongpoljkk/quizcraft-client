@@ -16,6 +16,7 @@ const GameContent = ({
   choices = {},
   answer,
   set_answer,
+  disabled_math_input
 }) => {
 
   return (
@@ -25,6 +26,7 @@ const GameContent = ({
           correct_answer={correct_answer}
           set_answer={set_answer}
           answer={answer}
+          disabled={disabled_math_input}
         />
       )}
       {type === ANSWER_TYPE.SELECT_ONE && (

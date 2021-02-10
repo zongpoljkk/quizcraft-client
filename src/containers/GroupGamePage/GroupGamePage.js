@@ -277,6 +277,7 @@ const GroupGamePage = ({ history }) => {
                     content={problem.body}
                     answer={answer}
                     set_answer={set_answer}
+                    disabled_math_input={sent_answer ? true : false}
                   />
                 </ContentContainer>
                 {user && !skip && !is_time_out && !sent_answer && (

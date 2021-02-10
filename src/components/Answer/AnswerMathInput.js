@@ -14,6 +14,7 @@ export const AnswerMathInput = ({
   correct_answer = "",
   set_answer,
   answer,
+  disabled = false
 }) => {
   const [mainAns, setMainAns] = useState({});
   const [powerAns, setPowerAns] = useState([]);
@@ -40,6 +41,7 @@ export const AnswerMathInput = ({
           width={item.width}
           onChange={(e) => setPowerAns(e.target.value)}
           onClick={play}
+          disabled={disabled}
         />
       );
     } else if (item.type === ")" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
@@ -81,6 +83,7 @@ export const AnswerMathInput = ({
           key={item.type + index}
           onChange={(e) => handleMainAns(e.target.value, index)}
           onClick={play}
+          disabled={disabled}
         />
       );
     }
