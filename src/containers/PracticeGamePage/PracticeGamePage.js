@@ -247,7 +247,7 @@ const PracticeGamePage = ({ history }) => {
                                     location.state.topic_name,
                                     location.state.subtopic_name,
                                     location.state.difficulty,
-                                    "practice"
+                                    location.state.mode
                                   );
                                 }
                               : () => {}
@@ -262,7 +262,7 @@ const PracticeGamePage = ({ history }) => {
                                   location.state.topic_name,
                                   location.state.subtopic_name,
                                   location.state.difficulty,
-                                  "practice"
+                                  location.state.mode
                                 );
                               }
                             : () => {}

@@ -40,8 +40,10 @@ const ReportPage = ({ history }) => {
   };
 
   const onSubmit = () => {
-    if(report_success){
-      if (location.state.mode === MODE.CHALLENGE.type) {
+    if (report_success) {
+      if (location.state.mode === MODE.PRACTICE.type) {
+        history.goBack();
+      } else if (location.state.mode === MODE.CHALLENGE.type) {
         if (location.state.current_index < location.state.number_of_problem) {
           history.goBack();
         } else {
@@ -56,7 +58,7 @@ const ReportPage = ({ history }) => {
               difficulty: location.state.difficulty,
             },
           });
-        };
+        }
       } else if (location.state.mode === MODE.QUIZ.type) {
         if (location.state.current_index < location.state.number_of_problem) {
           history.push({
@@ -92,8 +94,20 @@ const ReportPage = ({ history }) => {
         }
       } else {
         history.goBack();
-      };
-    };
+      //   history.push({
+      //     pathname: "./group-game",
+      //     state: {
+      //       subject_name: location.state.subject_name,
+      //       topic: location.state.topic_name,
+      //       subtopic_id: location.state.subtopic_id,
+      //       subtopic: location.state.subtopic_name,
+      //       difficulty: location.state.difficulty,
+      //       correct: location.state.correct,
+      //       is_time_out: location.state.is_time_out
+      //     },
+      //   });
+      }
+    }
   };
 
   useEffect(() => {
