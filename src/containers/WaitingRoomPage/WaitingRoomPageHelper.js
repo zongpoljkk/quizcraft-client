@@ -50,7 +50,7 @@ export const useDeleteGroup = (group_id, user_id) => {
       const response = await axios.delete(backend+"group/delete-group", {
         data: {
           groupId: group_id,
-          userId : user_id,
+          userId : user_id
         }
       })
       const { success, data } = response.data;
