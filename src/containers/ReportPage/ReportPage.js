@@ -66,7 +66,6 @@ const ReportPage = ({ history }) => {
             state: {
               subject_name: location.state.subject_name,
               topic_name: location.state.topic_name,
-              subtopic_id: location.state.subtopic_id,
               subtopic_name: location.state.subtopic_name,
               mode: location.state.mode,
               difficulty: location.state.difficulty,
@@ -82,7 +81,6 @@ const ReportPage = ({ history }) => {
             state: {
               subject: location.state.subject_name,
               topic: location.state.topic_name,
-              subtopic_id: location.state.subtopic_id,
               subtopic: location.state.subtopic_name,
               mode: location.state.mode,
               difficulty: location.state.difficulty,
@@ -93,19 +91,17 @@ const ReportPage = ({ history }) => {
           });
         }
       } else {
-        history.goBack();
-      //   history.push({
-      //     pathname: "./group-game",
-      //     state: {
-      //       subject_name: location.state.subject_name,
-      //       topic: location.state.topic_name,
-      //       subtopic_id: location.state.subtopic_id,
-      //       subtopic: location.state.subtopic_name,
-      //       difficulty: location.state.difficulty,
-      //       correct: location.state.correct,
-      //       is_time_out: location.state.is_time_out
-      //     },
-      //   });
+        history.push({
+          pathname: "./group-game",
+          state: {
+            group_id: location.state.group_id,
+            subject_name: location.state.subject_name,
+            topic: location.state.topic_name,
+            subtopic: location.state.subtopic_name,
+            difficulty: location.state.difficulty,
+            correct: location.state.correct,
+          },
+        });
       }
     }
   };

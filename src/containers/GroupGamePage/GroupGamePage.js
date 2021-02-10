@@ -137,6 +137,7 @@ const GroupGamePage = ({ history }) => {
     history.push({
       pathname: "./report",
       state: {
+        group_id: location.state.group_id,
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
         subtopic_name: location.state.subtopic_name,
@@ -146,7 +147,6 @@ const GroupGamePage = ({ history }) => {
         problem_title: problem.title,
         answer_type: problem.answerType,
         correct: correct,
-        is_time_out: is_time_out
       },
     });
   };
@@ -217,11 +217,10 @@ const GroupGamePage = ({ history }) => {
   useEffect(() => {
     if (location.state.correct) {
       set_correct(location.state.correct)
-      set_is_time_out(location.state.is_time_out);
+      set_is_time_out(true);
     }
   }, [
     location.state.correct,
-    location.state.is_time_out
   ]);
 
   return (
