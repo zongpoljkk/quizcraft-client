@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { AnswerMathInput } from "./Answer/AnswerMathInput";
@@ -16,6 +16,7 @@ const GameContent = ({
   choices = {},
   answer,
   set_answer,
+  disabled
 }) => {
 
   return (
@@ -25,10 +26,15 @@ const GameContent = ({
           correct_answer={correct_answer}
           set_answer={set_answer}
           answer={answer}
+          disabled={disabled}
         />
       )}
       {type === ANSWER_TYPE.SELECT_ONE && (
-        <AnswerSelectOne content={content} set_answer={set_answer} />
+        <AnswerSelectOne
+          content={content}
+          set_answer={set_answer}
+          disabled_select={disabled}
+        />
       )}
       {type === ANSWER_TYPE.RADIO_CHOICE && (
         <AnswerRadioChoice
@@ -37,6 +43,7 @@ const GameContent = ({
           choices={choices}
           set_answer={set_answer}
           answer={answer}
+          disabled_select={disabled}
         />
       )}
     </Container>

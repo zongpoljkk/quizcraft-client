@@ -105,7 +105,7 @@ const GroupResultPage = ({ history }) => {
   };
 
   const handleDeleteGroup = () => {
-    deleteGroup(location.state.group_id, user_id);
+    deleteGroup();
   };
 
   const handleLeaveGroup = () => {

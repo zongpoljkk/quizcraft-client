@@ -18,6 +18,7 @@ export const RadioButton = ({
   justifyContent,
   marginRight,
   text,
+  disabled_select
 }) => {
 
   const [play] = useSound(radio_button_select, { volume: 0.2 });
@@ -33,7 +34,7 @@ export const RadioButton = ({
               direction === "column" ? (i !== choices.length - 1 ? 8 : 0) : 0,
             marginRight: marginRight,
           }}
-          onClick={play}
+          onClick={() => disabled_select ? null : play()}
         >
           <Label text={text} selected={value === option}>
             <Input
@@ -41,7 +42,11 @@ export const RadioButton = ({
               type="radio"
               value={option}
               checked={value === option}
-              onChange={(e) => selected_value(e.target.value)}
+              onChange={(e) => {
+                if(!disabled_select) {
+                  selected_value(e.target.value);
+                };
+              }}
             />
             <Mark selected={value === option} />
             {subject === "คณิตศาสตร์" ? (

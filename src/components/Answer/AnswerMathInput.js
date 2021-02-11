@@ -14,6 +14,7 @@ export const AnswerMathInput = ({
   correct_answer = "",
   set_answer,
   answer,
+  disabled = false
 }) => {
   const [mainAns, setMainAns] = useState({});
   const [powerAns, setPowerAns] = useState([]);
@@ -24,7 +25,7 @@ export const AnswerMathInput = ({
   const outputBoxes = (item, index) => {
     if (item.type === "(" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
       return (
-        <BoxSpace marginTop={36}>
+        <BoxSpace marginTop={38}>
           <Header>(</Header>
         </BoxSpace>
       );
@@ -40,11 +41,12 @@ export const AnswerMathInput = ({
           width={item.width}
           onChange={(e) => setPowerAns(e.target.value)}
           onClick={play}
+          disabled={disabled}
         />
       );
     } else if (item.type === ")" && (item.last_type === "numerator" || item.last_type === "denumerator")) {
       return (
-        <BoxSpace marginTop={36}>
+        <BoxSpace marginTop={38}>
           <Header>)</Header>
         </BoxSpace>
       );
@@ -56,7 +58,7 @@ export const AnswerMathInput = ({
       );
     } else if (item.type === "/") {
       return (
-        <BoxSpace marginTop={31}>
+        <BoxSpace marginTop={25}>
           <Divider>/</Divider>
         </BoxSpace>
       );
@@ -81,6 +83,7 @@ export const AnswerMathInput = ({
           key={item.type + index}
           onChange={(e) => handleMainAns(e.target.value, index)}
           onClick={play}
+          disabled={disabled}
         />
       );
     }
@@ -209,8 +212,8 @@ const PowerInputAnswer = styled.input.attrs((props) => ({
 
 const Divider = styled.div`
   font-family: Prompt, sans-serif;
-  font-weight: 500;
-  font-size: 34px;
+  font-weight: 360;
+  font-size: 42px;
   color: ${COLOR.CHARCOAL};
 `;
 
