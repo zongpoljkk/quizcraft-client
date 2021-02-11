@@ -37,18 +37,21 @@ import { useServerSentEvent, useDeleteGroup } from "../WaitingRoomPage/WaitingRo
 
 const GroupGamePage = ({ history }) => {
   const location = useLocation();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
+
+  const firstUpdate = useRef(true);
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [is_time_out, set_is_time_out] = useState(false);
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(false);
-  const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const user_id = localStorage.getItem("userId");
   const [answer_modal_loading, set_answer_modal_loading] = useState(false);
   const [sent_answer, set_sent_answer] = useState(false);
   const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
-  const firstUpdate = useRef(true);
+  const [waiting, set_waiting] = useState(false);
+
+  const user_id = localStorage.getItem("userId");
 
   const {
     getGroupGame,
@@ -81,6 +84,7 @@ const GroupGamePage = ({ history }) => {
 
   const onSend = () => {
     if (answer) {
+      set_waiting(true);
       set_sent_answer(true);
       checkGroupAnswer(
         user_id,
@@ -93,7 +97,6 @@ const GroupGamePage = ({ history }) => {
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
-      set_answer_modal_loading(false);
     };
   };
 
@@ -154,22 +157,19 @@ const GroupGamePage = ({ history }) => {
       };
       set_is_time_out(true);
     };
+    set_waiting(false);
+    set_answer_modal_loading(false);
     toggle();
   }, [show_answer]);
 
-  // Wait until user time has been updated, then call onSend
   useEffect(() => {
-    // Prevent calling onSend again when time is out
     if (!sent_answer && answer && used_time) {
-      set_answer_modal_loading(true);
-    };
-  }, [answer, used_time, is_time_out]);
-
-  useEffect(() => {
-    if (answer_modal_loading) {
       onSend();
     };
-  }, [answer_modal_loading]);
+    if(!sent_answer && is_time_out && !isShowing) {
+      set_answer_modal_loading(true);
+    };
+  }, [is_time_out, used_time]);
 
   useEffect(() => {
     handleNumberOfAnswer();
@@ -192,7 +192,6 @@ const GroupGamePage = ({ history }) => {
 
   useEffect(() => {
     if (is_time_out) {
-      console.log("eiei")
       handleShowAnswer();
     };
   }, [is_time_out]);
@@ -251,7 +250,11 @@ const GroupGamePage = ({ history }) => {
                     number_of_members={number_of_members}
                     showButton={is_creator}
                     button_title="ตรวจสอบคำตอบ"
-                    onNext={onTimeOut}
+                    onNext={() => {
+                      set_waiting(false);
+                      set_answer_modal_loading(true);
+                      onTimeOut();
+                    }}
                   />
                 </div>
               )}
@@ -303,21 +306,19 @@ const GroupGamePage = ({ history }) => {
                     </Button>
                     <Button
                       type={answer ? "default" : "disabled"}
-                      onClick={
-                        answer
-                          ? () => {
-                              set_used_time(
-                                time_per_problem - getTime() / 1000
-                              );
-                            }
-                          : () => {}
-                      }
+                      onClick={() => {
+                        if(answer) {
+                          set_used_time(
+                            time_per_problem - getTime() / 1000
+                          );
+                        };
+                      }}
                     >
                       ส่ง
                     </Button>
                   </ButtonContainer>
                 )}
-                {(sent_answer && !is_time_out) &&
+                {(waiting && !is_time_out) &&
                   <LottieCotainer>
                     <ZoomLottie>
                       <LottieFile
