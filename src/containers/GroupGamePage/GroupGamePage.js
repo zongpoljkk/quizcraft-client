@@ -3,23 +3,26 @@ import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
-import { Subheader } from "../../components/Typography";
+import { Subheader, Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button";
 import { ProblemIndex } from "../../components/ProblemIndex";
 import { AnswerModal } from "../../components/AnswerModal";
+import { LottieFile } from "../../components/LottieFile";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
+import sending_lottie from "../../assets/lottie/sending.json";
+
 import {
   ANSWER_TYPE,
   COLOR,
   DEVICE_SIZE,
-  WRONG_ANSWER,
+  WRONG_ANSWER
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -27,9 +30,10 @@ import {
   useGetGroupGame,
   checkGroupAnswer,
   showAnswer,
+  useGetNumberOfAnswer,
+  useGetNextProblem
 } from "./GroupGamePageHelper";
-import { useGetNumberOfAnswer, useGetNextProblem } from "./GroupGamePageHelper";
-import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
+import { useServerSentEvent, useDeleteGroup } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupGamePage = ({ history }) => {
   const location = useLocation();
@@ -62,7 +66,9 @@ const GroupGamePage = ({ history }) => {
     number_of_answer,
     number_of_members,
   } = useGetNumberOfAnswer(location.state.group_id);
+
   const { getNextProblem } = useGetNextProblem(location.state.group_id);
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
 
   const {
     listening,
@@ -70,11 +76,8 @@ const GroupGamePage = ({ history }) => {
     next_problem,
     send_answer,
     show_answer,
+    delete_group
   } = useServerSentEvent();
-
-  // const onSkip = () => {
-  //   set_answer(WRONG_ANSWER);
-  // };
 
   const onSend = () => {
     if (answer) {
@@ -100,7 +103,6 @@ const GroupGamePage = ({ history }) => {
 
   const handleNextProblem = () => {
     if (current_index + 1 === number_of_problem) {
-      // TODO: connect API check answer hold 10-15 sec then route to result page
       history.push({
         pathname: "./group-result",
         state: {
@@ -122,7 +124,6 @@ const GroupGamePage = ({ history }) => {
     if (!sent_answer) {
       set_answer(WRONG_ANSWER);
       set_used_time(time_per_problem);
-      // onSkip();
     }
     if (is_creator) {
       showAnswer(location.state.group_id);
@@ -151,6 +152,13 @@ const GroupGamePage = ({ history }) => {
       },
     });
   };
+  
+  useEffect(() => {
+    if (!listening) {
+      subscribe(location.state.group_id);
+    }
+    getGroupGame();
+  }, []);
 
   // when creator click 'ตรวจสอบคำตอบ'
   useEffect(() => {
@@ -162,19 +170,11 @@ const GroupGamePage = ({ history }) => {
       if (!sent_answer) {
         set_answer(WRONG_ANSWER);
         set_used_time(time_per_problem);
-        // onSkip();
       }
       set_is_time_out(true);
     }
     toggle();
   }, [show_answer]);
-
-  useEffect(() => {
-    if (!listening) {
-      subscribe(location.state.group_id);
-    }
-    getGroupGame();
-  }, []);
 
   // Wait until user time has been updated, then call onSend
   useEffect(() => {
@@ -216,6 +216,14 @@ const GroupGamePage = ({ history }) => {
   }, [is_time_out]);
 
   useEffect(() => {
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("/homepage");
+      window.location.reload();
+    };
+  }, [delete_group]);
+
+  useEffect(() => {
     if (location.state.correct) {
       set_correct(location.state.correct)
       set_answer(location.state.answer)
@@ -244,9 +252,9 @@ const GroupGamePage = ({ history }) => {
               <Headline>
                 <ExitModal
                   onExit={() => {
-                    subscribe(location.state.group_id);
-                    history.push("/");
-                    window.location.reload();
+                    if(is_creator) {
+                      deleteGroup();
+                    };
                   }}
                 />
                 <div style={{ marginRight: 8 }} />
@@ -270,7 +278,6 @@ const GroupGamePage = ({ history }) => {
                   <NumberOfAnswer
                     number_of_answer={number_of_answer}
                     number_of_members={number_of_members}
-                    // showButton={number_of_answer === number_of_members || is_time_out}
                     showButton={is_creator}
                     button_title="ตรวจสอบคำตอบ"
                     onNext={onTimeOut}
@@ -303,6 +310,7 @@ const GroupGamePage = ({ history }) => {
                     content={problem.body}
                     answer={answer}
                     set_answer={set_answer}
+                    disabled={sent_answer ? true : false}
                   />
                 </ContentContainer>
                 {user && !skip && !is_time_out && !sent_answer && (
@@ -318,7 +326,6 @@ const GroupGamePage = ({ history }) => {
                       onClick={() => {
                         set_answer(WRONG_ANSWER);
                         set_used_time(time_per_problem);
-                        // onSkip();
                       }}
                     >
                       ข้าม
@@ -339,6 +346,20 @@ const GroupGamePage = ({ history }) => {
                     </Button>
                   </ButtonContainer>
                 )}
+                {(sent_answer && !is_time_out) &&
+                  <LottieCotainer>
+                    <ZoomLottie>
+                      <LottieFile
+                        animationData={sending_lottie}
+                        width="80px"
+                        height="80px"
+                        loop={true}
+                      />
+                    </ZoomLottie>
+                    <Body color={COLOR.MANDARIN}>ส่งคำตอบแล้ว</Body>
+                    <Body color={COLOR.MANDARIN}>กรุณารอตรวจสอบคำตอบ</Body>
+                  </LottieCotainer>
+                }
                 {answer_modal_loading && <LoadingPage overlay={true} />}
                 {is_time_out ? (
                   <AnswerModal
@@ -407,6 +428,17 @@ const ButtonContainer = styled.div.attrs((props) => ({
 }))`
   display: flex;
   justify-content: ${(props) => props.justifyContent};
+`;
+
+const LottieCotainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+`;
+
+const ZoomLottie = styled.div`
+  transform: scale(2.5);
 `;
 
 export default withRouter(GroupGamePage);

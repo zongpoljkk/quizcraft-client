@@ -13,8 +13,8 @@ import { formatContent } from "./AnswertHelper";
 
 export const AnswerSelectOne = ({
   content = '',
-  set_answer = '',
-  disabled_click = false
+  set_answer,
+  disabled_select
 }) => {
 
   const [selected_answer, set_selected_answer] = useState(null);
@@ -29,11 +29,11 @@ export const AnswerSelectOne = ({
           <div
             disabled={disabled_click} 
             onClick={() => {
-              if(!disabled_click){
+              if(!disabled_select) {
                 set_selected_answer(item[1].content);
                 set_answer(item[1].content);
                 play();
-              }
+              };
             }}
             style={{
               backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -48,11 +48,11 @@ export const AnswerSelectOne = ({
           <div
             disabled={disabled_click}  
             onClick={() => {
-              if(!disabled_click){
+              if(!disabled_select) {
                 set_selected_answer(item[2].content);
                 set_answer(item[2].content);
                 play();
-              }
+              };
             }}
             style={{
               backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
@@ -77,11 +77,11 @@ export const AnswerSelectOne = ({
             <div
               disabled={disabled_click}  
               onClick={() => {
-                if(!disabled_click){
+                if(!disabled_select) {
                   set_selected_answer(item[1].content);
                   set_answer(item[1].content);
                   play();
-                }
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -96,11 +96,11 @@ export const AnswerSelectOne = ({
             <div 
               disabled={disabled_click} 
               onClick={() => {
-                if(!disabled_click){
+                if(!disabled_select) {
                   set_selected_answer(item[2].content);
                   set_answer(item[2].content);
                   play();
-                }
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
@@ -120,11 +120,11 @@ export const AnswerSelectOne = ({
             <div 
               disabled={disabled_click} 
               onClick={() => {
-                if(!disabled_click){
+                if(!disabled_select) {
                   set_selected_answer(item[0].content);
                   set_answer(item[0].content);
                   play();
-                }
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[0].content ? COLOR.ISLAND_SPICE : null,
@@ -139,11 +139,11 @@ export const AnswerSelectOne = ({
             <div 
               disabled={disabled_click} 
               onClick={() => {
-                if(!disabled_click){
+                if(!disabled_select) {
                   set_selected_answer(item[1].content);
                   set_answer(item[1].content);
                   play();
-                }
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
