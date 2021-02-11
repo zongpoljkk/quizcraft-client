@@ -16,13 +16,12 @@ import {
   useReadChallenge
 } from "./AllChallengesPageHelper";
 
-import { CONTAINER_PADDING, MODE } from "../../global/const";
+import { CHALLENGE_BOX_TYPE, CONTAINER_PADDING, MODE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-const CHALLENGE_BOX_TYPE = {
-  MY_TURN: "MY_TURN",
-  CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT",
+const LAST_PATH = {
+  ALL_CHALLENGES: "ALL_CHALLENGES",
+  SUBTOPIC: "SUBTOPIC"
 };
 
 const AllChallengesPage = ({ history, user_info }) => {
@@ -54,7 +53,9 @@ const AllChallengesPage = ({ history, user_info }) => {
   ) => {
     readChallenge(user_id, challenge_id);
     history.push({
-      pathname: result ? "./challenge-result" : "./challenge-game",
+      pathname: result
+        ? "/" + subject_name + "/" + topic_name + "/" + subtopic_name + "/" + difficulty + "/challenge-result"
+        : "/" + subject_name + "/" + topic_name + "/" + subtopic_name + "/" + difficulty + "/challenge-game",
       state: {
         subject_name: subject_name,
         topic_name: topic_name,
@@ -62,6 +63,7 @@ const AllChallengesPage = ({ history, user_info }) => {
         mode: MODE.CHALLENGE.type,
         difficulty: difficulty,
         challenge_id: challenge_id,
+        last_path: LAST_PATH.ALL_CHALLENGES
       },
     });
   };
@@ -100,7 +102,7 @@ const AllChallengesPage = ({ history, user_info }) => {
                         difficulty={challenge.difficulty}
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.MY_TURN}
-                        onClick={() => 
+                        onSubmitClick={() => 
                           onChallengeBoxClick(
                             challenge.challengeId,
                             challenge.subjectName,
@@ -159,7 +161,7 @@ const AllChallengesPage = ({ history, user_info }) => {
                         difficulty={challenge.difficulty}
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.RESULT}
-                        onClick={() => 
+                        onSubmitClick={() => 
                           onChallengeBoxClick(
                             challenge.challengeId,
                             challenge.subjectName,

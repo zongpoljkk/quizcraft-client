@@ -5,16 +5,10 @@ import useSound from 'use-sound';
 import { Button } from "../../../components/Button";
 import { Body } from "../../../components/Typography";
 
-import { COLOR } from "../../../global/const";
+import { CHALLENGE_BOX_TYPE, COLOR } from "../../../global/const";
 import { convertHexToRGBA, useDetectOutsideClick } from "../../../global/utils";
 
 import click from "../../../assets/sounds/click.mp3";
-
-const CHALLENGE_BOX_TYPE = {
-  MY_TURN: "MY_TURN",
-  CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT"
-};
 
 export const ChallengeBox = ({
   image,

@@ -144,3 +144,9 @@ export const TYPOGRAPHY = {
     font_size: "12"
   }
 };
+
+export const CHALLENGE_BOX_TYPE = {
+  MY_TURN: "MY_TURN",
+  CHALLENGER_TURN: "CHALLENGER_TURN",
+  RESULT: "RESULT"
+};

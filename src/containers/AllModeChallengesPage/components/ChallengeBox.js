@@ -4,14 +4,8 @@ import styled from "styled-components";
 import { ItemBox } from "../../../components/ItemBox";
 import { Body, Overline } from "../../../components/Typography";
 
-import { COLOR } from "../../../global/const";
+import { CHALLENGE_BOX_TYPE, COLOR } from "../../../global/const";
 import { convertHexToRGBA } from "../../../global/utils";
-
-const CHALLENGE_BOX_TYPE = {
-  MY_TURN: "MY_TURN",
-  CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT"
-};
 
 export const ChallengeBox = ({
   image,

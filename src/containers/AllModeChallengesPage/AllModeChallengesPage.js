@@ -22,14 +22,8 @@ import {
   specificChallenge
 } from "./AllModeChallengesPageHelper";
 
-import { CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
+import { CHALLENGE_BOX_TYPE, CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
-
-const CHALLENGE_BOX_TYPE = {
-  MY_TURN: "MY_TURN",
-  CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT",
-};
 
 const AllModeChallengesPage = ({ history, user_info }) => {
   const location = useLocation();

@@ -30,6 +30,10 @@ import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
 
+const LAST_PATH = {
+  ALL_CHALLENGES: "ALL_CHALLENGES",
+  SUBTOPIC: "SUBTOPIC"
+};
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
@@ -74,7 +78,7 @@ const ChallengeGame = ({ history }) => {
       playLevelUpSound();
     };
     history.push({
-      pathname: "./all-challenges",
+      pathname: location.state.last_path === LAST_PATH.ALL_CHALLENGES ? "/all-challenges" : "./all-challenges",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
@@ -131,9 +135,6 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       ).then((res) => {
         set_correct(res.data.correct);
-        if (res.data.correct) {
-          set_user_score(my_info.score);
-        }
         set_answer_key(res.data.answer);
         set_earned_coins(
           (earned_coins) => earned_coins + res.data.earned_coins
@@ -149,8 +150,7 @@ const ChallengeGame = ({ history }) => {
         // Handle the display of user's score
         if (res.data.correct) {
           set_my_score(score => score + 1);
-        }
-
+        };
       });
       toggle();
     }
