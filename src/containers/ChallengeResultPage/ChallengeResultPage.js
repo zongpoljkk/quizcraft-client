@@ -49,7 +49,6 @@ const ChallengeResultPage = ({ history }) => {
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
-        subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty

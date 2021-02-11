@@ -219,7 +219,7 @@ const App = () => {
             <GroupResultPage />
           </PrivateRoute>
           <PrivateRoute exact path="/all-challenges" getUserData={getUserData}>
-            <AllChallengesPage />
+            <AllChallengesPage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute exact path="/create-group" getUserData={getUserData}>
             <CreateGroupPage />
