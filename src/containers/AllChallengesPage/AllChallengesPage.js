@@ -53,9 +53,8 @@ const AllChallengesPage = ({ history, user_info }) => {
   ) => {
     readChallenge(user_id, challenge_id);
     history.push({
-      pathname: result
-        ? "/" + subject_name + "/" + topic_name + "/" + subtopic_name + "/" + difficulty + "/challenge-result"
-        : "/" + subject_name + "/" + topic_name + "/" + subtopic_name + "/" + difficulty + "/challenge-game",
+      pathname: "/" + subject_name + "/" + topic_name + "/" + subtopic_name + "/" + difficulty + 
+        (result ? "/challenge-result" : "/challenge-game"),
       state: {
         subject_name: subject_name,
         topic_name: topic_name,
