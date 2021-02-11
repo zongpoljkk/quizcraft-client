@@ -19,8 +19,8 @@ import {
   useGetALlMyChallenges,
   useReadChallenge,
   useRandomChallenge,
-  specificChallenge,
-} from "./AllChallengePageHelper";
+  specificChallenge
+} from "./AllModeChallengesPageHelper";
 
 import { CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -31,7 +31,7 @@ const CHALLENGE_BOX_TYPE = {
   RESULT: "RESULT",
 };
 
-const AllChallengePage = ({ history, user_info }) => {
+const AllModeChallengesPage = ({ history, user_info }) => {
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowingModal1, toggleModal1] = useModal();
@@ -374,4 +374,4 @@ const NoDataContainer = styled.div`
   height: 120px;
 `;
 
-export default withRouter(AllChallengePage);
+export default withRouter(AllModeChallengesPage);
