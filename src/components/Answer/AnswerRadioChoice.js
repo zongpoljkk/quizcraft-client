@@ -6,7 +6,7 @@ import { RadioButton } from "../RadioButton";
 import { DisplayText } from "../HandleText";
 
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
-import { useWindowDimensions } from "../../global/utils";
+import { useWindowDimensions, convertHexToRGBA } from "../../global/utils";
 
 import { splitQuestion } from "./AnswertHelper";
 
@@ -55,6 +55,7 @@ export const AnswerRadioChoice = ({
     }
   };
 
+
   return (
     <Container width={display_choice ? screen_width-CONTAINER_PADDING : screen_width-CONTAINER_PADDING-48}>
       <div style={{ marginBottom: display_choice ? 16 : 0 }}>
@@ -94,6 +95,18 @@ const QuestionContainer = styled.div`
   flex: 1;
   flex-direction: row;
   flex-wrap: wrap;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 3px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: ${convertHexToRGBA(COLOR.CHARCOAL, 40)};
+  }
 `;
 
 const BlankField = styled.div.attrs(props => ({

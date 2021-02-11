@@ -223,6 +223,7 @@ const GroupGamePage = ({ history }) => {
     };
   }, [delete_group]);
 
+  //back from report ?
   useEffect(() => {
     if (location.state.correct) {
       set_correct(location.state.correct)

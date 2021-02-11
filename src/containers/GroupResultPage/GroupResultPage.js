@@ -331,7 +331,7 @@ const GroupResultPage = ({ history }) => {
                   ? "space-evenly"
                   : "space-between"
               }
-              custom={scoreboard.length < 2 ? 10 : 15}
+              custom={scoreboard.length === 1 ? 6 : scoreboard.length === 2 ? 10 : 15 }
               variants={item}
             >
               <Button type="outline" onClick={() => handleDeleteGroup()}>
@@ -341,7 +341,7 @@ const GroupResultPage = ({ history }) => {
             </ButtonContainer>
           ) : (
             <motion.div
-              custom={scoreboard.length < 2 ? 10 : 15}
+              custom={scoreboard.length === 1 ? 6 : scoreboard.length === 2 ? 10 : 15 }
               variants={item}
               style={{ alignSelf: "center" }}
             >
