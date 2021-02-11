@@ -27,7 +27,7 @@ export const AnswerSelectOne = ({
           <Body>{item[0].content}</Body>
           <div style={{ width: 8 }}/>
           <div
-            disabled={disabled_click} 
+            disabled={disabled_select} 
             onClick={() => {
               if(!disabled_select) {
                 set_selected_answer(item[1].content);
@@ -46,7 +46,7 @@ export const AnswerSelectOne = ({
           </div>
           <AnswerBucket>,</AnswerBucket>
           <div
-            disabled={disabled_click}  
+            disabled={disabled_select}  
             onClick={() => {
               if(!disabled_select) {
                 set_selected_answer(item[2].content);
@@ -75,7 +75,7 @@ export const AnswerSelectOne = ({
             <Body>{item[0].content}</Body>
             <div style={{ width: 8 }}/>
             <div
-              disabled={disabled_click}  
+              disabled={disabled_select}  
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[1].content);
@@ -94,7 +94,7 @@ export const AnswerSelectOne = ({
             </div>
             <AnswerBucket>,</AnswerBucket>
             <div 
-              disabled={disabled_click} 
+              disabled={disabled_select} 
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[2].content);
@@ -118,7 +118,7 @@ export const AnswerSelectOne = ({
         return (
           <Container>
             <div 
-              disabled={disabled_click} 
+              disabled={disabled_select} 
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[0].content);
@@ -137,7 +137,7 @@ export const AnswerSelectOne = ({
             </div>
             <AnswerBucket>,</AnswerBucket>
             <div 
-              disabled={disabled_click} 
+              disabled={disabled_select} 
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[1].content);

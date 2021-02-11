@@ -47,7 +47,7 @@ export const ProblemBox = ({
             question={question}
             content={content}
             display_choice = {false}
-            disabled_click = {true}
+            disabled = {true}
           />
         </ContentContainer>
         )}
