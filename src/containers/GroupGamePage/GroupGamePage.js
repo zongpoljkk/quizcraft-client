@@ -120,14 +120,14 @@ const GroupGamePage = ({ history }) => {
     }
   };
 
-  const handleShowAnswer = () => {
+  const handleShowAnswer = async () => {
     if (!sent_answer) {
       set_answer(WRONG_ANSWER);
       set_used_time(time_per_problem);
-    }
+    };
     if (is_creator) {
-      showAnswer(location.state.group_id);
-    }
+      await showAnswer(location.state.group_id);
+    };
   };
 
   const handleNumberOfAnswer = async () => {
@@ -146,14 +146,14 @@ const GroupGamePage = ({ history }) => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
-    }
+    };
     if (!is_creator) {
       if (!sent_answer) {
         set_answer(WRONG_ANSWER);
         set_used_time(time_per_problem);
       }
       set_is_time_out(true);
-    }
+    };
     toggle();
   }, [show_answer]);
 
@@ -162,13 +162,13 @@ const GroupGamePage = ({ history }) => {
     // Prevent calling onSend again when time is out
     if (!sent_answer && answer && used_time) {
       set_answer_modal_loading(true);
-    }
+    };
   }, [answer, used_time, is_time_out]);
 
   useEffect(() => {
     if (answer_modal_loading) {
       onSend();
-    }
+    };
   }, [answer_modal_loading]);
 
   useEffect(() => {
@@ -187,13 +187,14 @@ const GroupGamePage = ({ history }) => {
       handleNextProblem();
       getNumberOfAnswer();
       toggle();
-    }
+    };
   }, [next_problem]);
 
   useEffect(() => {
     if (is_time_out) {
+      console.log("eiei")
       handleShowAnswer();
-    }
+    };
   }, [is_time_out]);
 
   useEffect(() => {
@@ -331,7 +332,7 @@ const GroupGamePage = ({ history }) => {
                   </LottieCotainer>
                 }
                 {answer_modal_loading && <LoadingPage overlay={true} />}
-                {is_time_out ? (
+                {is_time_out && (
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
@@ -351,7 +352,7 @@ const GroupGamePage = ({ history }) => {
                     }}
                     onClose={false}
                   />
-                ) : null}
+                )}
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
             </Container>

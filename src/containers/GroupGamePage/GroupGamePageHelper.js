@@ -110,9 +110,9 @@ export const showAnswer = async (group_id) => {
       params: {
         groupId: group_id
       }
-    })
+    });
     return response.data
   } catch (error) {
-    console.log("There are something wrong when checking for answer :(");
+    console.log("There are something wrong when show answer :(");
   }
 }
