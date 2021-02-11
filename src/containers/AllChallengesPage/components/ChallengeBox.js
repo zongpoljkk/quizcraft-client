@@ -30,7 +30,7 @@ export const ChallengeBox = ({
   return (
     <CardContainer
       ref={ref}
-      backgroundColor={is_read ? COLOR.WHITE : convertHexToRGBA(COLOR.ISLAND_SPICE, 45)}
+      backgroundColor={is_read ? COLOR.WHITE : convertHexToRGBA(COLOR.ISLAND_SPICE, 60)}
       onClick={() => {
         set_expand(!expand);
       }}
