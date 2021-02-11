@@ -3,7 +3,7 @@ import axios from "axios";
 
 import backend from "../../ip";
 
-export const useGetALlMyChallenges = (user_id, subtopic_name, difficulty) => {
+export const useGetALlMyChallenges = (user_id) => {
   const [loading, set_loading] = useState(true);
   const [my_turns, set_my_turns] = useState();
   const [challenger_turns, set_challenger_turns] = useState();
@@ -13,12 +13,10 @@ export const useGetALlMyChallenges = (user_id, subtopic_name, difficulty) => {
     set_loading(true);
     try {
       const response = await axios.get(
-        backend + "challenge/get-all-my-challenges",
+        backend + "challenge/get-all-my-challenges-for-all-challenges-page",
         {
           params: {
-            userId: user_id,
-            subtopicName: subtopic_name,
-            difficulty: difficulty,
+            userId: user_id
           },
         }
       );

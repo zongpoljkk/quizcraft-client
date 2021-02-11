@@ -221,7 +221,7 @@ const AllModeChallengesPage = ({ history, user_info }) => {
             <Box>
               <Header>รอบของคุณ</Header>
               {my_turns.length !== 0 ? 
-                <ChallengeBoxContainer maxWidth={container_width}>
+                <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
                   {my_turns?.map((challenge, index) => 
                     <div key={index}>
                       <ChallengeBox

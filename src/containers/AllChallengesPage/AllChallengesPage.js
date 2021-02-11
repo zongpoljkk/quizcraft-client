@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, withRouter } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import useModal from "../../components/useModal";
 import { LottieFile } from "../../components/LottieFile";
 import { LevelUpModal } from "../../components/LevelUpModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { ChallengeBox } from "./components/ChallengeBox";
 
 import no_data from "../../assets/lottie/no_data.json";
 
@@ -15,7 +16,7 @@ import {
   useReadChallenge
 } from "./AllChallengesPageHelper";
 
-import { CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
+import { CONTAINER_PADDING, MODE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const CHALLENGE_BOX_TYPE = {
@@ -31,9 +32,6 @@ const AllChallengesPage = ({ history, user_info }) => {
 
   const [isShowingLevelUpModal, toggleLevelUpModal] = useModal();
 
-  const [my_turns_margin_right, set_my_turns_margin_right] = useState();
-  const [challenger_turns_margin_right, set_challenger_turns_margin_right] = useState();
-  const [results_margin_right, set_results_margin_right] = useState();
   const user_id = localStorage.getItem("userId");
 
   const {
@@ -42,24 +40,29 @@ const AllChallengesPage = ({ history, user_info }) => {
     my_turns,
     challenger_turns,
     results,
-  } = useGetALlMyChallenges(
-    user_id
-  );
+  } = useGetALlMyChallenges(user_id);
 
   const { readChallenge } = useReadChallenge();
 
-  const onChallengeBoxClick = (challenge_id, result) => {
+  const onChallengeBoxClick = (
+    challenge_id,
+    subject_name,
+    topic_name,
+    subtopic_name,
+    difficulty,
+    result
+  ) => {
     readChallenge(user_id, challenge_id);
     history.push({
       pathname: result ? "./challenge-result" : "./challenge-game",
-      // state: {
-      //   subject_name: location.state.subject_name,
-      //   topic_name: location.state.topic_name,
-      //   subtopic_name: location.state.subtopic_name,
-      //   mode: location.state.mode,
-      //   difficulty: location.state.difficulty,
-      //   challenge_id: challenge_id,
-      // },
+      state: {
+        subject_name: subject_name,
+        topic_name: topic_name,
+        subtopic_name: subtopic_name,
+        mode: MODE.CHALLENGE.type,
+        difficulty: difficulty,
+        challenge_id: challenge_id,
+      },
     });
   };
 
@@ -71,9 +74,9 @@ const AllChallengesPage = ({ history, user_info }) => {
 
   useEffect(() => {
     getALlMyChallenges();
-    // if(location.state.is_level_up || location.state.is_rank_up) {
-    //   toggleLevelUpModal();
-    // };
+    if(location.state?.is_level_up || location.state?.is_rank_up) {
+      toggleLevelUpModal();
+    };
   }, []);
 
   return (
@@ -82,29 +85,31 @@ const AllChallengesPage = ({ history, user_info }) => {
         ? <LoadingPage/>
         : <React.Fragment>
             <Header>การท้าทายทั้งหมด</Header>
-            <Box>
+            <Box marginBottom={my_turns.length !== 0 ? 8 : 16}>
               <Subheader>รอบของคุณ</Subheader>
               {my_turns.length !== 0 ? 
                 <ChallengeBoxContainer maxWidth={container_width}>
                   {my_turns?.map((challenge, index) => 
                     <div key={index}>
-                      {/* <ChallengeBox
+                      <ChallengeBox
                         image={challenge.photo}
                         username={challenge.username}
                         my_scores={challenge.myScore}
                         challenger_score={challenge.theirScore}
+                        subtopic={challenge.subtopicName}
+                        difficulty={challenge.difficulty}
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.MY_TURN}
-                        margin_right={my_turns_margin_right && my_turns_margin_right[index]}
-                        getMarginRightOfChallengeBox={() =>
-                          getMarginRightOfChallengeBox(
-                            container_width,
-                            set_my_turns_margin_right,
-                            my_turns.length
+                        onClick={() => 
+                          onChallengeBoxClick(
+                            challenge.challengeId,
+                            challenge.subjectName,
+                            challenge.topicName,
+                            challenge.subtopicName,
+                            challenge.difficulty
                           )
                         }
-                        onClick={() => onChallengeBoxClick(challenge.challengeId)}
-                      /> */}
+                      />
                     </div>
                   )}
                 </ChallengeBoxContainer>
@@ -114,28 +119,22 @@ const AllChallengesPage = ({ history, user_info }) => {
                 </NoDataContainer>
               }
             </Box>
-            <Box>
+            <Box marginBottom={challenger_turns.length !== 0 ? 8 : 16}>
               <Subheader>รอบของคู่แข่ง</Subheader>
               {challenger_turns.length !== 0 ? 
-                <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
+                <ChallengeBoxContainer maxWidth={container_width}>
                   {challenger_turns?.map((challenge, index) => 
                     <div key={index} onChange={readTheirTurnChallenge(challenge.isRead, challenge.challengeId)}>
-                      {/* <ChallengeBox
+                      <ChallengeBox
                         image={challenge.photo}
                         username={challenge.username}
                         my_scores={challenge.myScore}
                         challenger_score={challenge.theirScore}
+                        subtopic={challenge.subtopicName}
+                        difficulty={challenge.difficulty}
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.CHALLENGER_TURN}
-                        margin_right={challenger_turns_margin_right && challenger_turns_margin_right[index]}
-                        getMarginRightOfChallengeBox={() =>
-                          getMarginRightOfChallengeBox(
-                            container_width,
-                            set_challenger_turns_margin_right,
-                            challenger_turns.length
-                          )
-                        }
-                      /> */}
+                      />
                     </div>
                   )}
                 </ChallengeBoxContainer>
@@ -145,29 +144,32 @@ const AllChallengesPage = ({ history, user_info }) => {
                 </NoDataContainer>
               }
             </Box>
-            <Box>
+            <Box marginBottom={16}>
               <Subheader>ผลลัพธ์</Subheader>
               {results.length !== 0 ? 
-                <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
+                <ChallengeBoxContainer maxWidth={container_width}>
                   {results?.map((challenge, index) => 
                     <div key={index}>
-                      {/* <ChallengeBox
+                      <ChallengeBox
                         image={challenge.photo}
                         username={challenge.username}
                         my_scores={challenge.myScore}
                         challenger_score={challenge.theirScore}
+                        subtopic={challenge.subtopicName}
+                        difficulty={challenge.difficulty}
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.RESULT}
-                        margin_right={results_margin_right && results_margin_right[index]}
-                        getMarginRightOfChallengeBox={() =>
-                          getMarginRightOfChallengeBox(
-                            container_width,
-                            set_results_margin_right,
-                            results.length
+                        onClick={() => 
+                          onChallengeBoxClick(
+                            challenge.challengeId,
+                            challenge.subjectName,
+                            challenge.topicName,
+                            challenge.subtopicName,
+                            challenge.difficulty,
+                            'result'
                           )
                         }
-                        onClick={() => onChallengeBoxClick(challenge.challengeId, 'result')}
-                      /> */}
+                      />
                     </div>
                   )}
                 </ChallengeBoxContainer>
@@ -182,11 +184,11 @@ const AllChallengesPage = ({ history, user_info }) => {
       <LevelUpModal
         isShowing={isShowingLevelUpModal}
         toggle={toggleLevelUpModal}
-        // rank={location.state.is_rank_up ? user_info?.rank : null}
+        rank={location.state?.is_rank_up ? user_info?.rank : null}
         level={user_info?.level}
         exp={user_info?.exp}
         max_exp={user_info?.maxExp}
-        // coin={location.state.earned_coins}
+        coin={location.state?.earned_coins}
       />
     </Container>
   );
@@ -201,22 +203,26 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const Box = styled.div`
+const Box = styled.div.attrs(props => ({
+  marginBottom: props.marginBottom
+}))`
   display: flex;
   flex-direction: column;
   align-self: flex-start;
   width: 100%;
   margin-top: 8px;
-  margin-bottom: 16px;
+  margin-bottom: ${props => props.marginBottom}px;
 `;
 
-const ChallengeBoxContainer = styled.div`
+const ChallengeBoxContainer = styled.div.attrs(props => ({
+  maxWidth: props.maxWidth
+}))`
   display: flex;
-  flex: 1;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   align-self: flex-start;
-  max-width: ${(props) => props.maxWidth}px;
+  width: ${props => props.maxWidth}px;
+  margin-top: 8px;
 `;
 
 const NoDataContainer = styled.div`

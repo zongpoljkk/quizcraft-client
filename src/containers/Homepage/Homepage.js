@@ -20,7 +20,7 @@ import {
 import challenge_icon from "../../assets/thumbnail/challenge.png";
 import challenge_mandarin_icon from "../../assets/thumbnail/challenge_mandarin.png";
 
-import { COLOR, CONTAINER_PADDING } from "../../global/const";
+import { CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const Homepage = ({ history, user_id }) => {

@@ -94,7 +94,7 @@ const GroupGamePage = ({ history }) => {
         set_correct_answer(res.data.correctAnswer);
       });
       set_answer_modal_loading(false);
-    }
+    };
   };
 
   const onTimeOut = () => {
@@ -117,7 +117,7 @@ const GroupGamePage = ({ history }) => {
     } else {
       getGroupGame();
       set_skip(false);
-    }
+    };
   };
 
   const handleShowAnswer = async () => {
@@ -137,7 +137,7 @@ const GroupGamePage = ({ history }) => {
   useEffect(() => {
     if (!listening) {
       subscribe(location.state.group_id);
-    }
+    };
     getGroupGame();
   }, []);
 
@@ -151,7 +151,7 @@ const GroupGamePage = ({ history }) => {
       if (!sent_answer) {
         set_answer(WRONG_ANSWER);
         set_used_time(time_per_problem);
-      }
+      };
       set_is_time_out(true);
     };
     toggle();
