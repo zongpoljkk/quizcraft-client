@@ -269,7 +269,7 @@ const GroupResultPage = ({ history }) => {
                       animate="visible"
                       custom={10}
                       variants={item}
-                      onAnimationComplete={() => third_animation_success()}
+                      onAnimationComplete={() => third_animation_success(), console.log("eiei")}
                     >
                       <LottieFile
                         animationData={bronze}
@@ -329,12 +329,20 @@ const GroupResultPage = ({ history }) => {
             </ResultContainer>
             </div>
           :
-            <NoDataContainer 
+            <NoDataContainer
+              initial="hidden"
+              animate="visible" 
               custom={1} 
               variants={item} 
               onAnimationComplete={() => first_animation_success()}
             >
-              <LottieFile animationData={no_data} loop={false} height="240px"/>
+              <LottieFile 
+                animationData={no_data} 
+                loop={false}
+                isPaused={!display_first_lottie}
+                isStopped={!display_first_lottie} 
+                height="240px"
+              />
             </NoDataContainer>
           }
           {is_creator ? (

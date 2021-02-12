@@ -225,13 +225,13 @@ const GroupGamePage = ({ history }) => {
 
   //back from report ?
   useEffect(() => {
-    if (location.state.correct) {
-      set_correct(location.state.correct)
-      set_answer(location.state.answer)
-      set_is_time_out(true);
+    if (location.state.answer) {
+      set_answer(location.state.answer);
+      onSend();
+      handleShowAnswer();
+      // onTimeOut();
     }
   }, [
-    location.state.correct,
     location.state.answer,
   ]);
 
