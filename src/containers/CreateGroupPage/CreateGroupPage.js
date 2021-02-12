@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { Header } from "../../components/Typography";
 import { Button } from "../../components/Button";
-import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
+import { DropdownWithLabel } from "../../components/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
 import { RadioButton } from "../../components/RadioButton";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";

@@ -18,6 +18,11 @@ import {
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
+const LAST_PATH = {
+  ALL_CHALLENGES: "ALL_CHALLENGES",
+  SUBTOPIC: "SUBTOPIC"
+};
+
 const ChallengeResultPage = ({ history }) => {
   const location = useLocation();
   const [isShowing, toggle] = useModal();
@@ -45,11 +50,10 @@ const ChallengeResultPage = ({ history }) => {
   const onExit = async () => {
     await deleteChallenge(user_id, location.state.challenge_id);
     history.push({
-      pathname: "./all-challenges",
+      pathname: location.state.last_path === LAST_PATH.ALL_CHALLENGES ? "/all-challenges" : "./all-challenges",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
-        subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty

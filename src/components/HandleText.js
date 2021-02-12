@@ -21,16 +21,17 @@ export const DisplayText = ({
     return regExp.test(word);
   };
 
-  const DisplayText = (content) => {
+  const DisplayText = (content, index) => {
       if (hasThaiString(content)) {
         return (
-          <Typography fontWeight={fontWeight} fontSize={fontSize} color={color}>
+          <Typography key={index} fontWeight={fontWeight} fontSize={fontSize} color={color}>
             {content}
           </Typography>
         );
       } else {
         return (
           <Typography
+            key={index}
             fontWeight={fontWeight}
             fontSize={fontSize}
             color={color}
@@ -49,7 +50,7 @@ export const DisplayText = ({
     <Container justifyContent={justifyContent}>
       {textWithNBSpaceReplaced.split("\n").map((line, i) => {
         return (
-          <div key={i}>{line.split(" ").map((text) => DisplayText(text))}</div>
+          <div key={i}>{line.split(" ").map((text, idx) => DisplayText(text, idx))}</div>
         );
       })}
     </Container>

@@ -2,14 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import useSound from 'use-sound';
 
-import { Subheader, Body } from "../Typography";
+import { Subheader, Body } from "./Typography";
 
-import chevron from "../../assets/icon/chevron_mandarin.png";
-import select from "../../assets/sounds/select.mp3";
+import chevron from "../assets/icon/chevron_mandarin.png";
+import select from "../assets/sounds/select.mp3";
 
-import { useDetectOutsideClick } from "./DropdownHelper";
+import { useDetectOutsideClick } from "../global/utils";
 
-import { COLOR } from "../../global/const";
+import { COLOR } from "../global/const";
 
 export const Dropdown = ({
   placeholder = "-- เลือก --",
