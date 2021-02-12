@@ -17,7 +17,9 @@ const CHARACTER_WIDTH = 11;
 export const NumberInputSpinner = ({
   value = 0,
   set_value,
-  label_width
+  label_width,
+  minimun_number,
+  maximum_number
 }) => {
   const { height, width: screen_width } = useWindowDimensions();
   const [play] = useSound(select, { volume: 0.25 });
@@ -26,8 +28,36 @@ export const NumberInputSpinner = ({
     <Container style={screen_width >= DEVICE_SIZE.XS ? {width: "100%"} : null}>
       <NumberInputSpinnerContainer>
         <NumberInput
+          min={0} max={100}
           value={value}
-          onChange={e => set_value(e.target.value)}
+          onChange={e => {
+            if(minimun_number && maximum_number) {
+              if(minimun_number)  {
+                if(e.target.value <= minimun_number) {
+                  set_value(minimun_number);
+                } else if(e.target.value >= maximum_number) {
+                  set_value(maximum_number);
+                } else {
+                  set_value(e.target.value);
+                };
+              };
+            } else if(minimun_number)  {
+              if(e.target.value <= minimun_number) {
+                set_value(minimun_number);
+              } else {
+                set_value(e.target.value);
+              };
+            }
+            else if(maximum_number) {
+              if(e.target.value >= maximum_number) {
+                set_value(maximum_number);
+              } else {
+                set_value(e.target.value);
+              };
+            } else {
+              set_value(e.target.value);
+            };
+          }}
           color={value === 0 ? COLOR.SILVER : COLOR.CHARCOAL}
           width={screen_width-label_width-PADDING-COLLAPS_WIDTH}
           onClick={play}
@@ -36,7 +66,15 @@ export const NumberInputSpinner = ({
         <CollapsContainer>
           <CollapsContainer
             onClick={() => {
-              set_value(value+1);
+              if(maximum_number) {
+                if(value >= maximum_number) {
+                  set_value(maximum_number);
+                } else {
+                  set_value(value+1);
+                };
+              } else {
+                set_value(value+1);
+              };
               play();
             }}
           >
@@ -45,7 +83,15 @@ export const NumberInputSpinner = ({
           <div style={{ marginBottom: 6 }}/>
           <CollapsContainer
             onClick={() => {
-              set_value(value-1);
+              if(minimun_number) {
+                if(value <= minimun_number) {
+                  set_value(minimun_number);
+                } else {
+                  set_value(value-1);
+                };
+              } else {
+                set_value(value-1);
+              };
               play();
             }}
           >
@@ -62,6 +108,8 @@ export const NumberInputSpinnerWithLabel = ({
   value,
   set_value,
   unit_label,
+  minimun_number,
+  maximum_number,
   direction = "column",
   marginBottom,
   label_marginRight = 24
@@ -83,6 +131,8 @@ export const NumberInputSpinnerWithLabel = ({
           value={value}
           set_value={set_value}
           label_width={label.length*CHARACTER_WIDTH}
+          minimun_number={minimun_number}
+          maximum_number={maximum_number}
         />
         {unit_label &&
           <div style={{ marginTop: 6, marginLeft: 8 }}>
