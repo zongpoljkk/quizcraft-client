@@ -50,7 +50,7 @@ export const useDeleteGroup = (group_id, user_id) => {
       const response = await axios.delete(backend+"group/delete-group", {
         data: {
           groupId: group_id,
-          userId : user_id,
+          userId : user_id
         }
       })
       const { success, data } = response.data;
@@ -113,7 +113,7 @@ export const useGetGenerateProblem = () => {
     }
   };
 
-  return { getGenerateProblem, start_loading, problems };
+  return { getGenerateProblem, start_loading, problems, number_of_problems };
 };
 
 export const useServerSentEvent = () => {
@@ -137,7 +137,6 @@ export const useServerSentEvent = () => {
       });
       events.onmessage = event => {
         const parsedData = JSON.parse(event.data);
-        console.log("parsedData", parsedData)
         switch (parsedData.type) {
           case "INIT_CONNECTION":
             console.log("init")

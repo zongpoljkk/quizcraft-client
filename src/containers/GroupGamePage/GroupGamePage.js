@@ -3,23 +3,26 @@ import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
 
-import { Subheader } from "../../components/Typography";
+import { Subheader, Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
 import { ProblemBox } from "../../components/ProblemBox";
 import { Button } from "../../components/Button";
 import { ProblemIndex } from "../../components/ProblemIndex";
 import { AnswerModal } from "../../components/AnswerModal";
+import { LottieFile } from "../../components/LottieFile";
 import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import { PointBox } from "./components/PointBox";
 import { NumberOfAnswer } from "./components/NumberOfAnswer";
 
+import sending_lottie from "../../assets/lottie/sending.json";
+
 import {
   ANSWER_TYPE,
   COLOR,
   DEVICE_SIZE,
-  WRONG_ANSWER,
+  WRONG_ANSWER
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -27,24 +30,28 @@ import {
   useGetGroupGame,
   checkGroupAnswer,
   showAnswer,
+  useGetNumberOfAnswer,
+  useGetNextProblem
 } from "./GroupGamePageHelper";
-import { useGetNumberOfAnswer, useGetNextProblem } from "./GroupGamePageHelper";
-import { useServerSentEvent } from "../WaitingRoomPage/WaitingRoomPageHelper";
+import { useServerSentEvent, useDeleteGroup } from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupGamePage = ({ history }) => {
   const location = useLocation();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
+
+  const firstUpdate = useRef(true);
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [is_time_out, set_is_time_out] = useState(false);
   const [answer, set_answer] = useState();
   const [skip, set_skip] = useState(false);
-  const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const user_id = localStorage.getItem("userId");
   const [answer_modal_loading, set_answer_modal_loading] = useState(false);
   const [sent_answer, set_sent_answer] = useState(false);
   const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
-  const firstUpdate = useRef(true);
+  const [waiting, set_waiting] = useState(false);
+
+  const user_id = localStorage.getItem("userId");
 
   const {
     getGroupGame,
@@ -62,7 +69,9 @@ const GroupGamePage = ({ history }) => {
     number_of_answer,
     number_of_members,
   } = useGetNumberOfAnswer(location.state.group_id);
+
   const { getNextProblem } = useGetNextProblem(location.state.group_id);
+  const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
 
   const {
     listening,
@@ -70,14 +79,12 @@ const GroupGamePage = ({ history }) => {
     next_problem,
     send_answer,
     show_answer,
+    delete_group
   } = useServerSentEvent();
-
-  // const onSkip = () => {
-  //   set_answer(WRONG_ANSWER);
-  // };
 
   const onSend = () => {
     if (answer) {
+      set_waiting(true);
       set_sent_answer(true);
       checkGroupAnswer(
         user_id,
@@ -90,8 +97,7 @@ const GroupGamePage = ({ history }) => {
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
-      set_answer_modal_loading(false);
-    }
+    };
   };
 
   const onTimeOut = () => {
@@ -100,7 +106,6 @@ const GroupGamePage = ({ history }) => {
 
   const handleNextProblem = () => {
     if (current_index + 1 === number_of_problem) {
-      // TODO: connect API check answer hold 10-15 sec then route to result page
       history.push({
         pathname: "./group-result",
         state: {
@@ -115,61 +120,56 @@ const GroupGamePage = ({ history }) => {
     } else {
       getGroupGame();
       set_skip(false);
-    }
+    };
   };
 
-  const handleShowAnswer = () => {
+  const handleShowAnswer = async () => {
     if (!sent_answer) {
       set_answer(WRONG_ANSWER);
       set_used_time(time_per_problem);
-      // onSkip();
-    }
+    };
     if (is_creator) {
-      showAnswer(location.state.group_id);
-    }
+      await showAnswer(location.state.group_id);
+    };
   };
 
   const handleNumberOfAnswer = async () => {
     await getNumberOfAnswer();
   };
 
+  useEffect(() => {
+    if (!listening) {
+      subscribe(location.state.group_id);
+    };
+    getGroupGame();
+  }, []);
+
   // when creator click 'ตรวจสอบคำตอบ'
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
-    }
+    };
     if (!is_creator) {
       if (!sent_answer) {
         set_answer(WRONG_ANSWER);
         set_used_time(time_per_problem);
-        // onSkip();
-      }
+      };
       set_is_time_out(true);
-    }
+    };
+    set_waiting(false);
+    set_answer_modal_loading(false);
     toggle();
   }, [show_answer]);
 
   useEffect(() => {
-    if (!listening) {
-      subscribe(location.state.group_id);
-    }
-    getGroupGame();
-  }, []);
-
-  // Wait until user time has been updated, then call onSend
-  useEffect(() => {
-    // Prevent calling onSend again when time is out
     if (!sent_answer && answer && used_time) {
-      set_answer_modal_loading(true);
-    }
-  }, [answer, used_time, is_time_out]);
-
-  useEffect(() => {
-    if (answer_modal_loading) {
       onSend();
-    }
-  }, [answer_modal_loading]);
+    };
+    if(!sent_answer && is_time_out && !isShowing) {
+      set_answer_modal_loading(true);
+    };
+  }, [is_time_out, used_time]);
 
   useEffect(() => {
     handleNumberOfAnswer();
@@ -187,14 +187,22 @@ const GroupGamePage = ({ history }) => {
       handleNextProblem();
       getNumberOfAnswer();
       toggle();
-    }
+    };
   }, [next_problem]);
 
   useEffect(() => {
     if (is_time_out) {
       handleShowAnswer();
-    }
+    };
   }, [is_time_out]);
+
+  useEffect(() => {
+    if (delete_group) {
+      subscribe(location.state.group_id);
+      history.push("/homepage");
+      window.location.reload();
+    };
+  }, [delete_group]);
 
   return (
     <Container>
@@ -214,9 +222,9 @@ const GroupGamePage = ({ history }) => {
               <Headline>
                 <ExitModal
                   onExit={() => {
-                    subscribe(location.state.group_id);
-                    history.push("/");
-                    window.location.reload();
+                    if(is_creator) {
+                      deleteGroup();
+                    };
                   }}
                 />
                 <div style={{ marginRight: 8 }} />
@@ -240,10 +248,13 @@ const GroupGamePage = ({ history }) => {
                   <NumberOfAnswer
                     number_of_answer={number_of_answer}
                     number_of_members={number_of_members}
-                    // showButton={number_of_answer === number_of_members || is_time_out}
                     showButton={is_creator}
                     button_title="ตรวจสอบคำตอบ"
-                    onNext={onTimeOut}
+                    onNext={() => {
+                      set_waiting(false);
+                      set_answer_modal_loading(true);
+                      onTimeOut();
+                    }}
                   />
                 </div>
               )}
@@ -273,6 +284,7 @@ const GroupGamePage = ({ history }) => {
                     content={problem.body}
                     answer={answer}
                     set_answer={set_answer}
+                    disabled={sent_answer ? true : false}
                   />
                 </ContentContainer>
                 {user && !skip && !is_time_out && !sent_answer && (
@@ -288,29 +300,40 @@ const GroupGamePage = ({ history }) => {
                       onClick={() => {
                         set_answer(WRONG_ANSWER);
                         set_used_time(time_per_problem);
-                        // onSkip();
                       }}
                     >
                       ข้าม
                     </Button>
                     <Button
                       type={answer ? "default" : "disabled"}
-                      onClick={
-                        answer
-                          ? () => {
-                              set_used_time(
-                                time_per_problem - getTime() / 1000
-                              );
-                            }
-                          : () => {}
-                      }
+                      onClick={() => {
+                        if(answer) {
+                          set_used_time(
+                            time_per_problem - getTime() / 1000
+                          );
+                        };
+                      }}
                     >
                       ส่ง
                     </Button>
                   </ButtonContainer>
                 )}
+                {(waiting && !is_time_out) &&
+                  <LottieCotainer>
+                    <ZoomLottie>
+                      <LottieFile
+                        animationData={sending_lottie}
+                        width="80px"
+                        height="80px"
+                        loop={true}
+                      />
+                    </ZoomLottie>
+                    <Body color={COLOR.MANDARIN}>ส่งคำตอบแล้ว</Body>
+                    <Body color={COLOR.MANDARIN}>กรุณารอตรวจสอบคำตอบ</Body>
+                  </LottieCotainer>
+                }
                 {answer_modal_loading && <LoadingPage overlay={true} />}
-                {is_time_out ? (
+                {is_time_out && (
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}
@@ -330,7 +353,7 @@ const GroupGamePage = ({ history }) => {
                     }}
                     onClose={false}
                   />
-                ) : null}
+                )}
                 {getTime() <= 0 && onTimeOut()}
               </React.Fragment>
             </Container>
@@ -376,6 +399,17 @@ const ButtonContainer = styled.div.attrs((props) => ({
 }))`
   display: flex;
   justify-content: ${(props) => props.justifyContent};
+`;
+
+const LottieCotainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+`;
+
+const ZoomLottie = styled.div`
+  transform: scale(2.5);
 `;
 
 export default withRouter(GroupGamePage);

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useSound from 'use-sound';
 
 // Global
-import { COLOR, DEVICE_SIZE } from "../global/const"
+import { COLOR, DEVICE_SIZE, TYPOGRAPHY } from "../global/const"
 import { useWindowDimensions } from "../global/utils"
 
 import single_click from "../assets/sounds/single_click.mp3";
@@ -13,12 +13,17 @@ export const Button = ({
   id,
   type,
   size,
+  height,
+  width,
   backgroundColor,
   border,
   color,
   onClick = () => {},
   style,
   disabled,
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
+  whenHover,
   children
 }) => {
 
@@ -32,6 +37,8 @@ export const Button = ({
       id={id}
       type={type}
       size={size}
+      height={height}
+      width={width}
       backgroundColor={backgroundColor}
       border={border}
       color={color}
@@ -52,6 +59,9 @@ export const Button = ({
           : "small"
         : "normal"
       }
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      whenHover={whenHover}
     >
       {children}
     </ButtonStyled>
@@ -64,12 +74,13 @@ const ButtonStyled = styled.button.attrs((props) => ({
   backgroundColor: props.backgroundColor,
   border: props.border,
   color: props.color,
-  device_size: props.device_size
+  device_size: props.device_size,
+  isHover: props.isHover
 }))`
   min-width: ${(props) => {
     switch (props.size) {
       case "custom":
-        return `${props.width}`;
+        return `${props.width}px`;
       case "small":
         if(props.device_size === "tiny") return "40px";
         else if(props.device_size === "very_small") return "60px";
@@ -85,7 +96,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
   min-height: ${(props) => {
     switch (props.size) {
       case "custom":
-        return `${props.height}`;
+        return `${props.height}px`;
       case "small":
         return "36px";
       default:
@@ -95,7 +106,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
   max-height: ${(props) => {
     switch (props.size) {
       case "custom":
-        return `${props.height}`;
+        return `${props.height}px`;
       case "small":
         return "36px";
       default:
@@ -116,8 +127,8 @@ const ButtonStyled = styled.button.attrs((props) => ({
   }};
   text-align: ${(props) => props.textAlign || "center"};
   font-family: Prompt, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: ${TYPOGRAPHY.BODY.font_size}px;
+  font-weight: ${TYPOGRAPHY.BODY.font_weight};
   color: ${(props) => {
     switch (props.type) {
       case "custom":
@@ -145,6 +156,6 @@ const ButtonStyled = styled.button.attrs((props) => ({
   border-radius: 10px;
   outline: none;
   &:hover {
-    transform: ${(props) => props.type === "disabled" ? null : "scale(1.1)"};
+    transform: ${(props) => props.type === "disabled" ? null : `${props.whenHover} ? ${props.whenHover} : "scale(1.1)"}`};
   }
 `;

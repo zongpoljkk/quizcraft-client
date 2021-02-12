@@ -4,14 +4,8 @@ import styled from "styled-components";
 import { ItemBox } from "../../../components/ItemBox";
 import { Body, Overline } from "../../../components/Typography";
 
-import { COLOR } from "../../../global/const";
+import { CHALLENGE_BOX_TYPE, COLOR } from "../../../global/const";
 import { convertHexToRGBA } from "../../../global/utils";
-
-const CHALLENGE_BOX_TYPE = {
-  MY_TURN: "MY_TURN",
-  CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT"
-};
 
 export const ChallengeBox = ({
   image,
@@ -31,7 +25,7 @@ export const ChallengeBox = ({
 
   return (
     <div style={{ marginTop: 12, marginRight: margin_right }} onClick={onClick}>
-      <ItemBox type = "small" color={is_read ? COLOR.WHITE : convertHexToRGBA(COLOR.ISLAND_SPICE, 45)} width={96}>
+      <ItemBox type = "small" color={is_read ? COLOR.WHITE : convertHexToRGBA(COLOR.ISLAND_SPICE, 60)} width={96}>
         <ProfileImage backgroundColor={image ? null : COLOR.ISLAND_SPICE}>
           {image ? <Image src={"data:image/png;base64,"+image.data}/> : null}
         </ProfileImage>

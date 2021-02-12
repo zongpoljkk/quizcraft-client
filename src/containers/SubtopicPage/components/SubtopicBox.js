@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import useSound from 'use-sound';
 
 import ModeBox from "./ModeBox";
 
 import { COLOR, MODE } from "../../../global/const";
+import { useDetectOutsideClick } from "../../../global/utils";
 
 import click from "../../../assets/sounds/click.mp3";
 
@@ -15,7 +16,8 @@ const SubtopicBox = ({
   subject,
   topic
 }) => {
-  const [opened, set_opened] = useState(false);
+  const ref = useRef(null);
+  const [opened, set_opened] = useDetectOutsideClick(ref, false);
   const [play] = useSound(click, { volume: 0.25 });
 
   const handle_toggle = () => {
@@ -27,7 +29,7 @@ const SubtopicBox = ({
   };
 
   return (
-    <Container>
+    <Container ref={ref}>
       <Accordion onClick={() => {
         handle_toggle();
         play();

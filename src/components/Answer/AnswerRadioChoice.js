@@ -18,7 +18,8 @@ export const AnswerRadioChoice = ({
   question = '',
   choices = {},
   set_answer,
-  answer
+  answer,
+  disabled_select
 }) => {
 
   const { height, width: screen_width } = useWindowDimensions();
@@ -79,6 +80,7 @@ export const AnswerRadioChoice = ({
           subject={subject}
           selected_value={set_answer}
           choices={choices}
+          disabled_select={disabled_select}
         />
       </div>
     </Container>
