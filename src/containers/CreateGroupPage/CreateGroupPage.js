@@ -123,6 +123,7 @@ const CreateGroupPage = ({ history }) => {
           value={number_of_problems}
           is_positive_number={false}
           minimun_number={1}
+          maximum_number={30}
           set_value={set_number_of_problems}
           direction={small_device ? "column" : "row"}
           marginBottom={24}

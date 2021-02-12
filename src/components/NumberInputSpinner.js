@@ -19,7 +19,7 @@ export const NumberInputSpinner = ({
   set_value,
   label_width,
   minimun_number,
-  maximun_number
+  maximum_number
 }) => {
   const { height, width: screen_width } = useWindowDimensions();
   const [play] = useSound(select, { volume: 0.25 });
@@ -31,12 +31,12 @@ export const NumberInputSpinner = ({
           min={0} max={100}
           value={value}
           onChange={e => {
-            if(minimun_number && maximun_number) {
+            if(minimun_number && maximum_number) {
               if(minimun_number)  {
                 if(e.target.value <= minimun_number) {
                   set_value(minimun_number);
-                } else if(e.target.value >= maximun_number) {
-                  set_value(maximun_number);
+                } else if(e.target.value >= maximum_number) {
+                  set_value(maximum_number);
                 } else {
                   set_value(e.target.value);
                 };
@@ -48,9 +48,9 @@ export const NumberInputSpinner = ({
                 set_value(e.target.value);
               };
             }
-            else if(maximun_number) {
-              if(e.target.value >= maximun_number) {
-                set_value(maximun_number);
+            else if(maximum_number) {
+              if(e.target.value >= maximum_number) {
+                set_value(maximum_number);
               } else {
                 set_value(e.target.value);
               };
@@ -66,9 +66,9 @@ export const NumberInputSpinner = ({
         <CollapsContainer>
           <CollapsContainer
             onClick={() => {
-              if(maximun_number) {
-                if(value >= maximun_number) {
-                  set_value(maximun_number);
+              if(maximum_number) {
+                if(value >= maximum_number) {
+                  set_value(maximum_number);
                 } else {
                   set_value(value+1);
                 };
@@ -109,7 +109,7 @@ export const NumberInputSpinnerWithLabel = ({
   set_value,
   unit_label,
   minimun_number,
-  maximun_number,
+  maximum_number,
   direction = "column",
   marginBottom,
   label_marginRight = 24
@@ -132,7 +132,7 @@ export const NumberInputSpinnerWithLabel = ({
           set_value={set_value}
           label_width={label.length*CHARACTER_WIDTH}
           minimun_number={minimun_number}
-          maximun_number={maximun_number}
+          maximum_number={maximum_number}
         />
         {unit_label &&
           <div style={{ marginTop: 6, marginLeft: 8 }}>
