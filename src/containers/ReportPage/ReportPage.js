@@ -99,7 +99,6 @@ const ReportPage = ({ history }) => {
             topic: location.state.topic_name,
             subtopic: location.state.subtopic_name,
             difficulty: location.state.difficulty,
-            correct: location.state.correct,
             answer: location.state.answer
           },
         });
@@ -212,13 +211,6 @@ const CenterContainer = styled.div.attrs(props => ({
   display: flex;
   justify-content: center;
   margin-top: ${props => props.marginTop}px;
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  margin-bottom: 16px;
 `;
 
 const TextfieldContainer = styled.div.attrs(props => ({

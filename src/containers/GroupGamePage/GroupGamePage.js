@@ -150,7 +150,6 @@ const GroupGamePage = ({ history }) => {
         problem_content: problem.body,
         problem_title: problem.title,
         answer_type: problem.answerType,
-        correct: correct,
         answer: answer
       },
     });
@@ -224,16 +223,14 @@ const GroupGamePage = ({ history }) => {
   }, [delete_group]);
 
   //back from report ?
-  useEffect(() => {
+  useEffect(async () => {
     if (location.state.answer) {
-      set_answer(location.state.answer);
-      onSend();
-      handleShowAnswer();
-      // onTimeOut();
-    }
-  }, [
-    location.state.answer,
-  ]);
+      await set_answer(location.state.answer);
+      await onSend();
+      await set_answer_modal_loading(false);
+      await onTimeOut();
+    };
+  }, [location.state.answer]);
 
   return (
     <Container>
