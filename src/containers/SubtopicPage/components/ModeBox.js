@@ -13,6 +13,11 @@ import click from "../../../assets/sounds/click.mp3";
 
 import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
 
+const LAST_PATH = {
+  ALL_CHALLENGES: "ALL_CHALLENGES",
+  SUBTOPIC: "SUBTOPIC"
+};
+
 const ModeBox = ({ 
   icon, 
   type, 
@@ -49,6 +54,7 @@ const ModeBox = ({
         subtopic_name: selected_subtopic_name,
         mode: selected_mode,
         difficulty: selected_difficulty,
+        last_path: LAST_PATH.SUBTOPIC
       },
     });
   };

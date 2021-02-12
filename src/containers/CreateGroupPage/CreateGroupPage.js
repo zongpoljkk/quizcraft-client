@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { Header } from "../../components/Typography";
 import { Button } from "../../components/Button";
-import { DropdownWithLabel } from "../../components/Dropdown/Dropdown";
+import { DropdownWithLabel } from "../../components/Dropdown";
 import { NumberInputSpinnerWithLabel } from "../../components/NumberInputSpinner";
 import { RadioButton } from "../../components/RadioButton";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
@@ -121,6 +121,9 @@ const CreateGroupPage = ({ history }) => {
         <NumberInputSpinnerWithLabel
           label="จำนวนคำถามทั้งหมด"
           value={number_of_problems}
+          is_positive_number={false}
+          minimun_number={1}
+          maximum_number={30}
           set_value={set_number_of_problems}
           direction={small_device ? "column" : "row"}
           marginBottom={24}
@@ -130,6 +133,7 @@ const CreateGroupPage = ({ history }) => {
           value={time_per_problem}
           set_value={set_time_per_problem}
           unit_label="วินาที"
+          minimun_number={1}
           direction={screen_width <= DEVICE_SIZE.XS ? "column" : "row"}
           marginBottom={24}
         />
