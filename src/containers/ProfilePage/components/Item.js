@@ -59,6 +59,7 @@ const ItemContainer = styled.div.attrs((props) => ({
     props.special_item
       ? `
       background: ${COLOR.ISLAND_SPICE};
+      cursor: pointer;
     `
       : `
       background: ${COLOR.SILVER_OPACITY_30};
