@@ -19,19 +19,13 @@ import {
   useGetALlMyChallenges,
   useReadChallenge,
   useRandomChallenge,
-  specificChallenge,
-} from "./AllChallengePageHelper";
+  specificChallenge
+} from "./AllModeChallengesPageHelper";
 
-import { CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
+import { CHALLENGE_BOX_TYPE, CONTAINER_PADDING, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
-const CHALLENGE_BOX_TYPE = {
-  MY_TURN: "MY_TURN",
-  CHALLENGER_TURN: "CHALLENGER_TURN",
-  RESULT: "RESULT",
-};
-
-const AllChallengePage = ({ history, user_info }) => {
+const AllModeChallengesPage = ({ history, user_info }) => {
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
   const [isShowingModal1, toggleModal1] = useModal();
@@ -82,7 +76,6 @@ const AllChallengePage = ({ history, user_info }) => {
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
-        subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty,
@@ -104,7 +97,6 @@ const AllChallengePage = ({ history, user_info }) => {
         state: {
           subject_name: location.state.subject_name,
           topic_name: location.state.topic_name,
-          subtopic_id: location.state.subtopic_id,
           subtopic_name: location.state.subtopic_name,
           mode: location.state.mode,
           difficulty: location.state.difficulty,
@@ -140,7 +132,6 @@ const AllChallengePage = ({ history, user_info }) => {
         state: {
           subject_name: location.state.subject_name,
           topic_name: location.state.topic_name,
-          subtopic_id: location.state.subtopic_id,
           subtopic_name: location.state.subtopic_name,
           mode: location.state.mode,
           difficulty: location.state.difficulty,
@@ -224,7 +215,7 @@ const AllChallengePage = ({ history, user_info }) => {
             <Box>
               <Header>รอบของคุณ</Header>
               {my_turns.length !== 0 ? 
-                <ChallengeBoxContainer maxWidth={container_width}>
+                <ChallengeBoxContainer maxWidth={screen_width-CONTAINER_PADDING}>
                   {my_turns?.map((challenge, index) => 
                     <div key={index}>
                       <ChallengeBox
@@ -374,4 +365,4 @@ const NoDataContainer = styled.div`
   height: 120px;
 `;
 
-export default withRouter(AllChallengePage);
+export default withRouter(AllModeChallengesPage);

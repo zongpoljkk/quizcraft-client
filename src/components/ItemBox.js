@@ -55,7 +55,7 @@ const Box = styled.div.attrs(props => ({
       case "frame":
         return `0px 0px 4px ${COLOR.SHADOW}`;
       case "box":
-        return `1px 2px 5px ${COLOR.SHADOW}`;
+        return `1px 2px 4px ${COLOR.SHADOW}`;
       default:
         return `none`;
     }

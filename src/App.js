@@ -19,7 +19,8 @@ import SubtopicPage from "./containers/SubtopicPage/SubtopicPage";
 import PracticeGame from "./containers/PracticeGamePage/PracticeGamePage";
 import QuizResultPage from "./containers/QuizResultPage/QuizResultPage";
 import QuizGame from "./containers/QuizGamePage/QuizGamePage";
-import AllChallengePage from "./containers/AllChallengePage/AllChallengePage";
+import AllChallengesPage from "./containers/AllChallengesPage/AllChallengesPage";
+import AllModeChallengesPage from "./containers/AllModeChallengesPage/AllModeChallengesPage";
 import ChallengeGame from "./containers/ChallengeGamePage/ChallengeGamePage";
 import ChallengeResultPage from "./containers/ChallengeResultPage/ChallengeResultPage";
 import CreateGroupPage from "./containers/CreateGroupPage/CreateGroupPage";
@@ -187,7 +188,7 @@ const App = () => {
             path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/all-challenges"
             getUserData={getUserData}
           >
-            <AllChallengePage user_info={user_info} />
+            <AllModeChallengesPage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -216,6 +217,9 @@ const App = () => {
             getUserData={getUserData}
           >
             <GroupResultPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/all-challenges" getUserData={getUserData}>
+            <AllChallengesPage user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute exact path="/create-group" getUserData={getUserData}>
             <CreateGroupPage />
