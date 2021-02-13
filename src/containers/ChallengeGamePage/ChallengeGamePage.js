@@ -37,18 +37,20 @@ const LAST_PATH = {
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
+
   const [user_answer, set_user_answer] = useState();
   const [correct, set_correct] = useState(false);
   const [answer_key, set_answer_key] = useState("");
   const [current_index, set_current_index] = useState(1);
-  const [user_score, set_user_score] = useState(0);
   const [time_start, set_time_start] = useState(true);
   const [isShowing, toggle] = useModal();
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
   const [earned_coins, set_earned_coins] = useState(0);
   const [my_score, set_my_score] = useState(0);
-  const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+
   const user_id = localStorage.getItem("userId");
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
@@ -152,6 +154,7 @@ const ChallengeGame = ({ history }) => {
           set_my_score(score => score + 1);
         };
       });
+      set_answer_modal_loading(false);
       toggle();
     }
   };
@@ -252,6 +255,7 @@ const ChallengeGame = ({ history }) => {
                     location.state.subtopic_name,
                     location.state.difficulty
                   );
+                  set_answer_modal_loading(true);
                 }}
               >
                 ข้าม
@@ -272,11 +276,13 @@ const ChallengeGame = ({ history }) => {
                     location.state.subtopic_name,
                     location.state.difficulty
                   );
+                  set_answer_modal_loading(true);
                 }}
               >
                 ตรวจ
               </Button>
             </ButtonContainer>
+            {answer_modal_loading && <LoadingPage overlay={true} />}
             <AnswerModal
               isShowing={isShowing}
               toggle={toggle}
