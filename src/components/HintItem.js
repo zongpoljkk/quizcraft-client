@@ -62,7 +62,8 @@ export const HintItem = ({
               content={content}
             />
           </ContentContainer>
-          <div 
+          <div
+            style={{cursor: "pointer"}} 
             onClick={() => {
               toggle();
               play();

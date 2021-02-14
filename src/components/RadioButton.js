@@ -143,6 +143,7 @@ const Label = styled.label.attrs(props => ({
     }
   }};
   color: ${COLOR.CHARCOAL};
+  cursor: pointer;
 `;
 
 const MathChoice = styled.label.attrs(props => ({

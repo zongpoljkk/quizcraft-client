@@ -43,7 +43,7 @@ export const AnswerSelectOne = ({
               <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
             </AnswerBucket>
           </div>
-          <AnswerBucket>,</AnswerBucket>
+          <AnswerBucket not_answer={true}>,</AnswerBucket>
           <div 
             onClick={() => {
               if(!disabled_select) {
@@ -89,7 +89,7 @@ export const AnswerSelectOne = ({
                 <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket>,</AnswerBucket>
+            <AnswerBucket not_answer={true}>,</AnswerBucket>
             <div 
               onClick={() => {
                 if(!disabled_select) {
@@ -130,7 +130,7 @@ export const AnswerSelectOne = ({
                 <Body color={COLOR.MANDARIN}>{item[0].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket>,</AnswerBucket>
+            <AnswerBucket not_answer={true}>,</AnswerBucket>
             <div 
               onClick={() => {
                 if(!disabled_select) {
@@ -169,14 +169,24 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-const AnswerBucket = styled.div.attrs(props => ({
+const AnswerBucket = styled.div.attrs((props) => ({
   margin_left: props.margin_left || 8,
   margin_right: props.margin_right || 8,
+  not_answer: props.not_answer,
 }))`
   font-family: Prompt, sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: ${COLOR.MANDARIN};
-  margin-left: ${props => props.margin_left}px;
-  margin-right: ${props => props.margin_right}px;
+  margin-left: ${(props) => props.margin_left}px;
+  margin-right: ${(props) => props.margin_right}px;
+
+  ${(props) =>
+    props.not_answer
+      ? `
+      cursor: default;
+    `
+      : `
+    cursor: pointer;
+  `}
 `;

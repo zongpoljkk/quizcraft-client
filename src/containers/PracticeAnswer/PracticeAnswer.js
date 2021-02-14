@@ -175,22 +175,24 @@ const PracticeAnswer = ({ history, user_info }) => {
     else {
       return (
         <ShiftDiv style={{ zIndex: "500" }}>
-          <img
-            src={correct ? Correct_Forward : Incorrect_Forward}
-            alt="arrow"
-            height={40}
-            onClick={() => {
-              handleArrowClick();
-              playClickSound();
-              if(solution.length+1 === staticSolution.length && correct) {
-                if(location.state.is_level_up || location.state.is_rank_up) {
-                  playLevelUpSound();
-                } else {
-                  playRecieveCoinSound();
+          <div style={{cursor: "pointer", height: "40px"}}>
+            <img
+              src={correct ? Correct_Forward : Incorrect_Forward}
+              alt="arrow"
+              height={40}
+              onClick={() => {
+                handleArrowClick();
+                playClickSound();
+                if(solution.length+1 === staticSolution.length && correct) {
+                  if(location.state.is_level_up || location.state.is_rank_up) {
+                    playLevelUpSound();
+                  } else {
+                    playRecieveCoinSound();
+                  };
                 };
-              };
-            }}
-          />
+              }}
+            />
+          </div>
         </ShiftDiv>
       );
     }
