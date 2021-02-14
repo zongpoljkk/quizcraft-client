@@ -82,6 +82,7 @@ const CardContainer = styled.div.attrs(props => ({
   border-radius: 5px;
   background-color: ${props => props.backgroundColor};
   margin-bottom: 8px;
+  cursor: pointer;
 `;
 
 const ProfileContainer = styled.div`
