@@ -150,7 +150,8 @@ const GroupGamePage = ({ history }) => {
         problem_content: problem.body,
         problem_title: problem.title,
         answer_type: problem.answerType,
-        answer: answer
+        correct_answer: correct_answer,
+        correct: correct,
       },
     });
   };
@@ -222,15 +223,16 @@ const GroupGamePage = ({ history }) => {
     };
   }, [delete_group]);
 
-  //back from report ?
-  useEffect(async () => {
-    if (location.state.answer) {
-      await set_answer(location.state.answer);
-      await onSend();
-      await set_answer_modal_loading(false);
-      await onTimeOut();
-    };
-  }, [location.state.answer]);
+  //back from report
+  useEffect(() => {
+    // if (location.state.correct || location.state.correct === false) {
+    if (location.state.correct_answer) {
+      set_correct(location.state.correct);
+      set_correct_answer(location.state.correct_answer)
+      set_is_time_out(true);
+      toggle();
+    }
+  }, [location.state.correct, location.state.correct_answer]);
 
   return (
     <Container>

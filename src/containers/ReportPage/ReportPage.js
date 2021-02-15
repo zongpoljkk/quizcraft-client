@@ -99,7 +99,8 @@ const ReportPage = ({ history }) => {
             topic: location.state.topic_name,
             subtopic: location.state.subtopic_name,
             difficulty: location.state.difficulty,
-            answer: location.state.answer
+            correct_answer: location.state.correct_answer, 
+            correct: location.state.correct,
           },
         });
       }
