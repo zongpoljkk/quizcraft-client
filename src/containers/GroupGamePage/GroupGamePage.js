@@ -339,6 +339,7 @@ const GroupGamePage = ({ history }) => {
                     toggle={toggle}
                     subject={location.state.subject_name}
                     correct={correct}
+                    group_observer = {!user}
                     answer={correct ? null : correct_answer}
                     overlay_clickable={false}
                     buttonTitle={
