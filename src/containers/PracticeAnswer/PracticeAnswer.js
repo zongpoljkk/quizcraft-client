@@ -285,7 +285,7 @@ const SolutionDiv = styled(CenterDiv)`
   justify-content: flex-start;
   align-content: stretch;
   margin: 16px auto 52px auto;
-  height: 280px;
+  height: 200px;
   width: 100%;
   overflow: scroll;
 `;

@@ -25,7 +25,7 @@ import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
-import { ANSWER_TYPE, COLOR, DEVICE_SIZE, WRONG_ANSWER } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DEVICE_SIZE, GAME_MODE, WRONG_ANSWER } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
@@ -132,7 +132,7 @@ const ChallengeGame = ({ history }) => {
         subject,
         topic,
         subtopic,
-        "CHALLENGE",
+        GAME_MODE.CHALLENGE,
         location.state.challenge_id,
         my_info.currentProblem
       ).then((res) => {
