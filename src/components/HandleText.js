@@ -77,6 +77,8 @@ const Typography = styled.div.attrs((props) => ({
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.fontSize}px;
   color: ${(props) => props.color};
-  margin-right: 4px;
   outline: none;
+  margin-right: 4px;
+  margin-top: 2px;
+  margin-bottom: -2px;
 `;
