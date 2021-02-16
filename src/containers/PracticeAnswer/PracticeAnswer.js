@@ -62,6 +62,7 @@ const PracticeAnswer = ({ history, user_info }) => {
   
   // Handle Achievement
   const [isShowing, toggle] = useModal();
+  const [isShowing_Ach, toggle_Ach] = useModal();
   const [modal_data, set_modal_data] = useState();
 
   const [playClickSound] = useSound(click, { volume: 0.25 });
@@ -142,8 +143,8 @@ const PracticeAnswer = ({ history, user_info }) => {
 
   // Achievement Modal
   useEffect(() => {
-    if (modal_data && !isShowing) {
-      toggle();
+    if (modal_data && !isShowing_Ach) {
+      toggle_Ach();
     }
   }, [modal_data]);
 
@@ -243,7 +244,7 @@ const PracticeAnswer = ({ history, user_info }) => {
     >
       <Background answer={correct} />
       <AchievementModal
-            isShowing={isShowing}
+            isShowing={isShowing_Ach}
             toggle={toggle}
             content={modal_data ? modal_data : {}}
           />
