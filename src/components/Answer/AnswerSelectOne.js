@@ -26,7 +26,8 @@ export const AnswerSelectOne = ({
         <Container>
           <Body>{item[0].content}</Body>
           <div style={{ width: 8 }}/>
-          <div 
+          <div
+            disabled={disabled_select} 
             onClick={() => {
               if(!disabled_select) {
                 set_selected_answer(item[1].content);
@@ -36,15 +37,17 @@ export const AnswerSelectOne = ({
             }}
             style={{
               backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
-              borderRadius: 5
+              borderRadius: 5,
+              cursor: disabled_select ? "default" : "pointer"
             }}
           >
             <AnswerBucket>
               <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
             </AnswerBucket>
           </div>
-          <AnswerBucket not_answer={true}>,</AnswerBucket>
-          <div 
+          <AnswerBucket>,</AnswerBucket>
+          <div
+            disabled={disabled_select} 
             onClick={() => {
               if(!disabled_select) {
                 set_selected_answer(item[2].content);
@@ -54,7 +57,8 @@ export const AnswerSelectOne = ({
             }}
             style={{
               backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
-              borderRadius: 5
+              borderRadius: 5,
+              cursor: disabled_select ? "default" : "pointer"
             }}
           >
             <AnswerBucket>
@@ -72,7 +76,8 @@ export const AnswerSelectOne = ({
           <Container>
             <Body>{item[0].content}</Body>
             <div style={{ width: 8 }}/>
-            <div 
+            <div
+              disabled={disabled_select}  
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[1].content);
@@ -82,15 +87,17 @@ export const AnswerSelectOne = ({
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
-                borderRadius: 5
+                borderRadius: 5,
+                cursor: disabled_select ? "default" : "pointer"
               }}
             >
               <AnswerBucket>
                 <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket not_answer={true}>,</AnswerBucket>
+            <AnswerBucket>,</AnswerBucket>
             <div 
+              disabled={disabled_select} 
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[2].content);
@@ -100,7 +107,8 @@ export const AnswerSelectOne = ({
               }}
               style={{
                 backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
-                borderRadius: 5
+                borderRadius: 5,
+                cursor: disabled_select ? "default" : "pointer"
               }}
             >
               <AnswerBucket>
@@ -114,6 +122,7 @@ export const AnswerSelectOne = ({
         return (
           <Container>
             <div 
+              disabled={disabled_select} 
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[0].content);
@@ -123,15 +132,17 @@ export const AnswerSelectOne = ({
               }}
               style={{
                 backgroundColor: selected_answer === item[0].content ? COLOR.ISLAND_SPICE : null,
-                borderRadius: 5
+                borderRadius: 5,
+                cursor: disabled_select ? "default" : "pointer"
               }}
             >
               <AnswerBucket>
                 <Body color={COLOR.MANDARIN}>{item[0].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket not_answer={true}>,</AnswerBucket>
+            <AnswerBucket>,</AnswerBucket>
             <div 
+              disabled={disabled_select} 
               onClick={() => {
                 if(!disabled_select) {
                   set_selected_answer(item[1].content);
@@ -141,7 +152,8 @@ export const AnswerSelectOne = ({
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
-                borderRadius: 5
+                borderRadius: 5,
+                cursor: disabled_select ? "default" : "pointer"
               }}
             >
               <AnswerBucket>
@@ -172,7 +184,6 @@ const Container = styled.div`
 const AnswerBucket = styled.div.attrs((props) => ({
   margin_left: props.margin_left || 8,
   margin_right: props.margin_right || 8,
-  not_answer: props.not_answer,
 }))`
   font-family: Prompt, sans-serif;
   font-weight: 400;
@@ -180,13 +191,4 @@ const AnswerBucket = styled.div.attrs((props) => ({
   color: ${COLOR.MANDARIN};
   margin-left: ${(props) => props.margin_left}px;
   margin-right: ${(props) => props.margin_right}px;
-
-  ${(props) =>
-    props.not_answer
-      ? `
-      cursor: default;
-    `
-      : `
-    cursor: pointer;
-  `}
 `;

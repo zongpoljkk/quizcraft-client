@@ -65,6 +65,8 @@ const Container = styled.div.attrs((props) => ({
   justify-content: ${(props) => props.justifyContent};
   overflow: visible;
   outline: none;
+  margin-top: 2px;
+  margin-bottom: -2px;
 `;
 
 const Typography = styled.div.attrs((props) => ({
@@ -79,6 +81,4 @@ const Typography = styled.div.attrs((props) => ({
   color: ${(props) => props.color};
   outline: none;
   margin-right: 4px;
-  margin-top: 2px;
-  margin-bottom: -2px;
 `;

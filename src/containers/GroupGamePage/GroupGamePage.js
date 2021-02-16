@@ -50,6 +50,7 @@ const GroupGamePage = ({ history }) => {
   const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
   const [waiting, set_waiting] = useState(false);
+  const [remaining_time, set_remaining_time] = useState();
 
   const user_id = localStorage.getItem("userId");
 
@@ -139,6 +140,26 @@ const GroupGamePage = ({ history }) => {
     await getNumberOfAnswer();
   };
 
+  const onReport = async (remaining) => {
+    history.push({
+      pathname: "./report",
+      state: {
+        group_id: location.state.group_id,
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_name: location.state.subtopic_name,
+        difficulty: location.state.difficulty,
+        problem_id: problem._id,
+        problem_content: problem.body,
+        problem_title: problem.title,
+        answer_type: problem.answerType,
+        correct_answer: correct_answer,
+        correct: correct,
+        remaining_time: remaining
+      },
+    });
+  };
+  
   useEffect(() => {
     if (!listening) {
       subscribe(location.state.group_id);
@@ -206,6 +227,21 @@ const GroupGamePage = ({ history }) => {
     };
   }, [delete_group]);
 
+  //back from report
+  useEffect(() => {
+    if (location.state.correct_answer) {
+      set_remaining_time(location.state.remaining_time);
+      set_correct(location.state.correct);
+      set_correct_answer(location.state.correct_answer);
+      set_is_time_out(true);
+      toggle();
+    }
+  }, [
+    location.state.correct,
+    location.state.correct_answer,
+    location.state.remaining_time,
+  ]);
+
   return (
     <Container>
       {loading ? (
@@ -215,7 +251,7 @@ const GroupGamePage = ({ history }) => {
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
           startImmediately={false}
           lastUnit="h"
-          initialTime={time_per_problem * 1000}
+          initialTime={remaining_time ? remaining_time * 1000 : time_per_problem * 1000}
           direction="backward"
         >
           {({ getTime, start, stop }) => (
@@ -353,8 +389,10 @@ const GroupGamePage = ({ history }) => {
                     }
                     onButtonClick={() => {
                       getNextProblem();
+                      set_remaining_time(null);
                       set_loading(true);
                     }}
+                    onReportClick={() => onReport(getTime() / 1000)}
                     onClose={false}
                   />
                 )}

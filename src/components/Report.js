@@ -12,11 +12,11 @@ import answer_flag_icon from "../assets/icon/answer_flag.png";
 export const Report = ({
   correct,
   group_observer,
-  onClick = () => {},
+  onReport = () => {},
 }) => {
 
   return (
-    <Container onClick={onClick}>
+    <Container onClick={()=> onReport()}>
       <img src={group_observer ? answer_flag_icon : correct ? correct_flag_icon : incorrect_flag_icon} height={24}/>
       <div style={{ marginRight: 8 }}/>
       <Body color={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD} textDecoration="underline">รายงาน</Body>
@@ -28,4 +28,5 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;

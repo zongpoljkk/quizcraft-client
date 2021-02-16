@@ -196,6 +196,29 @@ const QuizGamePage = ({ history }) => {
     };
   };
 
+  const onReport = async () => {
+    history.push({
+      pathname: "./report",
+      state: {
+        subject_name: location.state.subject_name,
+        topic_name: location.state.topic_name,
+        subtopic_id: location.state.subtopic_id,
+        subtopic_name: location.state.subtopic_name,
+        mode: location.state.mode,
+        difficulty: location.state.difficulty,
+        problem_id: problem_id,
+        problem_content: body,
+        problem_title: title,
+        answer_type: answer_type,
+        current_index: current_index,
+        number_of_problem: NUMBER_OF_QUIZ,
+        score: score,
+        earned_exp: earned_exp,
+        earned_coins: earned_coins,
+      },
+    });
+  };
+
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
       //push to result page
@@ -269,6 +292,20 @@ const QuizGamePage = ({ history }) => {
       });
     }
   }, [onSkip]);
+
+  useEffect(() => {
+    if (location.state.current_index) {
+      set_current_index(location.state.current_index + 1);
+      set_score(location.state.score);
+      set_earned_coins(location.state.earned_coins);
+      set_earned_exp(location.state.earned_coins);
+    }
+  }, [
+    location.state.current_index,
+    location.state.score,
+    location.state.earned_coins,
+    location.state.earned_coins,
+  ]);
 
   return (
     <Container>
@@ -418,6 +455,7 @@ const QuizGamePage = ({ history }) => {
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }
                     overlay_clickable={false}
+                    onReportClick={() => onReport()}
                     onButtonClick={() => {
                       onNext(
                         user_id,
