@@ -64,6 +64,7 @@ const PracticeGamePage = ({ history }) => {
   const onSkip = () => {
     set_skip(ITEM_USAGE.IN_USE);
     reset_hint();
+    set_answer();
     getProblemForUser(set_skip);
   };
 

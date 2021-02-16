@@ -70,6 +70,7 @@ const SubjectBox = styled.div.attrs((props) => ({
   box-shadow: 0px 1px 3px ${subject_box_shadow};
   padding: 24px 32px 24px 32px;
   margin-bottom: 16px;
+  cursor: pointer;
 `;
 
 const SubjectImg = styled.img`

@@ -226,6 +226,7 @@ const AllModeChallengesPage = ({ history, user_info }) => {
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.MY_TURN}
                         margin_right={my_turns_margin_right && my_turns_margin_right[index]}
+                        cursor="pointer"
                         getMarginRightOfChallengeBox={() =>
                           getMarginRightOfChallengeBox(
                             container_width,
@@ -289,6 +290,7 @@ const AllModeChallengesPage = ({ history, user_info }) => {
                         is_read={challenge.isRead}
                         type={CHALLENGE_BOX_TYPE.RESULT}
                         margin_right={results_margin_right && results_margin_right[index]}
+                        cursor="pointer"
                         getMarginRightOfChallengeBox={() =>
                           getMarginRightOfChallengeBox(
                             container_width,

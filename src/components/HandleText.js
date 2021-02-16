@@ -35,7 +35,6 @@ export const DisplayText = ({
             fontWeight={fontWeight}
             fontSize={fontSize}
             color={color}
-            margin={4}
           >
             <Tex2SVG
               display="inline"
@@ -72,14 +71,12 @@ const Typography = styled.div.attrs((props) => ({
   fontWeight: props.fontWeight,
   fontSize: props.fontSize,
   color: props.color || COLOR.CHARCOAL,
-  margin: props.margin,
 }))`
   display: inline-block;
   font-family: Prompt, sans-serif;
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.fontSize}px;
   color: ${(props) => props.color};
-  margin-left: ${(props) => props.margin}px;
-  margin-right: ${(props) => props.margin}px;
+  margin-right: 4px;
   outline: none;
 `;
