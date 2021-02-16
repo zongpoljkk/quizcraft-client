@@ -182,6 +182,7 @@ const Collaps = styled.img.attrs(props => ({
   rotate: props.rotate
 }))`
   transform: rotate(${props => props.rotate}deg);
+  cursor: pointer;
 `;
 
 const CollapsContainer = styled.div`

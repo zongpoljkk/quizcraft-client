@@ -147,7 +147,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
           <UsernameContainer>
             <Header>{user_info.username}</Header>
             <div 
-              style={{ marginLeft: 16 }}
+              style={{ marginLeft: 16, cursor: "pointer" }}
               onClick={() => {
                 play();
                 history.push({
@@ -280,6 +280,7 @@ const ProfileImage = styled.div.attrs(props => ({
   height: 210px;
   width: 210px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const Image = styled.img.attrs(props => ({
