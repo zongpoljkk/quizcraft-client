@@ -45,7 +45,7 @@ export const HeadlineItem = ({
         {skip === ITEM_USAGE.IN_USE && (
           <SkipContainer>
             <ZoomItem>
-              <LottieFile animationData={skip_data} loop={false} height={64}/>
+              <LottieFile animationData={skip_data} loop={true} height={64}/>
             </ZoomItem>
           </SkipContainer>
         )}
@@ -64,7 +64,7 @@ export const HeadlineItem = ({
           </CenterContainer>
         )}
         {refresh === ITEM_USAGE.IN_USE && 
-          <LottieFile animationData={refresh_data} loop={false} height={48}/>
+          <LottieFile animationData={refresh_data} loop={true} height={48}/>
         }
         {refresh === ITEM_USAGE.USED && (
           <CenterContainer>

@@ -84,21 +84,27 @@ const QuizGamePage = ({ history }) => {
     location.state.subtopic_name,
     location.state.difficulty
   );
-  const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
-    problem_id
-  );
+
+  const {
+    getHintByProblemId,
+    hint,
+    set_hint
+  } = useGetHintByProblemId(problem_id);
+
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
-    amount_of_refreshs,
+    amount_of_refreshs
   } = useGetAmountOfItems(user_id);
+
   const { putUseItem } = useItem(user_id);
   const { postSkipItem } = useSkipItem();
   const { postRefreshItem } = useRefreshItem();
 
-  const onSkip = () => {
+  const onSkip = async () => {
     set_skip(ITEM_USAGE.IN_USE);
+    await postSkipItem(problem_id);
     getEachProblem(set_skip);
     set_current_index((index) => index + 1);
     set_problem_id();
@@ -117,13 +123,14 @@ const QuizGamePage = ({ history }) => {
         break;
       default:
         skip_reward = 0;
-    }
+    };
     set_earned_exp((earned_exp) => earned_exp + skip_reward);
     set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     set_refresh(ITEM_USAGE.IN_USE);
+    await postRefreshItem(problem_id);
     getEachProblem(set_refresh);
     set_problem_id();
     set_hint();
@@ -186,7 +193,7 @@ const QuizGamePage = ({ history }) => {
         set_answer_modal_loading(false);
         toggle();
       });
-    }
+    };
   };
 
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
@@ -223,7 +230,7 @@ const QuizGamePage = ({ history }) => {
       set_current_index((index) => index + 1);
       set_user_answer();
       getEachProblem();
-    }
+    };
   };
 
   const getNewAmount = () => {
@@ -290,23 +297,21 @@ const QuizGamePage = ({ history }) => {
                 getHintByProblemId();
                 if (!hint) {
                   putUseItem("Hint");
-                }
+                };
               }}
               hintContent={hint}
               have_hint={have_hint}
               skip={skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
-                  postSkipItem(problem_id);
                   onSkip();
                   reset();
                 } else {
                   postSkipItem(problem_id);
-                }
+                };
               }}
               refresh={refresh}
               onRefresh={() => {
-                postRefreshItem(problem_id);
                 onRefresh();
                 reset();
               }}
