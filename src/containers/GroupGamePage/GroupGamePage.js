@@ -181,9 +181,11 @@ const GroupGamePage = ({ history }) => {
       };
       set_is_time_out(true);
     };
-    set_waiting(false);
-    set_answer_modal_loading(false);
-    toggle();
+    if (!isShowing) {
+      set_waiting(false);
+      set_answer_modal_loading(false);
+      toggle();
+    }
   }, [show_answer]);
 
   useEffect(() => {
@@ -207,6 +209,8 @@ const GroupGamePage = ({ history }) => {
       set_answer();
       set_used_time();
       set_is_time_out(false);
+      set_waiting(false);
+      set_answer_modal_loading(false);
 
       handleNextProblem();
       getNumberOfAnswer();
@@ -452,7 +456,7 @@ const LottieCotainer = styled.div`
 `;
 
 const ZoomLottie = styled.div`
-  transform: scale(2.5);
+  zoom: 250%;
 `;
 
 export default withRouter(GroupGamePage);
