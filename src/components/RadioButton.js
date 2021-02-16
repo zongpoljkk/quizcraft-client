@@ -50,7 +50,14 @@ export const RadioButton = ({
             />
             <Mark selected={value === option} />
             {subject === "คณิตศาสตร์" ? (
-              <MathChoice width = {screen_width - CONTAINER_PADDING - 42}>
+              <MathChoice
+                width = {screen_width - CONTAINER_PADDING - 42}
+                onClick={(e) => {
+                  if(!disabled_select) {
+                    selected_value(option);
+                  };
+                }}
+              >
                 <DisplayText content={option} />
               </MathChoice>
             ) : (
@@ -151,10 +158,12 @@ const MathChoice = styled.label.attrs(props => ({
   max-width: ${props => props.width}px;
   overflow-x: scroll;
   overflow-y: hidden;
+  outline: none;
+  margin-bottom: 2px;
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;
-    height: 3px;
+    height: 0px;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
