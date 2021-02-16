@@ -138,7 +138,7 @@ const GroupGamePage = ({ history }) => {
     await getNumberOfAnswer();
   };
 
-  const onReport = async () => {
+  const onReport = async (remaining) => {
     history.push({
       pathname: "./report",
       state: {
@@ -153,7 +153,7 @@ const GroupGamePage = ({ history }) => {
         answer_type: problem.answerType,
         correct_answer: correct_answer,
         correct: correct,
-        remaining_time: time_per_problem - used_time
+        remaining_time: remaining
       },
     });
   };
@@ -388,7 +388,7 @@ const GroupGamePage = ({ history }) => {
                       getNextProblem();
                       set_remaining_time(null);
                     }}
-                    onReportClick={() => onReport()}
+                    onReportClick={() => onReport(getTime() / 1000)}
                     onClose={false}
                   />
                 )}
