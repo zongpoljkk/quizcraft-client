@@ -161,6 +161,7 @@ const MathChoice = styled.label.attrs(props => ({
   overflow-y: hidden;
   outline: none;
   margin-bottom: 2px;
+  cursor: pointer;
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;
