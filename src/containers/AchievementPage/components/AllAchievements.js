@@ -32,10 +32,12 @@ const AllAchievements = ({ achievements }) => {
 
   const all_achievements = achievements.map((achievement) => {
     return (
-      <AchievementContainer key={achievement.name}>
+      <AchievementContainer
+        key={achievement.name}
+        onMouseEnter={() => handleOnMouseEnter(achievement)}
+        onMouseLeave={() => handleOnMouseLeave(achievement)}
+      >
         <AchievementImageContainer
-          onMouseEnter={() => handleOnMouseEnter(achievement)}
-          onMouseLeave={() => handleOnMouseLeave(achievement)}
         >
           <AchievementImageDiv>
             {achievement_display[achievement.name] ? (
