@@ -140,9 +140,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             success_description="เปลี่ยนรูปประจำตัวสำเร็จ"
             fail_description="เปลี่ยนรูปประจำตัวไม่สำเร็จ"
             onSubmit={() => {
-              if (change_image_success) {
-                window.location.reload();
-              }
+              window.location.reload();
             }}
           />
           {change_image_loading && <LoadingPage overlay={true}/>}

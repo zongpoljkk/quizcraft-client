@@ -43,6 +43,7 @@ const QUIZ_MODE = "quiz";
 
 const QuizGamePage = ({ history }) => {
   const location = useLocation();
+
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [time_start, set_time_start] = useState(true);
@@ -50,7 +51,6 @@ const QuizGamePage = ({ history }) => {
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
-  const user_id = localStorage.getItem("userId");
   const [correct, set_correct] = useState(false);
   const [solution, set_solution] = useState("");
   const [answer_key, set_answer_key] = useState("");
@@ -59,6 +59,9 @@ const QuizGamePage = ({ history }) => {
   const [earned_coins, set_earned_coins] = useState(0);
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  
+  const user_id = localStorage.getItem("userId");
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
   const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
@@ -150,6 +153,7 @@ const QuizGamePage = ({ history }) => {
       const button = document.getElementById("button");
       button.disabled = true;
       set_used_time(getTime / 1000);
+      set_answer_modal_loading(true);
 
       getAndCheckAnswer(
         problemId,
@@ -179,6 +183,7 @@ const QuizGamePage = ({ history }) => {
           set_is_rank_up(true);
         };
         res.data.correct ? playCorrectSound() : playWrongSound()
+        set_answer_modal_loading(false);
         toggle();
       });
     }
@@ -397,6 +402,7 @@ const QuizGamePage = ({ history }) => {
                   >
                     ตรวจ
                   </Button>
+                  {answer_modal_loading && <LoadingPage overlay={true} />}
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}

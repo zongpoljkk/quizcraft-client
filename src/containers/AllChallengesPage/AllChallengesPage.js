@@ -104,8 +104,8 @@ const AllChallengesPage = ({ history, user_info }) => {
                         onSubmitClick={() => 
                           onChallengeBoxClick(
                             challenge.challengeId,
-                            challenge.subjectName,
-                            challenge.topicName,
+                            challenge.subject,
+                            challenge.topic,
                             challenge.subtopicName,
                             challenge.difficulty
                           )
@@ -163,8 +163,8 @@ const AllChallengesPage = ({ history, user_info }) => {
                         onSubmitClick={() => 
                           onChallengeBoxClick(
                             challenge.challengeId,
-                            challenge.subjectName,
-                            challenge.topicName,
+                            challenge.subject,
+                            challenge.topic,
                             challenge.subtopicName,
                             challenge.difficulty,
                             'result'
