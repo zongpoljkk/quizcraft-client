@@ -284,8 +284,8 @@ const SolutionDiv = styled(CenterDiv)`
   flex-direction: column;
   justify-content: flex-start;
   align-content: stretch;
-  margin: 16px auto 52px auto;
-  height: 200px;
+  margin: 16px auto 8px auto;
+  height: 280px;
   width: 100%;
   overflow: scroll;
 `;
