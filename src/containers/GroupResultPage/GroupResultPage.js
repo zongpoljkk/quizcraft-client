@@ -130,7 +130,8 @@ const GroupResultPage = ({ history }) => {
           subject_name : location.state.subject_name,
           topic_name : location.state.topic_name,
           subtopic_name : location.state.subtopic_name,
-          difficulty : location.state.difficulty
+          difficulty : location.state.difficulty,
+          pin : location.state.pin
         }
       });
       window.location.reload();

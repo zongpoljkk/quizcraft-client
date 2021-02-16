@@ -9,6 +9,7 @@ import { DisplayText } from "./HandleText";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
+import answer_icon from "../assets/icon/answer.png";
 
 import { COLOR } from "../global/const";
 import { useWindowDimensions } from "../global/utils";
@@ -20,6 +21,7 @@ export const AnswerModal = ({
   onButtonClick,
   subject,
   correct,
+  group_observer,
   answer,
   overlay_clickable,
   onClose = true,
@@ -30,25 +32,29 @@ export const AnswerModal = ({
     <FooterModal
       isShowing={isShowing}
       hide={toggle}
-      backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+      backgroundColor={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD}
       overlay_clickable={overlay_clickable}
     >
       <Container>
         <ContentContainer>
           <Container>
             <IconContainer>
-              <img src={correct ? correct_icon : incorrect_icon} height={48} />
+              <img src={group_observer ? answer_icon : correct ? correct_icon : incorrect_icon} height={48} />
             </IconContainer>
             <AnswerContainer>
               {correct ? (
                 <Header color={COLOR.CELERY}>ถูกต้อง</Header>
               ) : (
                 <div>
-                  <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                  {group_observer ?
+                    <Header color={COLOR.GOLDEN_TAINOI}>คำตอบ:</Header>
+                  :
+                    <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                  }
                   <div style={{ marginBottom: 8 }} />
                   {answer?.split("\n").map((item, key) => {
                     return (
-                      <Body key={key} color={COLOR.TRINIDAD}>
+                      <Body key={key} color={group_observer ? COLOR.GOLDEN_TAINOI : COLOR.TRINIDAD}>
                         {subject === "คณิตศาสตร์" ? (
                           <div
                             style={{
@@ -59,7 +65,7 @@ export const AnswerModal = ({
                           >
                             <DisplayText 
                               content={item}
-                              color={COLOR.TRINIDAD}
+                              color={group_observer ? COLOR.GOLDEN_TAINOI : COLOR.TRINIDAD}
                             />
                           </div>
                         ) : (
@@ -73,7 +79,7 @@ export const AnswerModal = ({
             </AnswerContainer>
           </Container>
           <div style={{ marginBottom: 8 }} />
-          <Report correct={correct} />
+          <Report correct={correct} group_observer={group_observer}/>
         </ContentContainer>
         {buttonTitle && (
           <Button
@@ -85,7 +91,7 @@ export const AnswerModal = ({
             }}
             type="custom"
             size="small"
-            backgroundColor={correct ? COLOR.CELERY : COLOR.TRINIDAD}
+            backgroundColor={correct ? COLOR.CELERY : group_observer ? COLOR.GOLDEN_TAINOI :  COLOR.TRINIDAD}
             border="none"
             color={COLOR.WHITE}
             style={{ alignSelf: "center" }}

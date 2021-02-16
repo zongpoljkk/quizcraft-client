@@ -55,6 +55,7 @@ const GroupGamePage = ({ history }) => {
 
   const {
     getGroupGame,
+    set_loading,
     loading,
     current_index,
     number_of_problem,
@@ -114,6 +115,7 @@ const GroupGamePage = ({ history }) => {
           topic_name: location.state.topic_name,
           subtopic_name: location.state.subtopic_name,
           difficulty: location.state.difficulty,
+          pin : location.state.pin
         },
       });
       window.location.reload();
@@ -339,6 +341,7 @@ const GroupGamePage = ({ history }) => {
                     toggle={toggle}
                     subject={location.state.subject_name}
                     correct={correct}
+                    group_observer = {!user}
                     answer={correct ? null : correct_answer}
                     overlay_clickable={false}
                     buttonTitle={
@@ -350,6 +353,7 @@ const GroupGamePage = ({ history }) => {
                     }
                     onButtonClick={() => {
                       getNextProblem();
+                      set_loading(true);
                     }}
                     onClose={false}
                   />
