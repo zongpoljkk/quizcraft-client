@@ -38,7 +38,7 @@ export const useGetGroupGame = (user_id, group_id) => {
     }
   };
 
-  return { getGroupGame, loading, current_index, number_of_problem, time_per_problem, user, problem, is_creator };
+  return { getGroupGame, set_loading, loading, current_index, number_of_problem, time_per_problem, user, problem, is_creator };
 };
 
 export const useGetNumberOfAnswer = (group_id) => {
