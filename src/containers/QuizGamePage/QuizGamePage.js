@@ -123,7 +123,7 @@ const QuizGamePage = ({ history }) => {
         break;
       default:
         skip_reward = 0;
-    }
+    };
     set_earned_exp((earned_exp) => earned_exp + skip_reward);
     set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
@@ -193,7 +193,7 @@ const QuizGamePage = ({ history }) => {
         set_answer_modal_loading(false);
         toggle();
       });
-    }
+    };
   };
 
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
@@ -230,7 +230,7 @@ const QuizGamePage = ({ history }) => {
       set_current_index((index) => index + 1);
       set_user_answer();
       getEachProblem();
-    }
+    };
   };
 
   const getNewAmount = () => {
@@ -297,7 +297,7 @@ const QuizGamePage = ({ history }) => {
                 getHintByProblemId();
                 if (!hint) {
                   putUseItem("Hint");
-                }
+                };
               }}
               hintContent={hint}
               have_hint={have_hint}
