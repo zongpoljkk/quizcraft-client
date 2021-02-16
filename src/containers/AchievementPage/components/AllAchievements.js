@@ -70,7 +70,6 @@ const AchievementContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   padding: 8px;
   margin-bottom: 24px;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};
