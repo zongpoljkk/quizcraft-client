@@ -59,28 +59,24 @@ const AchievementPanel = ({ container_width, achievements }) => {
 
   const testResp = limited_achievements.map((achievement) => {
     return (
-      <Achievement key={achievement.name} cursor={achievement.name === "ENTRY" ? "pointer": "default"}>
-        <AchievementImg
-          onClick={
-            achievement.name === "ENTRY"
-              ? () => handleOnclick(history)
-              : () => {}
-          }
-          onMouseEnter={() =>
-            achievement.name !== "ENTRY"
-              ? handleOnMouseEnter(achievement)
-              : () => {
-                  console.log("...");
-                }
-          }
-          onMouseLeave={() =>
-            achievement.name !== "ENTRY"
-              ? handleOnMouseLeave(achievement)
-              : () => {
-                  console.log("...");
-                }
-          }
-        >
+      <Achievement
+        key={achievement.name}
+        cursor={achievement.name === "ENTRY" ? "pointer" : "default"}
+        onClick={
+          achievement.name === "ENTRY" ? () => handleOnclick(history) : () => {}
+        }
+        onMouseEnter={() =>
+          achievement.name !== "ENTRY"
+            ? handleOnMouseEnter(achievement)
+            : () => {}
+        }
+        onMouseLeave={() =>
+          achievement.name !== "ENTRY"
+            ? handleOnMouseLeave(achievement)
+            : () => {}
+        }
+      >
+        <AchievementImg>
           {achievement_display[achievement.name] ? (
             <LottieFile
               animationData={
@@ -141,7 +137,7 @@ const Achievement = styled.div.attrs((props) => ({
   border-radius: 8px;
   background-color: ${COLOR.GOLDEN_TAINOI};
   margin-right: 16px;
-  cursor: ${props => props.cursor}
+  cursor: ${(props) => props.cursor};
 `;
 
 const AchievementImg = styled.div`
