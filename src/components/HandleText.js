@@ -64,6 +64,7 @@ const Container = styled.div.attrs((props) => ({
   flex-wrap: wrap;
   justify-content: ${(props) => props.justifyContent};
   overflow: visible;
+  outline: none;
 `;
 
 const Typography = styled.div.attrs((props) => ({
@@ -76,5 +77,8 @@ const Typography = styled.div.attrs((props) => ({
   font-weight: ${(props) => props.fontWeight};
   font-size: ${(props) => props.fontSize}px;
   color: ${(props) => props.color};
+  outline: none;
   margin-right: 4px;
+  margin-top: 2px;
+  margin-bottom: -2px;
 `;
