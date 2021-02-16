@@ -25,7 +25,10 @@ const AchievementPanel = ({ container_width, achievements }) => {
 
   // Limit number of achievements shown on the homepage
   if (panel_achievements.length >= HOMEPAGE_ACHIEVEMENTS_NUMBER) {
-    limited_achievements = achievements.slice(0, HOMEPAGE_ACHIEVEMENTS_NUMBER);
+    limited_achievements = panel_achievements.slice(
+      0,
+      HOMEPAGE_ACHIEVEMENTS_NUMBER
+    );
   }
   // Add entry to achievements page
   limited_achievements = [...limited_achievements, { name: "ENTRY" }];
@@ -56,28 +59,24 @@ const AchievementPanel = ({ container_width, achievements }) => {
 
   const testResp = limited_achievements.map((achievement) => {
     return (
-      <Achievement key={achievement.name} cursor={achievement.name === "ENTRY" ? "pointer": "default"}>
-        <AchievementImg
-          onClick={
-            achievement.name === "ENTRY"
-              ? () => handleOnclick(history)
-              : () => {}
-          }
-          onMouseEnter={() =>
-            achievement.name !== "ENTRY"
-              ? handleOnMouseEnter(achievement)
-              : () => {
-                  console.log("...");
-                }
-          }
-          onMouseLeave={() =>
-            achievement.name !== "ENTRY"
-              ? handleOnMouseLeave(achievement)
-              : () => {
-                  console.log("...");
-                }
-          }
-        >
+      <Achievement
+        key={achievement.name}
+        cursor={achievement.name === "ENTRY" ? "pointer" : "default"}
+        onClick={
+          achievement.name === "ENTRY" ? () => handleOnclick(history) : () => {}
+        }
+        onMouseEnter={() =>
+          achievement.name !== "ENTRY"
+            ? handleOnMouseEnter(achievement)
+            : () => {}
+        }
+        onMouseLeave={() =>
+          achievement.name !== "ENTRY"
+            ? handleOnMouseLeave(achievement)
+            : () => {}
+        }
+      >
+        <AchievementImg>
           {achievement_display[achievement.name] ? (
             <LottieFile
               animationData={
@@ -106,9 +105,9 @@ const AchievementPanel = ({ container_width, achievements }) => {
 
   useEffect(() => {
     if (achievements) {
-      set_panel_achievements(achievements)
+      set_panel_achievements(achievements);
     }
-  }, [achievements])
+  }, [achievements]);
 
   return (
     <ItemBox type="frame" shadow="frame" width={container_width - 32}>
@@ -138,7 +137,7 @@ const Achievement = styled.div.attrs((props) => ({
   border-radius: 8px;
   background-color: ${COLOR.GOLDEN_TAINOI};
   margin-right: 16px;
-  cursor: ${props => props.cursor}
+  cursor: ${(props) => props.cursor};
 `;
 
 const AchievementImg = styled.div`

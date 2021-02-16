@@ -6,7 +6,7 @@ import { RadioButton } from "../RadioButton";
 import { DisplayText } from "../HandleText";
 
 import { COLOR, CONTAINER_PADDING } from "../../global/const";
-import { useWindowDimensions } from "../../global/utils";
+import { useWindowDimensions, convertHexToRGBA } from "../../global/utils";
 
 import { splitQuestion } from "./AnswertHelper";
 
@@ -17,8 +17,9 @@ export const AnswerRadioChoice = ({
   subject,
   question = '',
   choices = {},
-  set_answer,
+  set_answer = '',
   answer,
+  display_choice = true,
   disabled_select
 }) => {
 
@@ -28,9 +29,7 @@ export const AnswerRadioChoice = ({
     if (item.length === 3 || item[0].type === "content") {
       return (
         <QuestionContainer>
-          <div>
-            <Body>{item[0].content}</Body>
-          </div>
+          <Body>{item[0].content}</Body>
           {item[1].content === ""
             ? <BlankField />
             : <div style={{ marginLeft: 8, marginRight: 8 }}>
@@ -38,15 +37,6 @@ export const AnswerRadioChoice = ({
               </div>
           }
           <Body>{item[2]?.content}</Body>
-        </QuestionContainer>
-      );
-    }
-    else if(item){
-      return (
-        <QuestionContainer>
-          <div>
-           <DisplayText content={item}/>
-          </div>
         </QuestionContainer>
       );
     }
@@ -59,27 +49,31 @@ export const AnswerRadioChoice = ({
                 <Body color={COLOR.MANDARIN}>{item[0].content}</Body>
               </div>
           }
-          <div>
-            <Body>{item[1].content}</Body>
-          </div>
+          <Body>{item[1].content}</Body>
         </QuestionContainer>
       );
     }
   };
 
+
   return (
-    <Container width={screen_width - CONTAINER_PADDING}>
-      <div style={{ marginBottom: 16 }}>
+    <Container width={display_choice ? screen_width-CONTAINER_PADDING : screen_width-CONTAINER_PADDING-48}>
+      <div style={{ marginBottom: display_choice ? 16 : 0 }}>
         {subject === "คณิตศาสตร์"
-          ? outputQuestion(question)
-          : outputQuestion(splitQuestion(question))}
+          ? (
+            <QuestionContainer>
+              <DisplayText content={question}/>
+            </QuestionContainer>
+          )
+          : outputQuestion(splitQuestion(question))
+        }
       </div>
       <div style={{ marginLeft: 16 }}>
         <RadioButton
           value={answer}
           subject={subject}
           selected_value={set_answer}
-          choices={choices}
+          choices={display_choice ? choices : []}
           disabled_select={disabled_select}
         />
       </div>
@@ -101,6 +95,18 @@ const QuestionContainer = styled.div`
   flex: 1;
   flex-direction: row;
   flex-wrap: wrap;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 3px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: ${convertHexToRGBA(COLOR.CHARCOAL, 40)};
+  }
 `;
 
 const BlankField = styled.div.attrs(props => ({

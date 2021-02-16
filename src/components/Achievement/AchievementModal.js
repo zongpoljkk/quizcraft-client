@@ -31,18 +31,22 @@ const AchievementModal = ({
         <Container>
           <HeaderContainer>
             <Header color={COLOR.CHARCOAL}>ยินดีด้วย!</Header>
-            <Body color={COLOR.SILVER}>{`คุณทำบลาบลาบลา`}</Body>
+            <Body color={COLOR.SILVER}>{`คุณทำ${content.description}`}</Body>
           </HeaderContainer>
           <AchievementLottieDiv>
             <LottieFile
-              animationData={CoinData}
+              animationData={
+                content.lottie_info
+                  ? JSON.parse(atob(content.lottie_info.data))
+                  : null
+              }
               loop={false}
               height={100}
               resizeMode="cover"
             />
           </AchievementLottieDiv>
           <div style={{ marginBottom: "4px" }}>
-            <Body color={COLOR.CHARCOAL}>นักแก้โจทย์ดึงตัวร่วมปรมาจารย์</Body>
+            <Body color={COLOR.CHARCOAL}>{content.name}</Body>
           </div>
           <RewardDiv
             initial="hidden"
@@ -50,7 +54,9 @@ const AchievementModal = ({
             variants={variants}
             transition={{ delay: 2 }}
           >
-            <Overline color={COLOR.MANDARIN}>+20 XP +20 coins</Overline>
+            <Overline color={COLOR.MANDARIN}>
+              +{content.rewardCoin} XP +{content.rewardEXP} coins
+            </Overline>
           </RewardDiv>
           <ButtonContainer
             initial="hidden"

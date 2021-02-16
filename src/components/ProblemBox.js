@@ -2,14 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 import { Subheader } from "./Typography";
+import GameContent from "./GameContent";
 import { DisplayText } from "./HandleText";
 
-import { COLOR, CONTAINER_PADDING, TYPOGRAPHY } from "../global/const";
+import { ANSWER_TYPE, COLOR, CONTAINER_PADDING, TYPOGRAPHY } from "../global/const";
 import { convertHexToRGBA, useWindowDimensions } from "../global/utils";
 
 export const ProblemBox = ({
   problem = '',
   problem_content = '',
+  show_game_content = false,
+  answer_type='',
+  subject='',
+  question='',
+  content=''
 }) => {
   
   const { height: screen_height, width: screen_width } = useWindowDimensions();
@@ -26,7 +32,25 @@ export const ProblemBox = ({
               content={problem_content}
             />
           </Problem>
-        ) : null}
+        ) : show_game_content && (
+          <ContentContainer
+          width={screen_width - CONTAINER_PADDING - 48}
+          alignSelf={
+            answer_type === ANSWER_TYPE.MATH_INPUT
+              ? "center"
+              : "flex-start"
+          }
+        >
+          <GameContent 
+            type={answer_type}
+            subject={subject}
+            question={question}
+            content={content}
+            display_choice = {false}
+            disabled = {true}
+          />
+        </ContentContainer>
+        )}
       </ProblemComponent>
     </ProblemContainer>
   );
@@ -60,4 +84,15 @@ const Problem = styled.div.attrs(props => ({
     border-radius: 10px;
     background-color: ${convertHexToRGBA(COLOR.CHARCOAL, 40)};
   }
+`;
+
+const ContentContainer = styled.div.attrs(props => ({
+  width: props.width,
+  alignSelf: props.alignSelf
+}))`
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  width: ${props => props.width}px;
+  align-self: ${props => props.alignSelf};
 `;

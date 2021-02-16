@@ -32,10 +32,12 @@ const AllAchievements = ({ achievements }) => {
 
   const all_achievements = achievements.map((achievement) => {
     return (
-      <AchievementContainer key={achievement.name}>
+      <AchievementContainer
+        key={achievement.name}
+        onMouseEnter={() => handleOnMouseEnter(achievement)}
+        onMouseLeave={() => handleOnMouseLeave(achievement)}
+      >
         <AchievementImageContainer
-          onMouseEnter={() => handleOnMouseEnter(achievement)}
-          onMouseLeave={() => handleOnMouseLeave(achievement)}
         >
           <AchievementImageDiv>
             {achievement_display[achievement.name] ? (
@@ -61,14 +63,13 @@ const AllAchievements = ({ achievements }) => {
     );
   });
 
-  return <div>{all_achievements}</div>;
+  return <div style={{width: "100%"}}>{all_achievements}</div>;
 };
 
 const AchievementContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   padding: 8px;
   margin-bottom: 24px;
   background-color: ${convertHexToRGBA(COLOR.ISLAND_SPICE, 20)};

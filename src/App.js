@@ -218,6 +218,13 @@ const App = () => {
           >
             <GroupResultPage />
           </PrivateRoute>
+          <PrivateRoute 
+            exact 
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/report" 
+            getUserData={getUserData}
+          >
+            <ReportPage />
+          </PrivateRoute>
           <PrivateRoute exact path="/all-challenges" getUserData={getUserData}>
             <AllChallengesPage user_info={user_info} />
           </PrivateRoute>
@@ -239,20 +246,14 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage user_id={user_id} />
-          </PrivateRoute>
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute exact path="/edit-username" getUserData={getUserData}>
             <EditUsernamePage />
           </PrivateRoute>
-          <PrivateRoute exact path="/report" getUserData={getUserData}>
-            <ReportPage />
-          </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage user_id={user_id} />
+            <Homepage user_id={user_id} user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute exact path="/shop" getUserData={getUserData}>
             <ShopPage />

@@ -16,6 +16,7 @@ const GameContent = ({
   choices = {},
   answer,
   set_answer,
+  display_choice = true,
   disabled
 }) => {
 
@@ -43,6 +44,7 @@ const GameContent = ({
           choices={choices}
           set_answer={set_answer}
           answer={answer}
+          display_choice={display_choice}
           disabled_select={disabled}
         />
       )}
