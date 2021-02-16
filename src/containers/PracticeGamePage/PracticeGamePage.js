@@ -25,7 +25,7 @@ import { LottieFile } from "../../components/LottieFile";
 import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 
-import { ANSWER_TYPE, COLOR } from "../../global/const";
+import { ANSWER_TYPE, COLOR, GAME_MODE } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
@@ -97,7 +97,7 @@ const PracticeGamePage = ({ history }) => {
       getTime / 1000,
       topic,
       subtopic,
-      "practice",
+      GAME_MODE.PRACTICE,
     ).then((res) => {
       set_answer_loading(false);
       res.data.correct ? playCorrectSound() : playWrongSound()
@@ -249,7 +249,7 @@ const PracticeGamePage = ({ history }) => {
                                     location.state.topic_name,
                                     location.state.subtopic_name,
                                     location.state.difficulty,
-                                    location.state.mode
+                                    GAME_MODE.PRACTICE
                                   );
                                 }
                               : () => {}
@@ -264,7 +264,7 @@ const PracticeGamePage = ({ history }) => {
                                   location.state.topic_name,
                                   location.state.subtopic_name,
                                   location.state.difficulty,
-                                  location.state.mode
+                                  GAME_MODE.PRACTICE
                                 );
                               }
                             : () => {}

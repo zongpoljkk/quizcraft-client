@@ -30,7 +30,7 @@ import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
 
-import { ANSWER_TYPE, COLOR, DIFFICULTY } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DIFFICULTY, GAME_MODE } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
@@ -39,7 +39,6 @@ const ITEM_USAGE = {
   USED: "USED",
 };
 export const NUMBER_OF_QUIZ = 10;
-const QUIZ_MODE = "quiz";
 
 const QuizGamePage = ({ history }) => {
   const location = useLocation();
@@ -170,7 +169,7 @@ const QuizGamePage = ({ history }) => {
         subject,
         topic,
         subtopic,
-        QUIZ_MODE
+        GAME_MODE.QUIZ
       ).then((res) => {
         //update earned exp and coins
         set_correct(res.data.correct);

@@ -22,7 +22,8 @@ import {
   ANSWER_TYPE,
   COLOR,
   DEVICE_SIZE,
-  WRONG_ANSWER
+  WRONG_ANSWER,
+  GAME_MODE
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -92,7 +93,7 @@ const GroupGamePage = ({ history }) => {
         user_id,
         problem._id,
         answer,
-        "GROUP",
+        GAME_MODE.GROUP,
         location.state.group_id,
         used_time
       ).then((res) => {

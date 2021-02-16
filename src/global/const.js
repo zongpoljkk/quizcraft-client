@@ -42,6 +42,13 @@ export const MODE = {
   },
 };
 
+export const GAME_MODE = {
+  PRACTICE: "PRACTICE",
+  QUIZ: "QUIZ",
+  CHALLENGE: "CHALLENGE",
+  GROUP: "GROUP",
+}
+
 export const DIFFICULTY = {
   EASY: {
     type: "EASY",
