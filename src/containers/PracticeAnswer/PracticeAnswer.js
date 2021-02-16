@@ -55,7 +55,6 @@ const PracticeAnswer = ({ history, user_info }) => {
   // At first, the array will have just one string but after click next line will be added to the solution
   const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   
   const location = useLocation();
   const [isShowing, toggle] = useModal();
@@ -114,7 +113,6 @@ const PracticeAnswer = ({ history, user_info }) => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     set_correct(location.state.correct);
     set_title(location.state.correct ? TITLE.CORRECT : TITLE.INCORRECT);
     if (location.state.solution === "" || !location.state.solution) {
@@ -123,7 +121,6 @@ const PracticeAnswer = ({ history, user_info }) => {
       set_static_solution(location.state.solution.split(/[\r\n]+/));
     };
     set_solution([]);
-    setIsLoading(false);
 
 
     // Achievement check
