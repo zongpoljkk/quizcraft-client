@@ -50,6 +50,7 @@ const GroupGamePage = ({ history }) => {
   const [correct, set_correct] = useState();
   const [correct_answer, set_correct_answer] = useState("");
   const [waiting, set_waiting] = useState(false);
+  const [remaining_time, set_remaining_time] = useState();
 
   const user_id = localStorage.getItem("userId");
 
@@ -152,6 +153,7 @@ const GroupGamePage = ({ history }) => {
         answer_type: problem.answerType,
         correct_answer: correct_answer,
         correct: correct,
+        remaining_time: time_per_problem - used_time
       },
     });
   };
@@ -225,14 +227,18 @@ const GroupGamePage = ({ history }) => {
 
   //back from report
   useEffect(() => {
-    // if (location.state.correct || location.state.correct === false) {
     if (location.state.correct_answer) {
+      set_remaining_time(location.state.remaining_time);
       set_correct(location.state.correct);
-      set_correct_answer(location.state.correct_answer)
+      set_correct_answer(location.state.correct_answer);
       set_is_time_out(true);
       toggle();
     }
-  }, [location.state.correct, location.state.correct_answer]);
+  }, [
+    location.state.correct,
+    location.state.correct_answer,
+    location.state.remaining_time,
+  ]);
 
   return (
     <Container>
@@ -243,7 +249,7 @@ const GroupGamePage = ({ history }) => {
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
           startImmediately={false}
           lastUnit="h"
-          initialTime={time_per_problem * 1000}
+          initialTime={remaining_time ? remaining_time * 1000 : time_per_problem * 1000}
           direction="backward"
         >
           {({ getTime, start, stop }) => (
@@ -380,6 +386,7 @@ const GroupGamePage = ({ history }) => {
                     }
                     onButtonClick={() => {
                       getNextProblem();
+                      set_remaining_time(null);
                     }}
                     onReportClick={() => onReport()}
                     onClose={false}

@@ -102,6 +102,7 @@ const ReportPage = ({ history }) => {
             difficulty: location.state.difficulty,
             correct_answer: location.state.correct_answer, 
             correct: location.state.correct,
+            remaining_time: location.state.remaining_time,
           },
         });
       }
