@@ -134,6 +134,7 @@ const DropdownWithLabelContainer = styled.div.attrs(props => ({
 const Container = styled.div`
   flex: 1;
   position: relative;
+  cursor: pointer;
 `;
 
 const DropdownContainer = styled.div.attrs(props => ({

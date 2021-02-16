@@ -155,6 +155,18 @@ const ButtonStyled = styled.button.attrs((props) => ({
   }};
   border-radius: 10px;
   outline: none;
+  cursor: ${(props) => {
+    switch (props.type) {
+      case "custom":
+        return "pointer";
+      case "outline":
+        return "pointer";
+      case "disabled":
+        return "default";
+      default:
+        return "pointer";
+    }
+  }};
   &:hover {
     transform: ${(props) => props.type === "disabled" ? null : `${props.whenHover} ? ${props.whenHover} : "scale(1.1)"}`};
   }

@@ -47,6 +47,7 @@ const CardContainer = styled.div`
   border-radius: 4px;
   padding-left: 4px;
   padding-right: 4px;
+  cursor: pointer;
 `;
 
 const DisableCard = styled.div`

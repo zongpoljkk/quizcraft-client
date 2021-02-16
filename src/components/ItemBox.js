@@ -12,7 +12,8 @@ export const ItemBox = ({
   shadow = "box", 
   maxWidth,
   width,
-  height
+  height,
+  cursor
 }) => {
 
   const [play] = useSound(click, { volume: 0.25 });
@@ -26,6 +27,7 @@ export const ItemBox = ({
       width={width}
       height={height}
       onClick={play}
+      cursor={cursor}
     >
       {children}
     </Box>
@@ -37,6 +39,7 @@ const Box = styled.div.attrs(props => ({
   type: props.type,
   shadow: props.shadow,
   width: props.width || null,
+  cursor: props.cursor
 }))`
   padding: ${(props) => {
     switch (props.type) {
@@ -70,6 +73,7 @@ const Box = styled.div.attrs(props => ({
   max-width: ${props => props.maxWidth}px;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
+  cursor: ${props => props.cursor};
   top: 0px;
   &:hover {
     position: ${props => props.type === "frame" ? "static" : "relative"};
