@@ -246,9 +246,6 @@ const App = () => {
           <PrivateRoute exact path="/:subject/:topic" getUserData={getUserData}>
             <SubtopicPage />
           </PrivateRoute>
-          <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage user_id={user_id} />
-          </PrivateRoute>
           <PrivateRoute exact path="/profile" getUserData={getUserData}>
             <ProfilePage handleLogout={handleLogout} user_info={user_info} />
           </PrivateRoute>
@@ -256,7 +253,7 @@ const App = () => {
             <EditUsernamePage />
           </PrivateRoute>
           <PrivateRoute exact path="/homepage" getUserData={getUserData}>
-            <Homepage user_id={user_id} />
+            <Homepage user_id={user_id} user_info={user_info} />
           </PrivateRoute>
           <PrivateRoute exact path="/shop" getUserData={getUserData}>
             <ShopPage />

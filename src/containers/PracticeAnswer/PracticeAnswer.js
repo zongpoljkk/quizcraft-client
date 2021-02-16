@@ -14,6 +14,7 @@ import { Solution } from "./components/Solution";
 import { Button } from "../../components/Button";
 import { LottieFile } from "../../components/LottieFile";
 import { Report } from "../../components/Report";
+import AchievementModal from "../../components/Achievement/AchievementModal";
 import { LevelUpModal } from "../../components/LevelUpModal";
 import useModal from "../../components/useModal";
 import { DisplayText } from "../../components/HandleText";
@@ -28,6 +29,7 @@ import level_up from "../../assets/sounds/level_up.mp3";
 
 // Global
 import { Body, Header } from "../../components/Typography";
+import { checkAchievement } from "../../global/achievement";
 
 import {
   COLOR,
@@ -54,9 +56,13 @@ const PracticeAnswer = ({ history, user_info }) => {
   const [solution, set_solution] = useState("");
   const [firstClick, setFirstClick] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowing, toggle] = useModal();
-
+  
   const location = useLocation();
+  const asciimath2latex = require("asciimath-to-latex");
+  
+  // Handle Achievement
+  const [isShowing, toggle] = useModal();
+  const [modal_data, set_modal_data] = useState();
 
   const [playClickSound] = useSound(click, { volume: 0.25 });
   const [playRecieveCoinSound] = useSound(recieve_coin, { volume: 0.25 });
@@ -118,10 +124,28 @@ const PracticeAnswer = ({ history, user_info }) => {
     };
     set_solution([]);
     setIsLoading(false);
+
+
+    // Achievement check
+    if (!modal_data) {
+      // Show achievement modal if the condition met
+      checkAchievement(null, "questions", null).then((data) => {
+        if (!modal_data) {
+          set_modal_data(data[0]);
+        }
+      });
+    }
     if(location.state.is_level_up || location.state.is_rank_up) {
       toggle();
     };
   }, []);
+
+  // Achievement Modal
+  useEffect(() => {
+    if (modal_data && !isShowing) {
+      toggle();
+    }
+  }, [modal_data]);
 
   // rerender when solution change
   useEffect(() => {}, [solution]);
@@ -218,6 +242,11 @@ const PracticeAnswer = ({ history, user_info }) => {
       minHeight={height - CONTAINER_PADDING - NAVBAR_HEIGHT}
     >
       <Background answer={correct} />
+      <AchievementModal
+            isShowing={isShowing}
+            toggle={toggle}
+            content={modal_data ? modal_data : {}}
+          />
       <CenterDiv
         style={{ marginTop: 32, marginBottom: 16, position: "relative" }}
       >

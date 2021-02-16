@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 
 import SubjectCard from "./components/SubjectCard";
 import GroupPanel from "./components/GroupPanel";
@@ -8,34 +8,34 @@ import AchievementPanel from "./components/AchievementPanel";
 import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
+import AchievementModal from "../../components/Achievement/AchievementModal";
 import { Button } from "../../components/Button";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import {
-  useGetSubjects,
-  useGetLeaderBoard,
-  useGetAchievements,
-} from "./HomepageHelper";
+import { useGetLeaderBoard, useGetSubjects, useGetAchievements } from "./HomepageHelper";
+import { checkAchievement } from "../../global/achievement";
 
+// Hook
+import useModal from "../../components/useModal";
 import challenge_icon from "../../assets/thumbnail/challenge.png";
 import challenge_mandarin_icon from "../../assets/thumbnail/challenge_mandarin.png";
 
 import { CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
+ 
 
-const Homepage = ({ history, user_id }) => {
+const Homepage = ({ user_id, user_info }) => {
+  const history = useHistory();
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
+  const [isShowing, toggle] = useModal();
+  const [modal_data, set_modal_data] = useState();
   const { width: screen_width } = useWindowDimensions();
 
   const [on_hover, set_on_hover] = useState(false);
 
   const { getSubjects, subjects_loading, subjects } = useGetSubjects();
-  const {
-    getLeaderBoard,
-    leader_board_loading,
-    leader_board,
-  } = useGetLeaderBoard(user_id);
+  const { getLeaderBoard, leader_board_loading , leader_board } = useGetLeaderBoard(user_id);
   const {
     getAchievements,
     achievements_loading,
@@ -50,7 +50,33 @@ const Homepage = ({ history, user_id }) => {
     getSubjects();
     getLeaderBoard();
     getAchievements();
+    if (isShowing) {
+      toggle();
+    }
   }, []);
+
+  useEffect(() => {
+    // This get called twice (why?)
+    if (user_info && !modal_data) {
+      // Show achievement modal if the condition met
+      checkAchievement(user_id, "streak", user_info.streak).then((data) => {
+        if (!modal_data && data[0]) {
+          set_modal_data(data[0]);
+        }
+      });
+      checkAchievement(user_id, "report", user_info.streak).then((data) => {
+        if (!modal_data && data[0]) {
+          set_modal_data(data[0]);
+        }
+      });
+    }
+  }, [user_info]);
+
+  useEffect(() => {
+    if (modal_data && !isShowing) {
+      toggle();
+    }
+  }, [modal_data]);
 
   return (
     <React.Fragment>
@@ -58,6 +84,11 @@ const Homepage = ({ history, user_id }) => {
         <LoadingPage />
       ) : (
         <Container ref={ref}>
+          <AchievementModal
+            isShowing={isShowing}
+            toggle={toggle}
+            content={modal_data ? modal_data : {}}
+          />
           <GroupPanel
             onCreateGroupClick={() => {
               history.push("create-group");
