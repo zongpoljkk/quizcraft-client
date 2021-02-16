@@ -32,14 +32,14 @@ export const AnswerModal = ({
     <FooterModal
       isShowing={isShowing}
       hide={toggle}
-      backgroundColor={correct ? COLOR.CELERY : group_observer ? COLOR.GOLDEN_TAINOI : COLOR.TRINIDAD}
+      backgroundColor={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD}
       overlay_clickable={overlay_clickable}
     >
       <Container>
         <ContentContainer>
           <Container>
             <IconContainer>
-              <img src={correct ? correct_icon : group_observer ? answer_icon : incorrect_icon} height={48} />
+              <img src={group_observer ? answer_icon : correct ? correct_icon : incorrect_icon} height={48} />
             </IconContainer>
             <AnswerContainer>
               {correct ? (

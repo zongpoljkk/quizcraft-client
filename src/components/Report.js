@@ -17,9 +17,9 @@ export const Report = ({
 
   return (
     <Container onClick={onClick}>
-      <img src={correct ? correct_flag_icon : group_observer ? answer_flag_icon : incorrect_flag_icon} height={24}/>
+      <img src={group_observer ? answer_flag_icon : correct ? correct_flag_icon : incorrect_flag_icon} height={24}/>
       <div style={{ marginRight: 8 }}/>
-      <Body color={correct ? COLOR.CELERY : group_observer ? COLOR.GOLDEN_TAINOI : COLOR.TRINIDAD} textDecoration="underline">รายงาน</Body>
+      <Body color={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD} textDecoration="underline">รายงาน</Body>
     </Container>
   );
 };
