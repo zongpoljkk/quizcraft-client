@@ -66,7 +66,8 @@ const ModeBox = ({
   return (
     <Background style={style}>
       <motion.div
-        style={{ display: "flex", flex: 1 }}
+        style={{ display: "flex", flex: 1, cursor: "pointer" }}
+        whileTap={{ x: -(box_width + 16), right: 0, transition: {duration: 0.5} }}
         drag="x"
         dragConstraints={{ left: -(box_width + 16), right: 0 }}
         dragMomentum={true}
