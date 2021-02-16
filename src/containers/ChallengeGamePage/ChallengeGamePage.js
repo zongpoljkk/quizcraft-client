@@ -30,9 +30,15 @@ import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
 
+const LAST_PATH = {
+  ALL_CHALLENGES: "ALL_CHALLENGES",
+  SUBTOPIC: "SUBTOPIC"
+};
 
 const ChallengeGame = ({ history }) => {
   const location = useLocation();
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
+
   const [user_answer, set_user_answer] = useState();
   const [correct, set_correct] = useState(false);
   const [answer_key, set_answer_key] = useState("");
@@ -42,7 +48,9 @@ const ChallengeGame = ({ history }) => {
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
   const [earned_coins, set_earned_coins] = useState(0);
-  const { height: screen_height, width: screen_width } = useWindowDimensions();
+  const [my_score, set_my_score] = useState(0);
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+
   const user_id = localStorage.getItem("userId");
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
@@ -67,22 +75,15 @@ const ChallengeGame = ({ history }) => {
     choices,
   } = useGetProblemByChallengeId();
 
-  const onExit = async () => {
-    if (current_index === NUMBER_OF_QUIZ) {
-      await getProblemByChallengeId(
-        location.state.challenge_id,
-        my_info.currentProblem
-      );
-    }
+  const onExit = () => {
     if(is_level_up || is_rank_up) {
       playLevelUpSound();
     };
     history.push({
-      pathname: "./all-challenges",
+      pathname: location.state.last_path === LAST_PATH.ALL_CHALLENGES ? "/all-challenges" : "./all-challenges",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
-        subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
         mode: location.state.mode,
         difficulty: location.state.difficulty,
@@ -131,7 +132,7 @@ const ChallengeGame = ({ history }) => {
         subject,
         topic,
         subtopic,
-        "challenge",
+        "CHALLENGE",
         location.state.challenge_id,
         my_info.currentProblem
       ).then((res) => {
@@ -147,7 +148,13 @@ const ChallengeGame = ({ history }) => {
           set_is_rank_up(true);
         };
         res.data.correct ? playCorrectSound() : playWrongSound()
+
+        // Handle the display of user's score
+        if (res.data.correct) {
+          set_my_score(score => score + 1);
+        };
       });
+      set_answer_modal_loading(false);
       toggle();
     }
   };
@@ -157,17 +164,18 @@ const ChallengeGame = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    // Only do once
     if (my_info) {
       getProblemByChallengeId(
         location.state.challenge_id,
         my_info.currentProblem
       );
-    }
-  }, [my_info]);
+      set_my_score(my_info.score);
+    };
+  }, [my_info])
 
   return loading_info || loading_problem ? (
-    <LoadingPage />
+    <LoadingPage>
+    </LoadingPage>
   ) : (
     <Container>
       <Timer
@@ -195,7 +203,7 @@ const ChallengeGame = ({ history }) => {
             <UserInfo
               my_image={my_info.photo}
               challenger_image={challenger_info.photo}
-              my_score={my_info.score}
+              my_score={my_score}
               challenger_score={challenger_info.score}
               challenger_is_played={challenger_info.isPlayed}
             />
@@ -247,6 +255,7 @@ const ChallengeGame = ({ history }) => {
                     location.state.subtopic_name,
                     location.state.difficulty
                   );
+                  set_answer_modal_loading(true);
                 }}
               >
                 ข้าม
@@ -267,11 +276,13 @@ const ChallengeGame = ({ history }) => {
                     location.state.subtopic_name,
                     location.state.difficulty
                   );
+                  set_answer_modal_loading(true);
                 }}
               >
                 ตรวจ
               </Button>
             </ButtonContainer>
+            {answer_modal_loading && <LoadingPage overlay={true} />}
             <AnswerModal
               isShowing={isShowing}
               toggle={toggle}

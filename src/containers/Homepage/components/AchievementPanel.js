@@ -59,7 +59,7 @@ const AchievementPanel = ({ container_width, achievements }) => {
 
   const testResp = limited_achievements.map((achievement) => {
     return (
-      <Achievement key={achievement.name}>
+      <Achievement key={achievement.name} cursor={achievement.name === "ENTRY" ? "pointer": "default"}>
         <AchievementImg
           onClick={
             achievement.name === "ENTRY"
@@ -130,7 +130,9 @@ const AchievementsBox = styled.div`
   overflow-x: scroll;
 `;
 
-const Achievement = styled.div`
+const Achievement = styled.div.attrs((props) => ({
+  cursor: props.cursor,
+}))`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,6 +141,7 @@ const Achievement = styled.div`
   border-radius: 8px;
   background-color: ${COLOR.GOLDEN_TAINOI};
   margin-right: 16px;
+  cursor: ${props => props.cursor}
 `;
 
 const AchievementImg = styled.div`

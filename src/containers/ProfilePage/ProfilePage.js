@@ -140,16 +140,14 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             success_description="เปลี่ยนรูปประจำตัวสำเร็จ"
             fail_description="เปลี่ยนรูปประจำตัวไม่สำเร็จ"
             onSubmit={() => {
-              if (change_image_success) {
-                window.location.reload();
-              }
+              window.location.reload();
             }}
           />
           {change_image_loading && <LoadingPage overlay={true}/>}
           <UsernameContainer>
             <Header>{user_info.username}</Header>
             <div 
-              style={{ marginLeft: 16 }}
+              style={{ marginLeft: 16, cursor: "pointer" }}
               onClick={() => {
                 play();
                 history.push({
@@ -282,6 +280,7 @@ const ProfileImage = styled.div.attrs(props => ({
   height: 210px;
   width: 210px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const Image = styled.img.attrs(props => ({

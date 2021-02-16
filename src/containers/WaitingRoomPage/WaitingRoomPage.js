@@ -135,18 +135,18 @@ const WaitingRoomPage = ({ history }) => {
         ? <LoadingPage />
         : (
           <React.Fragment>
-            <div style={{width: "300px", position: "relative"}}>
+            <div style={{width: "300px", height: "300px",overflow: "hidden", position: "relative"}}>
               <NumberText>
                 {number_of_members}
               </NumberText>
-              <div style={{ position: 'relative', zIndex: '1' }}>
+              <LottieContainer>
                 <LottieFile 
                   animationData={loading_circle} 
-                  width={300}
-                  height={300}
+                  width={100}
                 />
-              </div>
+              </LottieContainer>
             </div>
+
             {is_creator ?
               <div style={{ width: "100%" }}>
                 {location.state.pin &&
@@ -207,14 +207,16 @@ const Container = styled.div.attrs((props) => ({
       position: fixed;
       left: 50%;
       top: 50%;
-      z-index: 1060;
+      z-index: 10;
       transform: translate(-50%, -50%);
+      height: 100%;
   `}
 `;
 
 const PlayButtonContainer = styled.div`
   display: flex;
   position: fixed;
+  z-index: 2;
   right: 8px;
   top: 62px;
   transform: scale(0.6);
@@ -245,7 +247,7 @@ const NumberText = styled.div`
   font-family: Prompt, sans-serif;
   font-weight: 600;
   font-size: 72px;
-  color: ${COLOR.MANDARIN};
+  color: ${COLOR.WHITE};
   position: absolute;
   z-index: 2;
   top: 50%;
@@ -268,6 +270,14 @@ const Pin = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 8px;
+`;
+
+const LottieContainer = styled.div`
+  position: relative;
+  z-index: 1;
+  zoom: 400%;
+  width: 300px;
+  margin-left: -112px;
 `;
 
 export default withRouter(WaitingRoomPage);

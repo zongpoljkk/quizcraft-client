@@ -12,7 +12,7 @@ const TopicBox = ({
 
   return (
     <div style = {{marginBottom: "32px"}} onClick={onClick}>
-      <ItemBox>
+      <ItemBox cursor="pointer">
         <TopicImg 
           src={image ? image : default_topic}
         />

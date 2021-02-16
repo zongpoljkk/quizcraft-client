@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 import backend from "../../ip";
@@ -76,7 +76,6 @@ export const useGetNextProblem = (group_id) => {
       });
       const { success, data } = response.data;
       if (success) {
-        console.log(data);
       } else {
         console.log("getNextProblem Error");
       }
@@ -87,3 +86,33 @@ export const useGetNextProblem = (group_id) => {
 
   return { getNextProblem };
 };
+
+export const checkGroupAnswer = async (user_id, problem_id, user_answer, mode, group_id, used_time) => {
+  try {
+    const response = await axios.post(backend + "practice/check-answer", {
+      userId: user_id,
+      problemId: problem_id,
+      userAnswer: user_answer,
+      mode: mode,
+      groupId: group_id,
+      usedTime: used_time,
+
+    })
+    return response.data
+  } catch (error) {
+    console.log("There are something wrong when checking for answer :(");
+  }
+}
+
+export const showAnswer = async (group_id) => {
+  try {
+    const response = await axios.get(backend + "group/show-answer", {
+      params: {
+        groupId: group_id
+      }
+    });
+    return response.data
+  } catch (error) {
+    console.log("There are something wrong when show answer :(");
+  }
+}

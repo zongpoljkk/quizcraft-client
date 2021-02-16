@@ -4,7 +4,8 @@ import useSound from 'use-sound';
 
 import { DisplayText } from "./HandleText";
 
-import { COLOR } from "../global/const";
+import { COLOR, CONTAINER_PADDING } from "../global/const";
+import { useWindowDimensions, convertHexToRGBA } from "../global/utils";
 
 import radio_button_select from "../assets/sounds/radio_button_select.mp3";
 
@@ -17,9 +18,11 @@ export const RadioButton = ({
   justifyContent,
   marginRight,
   text,
+  disabled_select
 }) => {
 
   const [play] = useSound(radio_button_select, { volume: 0.2 });
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
     <Container direction={direction} justifyContent={justifyContent}>
@@ -31,7 +34,7 @@ export const RadioButton = ({
               direction === "column" ? (i !== choices.length - 1 ? 8 : 0) : 0,
             marginRight: marginRight,
           }}
-          onClick={play}
+          onClick={() => disabled_select ? null : play()}
         >
           <Label text={text} selected={value === option}>
             <Input
@@ -39,11 +42,24 @@ export const RadioButton = ({
               type="radio"
               value={option}
               checked={value === option}
-              onChange={(e) => selected_value(e.target.value)}
+              onChange={(e) => {
+                if(!disabled_select) {
+                  selected_value(e.target.value);
+                };
+              }}
             />
             <Mark selected={value === option} />
             {subject === "คณิตศาสตร์" ? (
-              <DisplayText content={option} />
+              <MathChoice
+                width = {screen_width - CONTAINER_PADDING - 42}
+                onClick={(e) => {
+                  if(!disabled_select) {
+                    selected_value(option);
+                  };
+                }}
+              >
+                <DisplayText content={option} />
+              </MathChoice>
             ) : (
               option
             )}
@@ -134,4 +150,24 @@ const Label = styled.label.attrs(props => ({
     }
   }};
   color: ${COLOR.CHARCOAL};
+  cursor: pointer;
+`;
+
+const MathChoice = styled.label.attrs(props => ({
+  width: props.width
+}))`
+  max-width: ${props => props.width}px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  outline: none;
+  margin-bottom: 2px;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: ${convertHexToRGBA(COLOR.CHARCOAL, 40)};
+  }
 `;

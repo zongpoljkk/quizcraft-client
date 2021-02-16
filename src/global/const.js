@@ -97,19 +97,21 @@ export const DEVICE_SIZE = {
 
 export const CONTAINER_PADDING = 64;
 
+export const NAVBAR_HEIGHT = 54;
+
 export const WRONG_ANSWER = {
   MATH: "1.2^[1.23]",
   MATH_BOX: "0.12345654321",
   STRING: "dasdasldgaso",
-}
+};
+
 export const ITEM_NAME = {
   SKIP: "Skip",
   HINT: "Hint",
   DOUBLE: "Double",
   REFRESH: "Refresh",
   FREEZE: "Freeze"
-}
-export const NAVBAR_HEIGHT = 54;
+};
 
 export const QUOTE = [
   "เราทำในสิ่งที่ต้องทำเพื่อจะได้ทำในสิ่งที่อยากทำ",
@@ -141,4 +143,10 @@ export const TYPOGRAPHY = {
     font_weight: "400",
     font_size: "12"
   }
+};
+
+export const CHALLENGE_BOX_TYPE = {
+  MY_TURN: "MY_TURN",
+  CHALLENGER_TURN: "CHALLENGER_TURN",
+  RESULT: "RESULT"
 };

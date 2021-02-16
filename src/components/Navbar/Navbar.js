@@ -106,7 +106,7 @@ const Navbar = ({
             </IconContainer>
         }
         <div onClick={handleClickShop} style={{ display: 'flex' }}>
-          <Icon src={shop} marginRight={12}/>
+          <Icon src={shop} marginRight={12} cursor="pointer"/>
         </div>
         <ProfileImage 
           backgroundColor={user_info.photo ? null : COLOR.ISLAND_SPICE} 
@@ -131,12 +131,13 @@ const Container = styled.nav`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 1000;
 `;
 
 const Logo = styled.img`
   height: 36px;
   filter: drop-shadow(0px 1px 0.2px ${COLOR.CHARCOAL});
+  cursor: pointer;
 `;
 
 const InfoContainer = styled.div`
@@ -155,6 +156,7 @@ const ProfileImage = styled.div.attrs(props => ({
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const Image = styled.img`
@@ -170,9 +172,12 @@ const IconContainer = styled.div`
   margin-right: 12px;
 `;
 
-const Icon = styled.img`
+const Icon = styled.img.attrs(props => ({
+  cursor: props.cursor
+}))`
   height: 28px;
   margin-right: ${props => props.marginRight}px;
+  cursor: ${props => props.cursor};
 `;
 
 export default withRouter(Navbar);

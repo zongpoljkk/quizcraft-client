@@ -71,15 +71,7 @@ const PracticeAnswer = ({ history, user_info }) => {
   const handleNextButtonClick = () => {
     history.push({
       pathname:
-        "/" +
-        location.state.subject +
-        "/" +
-        location.state.topic +
-        "/" +
-        location.state.subject +
-        "/" +
-        location.state.difficulty +
-        "/practice-game",
+        "./practice-game",
       state: {
         userId: location.state.userId,
         problemId: location.state.problemId,
@@ -210,22 +202,24 @@ const PracticeAnswer = ({ history, user_info }) => {
     else {
       return (
         <ShiftDiv style={{ zIndex: "500" }}>
-          <img
-            src={correct ? Correct_Forward : Incorrect_Forward}
-            alt="arrow"
-            height={40}
-            onClick={() => {
-              handleArrowClick();
-              playClickSound();
-              if(solution.length+1 === staticSolution.length && correct) {
-                if(location.state.is_level_up || location.state.is_rank_up) {
-                  playLevelUpSound();
-                } else {
-                  playRecieveCoinSound();
+          <div style={{cursor: "pointer", height: "40px"}}>
+            <img
+              src={correct ? Correct_Forward : Incorrect_Forward}
+              alt="arrow"
+              height={40}
+              onClick={() => {
+                handleArrowClick();
+                playClickSound();
+                if(solution.length+1 === staticSolution.length && correct) {
+                  if(location.state.is_level_up || location.state.is_rank_up) {
+                    playLevelUpSound();
+                  } else {
+                    playRecieveCoinSound();
+                  };
                 };
-              };
-            }}
-          />
+              }}
+            />
+          </div>
         </ShiftDiv>
       );
     }
@@ -265,14 +259,11 @@ const PracticeAnswer = ({ history, user_info }) => {
                       justifyContent:
                         location.state.subject === "คณิตศาสตร์" &&
                         screen_width < DEVICE_SIZE.LARGE &&
-                        line.length > 50
+                        line.length > 55
                           ? "flex-start"
                           : "center",
                     }}
                   >
-                    {i > 0 || location.state.subject === "คณิตศาสตร์"
-                      ? "= "
-                      : null}
                     {location.state.subject === "คณิตศาสตร์" ? (
                       <DisplayText
                         fontWeight={TYPOGRAPHY.SUBHEADER.font_weight}

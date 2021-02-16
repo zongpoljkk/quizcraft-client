@@ -50,7 +50,7 @@ export const useDeleteGroup = (group_id, user_id) => {
       const response = await axios.delete(backend+"group/delete-group", {
         data: {
           groupId: group_id,
-          userId : user_id,
+          userId : user_id
         }
       })
       const { success, data } = response.data;
@@ -113,7 +113,7 @@ export const useGetGenerateProblem = () => {
     }
   };
 
-  return { getGenerateProblem, start_loading, problems };
+  return { getGenerateProblem, start_loading, problems, number_of_problems };
 };
 
 export const useServerSentEvent = () => {
@@ -124,6 +124,7 @@ export const useServerSentEvent = () => {
   const [next_problem, set_next_problem] = useState();
   const [send_answer, set_send_answer] = useState();
   const [restart_game, set_restart_game] = useState();
+  const [show_answer, set_show_answer] = useState();
   const token = localStorage.getItem("token");
 
   const subscribe = async (group_id) => {
@@ -164,6 +165,12 @@ export const useServerSentEvent = () => {
             set_restart_game(parsedData.message);
             console.log("restart_game");
             break;
+          case "SHOW_ANSWER":
+            set_show_answer(parsedData.message);
+            console.log("show answer");
+            break;
+          default:
+            console.log("default")
         }
       };
     } else {
@@ -172,7 +179,7 @@ export const useServerSentEvent = () => {
     }
     set_listening(!listening);
   };
-  return { listening, subscribe, update_member, start_game, delete_group, next_problem, send_answer, restart_game };
+  return { listening, subscribe, update_member, start_game, delete_group, next_problem, send_answer, restart_game, show_answer };
 };
 
 export const BGMSound = () => {

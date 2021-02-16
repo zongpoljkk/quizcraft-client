@@ -43,6 +43,7 @@ const QUIZ_MODE = "quiz";
 
 const QuizGamePage = ({ history }) => {
   const location = useLocation();
+
   const [isShowing, toggle] = useModal();
   const [used_time, set_used_time] = useState();
   const [time_start, set_time_start] = useState(true);
@@ -50,7 +51,6 @@ const QuizGamePage = ({ history }) => {
   const [skip, set_skip] = useState(ITEM_USAGE.UN_USE);
   const [refresh, set_refresh] = useState(ITEM_USAGE.UN_USE);
   const [current_index, set_current_index] = useState(1);
-  const user_id = localStorage.getItem("userId");
   const [correct, set_correct] = useState(false);
   const [solution, set_solution] = useState("");
   const [answer_key, set_answer_key] = useState("");
@@ -59,6 +59,9 @@ const QuizGamePage = ({ history }) => {
   const [earned_coins, set_earned_coins] = useState(0);
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
+  const [answer_modal_loading, set_answer_modal_loading] = useState(false);
+  
+  const user_id = localStorage.getItem("userId");
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
   const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
@@ -81,21 +84,27 @@ const QuizGamePage = ({ history }) => {
     location.state.subtopic_name,
     location.state.difficulty
   );
-  const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
-    problem_id
-  );
+
+  const {
+    getHintByProblemId,
+    hint,
+    set_hint
+  } = useGetHintByProblemId(problem_id);
+
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
-    amount_of_refreshs,
+    amount_of_refreshs
   } = useGetAmountOfItems(user_id);
+
   const { putUseItem } = useItem(user_id);
   const { postSkipItem } = useSkipItem();
   const { postRefreshItem } = useRefreshItem();
 
-  const onSkip = () => {
+  const onSkip = async () => {
     set_skip(ITEM_USAGE.IN_USE);
+    await postSkipItem(problem_id);
     getEachProblem(set_skip);
     set_current_index((index) => index + 1);
     set_problem_id();
@@ -114,13 +123,14 @@ const QuizGamePage = ({ history }) => {
         break;
       default:
         skip_reward = 0;
-    }
+    };
     set_earned_exp((earned_exp) => earned_exp + skip_reward);
     set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     set_refresh(ITEM_USAGE.IN_USE);
+    await postRefreshItem(problem_id);
     getEachProblem(set_refresh);
     set_problem_id();
     set_hint();
@@ -150,6 +160,7 @@ const QuizGamePage = ({ history }) => {
       const button = document.getElementById("button");
       button.disabled = true;
       set_used_time(getTime / 1000);
+      set_answer_modal_loading(true);
 
       getAndCheckAnswer(
         problemId,
@@ -179,9 +190,10 @@ const QuizGamePage = ({ history }) => {
           set_is_rank_up(true);
         };
         res.data.correct ? playCorrectSound() : playWrongSound()
+        set_answer_modal_loading(false);
         toggle();
       });
-    }
+    };
   };
 
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
@@ -218,7 +230,7 @@ const QuizGamePage = ({ history }) => {
       set_current_index((index) => index + 1);
       set_user_answer();
       getEachProblem();
-    }
+    };
   };
 
   const getNewAmount = () => {
@@ -285,23 +297,21 @@ const QuizGamePage = ({ history }) => {
                 getHintByProblemId();
                 if (!hint) {
                   putUseItem("Hint");
-                }
+                };
               }}
               hintContent={hint}
               have_hint={have_hint}
               skip={skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
-                  postSkipItem(problem_id);
                   onSkip();
                   reset();
                 } else {
                   postSkipItem(problem_id);
-                }
+                };
               }}
               refresh={refresh}
               onRefresh={() => {
-                postRefreshItem(problem_id);
                 onRefresh();
                 reset();
               }}
@@ -397,6 +407,7 @@ const QuizGamePage = ({ history }) => {
                   >
                     ตรวจ
                   </Button>
+                  {answer_modal_loading && <LoadingPage overlay={true} />}
                   <AnswerModal
                     isShowing={isShowing}
                     toggle={toggle}

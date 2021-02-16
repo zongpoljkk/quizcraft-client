@@ -13,7 +13,8 @@ import { formatContent } from "./AnswertHelper";
 
 export const AnswerSelectOne = ({
   content = '',
-  set_answer
+  set_answer,
+  disabled_select
 }) => {
 
   const [selected_answer, set_selected_answer] = useState(null);
@@ -27,9 +28,11 @@ export const AnswerSelectOne = ({
           <div style={{ width: 8 }}/>
           <div 
             onClick={() => {
-              set_selected_answer(item[1].content);
-              set_answer(item[1].content);
-              play();
+              if(!disabled_select) {
+                set_selected_answer(item[1].content);
+                set_answer(item[1].content);
+                play();
+              };
             }}
             style={{
               backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -40,12 +43,14 @@ export const AnswerSelectOne = ({
               <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
             </AnswerBucket>
           </div>
-          <AnswerBucket>,</AnswerBucket>
+          <AnswerBucket not_answer={true}>,</AnswerBucket>
           <div 
             onClick={() => {
-              set_selected_answer(item[2].content);
-              set_answer(item[2].content);
-              play();
+              if(!disabled_select) {
+                set_selected_answer(item[2].content);
+                set_answer(item[2].content);
+                play();
+              };
             }}
             style={{
               backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
@@ -69,9 +74,11 @@ export const AnswerSelectOne = ({
             <div style={{ width: 8 }}/>
             <div 
               onClick={() => {
-                set_selected_answer(item[1].content);
-                set_answer(item[1].content);
-                play();
+                if(!disabled_select) {
+                  set_selected_answer(item[1].content);
+                  set_answer(item[1].content);
+                  play();
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -82,12 +89,14 @@ export const AnswerSelectOne = ({
                 <Body color={COLOR.MANDARIN}>{item[1].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket>,</AnswerBucket>
+            <AnswerBucket not_answer={true}>,</AnswerBucket>
             <div 
               onClick={() => {
-                set_selected_answer(item[2].content);
-                set_answer(item[2].content);
-                play();
+                if(!disabled_select) {
+                  set_selected_answer(item[2].content);
+                  set_answer(item[2].content);
+                  play();
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[2].content ? COLOR.ISLAND_SPICE : null,
@@ -106,9 +115,11 @@ export const AnswerSelectOne = ({
           <Container>
             <div 
               onClick={() => {
-                set_selected_answer(item[0].content);
-                set_answer(item[0].content);
-                play();
+                if(!disabled_select) {
+                  set_selected_answer(item[0].content);
+                  set_answer(item[0].content);
+                  play();
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[0].content ? COLOR.ISLAND_SPICE : null,
@@ -119,12 +130,14 @@ export const AnswerSelectOne = ({
                 <Body color={COLOR.MANDARIN}>{item[0].content}</Body>
               </AnswerBucket>
             </div>
-            <AnswerBucket>,</AnswerBucket>
+            <AnswerBucket not_answer={true}>,</AnswerBucket>
             <div 
               onClick={() => {
-                set_selected_answer(item[1].content);
-                set_answer(item[1].content);
-                play();
+                if(!disabled_select) {
+                  set_selected_answer(item[1].content);
+                  set_answer(item[1].content);
+                  play();
+                };
               }}
               style={{
                 backgroundColor: selected_answer === item[1].content ? COLOR.ISLAND_SPICE : null,
@@ -156,14 +169,24 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-const AnswerBucket = styled.div.attrs(props => ({
+const AnswerBucket = styled.div.attrs((props) => ({
   margin_left: props.margin_left || 8,
   margin_right: props.margin_right || 8,
+  not_answer: props.not_answer,
 }))`
   font-family: Prompt, sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: ${COLOR.MANDARIN};
-  margin-left: ${props => props.margin_left}px;
-  margin-right: ${props => props.margin_right}px;
+  margin-left: ${(props) => props.margin_left}px;
+  margin-right: ${(props) => props.margin_right}px;
+
+  ${(props) =>
+    props.not_answer
+      ? `
+      cursor: default;
+    `
+      : `
+    cursor: pointer;
+  `}
 `;

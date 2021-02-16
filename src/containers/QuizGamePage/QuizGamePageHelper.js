@@ -152,7 +152,7 @@ export const useGetAmountOfItems = (user_id) => {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
-    amount_of_refreshs,
+    amount_of_refreshs
   };
 };
 

@@ -24,7 +24,11 @@ export const useGetHintByProblemId = (problemId) => {
     }
   };
 
-  return { getHintByProblemId, hint };
+  const reset_hint = () => {
+    set_hint();
+  };
+
+  return { getHintByProblemId, hint, reset_hint };
 };
 
 export const getAndCheckAnswer = async (

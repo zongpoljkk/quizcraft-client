@@ -114,7 +114,7 @@ export const mathAnswerBox = (correct_answer) => {
     }
     else {
       if(!skip) {
-        if(index == correct_answer.length-1) {
+        if(index === correct_answer.length-1) {
           text = correct_answer.substring(start_index, correct_answer.length);
           list[list_index] = [text, text.length, current_type, last_type];
         }

@@ -5,7 +5,7 @@ import { Header, Body } from "./Typography";
 import { FooterModal } from "./Modal";
 import { Button } from "./Button";
 import { Report } from "./Report";
-import { DisplayAnswerText } from "./HandleText";
+import { DisplayText } from "./HandleText";
 
 import correct_icon from "../assets/icon/correct.png";
 import incorrect_icon from "../assets/icon/incorrect.png";
@@ -21,9 +21,9 @@ export const AnswerModal = ({
   subject,
   correct,
   answer,
-  overlay_clickable
+  overlay_clickable,
+  onClose = true,
 }) => {
-
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
@@ -57,7 +57,7 @@ export const AnswerModal = ({
                               overflowY: "hidden",
                             }}
                           >
-                            <DisplayAnswerText 
+                            <DisplayText 
                               content={item}
                               color={COLOR.TRINIDAD}
                             />
@@ -75,11 +75,13 @@ export const AnswerModal = ({
           <div style={{ marginBottom: 8 }} />
           <Report correct={correct} />
         </ContentContainer>
-        {buttonTitle &&
-          <Button 
+        {buttonTitle && (
+          <Button
             onClick={() => {
               onButtonClick();
-              toggle();
+              if (onClose) {
+                toggle();
+              }
             }}
             type="custom"
             size="small"
@@ -90,7 +92,7 @@ export const AnswerModal = ({
           >
             {buttonTitle}
           </Button>
-        }
+        )}
       </Container>
     </FooterModal>
   );
