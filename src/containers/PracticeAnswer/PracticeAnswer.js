@@ -58,10 +58,9 @@ const PracticeAnswer = ({ history, user_info }) => {
   const [isLoading, setIsLoading] = useState(false);
   
   const location = useLocation();
-  const asciimath2latex = require("asciimath-to-latex");
+  const [isShowing, toggle] = useModal();
   
   // Handle Achievement
-  const [isShowing, toggle] = useModal();
   const [isShowing_Ach, toggle_Ach] = useModal();
   const [modal_data, set_modal_data] = useState();
 
