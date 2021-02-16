@@ -60,6 +60,7 @@ export const ExitModal = ({
 const IconContainer = styled.div`
   display: flex;
   height: 100%;
+  cursor: pointer;
 `;
 
 const HeaderContainer = styled.div`
