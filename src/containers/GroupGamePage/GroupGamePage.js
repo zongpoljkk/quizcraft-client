@@ -456,7 +456,7 @@ const LottieCotainer = styled.div`
 `;
 
 const ZoomLottie = styled.div`
-  zoom: 250%;
+  transform: scale(2.5);
 `;
 
 export default withRouter(GroupGamePage);
