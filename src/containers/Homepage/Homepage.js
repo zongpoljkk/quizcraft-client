@@ -60,12 +60,12 @@ const Homepage = ({ user_id, user_info }) => {
     if (user_info && !modal_data) {
       // Show achievement modal if the condition met
       checkAchievement(user_id, "streak", user_info.streak).then((data) => {
-        if (!modal_data) {
+        if (!modal_data && data[0]) {
           set_modal_data(data[0]);
         }
       });
       checkAchievement(user_id, "report", user_info.streak).then((data) => {
-        if (!modal_data) {
+        if (!modal_data && data[0]) {
           set_modal_data(data[0]);
         }
       });

@@ -116,7 +116,6 @@ const PracticeAnswer = ({ history, user_info }) => {
     if (!modal_data) {
       // Show achievement modal if the condition met
       checkAchievement(null, "questions", null).then((data) => {
-        console.log(data);
         if (!modal_data) {
           set_modal_data(data[0]);
         }
@@ -129,9 +128,7 @@ const PracticeAnswer = ({ history, user_info }) => {
 
   // Achievement Modal
   useEffect(() => {
-    console.log("useEffect modal");
     if (modal_data && !isShowing) {
-      console.log("toggle");
       toggle();
     }
   }, [modal_data]);
