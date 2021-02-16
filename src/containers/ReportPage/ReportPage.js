@@ -9,6 +9,7 @@ import { RadioButton } from "../../components/RadioButton";
 import { TextField } from "../../components/TextField";
 import useModal from "../../components/useModal";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { ANSWER_TYPE, CONTAINER_PADDING, MODE, REPORT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
@@ -26,7 +27,7 @@ const ReportPage = ({ history }) => {
   const [isShowing, toggle] = useModal();
   const user_id = localStorage.getItem("userId");
   var date;
-  const { sendReport, report_success } = useSendReport(
+  const { sendReport, report_success, report_loading } = useSendReport(
     user_id,
     location.state.problem_id,
     report_content,
@@ -188,6 +189,7 @@ const ReportPage = ({ history }) => {
           ยืนยัน
         </Button>
       </CenterContainer>
+      {report_loading && <LoadingPage overlay={true} />}
       <ConfirmResultModal
         isShowing={isShowing}
         toggle={toggle}

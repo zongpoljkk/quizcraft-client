@@ -5,8 +5,10 @@ import backend from "../../ip";
 
 export const useSendReport = (user_id, problem_id, report_content, date) => {
   const [report_success, set_report_success] = useState();
+  const [report_loading, set_report_loading] = useState(false);
 
   const sendReport = async () => {
+    set_report_loading(true);
     try {
       const response = await axios.post(backend+"report/add-report", {
         userId : user_id,
@@ -17,6 +19,7 @@ export const useSendReport = (user_id, problem_id, report_content, date) => {
       const { success, data } = response.data;
       if (success) {
         set_report_success(true);
+        set_report_loading(false);
       } else {
         console.log("send report Error");
       } 
@@ -28,5 +31,5 @@ export const useSendReport = (user_id, problem_id, report_content, date) => {
     }
   };
 
-  return { sendReport, report_success };
+  return { sendReport, report_success, report_loading };
 };
