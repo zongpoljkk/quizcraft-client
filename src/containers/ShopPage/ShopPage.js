@@ -11,7 +11,7 @@ import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 import useModal from "../../components/useModal";
 
-import { COLOR } from "../../global/const";
+import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { convertHexToRGBA, useWindowDimensions } from "../../global/utils";
 
 import click from "../../assets/sounds/click.mp3";
@@ -78,13 +78,13 @@ const Shop = ({ history }) => {
           <HeaderContainer>
             <Header>ร้านค้า</Header>
           </HeaderContainer>
-          <ShopContainer columns={COLUMNS} gap={GAP}>
+          <ShopContainer columns={COLUMNS < 5 ? COLUMNS : 5} gap={GAP}>
             {items.map((item, index) => {
               return (
                 <ItemContainer
                   key={index}
-                  onMouseEnter={() => handleOnMouseEnter(item.item_name)}
-                  onMouseLeave={() => handleOnMouseLeave(item.item_name)}
+                  onMouseEnter={() => screen_width > DEVICE_SIZE.LARGE ? handleOnMouseEnter(item.item_name) : null}
+                  onMouseLeave={() => screen_width > DEVICE_SIZE.LARGE ? handleOnMouseLeave(item.item_name) : null}
                   onClick={() => 
                     handleItemClick(item.item_name)
                   }
