@@ -128,6 +128,7 @@ const GroupGamePage = ({ history }) => {
   };
 
   const handleShowAnswer = async () => {
+    set_answer_modal_loading(true);
     if (!sent_answer) {
       set_answer(WRONG_ANSWER);
       set_used_time(time_per_problem);
@@ -185,7 +186,7 @@ const GroupGamePage = ({ history }) => {
       set_waiting(false);
       set_answer_modal_loading(false);
       toggle();
-    }
+    };
   }, [show_answer]);
 
   useEffect(() => {
