@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import useSound from 'use-sound';
+import imageCompression from 'browser-image-compression';
 
 import { Header, Subheader, Body, Overline } from "../../components/Typography";
 import { ProgressBar } from "../../components/ProgressBar";
@@ -87,17 +88,34 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     return formData;
   }; 
 
-  const handlechangeAvatar = async () => {
+  async function handleImageUpload(image) {
+    const imageFile = image;
+  
+    const options = {
+      maxSizeMB: 0.1,
+      maxWidthOrHeight: 1000,
+      useWebWorker: true
+    };
+    try {
+      return imageCompression(imageFile, options);
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+  const handlechangeAvatar = () => {
     const data = {
       userId: user_info._id
     };
     let formData = JSONtoFormData(data)
-    formData.append("image", selected_image);
-    await changeProfileImage(formData);
-    if (!change_image_loading) {
+    handleImageUpload(selected_image).then(async (compressedFile) => {
+      var file = new File([compressedFile], compressedFile.name);
+      formData.append("image", file)
+
+      await changeProfileImage(formData);
       toggleChangeImageResult();
-    }
-  }
+    });
+  };
 
   useEffect(() => {
     if (selected_image) {
