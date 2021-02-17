@@ -183,10 +183,10 @@ const GroupGamePage = ({ history }) => {
       set_is_time_out(true);
     };
     if (!isShowing) {
-      set_waiting(false);
-      set_answer_modal_loading(false);
       toggle();
     };
+    set_waiting(false);
+    set_answer_modal_loading(false);
   }, [show_answer]);
 
   useEffect(() => {
