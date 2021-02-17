@@ -142,32 +142,46 @@ export const useServerSentEvent = () => {
             console.log("init")
             break;
           case "UPDATE_MEMBER":
-            set_update_member(parsedData.message);
-            console.log("update_member");
+            if(parsedData.message !== update_member) {
+              set_update_member(parsedData.message);
+              console.log("update_member");
+            };
             break;
           case "START_GAME":
-            set_start_game(parsedData.message);
-            console.log("start_game");
+            if(parsedData.message !== start_game) {
+              set_start_game(parsedData.message);
+              console.log("start_game");
+            };
             break;
           case "DELETE_GROUP":
-            set_delete_group(parsedData.message);
-            console.log("delete_group");
+            if(parsedData.message !== delete_group) {
+              set_delete_group(parsedData.message);
+              console.log("delete_group");
+            };
             break;
           case "NEXT_PROBLEM":
-            set_next_problem(parsedData.message);
-            console.log("next_problem");
+            if(parsedData.message !== next_problem) {
+              set_next_problem(parsedData.message);
+              console.log("next_problem");
+            };
             break;
           case "SEND_ANSWER":
-            set_send_answer(parsedData.message);
-            console.log("send_answer");
+            if(parsedData.message !== send_answer) {
+              set_send_answer(parsedData.message);
+              console.log("send_answer");
+            };
             break;
           case "RESTART_GAME":
-            set_restart_game(parsedData.message);
-            console.log("restart_game");
+            if(parsedData.message !== restart_game) {
+              set_restart_game(parsedData.message);
+              console.log("restart_game");
+            };
             break;
           case "SHOW_ANSWER":
-            set_show_answer(parsedData.message);
-            console.log("show answer");
+            if(parsedData.message !== show_answer) {
+              set_show_answer(parsedData.message);
+              console.log("show_answer");
+            };
             break;
           default:
             console.log("default")
