@@ -102,7 +102,7 @@ export const checkGroupAnswer = async (user_id, problem_id, user_answer, mode, g
   } catch (error) {
     console.log("There are something wrong when checking for answer :(");
   }
-}
+};
 
 export const showAnswer = async (group_id) => {
   try {
@@ -115,4 +115,4 @@ export const showAnswer = async (group_id) => {
   } catch (error) {
     console.log("There are something wrong when show answer :(");
   }
-}
+};
