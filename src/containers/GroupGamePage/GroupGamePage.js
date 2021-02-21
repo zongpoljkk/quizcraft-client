@@ -214,7 +214,9 @@ const GroupGamePage = ({ history }) => {
 
       handleNextProblem();
       getNumberOfAnswer();
-      toggle();
+      if (isShowing) {
+        toggle();
+      };
     };
   }, [next_problem]);
 
