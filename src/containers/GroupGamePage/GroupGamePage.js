@@ -216,7 +216,8 @@ const GroupGamePage = ({ history }) => {
       set_is_time_out(false);
       set_waiting(false);
       set_answer_modal_loading(false);
-
+      set_remaining_time(null);
+      
       handleNextProblem();
       getNumberOfAnswer();
       if (isShowing) {
@@ -409,7 +410,6 @@ const GroupGamePage = ({ history }) => {
                     }
                     onButtonClick={() => {
                       getNextProblem();
-                      set_remaining_time(null);
                       set_loading(true);
                     }}
                     onReportClick={() => onReport(getTime() / 1000)}
