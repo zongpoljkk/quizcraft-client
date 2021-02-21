@@ -34,7 +34,11 @@ import {
   useGetNumberOfAnswer,
   useGetNextProblem
 } from "./GroupGamePageHelper";
-import { useServerSentEvent, useDeleteGroup } from "../WaitingRoomPage/WaitingRoomPageHelper";
+import {
+  useServerSentEvent,
+  useDeleteGroup,
+  useLeaveGroup
+} from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupGamePage = ({ history }) => {
   const location = useLocation();
@@ -75,6 +79,7 @@ const GroupGamePage = ({ history }) => {
 
   const { getNextProblem } = useGetNextProblem(location.state.group_id);
   const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
 
   const {
     listening,
@@ -272,6 +277,11 @@ const GroupGamePage = ({ history }) => {
                   onExit={() => {
                     if(is_creator) {
                       deleteGroup();
+                    } else {
+                      leaveGroup(location.state.group_id, user_id);
+                      subscribe(location.state.group_id);
+                      history.push("/homepage");
+                      window.location.reload();
                     };
                   }}
                 />
