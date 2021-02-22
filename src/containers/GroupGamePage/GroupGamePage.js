@@ -23,8 +23,7 @@ import {
   COLOR,
   DEVICE_SIZE,
   WRONG_ANSWER,
-  GAME_MODE,
-  CONTAINER_PADDING
+  GAME_MODE
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
