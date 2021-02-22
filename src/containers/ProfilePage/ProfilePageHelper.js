@@ -9,9 +9,9 @@ export const useActivateItem = (user_id) => {
 
   const activateItem = async (item) => {
     var item_name;
-    if (item.itemName == ITEM_NAME.FREEZE) {
+    if (item.itemName === ITEM_NAME.FREEZE) {
       item_name = "freeze";
-    } else if (item.itemName == ITEM_NAME.DOUBLE) {
+    } else if (item.itemName === ITEM_NAME.DOUBLE) {
       item_name = "double";
     }
     set_activate_item_loading(true);

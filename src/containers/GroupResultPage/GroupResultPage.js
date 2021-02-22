@@ -270,7 +270,7 @@ const GroupResultPage = ({ history }) => {
                       animate="visible"
                       custom={10}
                       variants={item}
-                      onAnimationComplete={() => third_animation_success(), console.log("eiei")}
+                      onAnimationComplete={() => third_animation_success()}
                     >
                       <LottieFile
                         animationData={bronze}

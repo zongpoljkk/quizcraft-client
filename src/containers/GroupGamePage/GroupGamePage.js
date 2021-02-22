@@ -34,7 +34,11 @@ import {
   useGetNumberOfAnswer,
   useGetNextProblem
 } from "./GroupGamePageHelper";
-import { useServerSentEvent, useDeleteGroup } from "../WaitingRoomPage/WaitingRoomPageHelper";
+import {
+  useServerSentEvent,
+  useDeleteGroup,
+  useLeaveGroup
+} from "../WaitingRoomPage/WaitingRoomPageHelper";
 
 const GroupGamePage = ({ history }) => {
   const location = useLocation();
@@ -75,6 +79,7 @@ const GroupGamePage = ({ history }) => {
 
   const { getNextProblem } = useGetNextProblem(location.state.group_id);
   const { deleteGroup } = useDeleteGroup(location.state.group_id, user_id);
+  const { leaveGroup } = useLeaveGroup(location.state.group_id, user_id);
 
   const {
     listening,
@@ -181,9 +186,11 @@ const GroupGamePage = ({ history }) => {
       };
       set_is_time_out(true);
     };
+    if (!isShowing) {
+      toggle();
+    };
     set_waiting(false);
     set_answer_modal_loading(false);
-    toggle();
   }, [show_answer]);
 
   useEffect(() => {
@@ -207,15 +214,23 @@ const GroupGamePage = ({ history }) => {
       set_answer();
       set_used_time();
       set_is_time_out(false);
-
+      set_waiting(false);
+      set_answer_modal_loading(false);
+      set_remaining_time(null);
+      
       handleNextProblem();
       getNumberOfAnswer();
-      toggle();
+      if (isShowing) {
+        toggle();
+      };
     };
   }, [next_problem]);
 
   useEffect(() => {
     if (is_time_out) {
+      if (!isShowing) {
+        set_answer_modal_loading(true);
+      };
       handleShowAnswer();
     };
   }, [is_time_out]);
@@ -263,6 +278,11 @@ const GroupGamePage = ({ history }) => {
                   onExit={() => {
                     if(is_creator) {
                       deleteGroup();
+                    } else {
+                      leaveGroup(location.state.group_id, user_id);
+                      subscribe(location.state.group_id);
+                      history.push("/homepage");
+                      window.location.reload();
                     };
                   }}
                 />
@@ -390,7 +410,6 @@ const GroupGamePage = ({ history }) => {
                     }
                     onButtonClick={() => {
                       getNextProblem();
-                      set_remaining_time(null);
                       set_loading(true);
                     }}
                     onReportClick={() => onReport(getTime() / 1000)}

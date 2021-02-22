@@ -72,7 +72,8 @@ const WaitingRoomPage = ({ history }) => {
     history.push("/homepage");
   };
 
-  const handleStartGroupGame = () => {
+  const handleStartGroupGame = async () => {
+    await subscribe(location.state.group_id);
     history.push({
       pathname: "/" + location.state.subject_name + "/" + location.state.topic_name + "/" + location.state.subtopic_name + "/" + location.state.difficulty + "/" + "group-game", 
       state: {
