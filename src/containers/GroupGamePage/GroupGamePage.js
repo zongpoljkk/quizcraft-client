@@ -23,7 +23,8 @@ import {
   COLOR,
   DEVICE_SIZE,
   WRONG_ANSWER,
-  GAME_MODE
+  GAME_MODE,
+  CONTAINER_PADDING
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -452,7 +453,12 @@ const LottieCotainer = styled.div`
 `;
 
 const ZoomLottie = styled.div`
-  transform: scale(2.5);
+  zoom: 250%;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  margin-top: -16px;
+  margin-left: -24px;
 `;
 
 export default withRouter(GroupGamePage);
