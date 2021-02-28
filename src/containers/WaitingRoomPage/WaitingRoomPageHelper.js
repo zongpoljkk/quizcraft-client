@@ -5,7 +5,7 @@ import useSound from 'use-sound';
 
 import backend from "../../ip";
 
-import bgm from "../../assets/sounds/promise_cut.mp3";
+import bgm from "../../assets/sounds/Crazy_Kitten_BGM.mp3";
 
 export const useGetGroupMembers = (group_id, user_id) => {
   const [members, set_members] = useState();

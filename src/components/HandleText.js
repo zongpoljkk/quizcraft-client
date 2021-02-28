@@ -11,6 +11,7 @@ export const DisplayText = ({
   fontWeight,
   fontSize,
   color,
+  marginBottom
 }) => {
 
   const asciimath2latex = require("asciimath-to-latex");
@@ -46,7 +47,7 @@ export const DisplayText = ({
   };
 
   return (
-    <Container justifyContent={justifyContent}>
+    <Container justifyContent={justifyContent} marginBottom={marginBottom}>
       {textWithNBSpaceReplaced.split("\n").map((line, i) => {
         return (
           <div key={i}>{line.split(" ").map((text, idx) => DisplayText(text, idx))}</div>
@@ -58,6 +59,7 @@ export const DisplayText = ({
 
 const Container = styled.div.attrs((props) => ({
   justifyContent: props.justifyContent,
+  marginBottom: props.marginBottom
 }))`
   display: flex;
   flex-direction: row;
@@ -66,7 +68,7 @@ const Container = styled.div.attrs((props) => ({
   overflow: visible;
   outline: none;
   margin-top: 2px;
-  margin-bottom: -2px;
+  margin-bottom: ${(props) => props.marginBottom}px;
 `;
 
 const Typography = styled.div.attrs((props) => ({

@@ -8,6 +8,7 @@ import { LottieFile } from "./LottieFile";
 import { FooterModal } from "./Modal";
 import useModal from "./useModal";
 import { DisplayText } from "./HandleText";
+import { AlertModal } from "./AlertModal";
 
 import hint_icon from "../assets/icon/hint.png";
 import hintData from "../assets/lottie/hint.json";
@@ -20,9 +21,11 @@ export const HintItem = ({
   amount_of_hints,
   onGetHint,
   content,
-  have_hint,
+  have_hint
 }) => {
   const [isShowing, toggle] = useModal();
+  const [isShowingAlert, toggleAlert] = useModal();
+
   const [play] = useSound(click, { volume: 0.25 });
 
   return (
@@ -32,7 +35,9 @@ export const HintItem = ({
           if (have_hint && amount_of_hints !== 0) {
             onGetHint();
             toggle();
-          }
+          } else if (!have_hint) {
+            toggleAlert();
+          };
         }}
         disable={have_hint ? (amount_of_hints === 0 ? true : false) : true}
       >
@@ -73,6 +78,11 @@ export const HintItem = ({
           </div>
         </Container>
       </FooterModal>
+      <AlertModal
+        isShowing={isShowingAlert} 
+        toggle={toggleAlert} 
+        text={"ขออภัย ข้อนี้ไม่มีคำใบ้จ้า\nพยายามเข้านะ!"}
+      />
     </div>
   );
 };
