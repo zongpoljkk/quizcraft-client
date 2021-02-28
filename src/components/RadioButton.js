@@ -58,7 +58,7 @@ export const RadioButton = ({
                   };
                 }}
               >
-                <DisplayText content={option} />
+                <DisplayText content={option} marginBottom={-2}/>
               </MathChoice>
             ) : (
               option

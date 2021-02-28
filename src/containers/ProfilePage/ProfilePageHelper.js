@@ -38,6 +38,7 @@ export const useActivateItem = (user_id) => {
 export const useChangeProfileImage = () => {
   const [change_image_loading, set_change_image_loading] = useState(false);
   const [change_image_success, set_change_image_success] = useState(false);
+  const [change_error_msg, set_change_error_msg] = useState();
 
   const changeProfileImage = async (formData) => {
     set_change_image_loading(true);
@@ -52,17 +53,33 @@ export const useChangeProfileImage = () => {
         }
       );
       const { success, data } = response.data;
+      console.log(data)
       if (success) {
         set_change_image_success(true);
       } else {
         console.log("Change Profile Image Error");
       }
     } catch (error) {
+      if(error.response.status === 422 || error.response.status === 500){
+        set_change_error_msg(translateError(error.response.data.error));
+        set_change_image_success(false);
+        console.log(error.response.data.error)
+      }
       console.log("There are something wrong about change profile image  :(");
     }
     set_change_image_loading(false);
   };
 
-  return { changeProfileImage, change_image_loading, change_image_success };
+  return { changeProfileImage, change_image_loading, change_image_success, change_error_msg };
 };
 
+export const translateError = (message) => {
+  switch (message) {
+    case "Unsupported Media type":
+      return "ไฟล์รูปภาพไม่ถูกต้อง\nกรุณาตรวจสอบใหม่อีกครั้ง"
+    case "Internal Server Error":
+      return "มีข้อผิดพลาด กรุณาลองใหม่อีกครั้งในภายหลัง"
+    default:
+      return "เปลี่ยนรูปประจำตัวไม่สำเร็จ"
+  };
+};

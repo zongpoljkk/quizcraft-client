@@ -104,4 +104,5 @@ const Typography = styled.div.attrs(props => ({
   color: ${props => props.color};
   text-decoration: ${props => props.textDecoration};
   opacity : ${props => props.opacity};
+  white-space: pre-wrap;
 `;
