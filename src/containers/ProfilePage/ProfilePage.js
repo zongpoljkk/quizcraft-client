@@ -51,8 +51,12 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     use_success 
   } = useActivateItem(user_id);
   
-  
-  const { changeProfileImage, change_image_loading, change_image_success } = useChangeProfileImage();
+  const {
+    changeProfileImage,
+    change_image_loading,
+    change_image_success,
+    change_error_msg
+  } = useChangeProfileImage();
 
   const handleMouseEnter = () => {
     set_hover(true);
@@ -103,18 +107,25 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
     };
   };
 
-  const handlechangeAvatar = () => {
+  const handlechangeAvatar = async () => {
     const data = {
       userId: user_info._id
     };
     let formData = JSONtoFormData(data)
-    handleImageUpload(selected_image).then(async (compressedFile) => {
-      var file = new File([compressedFile], compressedFile.name);
-      formData.append("image", file)
+    if(selected_image.size > 200000) {
+      handleImageUpload(selected_image).then(async (compressedFile) => {
+        var file = new File([compressedFile], compressedFile.name);
+        formData.append("image", file)
+  
+        await changeProfileImage(formData);
+        toggleChangeImageResult();
+      });
+    } else {
+      formData.append("image", selected_image);
 
       await changeProfileImage(formData);
       toggleChangeImageResult();
-    });
+    };
   };
 
   useEffect(() => {
@@ -156,7 +167,7 @@ const ProfilePage = ({ history, handleLogout, user_info }) => {
             toggle={toggleChangeImageResult}
             success={change_image_success}
             success_description="เปลี่ยนรูปประจำตัวสำเร็จ"
-            fail_description="เปลี่ยนรูปประจำตัวไม่สำเร็จ"
+            fail_description={change_error_msg}
             onSubmit={() => {
               window.location.reload();
             }}
