@@ -96,7 +96,7 @@ const App = () => {
     function (error) {
       const originalRequest = error.config;
 
-      if(error.response.data.from === "refresh token"){
+      if (error.response.data.from === "refresh token") {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("userId");
@@ -218,9 +218,9 @@ const App = () => {
           >
             <GroupResultPage />
           </PrivateRoute>
-          <PrivateRoute 
-            exact 
-            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/report" 
+          <PrivateRoute
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/report"
             getUserData={getUserData}
           >
             <ReportPage />
