@@ -2,12 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
-import { COLOR } from "../../global/const";
+import { COLOR, DEVICE_SIZE } from "../../global/const";
+import { useWindowDimensions } from "../../global/utils";
 
 export const TabContent = ({
   data,
   index
 }) => {
+
+  const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
     <Container>
@@ -25,7 +28,9 @@ export const TabContent = ({
               />
             ) : null}
           </UserImg>
-          <Body>{user[1].username}</Body>
+          <Body>
+            <CropText width={screen_width <= DEVICE_SIZE.XXS ? "80px" : screen_width <= DEVICE_SIZE.XS ? "96px" : "fit-content"}>{user[1].username}</CropText>
+          </Body>
           <LevelText color={index - 1 === i ? COLOR.ISLAND_SPICE : COLOR.GOLDEN_TAINOI}>
             Lv.{user[1].level}
           </LevelText>
@@ -54,7 +59,16 @@ const InfoBox = styled.div`
 `;
 
 const OrderText = styled(Body)`
-  width: 24px;
+  min-width: 24px;
+`;
+
+const CropText = styled.div.attrs(props => ({
+  width: props.width
+}))`
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+  width: ${props => props.width};
 `;
 
 const LevelText = styled(Body)`
@@ -69,8 +83,8 @@ const UserImg = styled.div.attrs(props => ({
 }))`
   alt: "User profile Image";
   background-color: ${props => props.backgroundColor};
-  height: 40px;
-  width: 40px;
+  min-height: 40px;
+  min-width: 40px;
   border-radius: 50%;
   text-align: center;
   margin-left: 12px;
