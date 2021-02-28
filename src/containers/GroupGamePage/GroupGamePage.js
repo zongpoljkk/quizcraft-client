@@ -471,7 +471,12 @@ const LottieCotainer = styled.div`
 `;
 
 const ZoomLottie = styled.div`
-  transform: scale(2.5);
+  zoom: 250%;
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  margin-top: -16px;
+  margin-left: -24px;
 `;
 
 export default withRouter(GroupGamePage);

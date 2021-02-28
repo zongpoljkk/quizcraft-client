@@ -25,8 +25,8 @@ import {
 const WaitingRoomPage = ({ history }) => {
   const location = useLocation();
   const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const COLUMNS = Math.floor((screen_width-96)/110);
-  const GAP = Math.floor((screen_width-(110*COLUMNS)-96)/COLUMNS);
+  const COLUMNS = Math.floor((screen_width-96)/120);
+  const GAP = Math.floor((screen_width-(120*COLUMNS)-96)/COLUMNS);
   const [get_all_members_loading, set_get_all_members_loading] = useState(true);
   const user_id = localStorage.getItem("userId");
 
@@ -159,12 +159,26 @@ const WaitingRoomPage = ({ history }) => {
                 <GroupMemberBox>
                   <DisplayGroupMember columns={COLUMNS} gap={GAP}>
                     {members?.slice(0).reverse().map((list, index) => (
-                      <div 
-                        key={index} 
-                        style={{width: "110px", marginBottom: "4px", paddingBottom: screen_width >= DEVICE_SIZE.LARGE ? null : index === members.length-1 ? "16px" : null}}
-                      >
-                        <Body> {list.username} </Body>
-                      </div>
+                      <Body>
+                        <div 
+                          key={index} 
+                          style={{
+                            width: "110px",
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                            textOverflow: "ellipsis",
+                            marginBottom: "4px",
+                            paddingBottom:
+                              screen_width >= DEVICE_SIZE.LARGE
+                                ? null
+                                : index === members.length - 1
+                                ? "16px"
+                                : null,
+                          }}
+                        >
+                          {list.username}
+                        </div>
+                      </Body>
                     ))}
                   </DisplayGroupMember>
                 </GroupMemberBox>

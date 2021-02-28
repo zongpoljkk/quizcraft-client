@@ -18,8 +18,9 @@ export const Report = ({
   return (
     <Container onClick={()=> onReport()}>
       <img src={group_observer ? answer_flag_icon : correct ? correct_flag_icon : incorrect_flag_icon} height={24}/>
-      <div style={{ marginRight: 8 }}/>
-      <Body color={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD} textDecoration="underline">รายงาน</Body>
+      <div style={{ display: "flex", marginLeft: 8, alignSelf: "flex-end", lineHeight: "16px" }}>
+        <Body color={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD} textDecoration="underline">รายงาน</Body>
+      </div>
     </Container>
   );
 };
