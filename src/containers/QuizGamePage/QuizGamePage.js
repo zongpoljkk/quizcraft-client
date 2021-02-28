@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
@@ -22,13 +22,12 @@ import {
   useItem,
   getAndCheckAnswer,
   useSkipItem,
-  useRefreshItem
+  useRefreshItem,
 } from "./QuizGamePageHelper";
 
 import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
-
 
 import { ANSWER_TYPE, COLOR, DIFFICULTY, GAME_MODE } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
@@ -59,7 +58,8 @@ const QuizGamePage = ({ history }) => {
   const [is_level_up, set_is_level_up] = useState(false);
   const [is_rank_up, set_is_rank_up] = useState(false);
   const [answer_modal_loading, set_answer_modal_loading] = useState(false);
-  
+  const previousRewards = useRef({ earned_exp, earned_coins });
+
   const user_id = localStorage.getItem("userId");
 
   const [playCorrectSound] = useSound(correctSound, { volume: 0.25 });
@@ -76,7 +76,7 @@ const QuizGamePage = ({ history }) => {
     title,
     correct_answer,
     choices,
-    have_hint
+    have_hint,
   } = useGetEachProblem(
     user_id,
     location.state.subject_name,
@@ -84,17 +84,15 @@ const QuizGamePage = ({ history }) => {
     location.state.difficulty
   );
 
-  const {
-    getHintByProblemId,
-    hint,
-    set_hint
-  } = useGetHintByProblemId(problem_id);
+  const { getHintByProblemId, hint, set_hint } = useGetHintByProblemId(
+    problem_id
+  );
 
   const {
     getAmountOfItems,
     amount_of_hints,
     amount_of_skips,
-    amount_of_refreshs
+    amount_of_refreshs,
   } = useGetAmountOfItems(user_id);
 
   const { putUseItem } = useItem(user_id);
@@ -122,7 +120,7 @@ const QuizGamePage = ({ history }) => {
         break;
       default:
         skip_reward = 0;
-    };
+    }
     set_earned_exp((earned_exp) => earned_exp + skip_reward);
     set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
@@ -182,17 +180,17 @@ const QuizGamePage = ({ history }) => {
             (earned_coins) => earned_coins + res.data.earned_coins
           );
         }
-        if(res.data.level_up) {
+        if (res.data.level_up) {
           set_is_level_up(true);
-        };
-        if(res.data.rank_up) {
+        }
+        if (res.data.rank_up) {
           set_is_rank_up(true);
-        };
-        res.data.correct ? playCorrectSound() : playWrongSound()
+        }
+        res.data.correct ? playCorrectSound() : playWrongSound();
         set_answer_modal_loading(false);
         toggle();
       });
-    };
+    }
   };
 
   const onReport = async () => {
@@ -221,9 +219,9 @@ const QuizGamePage = ({ history }) => {
   const onNext = (userId, subject, topic, subtopic, difficulty) => {
     if (current_index === NUMBER_OF_QUIZ) {
       //push to result page
-      if(is_level_up || is_rank_up) {
+      if (is_level_up || is_rank_up) {
         playLevelUpSound();
-      };
+      }
       history.push({
         pathname:
           "/" +
@@ -245,14 +243,14 @@ const QuizGamePage = ({ history }) => {
           earned_exp: earned_exp,
           earned_coins: earned_coins,
           is_level_up: is_level_up,
-          is_rank_up: is_rank_up
+          is_rank_up: is_rank_up,
         },
       });
     } else {
       set_current_index((index) => index + 1);
       set_user_answer();
       getEachProblem();
-    };
+    }
   };
 
   const getNewAmount = () => {
@@ -266,31 +264,40 @@ const QuizGamePage = ({ history }) => {
 
   // Trigger when using onSkip on the last question
   useEffect(() => {
-    if (current_index > NUMBER_OF_QUIZ) {
-      history.push({
-        pathname:
-          "/" +
-          location.state.subject_name +
-          "/" +
-          location.state.topic_name +
-          "/" +
-          location.state.subtopic_name +
-          "/" +
-          location.state.difficulty +
-          "/quiz-result",
-        state: {
-          userId: localStorage.getItem("userId"),
-          subject: location.state.subject_name,
-          topic: location.state.topic_name,
-          subtopic: location.state.subtopic_name,
-          difficulty: location.state.difficulty,
-          score: score,
-          earned_exp: earned_exp,
-          earned_coins: earned_coins,
-        },
-      });
+    // Check if both earned_coins and earned_exp already updated
+    if (
+      previousRewards.current.earned_coins !== earned_coins &&
+      previousRewards.current.earned_exp !== earned_exp
+    ) {
+      if (current_index > NUMBER_OF_QUIZ) {
+        history.push({
+          pathname:
+            "/" +
+            location.state.subject_name +
+            "/" +
+            location.state.topic_name +
+            "/" +
+            location.state.subtopic_name +
+            "/" +
+            location.state.difficulty +
+            "/quiz-result",
+          state: {
+            userId: localStorage.getItem("userId"),
+            subject: location.state.subject_name,
+            topic: location.state.topic_name,
+            subtopic: location.state.subtopic_name,
+            difficulty: location.state.difficulty,
+            score: score,
+            earned_exp: earned_exp,
+            earned_coins: earned_coins,
+          },
+        });
+      }
+
+      //then update the previousValues to be the current values
+      previousRewards.current = { earned_coins, earned_exp };
     }
-  }, [onSkip]);
+  }, [earned_exp, earned_coins]);
 
   useEffect(() => {
     if (location.state.current_index) {
@@ -333,7 +340,7 @@ const QuizGamePage = ({ history }) => {
                 getHintByProblemId();
                 if (!hint) {
                   putUseItem("Hint");
-                };
+                }
               }}
               hintContent={hint}
               have_hint={have_hint}
@@ -344,7 +351,7 @@ const QuizGamePage = ({ history }) => {
                   reset();
                 } else {
                   postSkipItem(problem_id);
-                };
+                }
               }}
               refresh={refresh}
               onRefresh={() => {

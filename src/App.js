@@ -37,6 +37,7 @@ import OAuthRedirectPage from "./containers/OAuthRedirectPage/OAuthRedirectPage"
 const App = () => {
   const [user_info, set_user_info] = useState();
   const token = localStorage.getItem("token");
+  console.log(token);
   const user_id = localStorage.getItem("userId");
 
   if (token) {
@@ -96,7 +97,7 @@ const App = () => {
     function (error) {
       const originalRequest = error.config;
 
-      if(error.response.data.from === "refresh token"){
+      if (error.response.data.from === "refresh token") {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("userId");
@@ -218,9 +219,9 @@ const App = () => {
           >
             <GroupResultPage />
           </PrivateRoute>
-          <PrivateRoute 
-            exact 
-            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/report" 
+          <PrivateRoute
+            exact
+            path="/:subject/:selected_topic_name/:selected_subtopic_name/:selected_difficulty/report"
             getUserData={getUserData}
           >
             <ReportPage />
