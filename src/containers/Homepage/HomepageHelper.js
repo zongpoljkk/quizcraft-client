@@ -8,11 +8,14 @@ const token = localStorage.getItem("token");
 
 export const useGetSubjects = () => {
   const fetcher = (url) => axios.get(url, { headers: { "Authorization" : `Bearer ${token}` } }).then(res => res.data);
-  const { data: subjects } = useSWR( `${backend}subtopic/get-all-subjects`, fetcher);
-
-  if(!subjects?.success){
-    console.log("useGetSubjects Error");
-  }
+  const { data: subjects } = useSWR( `${backend}subtopic/get-all-subjects`, fetcher,
+  { onSuccess: 
+    (data) => {
+      if(!data.success){
+        console.log("getSubject error");
+      }
+    }
+  });
 
   return { subjects };
 };
@@ -20,11 +23,14 @@ export const useGetSubjects = () => {
 export const useGetLeaderBoard = (user_id) => {
 
   const fetcher = (url) => axios.get(url, { headers: { "Authorization" : `Bearer ${token}` } }).then(res => res.data);
-  const { data: leader_board } = useSWR( `${backend}leader-board/get-leader-board?userId=` + user_id, fetcher);
-
-  if(!leader_board?.success){
-    console.log("useGetLeaderBoard Error");
-  }
+  const { data: leader_board } = useSWR( `${backend}leader-board/get-leader-board?userId=` + user_id, fetcher,
+  { onSuccess: 
+    (data) => {
+      if(!data.success){
+        console.log("getLeaderBoard error");
+      }
+    }
+  });
 
   return { leader_board };
 };
