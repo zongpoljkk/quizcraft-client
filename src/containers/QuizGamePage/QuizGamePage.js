@@ -103,28 +103,6 @@ const QuizGamePage = ({ history }) => {
   const onSkip = async () => {
     set_skip(ITEM_USAGE.IN_USE);
     await postSkipItem(problem_id);
-    // getEachProblem(set_skip);
-    // set_current_index((index) => index + 1);
-    // set_problem_id();
-    // set_hint();
-    // set_score((score) => score + 1);
-    // let skip_reward = 0;
-    // switch (location.state.difficulty) {
-    //   case DIFFICULTY.EASY.type:
-    //     skip_reward = 14;
-    //     break;
-    //   case DIFFICULTY.MEDIUM.type:
-    //     skip_reward = 28;
-    //     break;
-    //   case DIFFICULTY.HARD.type:
-    //     skip_reward = 42;
-    //     break;
-    //   default:
-    //     skip_reward = 0;
-    // }
-    // set_earned_exp((earned_exp) => earned_exp + skip_reward);
-    // set_earned_coins((earned_coins) => earned_coins + skip_reward);
-    console.log(correct_answer);
     set_used_time(0 / 1000);
     set_time_start(false);
     // stop();
@@ -174,10 +152,6 @@ const QuizGamePage = ({ history }) => {
       button.disabled = true;
       set_used_time(getTime / 1000);
       set_answer_modal_loading(true);
-
-      console.log(getTime)
-      console.log("correct_answer:", correct_answer)
-      console.log("userAnswer:", userAnswer)
 
       getAndCheckAnswer(
         problemId,

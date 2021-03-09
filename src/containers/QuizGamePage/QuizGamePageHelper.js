@@ -94,7 +94,6 @@ export const useGetEachProblem = (
       );
       const { success, data } = response.data;
       if (success) {
-        console.log(data);
         set_problem_id(data.problem._id);
         set_body(data.problem.body);
         set_answer_type(data.problem.answerType);
