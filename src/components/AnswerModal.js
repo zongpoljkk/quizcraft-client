@@ -51,12 +51,12 @@ export const AnswerModal = ({
                   {group_observer ?
                     <Header color={COLOR.GOLDEN_TAINOI}>คำตอบ:</Header>
                   :
-                   show_answer ? <Header color={COLOR.CELERY}>คำตอบที่ถูกต้อง</Header> : <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                   <Header color={correct ? COLOR.CELERY : COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
                   }
                   <div style={{ marginBottom: 8 }} />
                   {answer?.split("\n").map((item, key) => {
                     return (
-                      <Body key={key} color={group_observer ? COLOR.GOLDEN_TAINOI : show_answer ? COLOR.CELERY : COLOR.TRINIDAD}>
+                      <Body key={key} color={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD}>
                         {subject === "คณิตศาสตร์" ? (
                           <div
                             style={{
@@ -67,7 +67,7 @@ export const AnswerModal = ({
                           >
                             <DisplayText 
                               content={item}
-                              color={group_observer ? COLOR.GOLDEN_TAINOI : COLOR.TRINIDAD}
+                              color={group_observer ? COLOR.GOLDEN_TAINOI : correct ? COLOR.CELERY : COLOR.TRINIDAD}
                             />
                           </div>
                         ) : (
