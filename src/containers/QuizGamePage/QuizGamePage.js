@@ -108,7 +108,6 @@ const QuizGamePage = ({ history }) => {
       toggleSkipModal();
     } else {
     // do skip
-    }
     set_count_of_skip(count_of_skip + 1);
     set_skip(ITEM_USAGE.IN_USE);
     await postSkipItem(problem_id);
@@ -126,6 +125,7 @@ const QuizGamePage = ({ history }) => {
       location.state.difficulty
     );
     set_skip(ITEM_USAGE.UN_USE);
+    }
   };
 
   const onRefresh = async () => {
