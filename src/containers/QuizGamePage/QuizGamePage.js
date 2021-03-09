@@ -75,6 +75,7 @@ const QuizGamePage = ({ history }) => {
     answer_type,
     title,
     correct_answer,
+    correct_answer_for_display,
     choices,
     have_hint,
   } = useGetEachProblem(
@@ -102,27 +103,42 @@ const QuizGamePage = ({ history }) => {
   const onSkip = async () => {
     set_skip(ITEM_USAGE.IN_USE);
     await postSkipItem(problem_id);
-    getEachProblem(set_skip);
-    set_current_index((index) => index + 1);
-    set_problem_id();
-    set_hint();
-    set_score((score) => score + 1);
-    let skip_reward = 0;
-    switch (location.state.difficulty) {
-      case DIFFICULTY.EASY.type:
-        skip_reward = 14;
-        break;
-      case DIFFICULTY.MEDIUM.type:
-        skip_reward = 28;
-        break;
-      case DIFFICULTY.HARD.type:
-        skip_reward = 42;
-        break;
-      default:
-        skip_reward = 0;
-    }
-    set_earned_exp((earned_exp) => earned_exp + skip_reward);
-    set_earned_coins((earned_coins) => earned_coins + skip_reward);
+    // getEachProblem(set_skip);
+    // set_current_index((index) => index + 1);
+    // set_problem_id();
+    // set_hint();
+    // set_score((score) => score + 1);
+    // let skip_reward = 0;
+    // switch (location.state.difficulty) {
+    //   case DIFFICULTY.EASY.type:
+    //     skip_reward = 14;
+    //     break;
+    //   case DIFFICULTY.MEDIUM.type:
+    //     skip_reward = 28;
+    //     break;
+    //   case DIFFICULTY.HARD.type:
+    //     skip_reward = 42;
+    //     break;
+    //   default:
+    //     skip_reward = 0;
+    // }
+    // set_earned_exp((earned_exp) => earned_exp + skip_reward);
+    // set_earned_coins((earned_coins) => earned_coins + skip_reward);
+    console.log(correct_answer);
+    set_used_time(0 / 1000);
+    set_time_start(false);
+    // stop();
+    onCheck(
+      problem_id,
+      localStorage.getItem("userId"),
+      correct_answer,
+      0,
+      location.state.subject_name,
+      location.state.topic_name,
+      location.state.subtopic_name,
+      location.state.difficulty
+    );
+    set_skip(ITEM_USAGE.UN_USE);
   };
 
   const onRefresh = async () => {
@@ -153,11 +169,15 @@ const QuizGamePage = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    if (user_answer) {
+    if (user_answer || getTime === 0) {
       const button = document.getElementById("button");
       button.disabled = true;
       set_used_time(getTime / 1000);
       set_answer_modal_loading(true);
+
+      console.log(getTime)
+      console.log("correct_answer:", correct_answer)
+      console.log("userAnswer:", userAnswer)
 
       getAndCheckAnswer(
         problemId,
@@ -390,7 +410,7 @@ const QuizGamePage = ({ history }) => {
                   <GameContent
                     subject={location.state.subject_name}
                     type={answer_type}
-                    correct_answer={correct_answer}
+                    correct_answer={correct_answer_for_display}
                     question={body}
                     choices={choices}
                     content={body}
