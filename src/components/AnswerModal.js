@@ -26,6 +26,7 @@ export const AnswerModal = ({
   answer,
   overlay_clickable,
   onClose = true,
+  show_answer = false,
 }) => {
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
@@ -43,19 +44,19 @@ export const AnswerModal = ({
               <img src={group_observer ? answer_icon : correct ? correct_icon : incorrect_icon} height={48} />
             </IconContainer>
             <AnswerContainer>
-              {correct ? (
+              {correct && !show_answer ? (
                 <Header color={COLOR.CELERY}>ถูกต้อง</Header>
               ) : (
                 <div>
                   {group_observer ?
                     <Header color={COLOR.GOLDEN_TAINOI}>คำตอบ:</Header>
                   :
-                    <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                   show_answer ? <Header color={COLOR.CELERY}>คำตอบที่ถูกต้อง</Header> : <Header color={COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
                   }
                   <div style={{ marginBottom: 8 }} />
                   {answer?.split("\n").map((item, key) => {
                     return (
-                      <Body key={key} color={group_observer ? COLOR.GOLDEN_TAINOI : COLOR.TRINIDAD}>
+                      <Body key={key} color={group_observer ? COLOR.GOLDEN_TAINOI : show_answer ? COLOR.CELERY : COLOR.TRINIDAD}>
                         {subject === "คณิตศาสตร์" ? (
                           <div
                             style={{

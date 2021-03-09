@@ -476,7 +476,9 @@ const QuizGamePage = ({ history }) => {
                     toggle={toggle}
                     subject={location.state.subject_name}
                     correct={correct}
-                    answer={correct ? null : answer_key}
+                    // used_time === 0 means use skip
+                    answer={(correct && used_time !== 0 ) ? null : answer_key}
+                    show_answer={used_time === 0}
                     buttonTitle={
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }
