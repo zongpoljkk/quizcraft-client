@@ -15,6 +15,7 @@ import gold from "../../assets/icon/gold.png";
 import coin from "../../assets/icon/coin.png";
 import streak from "../../assets/icon/streak.png";
 import shop from "../../assets/icon/shop.png";
+import all_challenges from "../../assets/icon/swords.png";
 import click from "../../assets/sounds/click.mp3";
 
 import { COLOR, RANK, NAVBAR_HEIGHT, DEVICE_SIZE } from "../../global/const";
@@ -26,7 +27,7 @@ const Navbar = ({
 }) => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const small_device = screen_width <= DEVICE_SIZE.XS;
+  const small_device = screen_width <= DEVICE_SIZE.MEDIUM;
 
   const [play] = useSound(click, { volume: 0.25 });
 
@@ -107,6 +108,9 @@ const Navbar = ({
         }
         <div onClick={handleClickShop} style={{ display: 'flex' }}>
           <Icon src={shop} marginRight={12} cursor="pointer"/>
+        </div>
+        <div onClick={() => history.push("/all-challenges")} style={{ display: 'flex' }}>
+          <Icon src={all_challenges} marginRight={12} cursor="pointer"/>
         </div>
         <ProfileImage 
           backgroundColor={user_info.photo ? null : COLOR.ISLAND_SPICE} 
