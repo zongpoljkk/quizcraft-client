@@ -21,8 +21,7 @@ import challenge_icon from "../../assets/thumbnail/challenge.png";
 import challenge_mandarin_icon from "../../assets/thumbnail/challenge_mandarin.png";
 
 import { CONTAINER_PADDING } from "../../global/const";
-import { useWindowDimensions } from "../../global/utils";
- 
+import { useWindowDimensions } from "../../global/utils"; 
 
 const Homepage = ({ user_id, user_info }) => {
   const history = useHistory();
@@ -34,8 +33,9 @@ const Homepage = ({ user_id, user_info }) => {
 
   const [on_hover, set_on_hover] = useState(false);
 
-  const { getSubjects, subjects_loading, subjects } = useGetSubjects();
-  const { getLeaderBoard, leader_board_loading , leader_board } = useGetLeaderBoard(user_id);
+  const { subjects } = useGetSubjects();
+  const { leader_board } = useGetLeaderBoard(user_id);
+
   const {
     getAchievements,
     achievements_loading,
@@ -47,8 +47,6 @@ const Homepage = ({ user_id, user_info }) => {
   }, [ref.current]);
 
   useEffect(() => {
-    getSubjects();
-    getLeaderBoard();
     getAchievements();
     if (isShowing) {
       toggle();
@@ -80,7 +78,7 @@ const Homepage = ({ user_id, user_info }) => {
 
   return (
     <React.Fragment>
-      {leader_board_loading || subjects_loading ? (
+      {!subjects || !leader_board ? (
         <LoadingPage />
       ) : (
         <Container ref={ref}>
@@ -98,14 +96,14 @@ const Homepage = ({ user_id, user_info }) => {
             }}
           />
           <ScrollView>
-            <SubjectCard subjects_data={subjects} />
+            <SubjectCard subjects_data={subjects.data} />
           </ScrollView>
           <ItemBoxContainer marginTop={24}>
             <ItemBox type="frame" shadow="frame" width={container_width - 32}>
               <div style={{ marginBottom: "12px" }}>
                 <Header>กระดานผู้นำ</Header>
               </div>
-              <Tabs data={leader_board} />
+              <Tabs data={leader_board.data} />
             </ItemBox>
           </ItemBoxContainer>
           <ItemBoxContainer marginTop={32}>
