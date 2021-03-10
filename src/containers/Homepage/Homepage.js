@@ -34,12 +34,14 @@ const Homepage = ({ user_id, user_info }) => {
   const [isShowing, toggle] = useModal();
   const [modal_data, set_modal_data] = useState();
   const [on_hover, set_on_hover] = useState(false);
+
+  const { subjects } = useGetSubjects();
+  const { leader_board } = useGetLeaderBoard(user_id);
+
   const [isShowingFriend, toggleFriend] = useModal();
   const [friend_name, set_friend_name] = useState();
   const [friend_image, set_friend_image] = useState();
   
-  const { getSubjects, subjects_loading, subjects } = useGetSubjects();
-  const { getLeaderBoard, leader_board_loading , leader_board } = useGetLeaderBoard(user_id);
   const {
     getAchievements,
     achievements_loading,
@@ -53,8 +55,6 @@ const Homepage = ({ user_id, user_info }) => {
   }, [ref.current]);
 
   useEffect(() => {
-    getSubjects();
-    getLeaderBoard();
     getAchievements();
     if (isShowing) {
       toggle();
@@ -86,7 +86,7 @@ const Homepage = ({ user_id, user_info }) => {
 
   return (
     <React.Fragment>
-      {leader_board_loading || subjects_loading ? (
+      {!subjects || !leader_board ? (
         <LoadingPage />
       ) : (
         <Container ref={ref}>
@@ -104,7 +104,7 @@ const Homepage = ({ user_id, user_info }) => {
             }}
           />
           <ScrollView>
-            <SubjectCard subjects_data={subjects} />
+            <SubjectCard subjects_data={subjects.data} />
           </ScrollView>
           <ItemBoxContainer marginTop={24}>
             <ItemBox type="frame" shadow="frame" width={container_width - 32}>
@@ -112,7 +112,7 @@ const Homepage = ({ user_id, user_info }) => {
                 <Header>กระดานผู้นำ</Header>
               </div>
               <Tabs
-                data={leader_board}
+                data={leader_board.data}
                 toggleFriend={toggleFriend}
                 getFriendProfile={getFriendProfile}
                 set_friend_name={set_friend_name}
