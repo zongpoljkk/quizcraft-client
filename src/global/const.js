@@ -96,6 +96,7 @@ export const REPORT = {
 
 export const DEVICE_SIZE = {
   LARGE: 768,
+  MEDIUM: 414,
   S: 380,
   XS: 360,
   XXS: 320,
@@ -165,3 +166,5 @@ export const GROUP_GAME_STATE = {
   SHOW_ANSWER_CORRECT: "SHOW_ANSWER_CORRECT",
   SHOW_ANSWER_WRONG: "SHOW_ANSWER_WRONG"
 };
+
+export const QUIZ_SKIP_LIMIT = 3;

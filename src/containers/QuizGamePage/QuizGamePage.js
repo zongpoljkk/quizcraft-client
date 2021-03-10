@@ -14,6 +14,7 @@ import useModal from "../../components/useModal";
 import GameContent from "../../components/GameContent";
 import { HeadlineItem } from "./components/HeadlineItem";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import { AlertModal } from "../../components/AlertModal";
 
 import {
   useGetAmountOfItems,
@@ -29,7 +30,7 @@ import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
-import { ANSWER_TYPE, COLOR, DIFFICULTY, GAME_MODE } from "../../global/const";
+import { ANSWER_TYPE, COLOR, DIFFICULTY, GAME_MODE, QUIZ_SKIP_LIMIT } from "../../global/const";
 import { hasStringOrNumber } from "../../global/utils";
 
 const ITEM_USAGE = {
@@ -43,6 +44,7 @@ const QuizGamePage = ({ history }) => {
   const location = useLocation();
 
   const [isShowing, toggle] = useModal();
+  const [isShowingSkipModal, toggleSkipModal] = useModal();
   const [used_time, set_used_time] = useState();
   const [time_start, set_time_start] = useState(true);
   const [user_answer, set_user_answer] = useState();
@@ -59,6 +61,7 @@ const QuizGamePage = ({ history }) => {
   const [is_rank_up, set_is_rank_up] = useState(false);
   const [answer_modal_loading, set_answer_modal_loading] = useState(false);
   const previousRewards = useRef({ earned_exp, earned_coins });
+  const [count_of_skip, set_count_of_skip] = useState(0);
 
   const user_id = localStorage.getItem("userId");
 
@@ -75,6 +78,7 @@ const QuizGamePage = ({ history }) => {
     answer_type,
     title,
     correct_answer,
+    correct_answer_for_display,
     choices,
     have_hint,
   } = useGetEachProblem(
@@ -100,29 +104,28 @@ const QuizGamePage = ({ history }) => {
   const { postRefreshItem } = useRefreshItem();
 
   const onSkip = async () => {
+    if (count_of_skip >= QUIZ_SKIP_LIMIT) {
+      toggleSkipModal();
+    } else {
+    // do skip
+    set_count_of_skip(count_of_skip + 1);
     set_skip(ITEM_USAGE.IN_USE);
     await postSkipItem(problem_id);
-    getEachProblem(set_skip);
-    set_current_index((index) => index + 1);
-    set_problem_id();
-    set_hint();
-    set_score((score) => score + 1);
-    let skip_reward = 0;
-    switch (location.state.difficulty) {
-      case DIFFICULTY.EASY.type:
-        skip_reward = 14;
-        break;
-      case DIFFICULTY.MEDIUM.type:
-        skip_reward = 28;
-        break;
-      case DIFFICULTY.HARD.type:
-        skip_reward = 42;
-        break;
-      default:
-        skip_reward = 0;
+    set_used_time(0 / 1000);
+    set_time_start(false);
+    // stop();
+    onCheck(
+      problem_id,
+      localStorage.getItem("userId"),
+      correct_answer,
+      0,
+      location.state.subject_name,
+      location.state.topic_name,
+      location.state.subtopic_name,
+      location.state.difficulty
+    );
+    set_skip(ITEM_USAGE.UN_USE);
     }
-    set_earned_exp((earned_exp) => earned_exp + skip_reward);
-    set_earned_coins((earned_coins) => earned_coins + skip_reward);
   };
 
   const onRefresh = async () => {
@@ -153,7 +156,7 @@ const QuizGamePage = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    if (user_answer) {
+    if (user_answer || getTime === 0) {
       const button = document.getElementById("button");
       button.disabled = true;
       set_used_time(getTime / 1000);
@@ -335,6 +338,11 @@ const QuizGamePage = ({ history }) => {
                 current_index={current_index}
               />
             </Headline>
+            <AlertModal
+              isShowing={isShowingSkipModal} 
+              toggle={toggleSkipModal} 
+              text={`สามารถใช้ไอเทม Skip ได้เพียง ${QUIZ_SKIP_LIMIT} ครั้งต่อ 1 การทดสอบเท่านั้นจ้า`}
+            />
             <HeadlineItem
               onGetHint={() => {
                 getHintByProblemId();
@@ -345,6 +353,7 @@ const QuizGamePage = ({ history }) => {
               hintContent={hint}
               have_hint={have_hint}
               skip={skip}
+              count_of_skip={count_of_skip}
               onSkip={() => {
                 if (current_index <= NUMBER_OF_QUIZ) {
                   onSkip();
@@ -390,7 +399,7 @@ const QuizGamePage = ({ history }) => {
                   <GameContent
                     subject={location.state.subject_name}
                     type={answer_type}
-                    correct_answer={correct_answer}
+                    correct_answer={correct_answer_for_display}
                     question={body}
                     choices={choices}
                     content={body}
@@ -456,7 +465,9 @@ const QuizGamePage = ({ history }) => {
                     toggle={toggle}
                     subject={location.state.subject_name}
                     correct={correct}
-                    answer={correct ? null : answer_key}
+                    // used_time === 0 means use skip
+                    answer={(correct && used_time !== 0 ) ? null : answer_key}
+                    show_answer={used_time === 0}
                     buttonTitle={
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }
