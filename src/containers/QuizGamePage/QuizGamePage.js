@@ -75,6 +75,7 @@ const QuizGamePage = ({ history }) => {
     answer_type,
     title,
     correct_answer,
+    correct_answer_for_display,
     choices,
     have_hint,
   } = useGetEachProblem(
@@ -102,27 +103,20 @@ const QuizGamePage = ({ history }) => {
   const onSkip = async () => {
     set_skip(ITEM_USAGE.IN_USE);
     await postSkipItem(problem_id);
-    getEachProblem(set_skip);
-    set_current_index((index) => index + 1);
-    set_problem_id();
-    set_hint();
-    set_score((score) => score + 1);
-    let skip_reward = 0;
-    switch (location.state.difficulty) {
-      case DIFFICULTY.EASY.type:
-        skip_reward = 14;
-        break;
-      case DIFFICULTY.MEDIUM.type:
-        skip_reward = 28;
-        break;
-      case DIFFICULTY.HARD.type:
-        skip_reward = 42;
-        break;
-      default:
-        skip_reward = 0;
-    }
-    set_earned_exp((earned_exp) => earned_exp + skip_reward);
-    set_earned_coins((earned_coins) => earned_coins + skip_reward);
+    set_used_time(0 / 1000);
+    set_time_start(false);
+    // stop();
+    onCheck(
+      problem_id,
+      localStorage.getItem("userId"),
+      correct_answer,
+      0,
+      location.state.subject_name,
+      location.state.topic_name,
+      location.state.subtopic_name,
+      location.state.difficulty
+    );
+    set_skip(ITEM_USAGE.UN_USE);
   };
 
   const onRefresh = async () => {
@@ -153,7 +147,7 @@ const QuizGamePage = ({ history }) => {
     subtopic,
     difficulty
   ) => {
-    if (user_answer) {
+    if (user_answer || getTime === 0) {
       const button = document.getElementById("button");
       button.disabled = true;
       set_used_time(getTime / 1000);
@@ -390,7 +384,7 @@ const QuizGamePage = ({ history }) => {
                   <GameContent
                     subject={location.state.subject_name}
                     type={answer_type}
-                    correct_answer={correct_answer}
+                    correct_answer={correct_answer_for_display}
                     question={body}
                     choices={choices}
                     content={body}
@@ -456,7 +450,9 @@ const QuizGamePage = ({ history }) => {
                     toggle={toggle}
                     subject={location.state.subject_name}
                     correct={correct}
-                    answer={correct ? null : answer_key}
+                    // used_time === 0 means use skip
+                    answer={(correct && used_time !== 0 ) ? null : answer_key}
+                    show_answer={used_time === 0}
                     buttonTitle={
                       current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
                     }

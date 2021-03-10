@@ -32,7 +32,7 @@ const Shop = ({ history }) => {
   const [isShowingResult, toggleResult] = useModal();
   
   const { getAllItems, loading, items } = useGetAllItems();
-  const { buyItem, buy_success } = useBuyItem(user_id, clicked_item);
+  const { buyItem, buy_success, buy_error_msg } = useBuyItem(user_id, clicked_item);
 
   const [play] = useSound(click, { volume: 0.25 });
 
@@ -168,7 +168,7 @@ const Shop = ({ history }) => {
               toggle={toggleResult}
               success={buy_success}
               success_description="การซื้อไอเทมสำเร็จ สามารถตรวจสอบไอเทมที่มีได้ที่โปรไฟล์ของคุณ"
-              fail_description="คุณมีเงินไม่เพียงพอในการซื้อไอเทมนี้"
+              fail_description={buy_error_msg}
               onSubmit={() => {
                 if(buy_success){
                   history.push("/profile");

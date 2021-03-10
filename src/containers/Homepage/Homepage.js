@@ -9,7 +9,6 @@ import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
 import AchievementModal from "../../components/Achievement/AchievementModal";
-import { Button } from "../../components/Button";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 import { useGetLeaderBoard, useGetSubjects, useGetAchievements } from "./HomepageHelper";
@@ -17,12 +16,9 @@ import { checkAchievement } from "../../global/achievement";
 
 // Hook
 import useModal from "../../components/useModal";
-import challenge_icon from "../../assets/thumbnail/challenge.png";
-import challenge_mandarin_icon from "../../assets/thumbnail/challenge_mandarin.png";
 
-import { CONTAINER_PADDING } from "../../global/const";
-import { useWindowDimensions } from "../../global/utils"; 
-
+import { useWindowDimensions } from "../../global/utils";
+ 
 const Homepage = ({ user_id, user_info }) => {
   const history = useHistory();
   const ref = useRef(null);
@@ -112,30 +108,6 @@ const Homepage = ({ user_id, user_info }) => {
               achievements={achievements}
             ></AchievementPanel>
           </ItemBoxContainer>
-          
-          <ChallengeButtonContainer
-            onMouseEnter={() => set_on_hover(true)}
-            onMouseLeave={() => set_on_hover(false)}
-          >
-            <Button
-              type={on_hover ? "default" : "outline"}
-              size="custom"
-              height={48}
-              width={screen_width-CONTAINER_PADDING}
-              whenHover={null}
-              onClick={() => history.push("/all-challenges")}
-            >
-              <ChallengeContainer>
-                <ChallengeIcon 
-                  src={on_hover ? challenge_icon : challenge_mandarin_icon}
-                  width={on_hover ? 42 : 32}
-                  height={on_hover ? 42 : 32}
-                  marginRight={on_hover ? 4 : 8}
-                />
-                การท้าทายทั้งหมด
-              </ChallengeContainer>
-            </Button>
-          </ChallengeButtonContainer>
         </Container>
       )}
     </React.Fragment>
@@ -166,25 +138,6 @@ const ItemBoxContainer = styled.div.attrs((props) => ({
 }))`
   width: 100%;
   margin-top: ${props => props.marginTop}px;
-`;
-
-const ChallengeButtonContainer = styled.div`
-  align-self: flex-end;
-  margin-top: 28px;
-  margin-bottom: 32px;
-`;
-
-const ChallengeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
-
-const ChallengeIcon = styled.img.attrs((props) => ({
-  marginRight: props.marginRight
-}))`
-  margin-right: ${props => props.marginRight}px;
 `;
 
 export default withRouter(Homepage);
