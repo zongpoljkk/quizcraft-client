@@ -96,6 +96,7 @@ export const REPORT = {
 
 export const DEVICE_SIZE = {
   LARGE: 768,
+  MEDIUM: 414,
   S: 380,
   XS: 360,
   XXS: 320,

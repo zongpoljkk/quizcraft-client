@@ -15,6 +15,7 @@ import gold from "../../assets/icon/gold.png";
 import coin from "../../assets/icon/coin.png";
 import streak from "../../assets/icon/streak.png";
 import shop from "../../assets/icon/shop.png";
+import all_challenges from "../../assets/icon/boxing-gloves.png";
 import click from "../../assets/sounds/click.mp3";
 
 import { COLOR, RANK, NAVBAR_HEIGHT, DEVICE_SIZE } from "../../global/const";
@@ -26,7 +27,7 @@ const Navbar = ({
 }) => {
 
   const { height: screen_height, width: screen_width } = useWindowDimensions();
-  const small_device = screen_width <= DEVICE_SIZE.XS;
+  const small_device = screen_width <= DEVICE_SIZE.MEDIUM;
 
   const [play] = useSound(click, { volume: 0.25 });
 
@@ -42,6 +43,11 @@ const Navbar = ({
 
   const handleClickProfileImage = () => {
     history.push("/profile");
+    play();
+  };
+
+  const handleClickAllChallenge = () => {
+    history.push("/all-challenges");
     play();
   };
 
@@ -106,7 +112,10 @@ const Navbar = ({
             </IconContainer>
         }
         <div onClick={handleClickShop} style={{ display: 'flex' }}>
-          <Icon src={shop} marginRight={12} cursor="pointer"/>
+          <Icon src={shop} marginRight={8} cursor="pointer"/>
+        </div>
+        <div onClick={handleClickAllChallenge} style={{ display: 'flex' }}>
+          <Icon src={all_challenges} marginRight={8} cursor="pointer" height={36}/>
         </div>
         <ProfileImage 
           backgroundColor={user_info.photo ? null : COLOR.ISLAND_SPICE} 
@@ -173,9 +182,10 @@ const IconContainer = styled.div`
 `;
 
 const Icon = styled.img.attrs(props => ({
-  cursor: props.cursor
+  cursor: props.cursor,
+  height: props.height || 28
 }))`
-  height: 28px;
+  height: ${props => props.height}px;
   margin-right: ${props => props.marginRight}px;
   cursor: ${props => props.cursor};
 `;
