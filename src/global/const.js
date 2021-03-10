@@ -158,3 +158,5 @@ export const CHALLENGE_BOX_TYPE = {
   CHALLENGER_TURN: "CHALLENGER_TURN",
   RESULT: "RESULT"
 };
+
+export const QUIZ_SKIP_LIMIT = 3;
