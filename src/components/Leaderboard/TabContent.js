@@ -2,14 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 import { Body } from "../Typography";
+
 import { COLOR, DEVICE_SIZE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 export const TabContent = ({
   data,
-  index
+  index,
+  toggleFriend,
+  getFriendProfile,
+  set_friend_name,
+  set_friend_image
 }) => {
-
   const { height: screen_height, width: screen_width } = useWindowDimensions();
 
   return (
@@ -18,6 +22,12 @@ export const TabContent = ({
         <InfoBox
           key={i}
           backgroundColor={index - 1 === i ? COLOR.MANDARIN : null}
+          onClick={() => {
+            getFriendProfile(data[i].username);
+            set_friend_name(data[i].username);
+            set_friend_image(data[i].profileImage?.data);
+            toggleFriend();
+          }}
         >
           <OrderText>{i + 1}</OrderText>
           <UserImg backgroundColor={user[1].profileImage ? null : COLOR.ISLAND_SPICE}>
@@ -82,6 +92,8 @@ const UserImg = styled.div.attrs(props => ({
   backgroundColor: props.backgroundColor
 }))`
   alt: "User profile Image";
+  display: flex;
+  align-items: center;
   background-color: ${props => props.backgroundColor};
   min-height: 40px;
   min-width: 40px;

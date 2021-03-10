@@ -5,6 +5,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import SubjectCard from "./components/SubjectCard";
 import GroupPanel from "./components/GroupPanel";
 import AchievementPanel from "./components/AchievementPanel";
+import FriendProfile from "./components/FriendProfile";
 import { Tabs } from "../../components/Leaderboard/Tabs";
 import { ItemBox } from "../../components/ItemBox";
 import { Header } from "../../components/Typography";
@@ -12,7 +13,12 @@ import AchievementModal from "../../components/Achievement/AchievementModal";
 import { Button } from "../../components/Button";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { useGetLeaderBoard, useGetSubjects, useGetAchievements } from "./HomepageHelper";
+import {
+  useGetLeaderBoard,
+  useGetSubjects,
+  useGetAchievements,
+  useGetFriendProfile
+} from "./HomepageHelper";
 import { checkAchievement } from "../../global/achievement";
 
 // Hook
@@ -22,18 +28,20 @@ import challenge_mandarin_icon from "../../assets/thumbnail/challenge_mandarin.p
 
 import { CONTAINER_PADDING } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
- 
 
 const Homepage = ({ user_id, user_info }) => {
   const history = useHistory();
   const ref = useRef(null);
   const [container_width, set_container_width] = useState();
+  const { width: screen_width } = useWindowDimensions();
+  
   const [isShowing, toggle] = useModal();
   const [modal_data, set_modal_data] = useState();
-  const { width: screen_width } = useWindowDimensions();
-
   const [on_hover, set_on_hover] = useState(false);
-
+  const [isShowingFriend, toggleFriend] = useModal();
+  const [friend_name, set_friend_name] = useState();
+  const [friend_image, set_friend_image] = useState();
+  
   const { getSubjects, subjects_loading, subjects } = useGetSubjects();
   const { getLeaderBoard, leader_board_loading , leader_board } = useGetLeaderBoard(user_id);
   const {
@@ -41,6 +49,8 @@ const Homepage = ({ user_id, user_info }) => {
     achievements_loading,
     achievements,
   } = useGetAchievements(user_id);
+
+  const { getFriendProfile, friend, friend_loading } = useGetFriendProfile();
 
   useEffect(() => {
     set_container_width(ref.current ? ref.current.offsetWidth : 0);
@@ -105,7 +115,21 @@ const Homepage = ({ user_id, user_info }) => {
               <div style={{ marginBottom: "12px" }}>
                 <Header>กระดานผู้นำ</Header>
               </div>
-              <Tabs data={leader_board} />
+              <Tabs
+                data={leader_board}
+                toggleFriend={toggleFriend}
+                getFriendProfile={getFriendProfile}
+                set_friend_name={set_friend_name}
+                set_friend_image={set_friend_image}
+              />
+              <FriendProfile
+                isShowing={isShowingFriend}
+                toggle={toggleFriend}
+                friend={friend}
+                friend_loading={friend_loading}
+                friend_name={friend_name}
+                friend_image={friend_image}
+              />
             </ItemBox>
           </ItemBoxContainer>
           <ItemBoxContainer marginTop={32}>
