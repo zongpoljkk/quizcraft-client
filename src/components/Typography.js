@@ -8,7 +8,8 @@ export const Header = ({
   children,
   color = COLOR.CHARCOAL,
   textDecoration,
-  opacity
+  opacity,
+  style
 }) => {
 
   return (
@@ -19,6 +20,7 @@ export const Header = ({
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
+      style={style}
     >
       {children}
     </Typography>
@@ -30,7 +32,8 @@ export const Subheader = ({
   children,
   color = COLOR.CHARCOAL,
   textDecoration,
-  opacity
+  opacity,
+  style
 }) => {
 
   return (
@@ -41,6 +44,7 @@ export const Subheader = ({
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
+      style={style}
     >
       {children}
     </Typography>
@@ -52,7 +56,8 @@ export const Body = ({
   children,
   color = COLOR.CHARCOAL,
   textDecoration,
-  opacity
+  opacity,
+  style
 }) => {
 
   return (
@@ -63,6 +68,7 @@ export const Body = ({
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
+      style={style}
     >
       {children}
     </Typography>
@@ -74,7 +80,8 @@ export const Overline = ({
   children,
   color = COLOR.CHARCOAL,
   textDecoration,
-  opacity
+  opacity,
+  style
 }) => {
 
   return (
@@ -85,6 +92,7 @@ export const Overline = ({
       color={color}
       textDecoration={textDecoration}
       opacity={opacity}
+      style={style}
     >
       {children}
     </Typography>

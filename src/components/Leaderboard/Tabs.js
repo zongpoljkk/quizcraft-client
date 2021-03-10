@@ -8,7 +8,13 @@ import { COLOR, LEADERBOARD_FILTER } from "../../global/const";
 
 import { TabContent } from "./TabContent";
 
-export const Tabs = ({data}) => {
+export const Tabs = ({
+  data,
+  toggleFriend,
+  getFriendProfile = () => {},
+  set_friend_name = () => {},
+  set_friend_image = () => {}
+}) => {
   const [value, setValue] = useState(0);
   const childRefs = useRef(new Map());
   const tabListRef = useRef();
@@ -71,7 +77,14 @@ export const Tabs = ({data}) => {
       <Pager value={value}>
         {Object.entries(LEADERBOARD_FILTER).map((tab, index) => (
           <div key={tab[1]}>
-            <TabContent data={data[Object.keys(data)[index]]} index={data[Object.keys(data)[index+3]]}/>
+            <TabContent
+              data={data[Object.keys(data)[index]]}
+              index={data[Object.keys(data)[index+3]]}
+              toggleFriend={toggleFriend}
+              getFriendProfile={getFriendProfile}
+              set_friend_name={set_friend_name}
+              set_friend_image={set_friend_image}
+            />
           </div>
         ))}
       </Pager>
