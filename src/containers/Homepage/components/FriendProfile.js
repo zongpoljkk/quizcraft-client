@@ -92,7 +92,7 @@ const RowContainer = styled.div.attrs((props) => ({
   margin-right: ${props => props.marginRight}px;
   margin-top: ${props => props.marginTop}px;
   margin-bottom: ${props => props.marginBottom}px;
-  width: ${props => props.maxWidth}px;
+  max-width: ${props => props.maxWidth}px;
 `;
 
 const ProfileImage = styled.div.attrs(props => ({
