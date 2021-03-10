@@ -29,16 +29,15 @@ const FriendProfile = ({
           >
             {friend &&
               <Container>
-                {console.log(friend)}
                 <RowContainer marginBottom={12}>
                   <ProfileImage backgroundColor={friend_image ? null : COLOR.ISLAND_SPICE}>
                     {friend_image ? <Image src={"data:image/png;base64," + friend_image}/> : null}
                   </ProfileImage>
                   <Container>
                     <Header>{friend_name}</Header>
-                    <RowContainer marginTop={-4}>
+                    <RowContainer marginTop={-2}>
                       {friend.school && <Body color={COLOR.SILVER} style={{ marginRight: "8px" }}>โรงเรียน{friend.school}</Body>}
-                      {friend.class && <Body color={COLOR.SILVER}>ห้อง{friend.class}</Body>}
+                      {friend.class && <Body color={COLOR.SILVER}>ห้อง {friend.class}</Body>}
                     </RowContainer>
                   </Container>
                 </RowContainer>
