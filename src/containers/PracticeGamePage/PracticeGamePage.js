@@ -51,6 +51,7 @@ const PracticeGamePage = ({ history }) => {
     answer_type,
     title,
     correct_answer,
+    correct_answer_for_display,
     choices,
     have_hint
   } = useGetProblemForUser(
@@ -217,7 +218,7 @@ const PracticeGamePage = ({ history }) => {
                       <GameContent
                         subject={location.state.subject_name}
                         type={answer_type}
-                        correct_answer={correct_answer}
+                        correct_answer={correct_answer_for_display}
                         question={body}
                         choices={choices}
                         content={body}

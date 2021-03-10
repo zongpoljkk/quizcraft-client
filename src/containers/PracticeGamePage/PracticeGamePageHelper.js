@@ -79,6 +79,7 @@ export const useGetProblemForUser = (
   const [answer_type, set_answer_type] = useState();
   const [title, set_title] = useState();
   const [correct_answer, set_correct_answer] = useState();
+  const [correct_answer_for_display, set_correct_answer_for_display] = useState();
   const [choices, set_choices] = useState();
   const [have_hint, set_have_hint] = useState();
 
@@ -102,6 +103,7 @@ export const useGetProblemForUser = (
         set_title(data.problem.title);
         set_choices(data.problem.choices);
         set_correct_answer(data.correctAnswer);
+        set_correct_answer_for_display(data.correctAnswerForDisplay);
         set_have_hint(data.problem.haveHint);
         set_loading(false);
         set_skip("UN_USE");
@@ -121,6 +123,7 @@ export const useGetProblemForUser = (
     answer_type,
     title,
     correct_answer,
+    correct_answer_for_display,
     choices,
     have_hint
   };
