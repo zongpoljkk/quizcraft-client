@@ -23,7 +23,8 @@ import {
   COLOR,
   DEVICE_SIZE,
   WRONG_ANSWER,
-  GAME_MODE
+  GAME_MODE,
+  GROUP_GAME_STATE
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -258,6 +259,23 @@ const GroupGamePage = ({ history }) => {
     location.state.remaining_time,
   ]);
 
+  useEffect(() => {
+    if (user) {
+      if (user.state !== GROUP_GAME_STATE.PROBLEM) {
+        set_waiting(true);
+        set_sent_answer(true);
+        if (user.state === GROUP_GAME_STATE.ANSWERED_CORRECT || user.state === GROUP_GAME_STATE.SHOW_ANSWER_CORRECT) {
+          set_correct(true);
+        } else {
+          set_correct(false);
+        };
+        if (problem) {
+          set_correct_answer(problem.correctAnswer);
+        };
+      };
+    };
+  }, [user, problem]);
+
   return (
     <Container>
       {loading ? (
@@ -309,7 +327,7 @@ const GroupGamePage = ({ history }) => {
                     number_of_members={number_of_members}
                     showButton={is_creator}
                     button_title="ตรวจสอบคำตอบ"
-                    onNext={() => {
+                    onClickButton={() => {
                       set_waiting(false);
                       set_answer_modal_loading(true);
                       onTimeOut();

@@ -159,26 +159,27 @@ const WaitingRoomPage = ({ history }) => {
                 <GroupMemberBox>
                   <DisplayGroupMember columns={COLUMNS} gap={GAP}>
                     {members?.slice(0).reverse().map((list, index) => (
-                      <Body>
-                        <div 
-                          key={index} 
-                          style={{
-                            width: "110px",
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis",
-                            marginBottom: "4px",
-                            paddingBottom:
-                              screen_width >= DEVICE_SIZE.LARGE
-                                ? null
-                                : index === members.length - 1
-                                ? "16px"
-                                : null,
-                          }}
-                        >
-                          {list.username}
-                        </div>
-                      </Body>
+                      <div key={index}> 
+                        <Body>
+                          <div
+                            style={{
+                              width: "110px",
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                              marginBottom: "4px",
+                              paddingBottom:
+                                screen_width >= DEVICE_SIZE.LARGE
+                                  ? null
+                                  : index === members.length - 1
+                                  ? "16px"
+                                  : null,
+                            }}
+                          >
+                            {list.username}
+                          </div>
+                        </Body>
+                      </div>
                     ))}
                   </DisplayGroupMember>
                 </GroupMemberBox>

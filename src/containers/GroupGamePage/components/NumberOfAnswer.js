@@ -11,7 +11,7 @@ export const NumberOfAnswer = ({
   number_of_members,
   showButton,
   button_title,
-  onNext = () => {}
+  onClickButton = () => {}
 }) => {
 
   return (
@@ -29,7 +29,7 @@ export const NumberOfAnswer = ({
           border={`1px solid ${COLOR.GOLDEN_TAINOI}`}
           backgroundColor={COLOR.WHITE}
           color={COLOR.GOLDEN_TAINOI}
-          onClick={onNext}
+          onClick={onClickButton}
         >
           {button_title}
         </Button>

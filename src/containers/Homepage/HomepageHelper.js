@@ -62,3 +62,29 @@ export const useGetAchievements = (user_id) => {
   };
   return { getAchievements, achievements_loading, achievements };
 };
+
+export const useGetFriendProfile = () => {
+  const [friend, set_friend] = useState();
+  const [friend_loading, set_friend_loading] = useState();
+
+  const getFriendProfile = async (username) => {
+    set_friend_loading(true);
+    try {
+      const response = await axios.get(backend + "user/get-friend-profile", {
+        params: {
+          username: username
+        }
+      });
+      const { success, data } = response.data;
+      if (success) {
+        set_friend(data[0]);
+        set_friend_loading(false);
+      } else {
+        console.log("getFriendProfile Error");
+      }
+    } catch (e) {
+      console.log("There are something wrong about get friend profile :(", e);
+    }
+  };
+  return { getFriendProfile, friend, friend_loading };
+};
