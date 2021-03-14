@@ -104,7 +104,7 @@ const Homepage = ({ user_id, user_info }) => {
             }}
           />
           <ScrollView>
-            <SubjectCard subjects_data={subjects.data} />
+            <SubjectCard subjects_data={subjects?.data} />
           </ScrollView>
           <ItemBoxContainer marginTop={24}>
             <ItemBox type="frame" shadow="frame" width={container_width - 32}>
@@ -112,7 +112,7 @@ const Homepage = ({ user_id, user_info }) => {
                 <Header>กระดานผู้นำ</Header>
               </div>
               <Tabs
-                data={leader_board.data}
+                data={leader_board?.data}
                 toggleFriend={toggleFriend}
                 getFriendProfile={getFriendProfile}
                 set_friend_name={set_friend_name}
