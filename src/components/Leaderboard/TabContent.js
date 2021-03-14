@@ -66,6 +66,7 @@ const InfoBox = styled.div`
   padding: 4px 16px 4px 16px;
   min-height: 40px;
   background-color: ${props => props.backgroundColor};
+  cursor: pointer;
 `;
 
 const OrderText = styled(Body)`
