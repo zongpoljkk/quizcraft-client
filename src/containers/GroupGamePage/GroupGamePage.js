@@ -201,6 +201,9 @@ const GroupGamePage = ({ history }) => {
     if(!sent_answer && is_time_out && !isShowing) {
       set_answer_modal_loading(true);
     };
+    if(is_time_out && !user) {
+      set_correct_answer(problem.correctAnswer);
+    };
   }, [is_time_out, used_time]);
 
   useEffect(() => {
