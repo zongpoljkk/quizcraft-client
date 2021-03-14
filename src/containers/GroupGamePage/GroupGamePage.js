@@ -195,7 +195,7 @@ const GroupGamePage = ({ history }) => {
   }, [show_answer]);
 
   useEffect(() => {
-    if (!sent_answer && answer && used_time) {
+    if (!sent_answer && answer && used_time && user) {
       onSend();
     };
     if(!sent_answer && is_time_out && !isShowing) {
