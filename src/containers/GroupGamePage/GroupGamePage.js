@@ -103,7 +103,6 @@ const GroupGamePage = ({ history }) => {
         location.state.group_id,
         used_time
       ).then((res) => {
-        console.log(res)
         set_correct(res.data.correct);
         set_correct_answer(res.data.correctAnswer);
       });
