@@ -47,8 +47,7 @@ export const NumberInputSpinner = ({
                 } else {
                   set_value(e.target.value);
                 };
-              }
-              else if(maximum_number) {
+              } else if(maximum_number) {
                 if(e.target.value >= maximum_number) {
                   set_value(maximum_number);
                 } else {
