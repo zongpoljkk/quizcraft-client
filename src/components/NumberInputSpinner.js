@@ -28,34 +28,35 @@ export const NumberInputSpinner = ({
     <Container style={screen_width >= DEVICE_SIZE.XS ? {width: "100%"} : null}>
       <NumberInputSpinnerContainer>
         <NumberInput
-          min={0} max={100}
           value={value}
-          onChange={e => {
-            if(minimun_number && maximum_number) {
-              if(minimun_number)  {
+          onChange={(e) => {
+            if(!isNaN(e.target.value)) {
+              if(minimun_number && maximum_number) {
+                if(minimun_number)  {
+                  if(e.target.value <= minimun_number) {
+                    set_value(minimun_number);
+                  } else if(e.target.value >= maximum_number) {
+                    set_value(maximum_number);
+                  } else {
+                    set_value(e.target.value);
+                  };
+                };
+              } else if(minimun_number)  {
                 if(e.target.value <= minimun_number) {
                   set_value(minimun_number);
-                } else if(e.target.value >= maximum_number) {
+                } else {
+                  set_value(e.target.value);
+                };
+              }
+              else if(maximum_number) {
+                if(e.target.value >= maximum_number) {
                   set_value(maximum_number);
                 } else {
                   set_value(e.target.value);
                 };
-              };
-            } else if(minimun_number)  {
-              if(e.target.value <= minimun_number) {
-                set_value(minimun_number);
               } else {
                 set_value(e.target.value);
               };
-            }
-            else if(maximum_number) {
-              if(e.target.value >= maximum_number) {
-                set_value(maximum_number);
-              } else {
-                set_value(e.target.value);
-              };
-            } else {
-              set_value(e.target.value);
             };
           }}
           color={value === 0 ? COLOR.SILVER : COLOR.CHARCOAL}
@@ -191,7 +192,6 @@ const CollapsContainer = styled.div`
 `;
 
 const NumberInput = styled.input.attrs(props => ({
-  type: "number",
   color: props.color,
   width: props.width
 }))`
