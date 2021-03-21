@@ -52,6 +52,10 @@ const FriendProfile = ({
                   </RowContainer>
                 </RowContainer>
                 <RowContainer marginBottom={4}>
+                  <Body>จำนวนวันที่เข้าสะสม: </Body>
+                  <Body color={COLOR.MANDARIN} >{friend.streak}</Body>
+                </RowContainer>
+                <RowContainer marginBottom={4}>
                   <Body>จำนวนข้อทั้งหมดที่เคยเล่น: </Body>
                   <Body color={COLOR.MANDARIN} >{friend.totalQuestions}</Body>
                 </RowContainer>
