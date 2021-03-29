@@ -4,7 +4,7 @@ import useSound from 'use-sound';
 
 import ModeBox from "./ModeBox";
 
-import { COLOR, MODE } from "../../../global/const";
+import { COLOR, GAME_MODE } from "../../../global/const";
 import { useDetectOutsideClick } from "../../../global/utils";
 
 import click from "../../../assets/sounds/click.mp3";
@@ -38,18 +38,18 @@ const SubtopicBox = ({
         {title}
       </Accordion>
       {opened === true
-        ? Object.entries(MODE).map((item, index) => (
+        ? Object.entries(GAME_MODE).map((item, index) => index < 3 && (
             <ModeBox 
               key={index} 
               icon={item[1].icon} 
-              type={item[1].type}
+              type={item[1].type_th}
               title={title}
               available_difficulty={available_difficulty}
               id={id}
               subject={subject}
               topic={topic}
               style={{
-                borderRadius: index === Object.entries(MODE).length-1 ? "0px 0px 10px 10px" : null
+                borderRadius: index === Object.entries(GAME_MODE).length-2 ? "0px 0px 10px 10px" : null
               }}
             />
           ))

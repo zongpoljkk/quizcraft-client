@@ -99,7 +99,7 @@ const GroupGamePage = ({ history }) => {
         user_id,
         problem._id,
         answer,
-        GAME_MODE.GROUP,
+        GAME_MODE.GROUP.type_en,
         location.state.group_id,
         used_time
       ).then((res) => {

@@ -11,7 +11,7 @@ import useModal from "../../components/useModal";
 import { ConfirmResultModal } from "../../components/ConfirmResultModal";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
-import { ANSWER_TYPE, CONTAINER_PADDING, MODE, REPORT } from "../../global/const";
+import { ANSWER_TYPE, CONTAINER_PADDING, GAME_MODE, REPORT } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 import { useSendReport } from "./ReportPageHelper";
@@ -42,9 +42,9 @@ const ReportPage = ({ history }) => {
 
   const onSubmit = () => {
     if (report_success) {
-      if (location.state.mode === MODE.PRACTICE.type) {
+      if (location.state.mode === GAME_MODE.PRACTICE.type_th) {
         history.goBack();
-      } else if (location.state.mode === MODE.CHALLENGE.type) {
+      } else if (location.state.mode === GAME_MODE.CHALLENGE.type_th) {
         if (location.state.current_index < location.state.number_of_problem) {
           history.goBack();
         } else {
@@ -60,7 +60,7 @@ const ReportPage = ({ history }) => {
             },
           });
         }
-      } else if (location.state.mode === MODE.QUIZ.type) {
+      } else if (location.state.mode === GAME_MODE.QUIZ.type_th) {
         if (location.state.current_index < location.state.number_of_problem) {
           history.push({
             pathname: "./quiz-game",

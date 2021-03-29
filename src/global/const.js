@@ -27,27 +27,26 @@ export const SIZE = {
   SMALL: "97px",
 };
 
-export const MODE = {
+export const GAME_MODE = {
   PRACTICE: {
-    type: "ฝึกซ้อม",
+    type_th: "ฝึกซ้อม",
+    type_en: "PRACTICE",
     icon: practice,
   },
   QUIZ: {
-    type: "ทดสอบ",
+    type_th: "ทดสอบ",
+    type_en: "QUIZ",
     icon: quiz,
   },
   CHALLENGE: {
-    type: "ท้าทาย",
+    type_th: "ท้าทาย",
+    type_en: "CHALLENGE",
     icon: challenge,
   },
+  GROUP: {
+    type_en: "GROUP"
+  }
 };
-
-export const GAME_MODE = {
-  PRACTICE: "PRACTICE",
-  QUIZ: "QUIZ",
-  CHALLENGE: "CHALLENGE",
-  GROUP: "GROUP",
-}
 
 export const DIFFICULTY = {
   EASY: {

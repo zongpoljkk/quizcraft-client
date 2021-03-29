@@ -170,7 +170,7 @@ const QuizGamePage = ({ history }) => {
         subject,
         topic,
         subtopic,
-        GAME_MODE.QUIZ
+        GAME_MODE.QUIZ.type_en
       ).then((res) => {
         //update earned exp and coins
         set_correct(res.data.correct);
