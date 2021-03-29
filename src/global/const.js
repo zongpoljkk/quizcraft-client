@@ -44,6 +44,7 @@ export const GAME_MODE = {
     icon: challenge,
   },
   GROUP: {
+    type_th: "กลุ่ม",
     type_en: "GROUP"
   }
 };
