@@ -16,7 +16,7 @@ import {
   useReadChallenge
 } from "./AllChallengesPageHelper";
 
-import { CHALLENGE_BOX_TYPE, CONTAINER_PADDING, MODE } from "../../global/const";
+import { CHALLENGE_BOX_TYPE, CONTAINER_PADDING, GAME_MODE } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const LAST_PATH = {
@@ -59,7 +59,7 @@ const AllChallengesPage = ({ history, user_info }) => {
         subject_name: subject_name,
         topic_name: topic_name,
         subtopic_name: subtopic_name,
-        mode: MODE.CHALLENGE.type,
+        mode: GAME_MODE.CHALLENGE.type_th,
         difficulty: difficulty,
         challenge_id: challenge_id,
         last_path: LAST_PATH.ALL_CHALLENGES

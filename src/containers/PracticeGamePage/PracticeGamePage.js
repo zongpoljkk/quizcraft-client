@@ -98,7 +98,7 @@ const PracticeGamePage = ({ history }) => {
       getTime / 1000,
       topic,
       subtopic,
-      GAME_MODE.PRACTICE,
+      GAME_MODE.PRACTICE.type_en,
     ).then((res) => {
       set_answer_loading(false);
       res.data.correct ? playCorrectSound() : playWrongSound()
@@ -127,7 +127,7 @@ const PracticeGamePage = ({ history }) => {
           subtopic: subtopic,
           difficulty: difficulty,
           earned_coins: res.data.earned_coins,
-          mode: mode,
+          mode: location.state.mode,
           is_level_up: res.data.level_up,
           is_rank_up: res.data.rank_up,
           earned_coins: res.data.earned_coins
@@ -250,7 +250,7 @@ const PracticeGamePage = ({ history }) => {
                                     location.state.topic_name,
                                     location.state.subtopic_name,
                                     location.state.difficulty,
-                                    GAME_MODE.PRACTICE
+                                    location.state.mode
                                   );
                                 }
                               : () => {}
@@ -265,7 +265,7 @@ const PracticeGamePage = ({ history }) => {
                                   location.state.topic_name,
                                   location.state.subtopic_name,
                                   location.state.difficulty,
-                                  GAME_MODE.PRACTICE
+                                  location.state.mode
                                 );
                               }
                             : () => {}

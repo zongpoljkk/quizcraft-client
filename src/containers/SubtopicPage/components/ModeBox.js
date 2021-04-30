@@ -11,7 +11,7 @@ import { AlertModal } from "../../../components/AlertModal";
 import chevron from "../../../assets/icon/chevron_charcoal.png";
 import click from "../../../assets/sounds/click.mp3";
 
-import { COLOR, DIFFICULTY, MODE } from "../../../global/const";
+import { COLOR, DIFFICULTY, GAME_MODE } from "../../../global/const";
 
 const LAST_PATH = {
   ALL_CHALLENGES: "ALL_CHALLENGES",
@@ -44,9 +44,9 @@ const ModeBox = ({
     selected_difficulty 
   ) => {
     history.push({
-      pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty.toLowerCase()+
-        (selected_mode === MODE.PRACTICE.type ? "/practice-game" 
-        : selected_mode === MODE.QUIZ.type ? "/quiz-game" : "/all-challenges"), 
+      pathname: selected_topic_name+"/"+selected_subtopic_name+"/"+selected_difficulty+
+        (selected_mode === GAME_MODE.PRACTICE.type_th ? "/practice-game" 
+        : selected_mode === GAME_MODE.QUIZ.type_th ? "/quiz-game" : "/all-challenges"), 
       state: {
         subject_name: selected_subject,
         topic_name: selected_topic_name,
