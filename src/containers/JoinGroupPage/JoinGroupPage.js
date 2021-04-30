@@ -80,7 +80,7 @@ const JoinGroupPage = ({ history }) => {
         isShowing={isShowing}
         toggle={toggle}
         success={group_id}
-        success_description="คุณเป็นสมาชิกของกลุ่มแล้ว ยินดีต้อนรับ :)"
+        success_description={"คุณเป็นสมาชิกของกลุ่มแล้ว\nยินดีต้อนรับ :)"}
         fail_description={translateError(join_fail)}
         onSubmit={() => {
           if(group_id) {

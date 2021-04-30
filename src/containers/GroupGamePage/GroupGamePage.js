@@ -195,11 +195,14 @@ const GroupGamePage = ({ history }) => {
   }, [show_answer]);
 
   useEffect(() => {
-    if (!sent_answer && answer && used_time) {
+    if (!sent_answer && answer && used_time && user) {
       onSend();
     };
     if(!sent_answer && is_time_out && !isShowing) {
       set_answer_modal_loading(true);
+    };
+    if(is_time_out && !user) {
+      set_correct_answer(problem.correctAnswer);
     };
   }, [is_time_out, used_time]);
 

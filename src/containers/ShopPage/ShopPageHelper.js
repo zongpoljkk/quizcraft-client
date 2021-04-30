@@ -70,7 +70,7 @@ export const translateError = (message) => {
     case "You don't have enough money to buy this item!":
       return "คุณมีเงินไม่เพียงพอในการซื้อไอเทมนี้"
     case "Number of item cannot exceed 99":
-      return "คุณมีจำนวนไอเทมชนิดนี้มากเกินไป ใช้ที่มีไปก่อนนะ!"
+      return "คุณมีจำนวนไอเทมชนิดนี้มากเกินไป\nใช้ที่มีไปก่อนนะ!"
     default:
       return "มีข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
   };

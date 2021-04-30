@@ -37,14 +37,13 @@ const AllAchievements = ({ achievements }) => {
         onMouseEnter={() => handleOnMouseEnter(achievement)}
         onMouseLeave={() => handleOnMouseLeave(achievement)}
       >
-        <AchievementImageContainer
-        >
+        <AchievementImageContainer>
           <AchievementImageDiv>
             {achievement_display[achievement.name] ? (
               <LottieFile
                 animationData={JSON.parse(atob(achievement.lottie_info.data))}
                 loop={false}
-                height={100}
+                height={60}
               />
             ) : (
               <img
@@ -63,7 +62,7 @@ const AllAchievements = ({ achievements }) => {
     );
   });
 
-  return <div style={{width: "100%"}}>{all_achievements}</div>;
+  return <div style={{ width: "100%" }}>{all_achievements}</div>;
 };
 
 const AchievementContainer = styled.div`
@@ -81,6 +80,7 @@ const AchievementImageContainer = styled.div`
   align-items: center;
   background-color: ${convertHexToRGBA(COLOR.SILVER, 20)};
   border-radius: 50%;
+  overflow: hidden;
 `;
 
 const AchievementImageDiv = styled.div`

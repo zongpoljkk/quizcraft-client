@@ -51,7 +51,7 @@ export const AnswerModal = ({
                   {group_observer ?
                     <Header color={COLOR.GOLDEN_TAINOI}>คำตอบ:</Header>
                   :
-                   <Header color={correct ? COLOR.CELERY : COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
+                    <Header color={correct ? COLOR.CELERY : COLOR.TRINIDAD}>คำตอบที่ถูกต้อง:</Header>
                   }
                   <div style={{ marginBottom: 8 }} />
                   {answer?.split("\n").map((item, key) => {
