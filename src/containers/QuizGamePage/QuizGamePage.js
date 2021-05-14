@@ -204,7 +204,7 @@ const QuizGamePage = ({ history }) => {
         topic_name: location.state.topic_name,
         subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
-        mode: location.state.mode,
+        mode: GAME_MODE.QUIZ.type_th,
         difficulty: location.state.difficulty,
         problem_id: problem_id,
         problem_content: body,

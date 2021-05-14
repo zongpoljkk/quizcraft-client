@@ -36,7 +36,8 @@ import {
   CONTAINER_PADDING,
   DEVICE_SIZE,
   TYPOGRAPHY,
-  NAVBAR_HEIGHT
+  NAVBAR_HEIGHT,
+  GAME_MODE
 } from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
@@ -103,7 +104,7 @@ const PracticeAnswer = ({ history, user_info }) => {
       pathname: "./report",
       state: {
         subject_name: location.state.subject,
-        mode: location.state.mode,
+        mode: GAME_MODE.PRACTICE.type_th,
         problem_id: location.state.problemId,
         problem_content: location.state.problem_content,
         problem_title: location.state.problem_title,

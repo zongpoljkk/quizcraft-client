@@ -91,7 +91,7 @@ const ReportPage = ({ history }) => {
             },
           });
         }
-      } else {
+      } else if (location.state.mode === GAME_MODE.GROUP.type_th) {
         history.push({
           pathname: "./group-game",
           state: {
@@ -105,6 +105,9 @@ const ReportPage = ({ history }) => {
             remaining_time: location.state.remaining_time,
           },
         });
+      }
+      else {
+        history.goBack();
       }
     }
   };

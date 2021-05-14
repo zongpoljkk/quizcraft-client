@@ -155,6 +155,7 @@ const GroupGamePage = ({ history }) => {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
         subtopic_name: location.state.subtopic_name,
+        mode: GAME_MODE.GROUP.type_th,
         difficulty: location.state.difficulty,
         problem_id: problem._id,
         problem_content: problem.body,

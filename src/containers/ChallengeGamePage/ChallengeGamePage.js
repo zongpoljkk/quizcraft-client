@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import Timer from "react-compound-timer";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 
 import { Body } from "../../components/Typography";
 import { ExitModal } from "../../components/ExitModal";
@@ -25,14 +25,20 @@ import correctSound from "../../assets/sounds/correct.mp3";
 import wrongSound from "../../assets/sounds/wrong.mp3";
 import level_up from "../../assets/sounds/level_up.mp3";
 
-import { ANSWER_TYPE, COLOR, DEVICE_SIZE, GAME_MODE, WRONG_ANSWER } from "../../global/const";
+import {
+  ANSWER_TYPE,
+  COLOR,
+  DEVICE_SIZE,
+  GAME_MODE,
+  WRONG_ANSWER,
+} from "../../global/const";
 import { useWindowDimensions } from "../../global/utils";
 
 const NUMBER_OF_QUIZ = 5;
 
 const LAST_PATH = {
   ALL_CHALLENGES: "ALL_CHALLENGES",
-  SUBTOPIC: "SUBTOPIC"
+  SUBTOPIC: "SUBTOPIC",
 };
 
 const ChallengeGame = ({ history }) => {
@@ -42,7 +48,6 @@ const ChallengeGame = ({ history }) => {
   const [user_answer, set_user_answer] = useState();
   const [correct, set_correct] = useState(false);
   const [answer_key, set_answer_key] = useState("");
-  const [current_index, set_current_index] = useState(1);
   const [time_start, set_time_start] = useState(true);
   const [isShowing, toggle] = useModal();
   const [is_level_up, set_is_level_up] = useState(false);
@@ -57,12 +62,8 @@ const ChallengeGame = ({ history }) => {
   const [playWrongSound] = useSound(wrongSound, { volume: 0.25 });
   const [playLevelUpSound] = useSound(level_up, { volume: 0.25 });
 
-  const {
-    getChallengeInfo,
-    loading_info,
-    my_info,
-    challenger_info,
-  } = useGetChallengeInfo(user_id, location.state.challenge_id);
+  const { getChallengeInfo, loading_info, my_info, challenger_info } =
+    useGetChallengeInfo(user_id, location.state.challenge_id);
 
   const {
     getProblemByChallengeId,
@@ -76,11 +77,14 @@ const ChallengeGame = ({ history }) => {
   } = useGetProblemByChallengeId();
 
   const onExit = () => {
-    if(is_level_up || is_rank_up) {
+    if (is_level_up || is_rank_up) {
       playLevelUpSound();
-    };
+    }
     history.push({
-      pathname: location.state.last_path === LAST_PATH.ALL_CHALLENGES ? "/all-challenges" : "./all-challenges",
+      pathname:
+        location.state.last_path === LAST_PATH.ALL_CHALLENGES
+          ? "/all-challenges"
+          : "./all-challenges",
       state: {
         subject_name: location.state.subject_name,
         topic_name: location.state.topic_name,
@@ -89,7 +93,7 @@ const ChallengeGame = ({ history }) => {
         difficulty: location.state.difficulty,
         earned_coins: earned_coins,
         is_level_up: is_level_up,
-        is_rank_up: is_rank_up
+        is_rank_up: is_rank_up,
       },
     });
   };
@@ -98,7 +102,6 @@ const ChallengeGame = ({ history }) => {
     if (my_info.currentProblem === NUMBER_OF_QUIZ - 1) {
       onExit();
     } else {
-      set_current_index((index) => index + 1);
       set_user_answer();
       my_info.currentProblem++;
       getProblemByChallengeId(
@@ -141,18 +144,18 @@ const ChallengeGame = ({ history }) => {
         set_earned_coins(
           (earned_coins) => earned_coins + res.data.earned_coins
         );
-        if(res.data.level_up) {
+        if (res.data.level_up) {
           set_is_level_up(true);
-        };
-        if(res.data.rank_up) {
+        }
+        if (res.data.rank_up) {
           set_is_rank_up(true);
-        };
-        res.data.correct ? playCorrectSound() : playWrongSound()
+        }
+        res.data.correct ? playCorrectSound() : playWrongSound();
 
         // Handle the display of user's score
         if (res.data.correct) {
-          set_my_score(score => score + 1);
-        };
+          set_my_score((score) => score + 1);
+        }
       });
       set_answer_modal_loading(false);
       toggle();
@@ -167,14 +170,14 @@ const ChallengeGame = ({ history }) => {
         topic_name: location.state.topic_name,
         subtopic_id: location.state.subtopic_id,
         subtopic_name: location.state.subtopic_name,
-        mode: location.state.mode,
+        mode: GAME_MODE.CHALLENGE.type_th,
         difficulty: location.state.difficulty,
         problem_id: problem_id,
         problem_content: body,
         problem_title: title,
         answer_type: answer_type,
         number_of_problem: NUMBER_OF_QUIZ,
-        current_index: current_index
+        current_index: my_info.currentProblem + 1,
       },
     });
   };
@@ -190,12 +193,11 @@ const ChallengeGame = ({ history }) => {
         my_info.currentProblem
       );
       set_my_score(my_info.score);
-    };
-  }, [my_info])
+    }
+  }, [my_info]);
 
   return loading_info || loading_problem ? (
-    <LoadingPage>
-    </LoadingPage>
+    <LoadingPage></LoadingPage>
   ) : (
     <Container>
       <Timer
@@ -310,7 +312,7 @@ const ChallengeGame = ({ history }) => {
               correct={correct}
               answer={correct ? null : answer_key}
               buttonTitle={
-                current_index === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
+                my_info.currentProblem + 1 === NUMBER_OF_QUIZ ? "เสร็จสิ้น" : "ทำต่อ"
               }
               overlay_clickable={false}
               onReportClick={() => onReport()}
