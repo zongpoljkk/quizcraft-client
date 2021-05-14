@@ -203,7 +203,7 @@ const GroupGamePage = ({ history }) => {
       set_answer_modal_loading(true);
     };
     if(is_time_out && !user) {
-      set_correct_answer(problem.correctAnswer);
+      set_correct_answer(problem?.correctAnswer);
     };
   }, [is_time_out, used_time]);
 
@@ -289,7 +289,7 @@ const GroupGamePage = ({ history }) => {
           formatValue={(value) => `${value < 10 ? `0${value}` : value}`}
           startImmediately={false}
           lastUnit="h"
-          initialTime={remaining_time ? remaining_time * 1000 : time_per_problem * 1000}
+          initialTime={remaining_time ? (remaining_time < 0 ? 0 : remaining_time * 1000) : time_per_problem * 1000}
           direction="backward"
         >
           {({ getTime, start, stop }) => (
